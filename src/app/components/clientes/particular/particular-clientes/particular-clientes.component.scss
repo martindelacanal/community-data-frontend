@@ -1,0 +1,706 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(100px, 1fr));
+    grid-template-rows: 90px repeat(5, minmax(100px, 105px));
+    gap: 32px;
+    justify-content: center;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+.add-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+.ui-button-estado {
+    background: #FFF4E7;
+    color: var(--texto-primario);
+    font-family: var(--fuente);
+    font-size: 1.4rem;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 200px;
+    height: 43px;
+}
+
+.estado-cliente {
+    grid-column: 4;
+    grid-row: 1 / 1 ;
+    display: flex;
+    justify-content: right;
+    margin-top: 0%;
+    width: 100%;
+    height: 100%;
+}
+
+.logo-cliente {
+   background: white;
+   border: #FFF4E7;
+   border-radius: 5px;
+   grid-column: 1 / 1;
+   grid-row: 2 / 3  ;
+   display: flex;
+   justify-content: center;
+   width: 100%;
+   height: 55%;
+
+}
+.info-cliente {
+    grid-column: 2 / 2;
+    grid-row: 2 / 3  ;
+    display: flex;
+    align-items: center;
+
+}
+.link-cliente {
+    margin:0 0 2px 2px;
+    color: #2A81BA;
+    font-family: var(--fuente);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.bloquear-cliente {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3  ;
+    display: flex;
+    align-items: center;
+    margin-left: 170px;
+}
+
+.icono {
+    width: 25px;
+    height: 25px;
+}
+
+.campanias-activas {
+    background: white;
+    border-radius: 20px;
+    grid-column: 1 / 2;
+    grid-row: 3 / 3;
+    width: 87%;
+    position: relative;
+    color: var(--texto-primario);
+}
+  .header-titulo {
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .ui-campania {
+    padding: 15px 10% 0px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    color: var(--texto-primario);
+
+    & .center-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.0rem;
+      font-weight: 600;
+      // margin-top: 5px;
+    }
+
+    & .ui-campania__header {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    & .ui-campania__footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+
+      & img {
+        width: 30px;
+      }
+
+      & span {
+        margin: 0 8px;
+      }
+    }
+  }
+
+
+  .header-content {
+
+    display: flex;
+
+    & .content {
+      width: 30%;
+    }
+  }
+
+  .content {
+    justify-content: space-between;
+    display: flex;
+    margin-top: 10px;
+  }
+
+  .left-content {
+    display: flex;
+    align-items: center;
+    left: 10px;
+  }
+
+  .left-content-1 img {
+    height: 28px;
+  }
+
+  .left-content-2 {
+    font-size: 2.0rem;
+    font-weight: 600;
+    margin-left: 5px;
+  }
+
+  .right-content {
+    display: flex;
+    align-items: center;
+  }
+
+  .right-content-1 img {
+    height: 20px;
+  }
+
+  .right-content-2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #28A745;
+  }
+
+  .center-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4rem;
+    font-weight: 600;
+  }
+
+  .pie {
+    bottom: 10px;
+  }
+
+  .center-pie {
+    position: absolute;
+    bottom: 0;
+    left: 21%;
+  }
+
+  .left-pie {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+
+  .right-pie {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+  .campanias-activas {
+    background: white;
+    border-radius: 20px;
+    grid-column: 1 / 2;
+    grid-row: 3 / 3;
+    width: 87%;
+    position: relative;
+    color: var(--texto-primario);
+}
+  .header-titulo {
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  //misiones total
+  .total-misiones {
+    background: white;
+    border-radius: 20px;
+    grid-column: 2 / 3;
+    grid-row: 3 / 3;
+    width: 87%;
+    position: relative;
+    color: var(--texto-primario);
+}
+  .ui-misiones-totales {
+    padding: 15px 10% 0px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    color: var(--texto-primario);
+
+    & .center-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.0rem;
+      font-weight: 600;
+      // margin-top: 5px;
+    }
+
+    & .ui-misiones-totales__header {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    & .ui-misiones-totales__footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+
+      & img {
+        width: 30px;
+      }
+
+      & span {
+        margin: 0 8px;
+      }
+    }
+    }
+
+    // misiones revision
+    .misiones-revision {
+        background: white;
+        border-radius: 20px;
+        grid-column: 3 / 4;
+        grid-row: 3 / 3;
+        width: 87%;
+        position: relative;
+        color: var(--texto-primario);
+    }
+      .ui-misiones-revision {
+        padding: 15px 10% 0px;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        color: var(--texto-primario);
+
+        & .center-content {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2.0rem;
+          font-weight: 600;
+          // margin-top: 5px;
+        }
+
+        & .ui-misiones-revision__header {
+          font-size: 1.2rem;
+          font-weight: 600;
+          margin-bottom: 16px;
+          text-align: center;
+        }
+
+        & .ui-misiones-revision__footer {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 1.5rem;
+          font-weight: 600;
+
+          & img {
+            width: 30px;
+          }
+
+          & span {
+            margin: 0 8px;
+          }
+        }
+    }
+        //total de reclamos
+        .total-reclamos {
+            background: white;
+            border-radius: 20px;
+            grid-column: 4 / 5;
+            grid-row: 3 / 3;
+            width: 87%;
+            position: relative;
+            color: var(--texto-primario);
+        }
+          .ui-total-reclamos {
+            padding: 15px 10% 0px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            color: var(--texto-primario);
+
+            & .center-content {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 2.0rem;
+              font-weight: 600;
+              // margin-top: 5px;
+            }
+
+            & .ui-total-reclamos__header {
+              font-size: 1.2rem;
+              font-weight: 600;
+              margin-bottom: 16px;
+              text-align: center;
+            }
+
+            & .ui-total-reclamos__footer {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 1.5rem;
+              font-weight: 600;
+
+              & img {
+                width: 30px;
+              }
+
+              & span {
+                margin: 0 8px;
+              }
+            }
+          }
+          // Comercios
+          .comercios {
+            background: white;
+            border-radius: 20px;
+            grid-column: 1 / 2;
+            grid-row: 6 / 6;
+            width: 87%;
+            position: relative;
+            color: var(--texto-primario);
+            display: block;
+            margin-left: 20%;
+        }
+          .ui-comercios {
+            padding: 15px 10% 0px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            color: var(--texto-primario);
+
+            & .center-content {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 2.0rem;
+              font-weight: 600;
+              // margin-top: 5px;
+            }
+
+            & .ui-comercios__header {
+              font-size: 1.2rem;
+              font-weight: 600;
+              margin-bottom: 16px;
+              text-align: center;
+            }
+
+            & .ui-comercios__footer {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 1.5rem;
+              font-weight: 600;
+
+              & img {
+                width: 30px;
+              }
+
+              & span {
+                margin: 0 8px;
+              }
+            }
+          }
+          // Articulos
+          .articulos {
+            background: white;
+            border-radius: 20px;
+            grid-column: 2 / 3;
+            grid-row: 6 / 6;
+            width: 87%;
+            position: relative;
+            color: var(--texto-primario);
+            display: block;
+            margin-left: 20%;
+        }
+          .ui-articulos {
+            padding: 15px 10% 0px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            color: var(--texto-primario);
+
+            & .center-content {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 2.0rem;
+              font-weight: 600;
+              // margin-top: 5px;
+            }
+
+            & .ui-articulos__header {
+              font-size: 1.2rem;
+              font-weight: 600;
+              margin-bottom: 16px;
+              text-align: center;
+            }
+
+            & .ui-articulos__footer {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 1.5rem;
+              font-weight: 600;
+
+              & img {
+                width: 30px;
+              }
+
+              & span {
+                margin: 0 8px;
+              }
+            }
+          }
+          //Campañas en preparacion
+          .campanias-preparacion {
+            background: white;
+            border-radius: 20px;
+            grid-column: 3 / 3;
+            grid-row: 6 / 6;
+            width: 87%;
+            position: relative;
+            color: var(--texto-primario);
+            display: block;
+            margin-left: 20%;
+        }
+          .ui-campanias-preparacion {
+            padding: 15px 10% 0px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            color: var(--texto-primario);
+
+            & .center-content {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 2.0rem;
+              font-weight: 600;
+              // margin-top: 5px;
+            }
+
+            & .ui-campanias-preparacion__header {
+              font-size: 1.2rem;
+              font-weight: 600;
+              margin-bottom: 16px;
+              text-align: center;
+            }
+
+            & .ui-campanias-preparacion__footer {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 1.5rem;
+              font-weight: 600;
+
+              & img {
+                width: 30px;
+              }
+
+              & span {
+                margin: 0 8px;
+              }
+            }
+          }
+          //Barras
+            .grafico-barras {
+              background: white;
+              border-radius: 10px;
+              grid-column: 1 / 4;
+              grid-row: 4 / 6;
+              width: 120%;
+              height: 65%;
+              position: relative;
+              color: var(--texto-primario);
+              align-items: center;
+            }
+            .ui-grafico-barras {
+              padding: 15px 3% 0px;
+              width: 100%;
+              height: 100%;
+              position: relative;
+              color: var(--texto-primario);
+
+              & .center-content {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2.0rem;
+                font-weight: 600;
+                // margin-top: 5px;
+              }
+
+              & .ui-grafico-barras__header {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 16px;
+                text-align: center;
+              }
+
+              & .ui-grafico-barras__footer {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.5rem;
+                font-weight: 600;
+
+                & img {
+                  width: 30px;
+                }
+
+                & span {
+                  margin: 0 8px;
+                }
+              }
+            }
+             .barras-content{
+              width: 70%;
+              height: 20px;
+              grid-column: 1/3;
+              grid-row: 4/6;
+              margin-left: 12%;
+              position: absolute;
+              margin-top: 3px;
+              text-align: center;
+
+
+
+             }
+             .progress-bar {
+              height: 10px;
+              border-radius: 10px;
+              background-color: #eee;
+              overflow: hidden;
+              margin-left: 5%;
+            }
+            .progress-bar2 {
+              height: 10px;
+              border-radius: 10px;
+              background-color: #eee;
+              overflow: hidden;
+              margin-top: 6px;
+              margin-left: 5%;
+            }
+            .progress-bar3 {
+              height: 10px;
+              border-radius: 10px;
+              background-color: #eee;
+              overflow: hidden;
+              margin-top: 6px;
+              margin-left: 5%;
+            }
+            .progress-bar4 {
+              height: 10px;
+              border-radius: 10px;
+              background-color: #eee;
+              overflow: hidden;
+              margin-top: 6px;
+              margin-left: 5%;
+            }
+            .progress-bar-fill {
+              height: 10px;
+              background-color: green;
+              transition: width 0.3s ease-in-out;
+              width: 100%;
+            }
+            .progress-bar-fill-rojo {
+              height: 10px;
+              background-color: red;
+              transition: width 0.3s ease-in-out;
+              width: 70%;
+            }
+
+            .content-right{
+              display: flex;
+            }
+            .boton-comercio {
+              grid-column: 1 / 2;
+              grid-row: 7 / 7;
+              width: 100%;
+              height: 100%;
+              display: flex;
+              justify-content: right;
+              align-items: flex-start;
+              margin-left: 10%;
+            }
+            .boton-articulo {
+              grid-column: 2 / 3;
+              grid-row: 7 / 7;
+              width: 100%;
+              height: 100%;
+              display: flex;
+              justify-content: left;
+              align-items: flex-start;
+              margin-left: 25%;
+            }
+            .boton-campaña {
+              grid-column: 3 / 4;
+              grid-row: 7/ 7;
+              width: 100%;
+              height: 100%;
+              display: flex;
+              justify-content: left;
+              align-items: flex-end;
+              margin-left: 30%;
+            }
+
+            .ui-tarjeta {
+              padding: 15px 10% 0px;
+              width: 100%;
+              height: 100%;
+              position: relative;
+              color: var(--texto-primario);
+
+              & .center-content {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2.0rem;
+                font-weight: 600;
+                // margin-top: 5px;
+              }
+
+              & .ui-tarjeta__header {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 16px;
+                text-align: center;
+              }
+
+              & .ui-tarjeta__footer {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.5rem;
+                font-weight: 600;
+
+                & img {
+                  width: 30px;
+                }
+
+                & span {
+                  margin: 0 8px;
+                }
+              }
+            }
+
+

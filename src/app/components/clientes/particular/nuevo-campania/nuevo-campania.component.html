@@ -1,0 +1,211 @@
+<div class="container">
+  <section class="header">
+    <div>
+      <h1 class="title">Campañas</h1>
+    </div>
+  </section>
+  <section class="main">
+    <div class="ui-tarjeta ">
+
+      <div class="primer_step" *ngIf="step==1">
+        <div class="main__steps">
+          <div class="main__steps_container">
+            <div class="main__linea_horizontal"></div>
+            <div class="main__circulo main__primer_circulo circulo-selected-ui-primario">
+              <span class="main__circulo_numero">1</span>
+              <span class="main__circulo_nombre">Nombre</span>
+            </div>
+            <div class="main__circulo main__segundo_circulo">
+              <span class="main__circulo_numero">2</span>
+              <span class="main__circulo_nombre">Objetivo</span>
+            </div>
+            <div class="main__circulo main__tercer_circulo">
+              <span class="main__circulo_numero">3</span>
+              <span class="main__circulo_nombre">Comercios</span>
+            </div>
+            <div class="main__circulo main__cuarto_circulo">
+              <span class="main__circulo_numero">4</span>
+              <span class="main__circulo_nombre">Parámetros</span>
+            </div>
+            <div class="main__circulo main__quinto_circulo">
+              <span class="main__circulo_numero">5</span>
+              <span class="main__circulo_nombre">Fechas</span>
+            </div>
+            <div class="main__circulo main__sexto_circulo">
+              <span class="main__circulo_numero">6</span>
+              <span class="main__circulo_nombre">Resumen</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="primer_step__main_formulario">
+          <div class="main__label main__label_cliente">Cliente</div>
+          <div class="main__input_cliente">
+            <!-- <label for="cliente-input">Cliente</label> -->
+            <select class="ui-input" id="cliente-input" formControlName="cliente">
+              <option value="" disabled selected>Seleccione un cliente</option>
+              <option *ngFor="let cliente of clientes" [value]="cliente.id">
+                {{ cliente.nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="main__label main__label_id-cliente">ID Cliente</div>
+          <div class="main__input_id-cliente">
+            <input class="ui-input" id="cliente-input" value="#C15" disabled>
+          </div>
+          <div class="main__label main__label_id-cotizacion">ID Cotizacion</div>
+          <div class="main__input_id-cotizacion">
+            <input class="ui-input" id="cotizacion-input" value="#D01" disabled>
+          </div>
+          <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          <div class="main__label main__label_nombre">Nombre</div>
+          <div class="main__input_nombre">
+            <input class="ui-input" id="nombre-input" placeholder="...">
+          </div>
+          <div class="main__label main__label_descripcion">Descripción de campaña</div>
+          <div class="main__input_descripcion">
+            <textarea class="ui-input" id="descripcion-input" type="text" placeholder="..."></textarea>
+          </div>
+          <div class="ui-separator-horizontal"></div>
+          <div class="main__footer">
+            <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button>
+            <button class="ui-button" type="button" (click)="addStep()">Siguiente</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="segundo_step" *ngIf="step==2">
+        <div class="main__steps">
+          <div class="main__steps_container">
+            <div class="main__linea_horizontal"></div>
+            <div class="main__circulo main__primer_circulo circulo-pasado-ui-primario">
+              <span class="main__circulo_numero">1</span>
+              <span class="main__circulo_nombre">Nombre</span>
+            </div>
+            <div class="main__circulo main__segundo_circulo circulo-selected-ui-primario">
+              <span class="main__circulo_numero">2</span>
+              <span class="main__circulo_nombre">Objetivo</span>
+            </div>
+            <div class="main__circulo main__tercer_circulo">
+              <span class="main__circulo_numero">3</span>
+              <span class="main__circulo_nombre">Comercios</span>
+            </div>
+            <div class="main__circulo main__cuarto_circulo">
+              <span class="main__circulo_numero">4</span>
+              <span class="main__circulo_nombre">Parámetros</span>
+            </div>
+            <div class="main__circulo main__quinto_circulo">
+              <span class="main__circulo_numero">5</span>
+              <span class="main__circulo_nombre">Fechas</span>
+            </div>
+            <div class="main__circulo main__sexto_circulo">
+              <span class="main__circulo_numero">6</span>
+              <span class="main__circulo_nombre">Resumen</span>
+            </div>
+          </div>
+        </div>
+        <div class="segundo_step__main_formulario">
+          <div class="main__label main__label_servicio">Servicio</div>
+          <div class="main__checkbox_servicio">
+            <div *ngFor="let servicio of servicios">
+              <input class="ui-checkbox" type="checkbox" id="servicio-{{servicio.id}}" [value]="servicio.id"
+                formControlName="servicios">
+              <label for="servicio-{{servicio.id}}">{{servicio.name}}</label>
+            </div>
+          </div>
+          <div class="main__label main__label_comercios">Comercios</div>
+          <div class="main__button_comercios">
+            <button class="ui-button ui-button--seleccionar" type="button">Seleccionar</button>
+            <button class="ui-button ui-button--importar" type="button">Importar archivo</button>
+          </div>
+          <div class="main__label main__label_id-cotizacion">Detalle servicio</div>
+          <div class="main__input_id-cotizacion">
+            <input class="ui-input" id="cotizacion-input" value="#D01" disabled>
+          </div>
+          <div class="main__label main__label_articulo">Artículo</div>
+          <input class="ui-checkbox" type="checkbox" id="sin-articulos">
+          <label for="sin-articulos">Sin Artículos</label>
+          <div class="main__button_articulo">
+            <button class="ui-button ui-button--seleccionar" type="button">Seleccionar</button>
+            <button class="ui-button ui-button--importar" type="button">Cargar nuevo artículo</button>
+          </div>
+          <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          <div class="main__label main__label_nombre">Preguntas de campaña</div>
+
+          <div class="ui-separator-horizontal"></div>
+          <div class="main__footer">
+            <button class="ui-button ui-button--estado-sistema" type="button" (click)="subStep()">Volver</button>
+            <button class="ui-button" type="button" (click)="addStep()">Siguiente</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tercer_step" *ngIf="step==3">
+        <div class="main__steps">
+          <div class="main__steps_container">
+            <div class="main__linea_horizontal"></div>
+            <div class="main__circulo main__primer_circulo circulo-pasado-ui-primario">
+              <span class="main__circulo_numero">1</span>
+              <span class="main__circulo_nombre">Nombre</span>
+            </div>
+            <div class="main__circulo main__segundo_circulo circulo-pasado-ui-primario">
+              <span class="main__circulo_numero">2</span>
+              <span class="main__circulo_nombre">Objetivo</span>
+            </div>
+            <div class="main__circulo main__tercer_circulo circulo-selected-ui-primario">
+              <span class="main__circulo_numero">3</span>
+              <span class="main__circulo_nombre">Comercios</span>
+            </div>
+            <div class="main__circulo main__cuarto_circulo">
+              <span class="main__circulo_numero">4</span>
+              <span class="main__circulo_nombre">Parámetros</span>
+            </div>
+            <div class="main__circulo main__quinto_circulo">
+              <span class="main__circulo_numero">5</span>
+              <span class="main__circulo_nombre">Fechas</span>
+            </div>
+            <div class="main__circulo main__sexto_circulo">
+              <span class="main__circulo_numero">6</span>
+              <span class="main__circulo_nombre">Resumen</span>
+            </div>
+          </div>
+        </div>
+        <div class="main__formulario">
+          <div class="main__label main__label_cliente">Cliente</div>
+          <div class="main__input_cliente">
+            <!-- <label for="cliente-input">Cliente</label> -->
+            <select class="ui-input" id="cliente-input" formControlName="cliente">
+              <option value="" disabled selected>Seleccione un cliente</option>
+              <option *ngFor="let cliente of clientes" [value]="cliente.id">
+                {{ cliente.nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="main__label main__label_id-cliente">ID Cliente</div>
+          <div class="main__input_id-cliente">
+            <input class="ui-input" id="cliente-input" value="#C15" disabled>
+          </div>
+          <div class="main__label main__label_id-cotizacion">ID Cotizacion</div>
+          <div class="main__input_id-cotizacion">
+            <input class="ui-input" id="cotizacion-input" value="#D01" disabled>
+          </div>
+          <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          <div class="main__label main__label_nombre">Nombre</div>
+          <div class="main__input_nombre">
+            <input class="ui-input" id="nombre-input" placeholder="...">
+          </div>
+          <div class="main__label main__label_descripcion">Descripción de campaña</div>
+          <div class="main__input_descripcion">
+            <textarea class="ui-input" id="descripcion-input" type="text" placeholder="..."></textarea>
+          </div>
+          <div class="ui-separator-horizontal"></div>
+          <div class="main__footer">
+            <button class="ui-button ui-button--estado-sistema" type="button" (click)="subStep()">Volver</button>
+            <button class="ui-button" type="button" (click)="addStep()">Cotizar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>

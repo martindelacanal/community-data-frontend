@@ -1,0 +1,499 @@
+// @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+$ui-primario-claro: lighten(#ec1c64, 10%);
+$ui-primario-claro-30: lighten(#ec1c64, 30%);
+$ui-primario-oscuro: darken(#ec1c64, 10%);
+$ui-secundario-claro: lighten(#b4d4a4, 10%);
+$ui-secundario-claro-30: lighten(#b4d4a4, 30%);
+$ui-secundario-oscuro: darken(#b4d4a4, 10%);
+$texto-primario-claro: lighten(#2B2B2B, 10%);
+$texto-primario-claro-30: lighten(#2B2B2B, 30%);
+$texto-primario-oscuro: darken(#2B2B2B, 10%);
+
+:root {
+  /* Definir las variables de colores */
+  --ui-primario: #ec1c64; // #e91d64
+  --ui-primario-claro: #{$ui-primario-claro};
+  --ui-primario-claro-30: #{$ui-primario-claro-30};
+  --ui-primario-oscuro: #{$ui-primario-oscuro};
+  --ui-secundario: #b4d4a4;
+  --ui-secundario-claro: #{$ui-secundario-claro};
+  --ui-secundario-claro-30: #{$ui-secundario-claro-30};
+  --ui-secundario-oscuro: #{$ui-secundario-oscuro};
+  --ui-sidebar: #F0F0F7;
+
+  --texto-primario: #2B2B2B; // #424242
+  --texto-primario-claro: #{$texto-primario-claro};
+  --texto-primario-claro-30: #{$texto-primario-claro-30};
+  --texto-primario-oscuro: #{$texto-primario-oscuro};
+  --texto-secundario: #5D5D5E;
+  --texto-blanco: #FFFFFF;
+
+  --estado-aviso: #FB9F06;
+  --estado-sistema: #2A81BA;
+  --estado-confirmacion: #28A745;
+  --estado-error: #f84434;
+
+  --fuente: 'Roboto', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 0.5px;
+}
+
+body {
+  letter-spacing: 0.5px;
+}
+
+html {
+  letter-spacing: 0.5px;
+  /* Definir el tamaño de fuente y la fuente principal */
+  font-size: 62.5%;
+  font-family: var(--fuente);
+  /* Definir el color de fondo de la página */
+  background-color: var(--ui-sidebar);
+  /* Definir el color de texto principal */
+  color: var(--texto-secundario);
+}
+
+::-webkit-scrollbar {
+  /* Set the width and height of the scrollbar */
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  /* Set the color of the scrollbar track */
+  background-color: var(--ui-sidebar);
+}
+::-webkit-scrollbar-thumb {
+  /* Set the color of the scrollbar thumb */
+  background-color: var(--texto-secundario);
+  /* Set the border radius of the scrollbar thumb */
+  border-radius: 10px;
+}
+
+// Styles for input component
+.ui-input {
+  font-family: var(--fuente);
+  font-size: 1.6rem;
+  font-weight: 400;
+  height: 32px;
+  background: var(--texto-blanco);
+  border: 1px solid #000000;
+  border-radius: 8px;
+  color: var(--texto-primario);
+  padding: 0 8px;
+  &.ui-input-error {
+    // styles for ui-input-error
+    border: 1px solid var(--estado-error);
+  }
+}
+.ui-input:focus {
+  outline: none;
+  border: 1px solid var(--estado-sistema);
+}
+.ui-input:disabled {
+  border: 1px solid #B1B1B5;
+  color: #B1B1B5;
+  cursor: not-allowed;
+}
+.ui-input:hover {
+  border: 1px solid var(--estado-sistema);
+}
+
+// Styles for button component
+.ui-button {
+  font-family: var(--fuente);
+  font-size: 1.6rem;
+  font-weight: 500;
+  height: 32px;
+  background: var(--ui-primario);
+  border: none;
+  border-radius: 8px;
+  color: var(--texto-blanco);
+  padding: 0 64px;
+  cursor: pointer;
+  // transition: all 0.3s ease;
+}
+.ui-button:enabled:hover {
+  background: var(--ui-primario-claro);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.ui-button:enabled:active {
+  background: var(--ui-primario-oscuro);
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.ui-button:disabled {
+  background: var(--ui-primario-claro-30);
+  color: #5D5D5E;
+  cursor: not-allowed;
+}
+
+// Styles for qr button component
+.qr-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--fuente);
+  font-size: 1.6rem;
+  font-weight: 500;
+  height: 150px;
+  width: 150px;
+  background: var(--texto-primario);
+  border: none;
+  border-radius: 8px;
+  color: var(--texto-blanco);
+  padding: 0;
+  cursor: pointer;
+  // transition: all 0.3s ease;
+}
+.qr-button:enabled:hover {
+  background: var(--texto-primario-claro);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.qr-button:enabled:active {
+  background: var(--texto-primario-oscuro);
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.qr-button:disabled {
+  background: var(--texto-primario-claro-30);
+  color: #5D5D5E;
+  cursor: not-allowed;
+}
+.qr-button mat-icon {
+  width: auto;
+  height: auto;
+  font-size: 70px;
+  line-height: 70px;
+}
+
+// boton azul
+.ui-button--estado-sistema{
+  font-family: var(--fuente);
+  font-size: 1.6rem;
+  font-weight: 500;
+  height: 32px;
+  background: var(--estado-sistema);
+  border: none;
+  border-radius: 8px;
+  color: var(--texto-blanco);
+  padding: 0 64px;
+  cursor: pointer;
+}
+.ui-button--estado-sistema:enabled:hover {
+  background: #2674a7;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.ui-button--estado-sistema:enabled:active {
+  background: #2e8dcd;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.ui-button--estado-sistema:disabled {
+  background: #FFE5E4;
+  color: #5D5D5E;
+  cursor: not-allowed;
+}
+
+.ui-button--ui-secundario {
+  font-family: var(--fuente);
+  font-size: 1.6rem;
+  font-weight: 500;
+  height: 32px;
+  background: var(--ui-secundario);
+  border: none;
+  border-radius: 8px;
+  color: var(--texto-blanco);
+  padding: 0 64px;
+  cursor: pointer;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.ui-button--ui-secundario:enabled:hover {
+  background: var(--ui-secundario-claro);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.ui-button--ui-secundario:enabled:active {
+  background: var(--ui-secundario-oscuro);
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.ui-button--ui-secundario:disabled {
+  background: var(--ui-secundario-claro-30);
+  color: #5D5D5E;
+  cursor: not-allowed;
+}
+
+
+// boton seleccionar
+.ui-button--seleccionar{
+  font-family: var(--fuente);
+  font-size: 1.6rem;
+  font-weight: 500;
+  height: 32px;
+  background: var(--ui-primario);
+  border: none;
+  border-radius: 8px;
+  color: var(--texto-primario);
+  padding: 0 64px;
+  cursor: pointer;
+}
+.ui-button--seleccionar:enabled:hover {
+  background: var(--ui-primario-claro);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.ui-button--seleccionar:enabled:active {
+  background: var(--ui-primario-oscuro);
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.ui-button--seleccionar:disabled {
+  background: var(--ui-primario-claro-30);
+  color: #5D5D5E;
+  cursor: not-allowed;
+}
+
+// boton importar
+.ui-button--importar{
+  font-family: var(--fuente);
+  font-size: 1.6rem;
+  font-weight: 500;
+  height: 32px;
+  background: #D9D9D9;
+  border: none;
+  border-radius: 8px;
+  color: #0574BC;
+  padding: 0 64px;
+  cursor: pointer;
+}
+.ui-button--importar:enabled:hover {
+  background: #d0cfcf;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.ui-button--importar:enabled:active {
+  background: #e4e4e4;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.ui-button--importar:disabled {
+  background: #FFE5E4;
+  color: #5D5D5E;
+  cursor: not-allowed;
+}
+
+// Styles for button map component
+.ui-button-map {
+  font-family: var(--fuente);
+  font-size: 1.2rem;
+  font-weight: 500;
+  height: 32px;
+  background: var(--texto-blanco);
+  border: none;
+  border-radius: 8px;
+
+  color: var(--texto-secundario);
+  padding: 0 16px;
+  cursor: pointer;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+.ui-button-map:enabled:hover {
+  // background: #f3f3f3;
+  color: var(--texto-primario);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.ui-button-map:enabled:active {
+  // background: #FFFFFF;
+  color: var(--texto-secundario);
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.ui-button-map:disabled {
+  background: var(--ui-sidebar);
+  color: var(--texto-secundario);
+  cursor: not-allowed;
+}
+
+// Styles for links
+.ui-link{
+  font-family: var(--fuente);
+  // font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--estado-sistema);
+  font-size: 1.4rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+.ui-link:hover{
+  text-decoration: underline;
+}
+.ui-link:disabled{
+  color: #B1B1B4;
+  cursor: not-allowed;
+}
+
+
+// Styles para el separador de contenedores (horizontal y vertical y con gradiente de color)
+.ui-separator-horizontal{
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--ui-primario-claro) 0%, var(--ui-primario-oscuro) 100%);
+  border-radius: 8px;
+}
+
+.ui-separator-vertical{
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--ui-primario-claro) 0%, var(--ui-primario-oscuro) 100%);
+  border-radius: 8px;
+}
+
+// Styles for the card component
+.ui-tarjeta {
+  width: 100%;
+  // height: 416px;
+  background-color: var(--texto-blanco);
+  border-radius: 16px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+// Styles for the add button component
+.ui-add-button {
+  width: 80%;
+  font-family: var(--fuente);
+  font-size: 1.6rem;
+  border: none;
+  // height: 416px;
+  // background-color: rgb(255, 235, 179);
+  // background-color: rgb(255, 242, 205);
+  // background-color: rgb(255, 244, 212);
+  background-color: rgba(255, 198, 104, 0.40);
+  border-radius: 16px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.ui-add-button:enabled:hover {
+  background: #ebd1ab;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.ui-add-button:enabled:active {
+  background: #fae5c4;
+  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.ui-add-button:disabled {
+  background: #fae5c4;
+  color: #FFB0AD;
+  cursor: not-allowed;
+}
+
+// Styles for the checkbox component
+.ui-checkbox{
+  margin: 0px 8px 0px 0px;
+  accent-color: var(--ui-primario);
+  cursor: pointer;
+}
+
+// Styles for the error message
+.ui-error-message{
+  font-family: var(--fuente);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--estado-error);
+  margin: 8px 0px 0px 0px;
+}
+// Styles for the title
+h1{
+  font-family: var(--fuente);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 3.6rem;
+  line-height: 49px;
+  display: flex;
+  align-items: center;
+  color: var(--texto-primario);
+}
+
+// edicion del estilo del spinner de carga usando angular material
+.mat-progress-spinner circle,
+.mat-spinner circle,
+.mat-mdc-progress-spinner {
+  stroke: var(--ui-primario);
+  --mdc-circular-progress-active-indicator-color: var(--ui-primario);
+}
+
+// html, body { height: 100%; }
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.mat-tab-labels, .mat-tab-label, .mat-tab-link {
+  color: white;
+  font-size: 16px;
+  background-color: var(--ui-primario);
+}
+
+
+.menu-tabla{
+  font-family: var(--fuente);
+  font-size: 1.3rem;
+  font-weight: 500;
+
+  display: flex;
+
+}
+
+.mat-mdc-menu-panel.mat-mdc-menu-panel{
+  border-radius: 16px;
+  height: 100%;
+  align-items: center;
+  width: 200px;
+
+}
+ .mat-mdc-menu-panel.mat-mdc-menu-panel:hover{
+  background-color: lightgrey;
+}
+ .mdc-tab{
+  font-family: var(--fuente);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.2rem;
+ }
+ .mat-mdc-menu-trigger{
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+ }
+ .slick-slider {
+  width: 70%;
+  height: 250px;
+  margin: auto;
+
+
+}
+
+body .slick-prev,
+body .slick-next {
+
+  z-index: 100;
+
+
+}
+.slick-next{
+  right: -10px !important;
+}
+.slick-next:before {
+  content: none !important;
+}
+.slick-prev:before {
+  content: none !important;
+}
+
+.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+  background-color: var(--ui-primario);
+}
+
+mat-error {
+  font-size: 1.2rem;
+  padding: 0px;
+}
+
+.mdc-form-field>label {
+  padding-left: 0px;
+}

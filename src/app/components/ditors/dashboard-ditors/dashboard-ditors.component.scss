@@ -1,0 +1,364 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(100px, 1fr));
+    grid-template-rows: 90px repeat(8, minmax(100px, 105px));
+    gap: 32 px;
+    justify-content: center;
+    max-width: 1300px;
+    margin: 0 auto;
+    margin-top: 15px;
+   
+  }
+
+.header-titulo {
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: left;
+    
+   
+  }
+  .content-right{
+    display: flex;
+    margin-left: 10%;
+    margin-top: 6px;
+  }
+  .header-content {
+  
+    display: flex;
+  
+    & .content {
+      width: 30%;
+    }
+  }
+  .ui-input {
+    width: 60%;
+    margin-top: 10px;
+   
+  }
+  .input-search{
+    width: 80%;
+    
+    position: relative;
+  }
+  .input-search input[type="search"] {
+    padding-right: 30px;
+  }
+  
+  .input-search .search-icon {
+    position: absolute;
+    top: 50%;
+    right: 45%;
+    transform: translateY(-50%);
+    width: 20px; 
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: contain; 
+    align-items: center;
+    margin-top: 4px;
+    cursor: pointer;
+  }
+  .header {
+    grid-column: 1 / 3;
+    grid-row: 1 / 1;
+  }
+  .left-content {
+    display: flex;
+    align-items: center;
+    left: 10px;
+  }
+  
+  .left-content-1 img {
+    height: 28px;
+  }
+  
+  .left-content-2 {
+    font-size: 2.0rem;
+    font-weight: 600;
+    margin-left: 5px;
+    
+  }
+  
+  .right-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .right-content-1 img {
+    height: 20px;
+  }
+  
+  .right-content-2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #28A745;
+    
+  }
+  
+  .center-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4rem;
+    font-weight: 600;
+  }
+  
+  .pie {
+    bottom: 10px;
+  }
+  .content {
+    justify-content: space-between;
+    display: flex;
+    margin-top: 10px;
+}
+  .center-pie {
+    position: absolute;
+    bottom: 0;
+    left: 21%;
+  }
+  
+  .left-pie {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+  
+  .right-pie {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+  
+  .add-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  .ui-tarjeta {
+    padding: 15px 10% 0px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    color: var(--texto-primario);
+   
+  
+    & .center-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.0rem;
+      font-weight: 600;
+      // margin-top: 5px;
+    }
+  
+    & .ui-tarjeta__header {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      text-align: center;
+      
+    }
+  
+    & .ui-tarjeta__footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+  
+      & img {
+        width: 30px;
+      }
+  
+      & span {
+        margin: 0 8px;
+      }
+    }
+  }
+.ditors-en-vivo {
+  grid-column: 1 / 1;
+  grid-row: 3 / 3;
+  margin-left: 30%;
+}
+.ditors-en-vivo .ui-tarjeta{
+  background-color: #28A745;
+  & .left-content-2{
+    color: white;
+  }
+  & .header-titulo{
+    color: white;
+  }
+}
+.ditors-activos{
+  grid-row: 3 / 4;
+  grid-column: 2 / 2;
+  margin-left: 30%;
+
+}
+
+.misiones-disponibles{
+  grid-row: 3 / 3;
+  grid-column: 3 / 3;
+  margin-left: 30%;
+}
+.total-reclamos{
+  grid-row: 3 / 3;
+  grid-column: 4 / 4;
+  margin-left: 30%;
+}
+.map-container{
+  grid-row: 6 / 9;
+  grid-column: 2 / 4;
+}
+
+//Barras
+.grafico-barras {
+  background: white;
+  border-radius: 10px;
+  grid-column: 1 / 3;
+  grid-row: 4 / 6;
+  width: 120%;
+  height: 65%;
+  position: relative;
+  color: var(--texto-primario); 
+  align-items: center;
+  margin-top: 30px;
+  margin-left: 40%;
+}
+.ui-grafico-barras {
+  padding: 10px 3% 0px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  color: var(--texto-primario);
+
+  & .center-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.0rem;
+    font-weight: 600;
+    // margin-top: 5px;
+  }
+
+  & .ui-grafico-barras__header {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  & .ui-grafico-barras__footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+
+    & img {
+      width: 30px;
+    }
+
+    & span {
+      margin: 0 8px;
+    }
+  }
+}
+ .barras-content{
+  width: 60%;
+  height: 20px;
+  grid-column: 1 / 4;
+  grid-row: 4 / 6 ;
+  margin-left: 25%;
+  position: absolute;
+ 
+  text-align: center;
+  
+
+
+ }
+ .progress-bar {
+  height: 10px;
+  border-radius: 10px;
+  background-color: #eee;
+  overflow: hidden;
+  margin-left: 5%;
+  width: 75%;
+  margin-top: 12px;
+}
+.progress-bar2 {
+  height: 10px;
+  border-radius: 10px;
+  background-color: #eee;
+  overflow: hidden;
+  margin-top: 6px;
+  margin-left: 5%;
+  width: 75%;
+}
+.progress-bar3 {
+  height: 10px;
+  border-radius: 10px;
+  background-color: #eee;
+  overflow: hidden;
+  margin-top: 6px;
+  margin-left: 5%;
+  width: 75%;
+}
+
+.progress-bar-fill {
+  height: 10px;
+  background-color: green;
+  transition: width 0.3s ease-in-out;
+  width: 100%;
+ 
+}
+.progress-bar-fill-rojo {
+  height: 10px;
+ 
+  background-color: red;
+  transition: width 0.3s ease-in-out;
+  width: 70%;
+}
+.ditors-inactivos{
+  grid-row: 6 / 6;
+  grid-column: 1 / 1;
+  margin-right: 30%;
+}
+.ditors-total{
+  grid-row: 7 / 7;
+  grid-column: 1 / 1;
+  margin-right: 30%;
+  margin-top: 10px;
+}
+.descargas-app{
+  grid-row: 8 / 8;
+  grid-column: 1 / 1;
+  margin-right: 30%;
+  margin-top: 10px;
+}
+.capacidad-misiones{
+  grid-column: 4 / 4;
+  grid-row: 6 / 6;
+  margin-left: 30%;
+}
+.por-vencer{
+  grid-column: 4 / 4;
+  grid-row: 7 / 7;
+  margin-left: 30%;
+  margin-top: 10px;
+}
+.completadas-hoy{
+  grid-column: 4 / 4;
+  grid-row: 8 / 8;
+  margin-left: 30%;
+  margin-top: 10px;
+}
+.boton-nuevo-ditor{
+    grid-column: 4 / 5;
+    grid-row: 1 / 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: flex-start;
+    margin-left: 15%;
+  
+}

@@ -1,0 +1,143 @@
+.cuerpo {
+  background-color: var(--ui-secundario);
+  // background-image: url("../../../../assets/imgs/login/logo-d-background.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100px;
+}
+
+header {
+  height: 7vh;
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  background-color: var(--ui-primario);
+}
+
+// header img {
+//   height: 100%;
+//   margin-left: 15px;
+//   margin-top: 20px;
+// }
+header span {
+  margin-left: 16px;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--texto-blanco);
+}
+
+main {
+  height: 93vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  position: relative;
+}
+
+.container section {
+  position: absolute;
+  top: calc(50% - 200px);
+  left: calc(50% - 200px);
+}
+
+.ui-tarjeta {
+  width: 416px;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  margin-top: -50px;
+}
+
+.ui-tarjeta h1{
+  align-self: left;
+  font-size: 3.0rem;
+  font-weight: 600;
+  color: var(--texto-primario);
+  margin-bottom: 32px;
+}
+
+.tarjeta__input{
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta__input .ui-input{
+  width: 100%;
+}
+
+.tarjeta__input mat-form-field{
+  margin-bottom: 8px;
+}
+
+.tarjeta__input label{
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--texto-primario);
+  // margin-bottom: 8px;
+}
+
+.ui-tarjeta form{
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-tarjeta .tarjeta__button{
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ui-separator-horizontal{
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.ui-link{
+  align-self: center;
+}
+
+.tarjeta__checkbox {
+  margin-left: -10px;
+  margin-top: -16px;
+  margin-bottom: 16px;
+}
+
+.mdc-form-field > label {
+  padding-left: 0px;
+}
+
+.texto-soporte{
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--texto-primario);
+  margin-top: 16px;
+}
+
+.line-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+hr {
+  flex-grow: 1;
+  height: 1px;
+  background-color: black;
+  border: none;
+}
+
+.line-text {
+  margin: 0 10px;
+  font-size: 1.4rem;
+  font-weight: bold;
+}

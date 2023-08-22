@@ -1,0 +1,72 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(100px, 1fr));
+    grid-template-rows: 90px repeat(5, minmax(100px, 105px));
+    gap: 32 px;
+    justify-content: center;
+    max-width: 1300px;
+    margin: 0 auto;
+    margin-top: 15px;
+
+  }
+  .header-titulo {
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: left;
+  }
+  .header-content {
+
+    display: flex;
+
+    & .content {
+      width: 30%;
+    }
+  }
+  .header {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+  }
+  .ui-input {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .container-table{
+    grid-row: 3 / 6;
+    grid-column: 1 / 7 ;
+
+   }
+   ::ng-deep .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline{
+    border-color:  #FF7E75  ;
+    border-top-width: 3px;
+
+   }
+
+
+
+   ::ng-deep .mdc-tab{
+    font-family: var(--fuente);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.2rem;
+   }
+   .pie {
+    bottom: 10px;
+    width: 100%;
+    height: 20px;
+     }
+
+.center-pie {
+    position: absolute;
+    bottom: 0;
+    left: 21%;
+}
+
+.left-pie {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.right-pie {
+  margin-left:90%;
+}

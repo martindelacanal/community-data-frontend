@@ -1,0 +1,166 @@
+<div class="container">
+  <section class="header">
+    <div>
+      <h1 class="title">Load stock</h1>
+    </div>
+  </section>
+  <section class="main">
+    <div class="ui-tarjeta ">
+
+      <form [formGroup]="stockForm" novalidate (ngSubmit)="onSubmit()">
+        <div class="main_formulario">
+          <!-- donation id -->
+          <div class="card">
+            <mat-form-field appearance="outline">
+              <mat-label>Donation ID</mat-label>
+              <input matInput type="number" formControlName="donation_id" required matNumberInput>
+              <mat-error *ngIf="stockForm.controls['donation_id'].hasError('required')">
+                Please enter a donation ID
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- total weight -->
+          <div class="card">
+            <mat-form-field appearance="outline">
+              <mat-label>Total weight</mat-label>
+              <input matInput type="number" formControlName="total_weight" required matNumberInput>
+              <mat-error *ngIf="stockForm.controls['total_weight'].hasError('required')">
+                Please enter a total weight
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- customer -->
+          <div class="card">
+            <mat-form-field appearance="outline">
+              <mat-label>Customer</mat-label>
+              <input matInput formControlName="customer" required>
+              <mat-error *ngIf="stockForm.controls['customer'].hasError('required')">
+                Please enter a customer
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- destination -->
+          <div class="card">
+            <mat-form-field appearance="outline">
+              <mat-label>Destination</mat-label>
+              <mat-select formControlName="destination">
+                <mat-option *ngFor="let location of locations" [value]="location.id">
+                  {{location.organization}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="stockForm.controls['destination'].hasError('required')">
+                Please select a destination
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- address -->
+          <div class="card">
+            <mat-form-field appearance="outline">
+              <mat-label>Address</mat-label>
+              <input matInput formControlName="address" required>
+              <mat-error *ngIf="stockForm.controls['address'].hasError('required')">
+                Please enter an address
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- date -->
+          <div class="card">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Date</mat-label>
+              <input matInput [matDatepicker]="miPicker1" formControlName="date">
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
+              <mat-datepicker #miPicker1></mat-datepicker>
+              <mat-error *ngIf="stockForm.controls['date'].hasError('required')">
+                Please enter a date
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- delivered_by -->
+          <div class="card">
+            <mat-form-field appearance="outline">
+              <mat-label>Delivered by</mat-label>
+              <input matInput formControlName="delivered_by" required>
+              <mat-error *ngIf="stockForm.controls['delivered_by'].hasError('required')">
+                Please enter a name
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- ticket_photo -->
+          <div class="card">
+            <div class="subir-archivo">
+              <span>
+                Upload ticket *
+              </span>
+              <input type="file" accept="image/png, image/jpeg" name="image_ticket" multiple
+                (change)="uploadFile($event)" />
+            </div>
+          </div>
+          <!-- separator -->
+          <div class="card ">
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+
+          <!-- products -->
+          <div class="card">
+            <div>
+              <button mat-icon-button type="button" matTooltip="Add product" matTooltipPosition="above"
+                (click)="agregarCampo()">
+                <mat-icon>add</mat-icon>
+              </button>
+              <button mat-icon-button type="button" matTooltip="Remove product" matTooltipPosition="above"
+                [disabled]="productsForm.controls.length < 1" (click)="quitarCampo()">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+            <div formArrayName="products" *ngFor="let products of productsForm.controls; let i=index">
+              <div [formGroupName]="i">
+                <div class="card__product-quantity">
+
+                  <!-- COMIENZO PRODUCT-->
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Product</mat-label>
+                    <input matInput formControlName="product" [matAutocomplete]="auto" (focus)="onInputFocus(i)">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{ option }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <!-- FIN PRODUCT -->
+
+                  <!-- COMIENZO QUANTITY -->
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Quantity</mat-label>
+                    <input matInput formControlName="quantity">
+                  </mat-form-field>
+                  <!-- FIN QUANTITY -->
+
+                  <button mat-icon-button class="more-button" aria-label="Toggle menu" type="button"
+                    matTooltip="Remove product" matTooltipPosition="above" (click)="quitarCampoParticular(i)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- separator -->
+          <div class="card ">
+            <!-- <div class="ui-separator-horizontal"></div> -->
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+
+          <div class="card">
+            <div class="main__footer">
+              <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
+              <button class="ui-button" type="submit" [disabled]="!stockForm.valid">Submit</button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </section>
+</div>

@@ -1,0 +1,37 @@
+<div class="container">
+  <section class="header">
+    <div>
+      <h1 class="title">QR or form</h1>
+    </div>
+  </section>
+  <section class="main">
+    <div class="ui-tarjeta ">
+
+      <!-- <form [formGroup]="stockForm" novalidate (ngSubmit)="onSubmit()"> -->
+      <div class="main_formulario">
+        <!-- donation id -->
+        <div class="card">
+          <div *ngIf="value">
+            <ngx-qrcode [value]="value" cssClass="aclass" [errorCorrectionLevel]="errorCorrectionLevel">
+            </ngx-qrcode>
+          </div>
+        </div>
+
+        <!-- separator -->
+        <div class="card ">
+          <!-- <div class="ui-separator-horizontal"></div> -->
+          <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+        </div>
+
+        <div class="card">
+          <div class="main__footer">
+            <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
+            <button class="ui-button" type="button" (click)="newQR()">New QR</button>
+          </div>
+        </div>
+      </div>
+      <!-- </form> -->
+
+    </div>
+  </section>
+</div>

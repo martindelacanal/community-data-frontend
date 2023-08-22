@@ -1,0 +1,438 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(100px, 1fr));
+  grid-template-rows: 90px repeat(5, minmax(100px, 105px));
+  gap: 32px;
+  justify-content: center;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.header {
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
+}
+
+.ui-input {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.ui-add-button {
+
+  width: 80%;
+  height: 50%;
+  color: var(--texto-primario);
+
+}
+
+.header-grafico {
+  flex-direction: column;
+
+  & img {
+    margin-top: 2%;
+    height: 28px;
+  }
+}
+
+.header-titulo {
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.header-content {
+
+  display: flex;
+
+  & .content {
+    width: 30%;
+  }
+}
+
+.content {
+  justify-content: space-between;
+  display: flex;
+  margin-top: 10px;
+}
+
+.left-content {
+  display: flex;
+  align-items: center;
+  left: 10px;
+}
+
+.left-content-1 img {
+  height: 28px;
+}
+
+.left-content-2 {
+  font-size: 2.0rem;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.right-content {
+  display: flex;
+  align-items: center;
+}
+
+.right-content-1 img {
+  height: 20px;
+}
+
+.right-content-2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #28A745;
+}
+
+.center-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  font-weight: 600;
+}
+
+.pie {
+  bottom: 10px;
+}
+
+.center-pie {
+  position: absolute;
+  bottom: 0;
+  left: 21%;
+}
+
+.left-pie {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.right-pie {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.add-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.info {
+
+  font-family: var(--fuente);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.2rem;
+  line-height: 20px;
+
+  align-items: center;
+  text-align: center;
+
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.grafico {
+  width: 115%;
+  grid-column: 1 / 3;
+  grid-row: 2 / 5;
+}
+
+.total-clientes {
+  margin-left: 30%;
+  grid-column: 3 / 4;
+  grid-row: 2 / 3;
+  width: 87%;
+}
+
+.credito-disponible {
+  grid-column: 4 / 5;
+  grid-row: 2 / 3;
+  margin-left: 10%;
+
+  & .header-titulo {
+    margin-bottom: 10px;
+  }
+
+  & .center-content {
+    & img {
+      height: 28px;
+    }
+  }
+}
+
+.comercios {
+  margin-left: 30%;
+  grid-column: 3 / 4;
+  grid-row: 3 / 4;
+  width: 87%;
+}
+
+.pendiente-cobro {
+  grid-column: 4 / 5;
+  grid-row: 3 / 4;
+  margin-left: 10%;
+}
+
+.articulos {
+  margin-left: 30%;
+  grid-column: 3 / 4;
+  grid-row: 4 / 5;
+  width: 87%;
+}
+
+.total-reclamos {
+  grid-column: 4 / 5;
+  grid-row: 4 / 5;
+  margin-left: 10%;
+}
+
+.grafico1 {
+  grid-column: 1 / 2;
+  grid-row: 5 / 7;
+  display: flex;
+  width: 115%;
+  height: 95%;
+  margin-top: 10%;
+
+}
+
+.grafico2 {
+  grid-column: 2 / 3;
+  grid-row: 5 / 7;
+  display: flex;
+  width: 115%;
+  height: 95%;
+  margin-top: 10%;
+  margin-left: 15%;
+}
+
+.boton-cliente {
+  grid-column: 3 / 4;
+  grid-row: 5 / 6;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: right;
+  align-items: flex-end;
+  margin-left: 15%;
+}
+
+.boton-campaña {
+  grid-column: 4 / 5;
+  grid-row: 5 / 6;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: flex-end;
+  margin-left: 15%;
+}
+
+.boton-comercio {
+  grid-column: 3 / 4;
+  grid-row: 6 / 7;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: right;
+  align-items: flex-start;
+  margin-left: 15%;
+}
+
+.boton-articulo {
+  grid-column: 4 / 5;
+  grid-row: 6 / 7;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  margin-left: 15%;
+}
+
+.ui-tarjeta {
+  padding: 15px 10% 0px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  color: var(--texto-primario);
+
+  & .center-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.0rem;
+    font-weight: 600;
+    // margin-top: 5px;
+  }
+
+  & .ui-tarjeta__header {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  & .ui-tarjeta__footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+
+    & img {
+      width: 30px;
+    }
+
+    & span {
+      margin: 0 8px;
+    }
+  }
+}
+.grafico-torta{
+  margin:0 auto;
+  margin-left: -260px;
+  margin-top:-16px
+}
+// INICIO IMPLEMENTACION DE MAT-TAB SIMPLE
+.pendiente-cobro .ui-tarjeta {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 10% 4px;
+
+  & .header-titulo {
+    margin-bottom: 10px;
+  }
+}
+
+.pendiente-cobro__tabs-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  & img {
+    width: 28px;
+  }
+}
+
+.pendiente-cobro__pie {
+  display: flex;
+  justify-content: center;
+
+  & .pendiente-cobro__boton-pie {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  & .ui-separator-horizontal {
+    background: var(--texto-blanco);
+
+    &.pendiente-cobro__separator--activado {
+      background: var(--ui-primario);
+    }
+  }
+}
+::ng-deep .chart-legend .legend-labels {
+  background:transparent !important;
+}
+
+
+
+// FIN IMPLEMENTACION DE MAT-TAB SIMPLE
+
+
+
+//   .misiones-activas .ui-tarjeta {
+//     padding: 32px;
+
+//     & header {
+//       font-size: 1.5rem;
+//       font-weight: 600;
+//       margin-bottom: 32px;
+//     }
+
+//     & .misiones-activas__fila {
+//       display: flex;
+//       flex-direction: column;
+//       margin-bottom: 16px;
+//       border-bottom: 1px solid #555555;
+//       padding-bottom: 16px;
+//     }
+
+//     & .misiones-activas__fila__header {
+//       font-size: 1.5rem;
+//       font-weight: 600;
+
+//     }
+
+//     & .misiones-activas__fila__footer {
+//         display: flex;
+//         justify-content: space-between;
+
+//         margin-top: 8px;
+//         font-size: 1.2rem;
+//         font-weight: 400;
+//     }
+
+//     & footer {
+//       display: flex;
+//       justify-content: center;
+//       margin-top: 32px;
+//     }
+
+//   }
+
+//   .misiones-activas__fila__footer {
+//     display: flex;
+//     justify-content: space-between;
+
+//     margin-top: 30px;
+//     font-size: 1.2rem;
+//     font-weight: 400;
+// }
+
+// .misiones-activas__fila__header {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+
+//     & .ui-tarjeta__footer {
+//         font-size: 1.2rem;
+//     }
+
+//     & .ui-tarjeta__footer .img {
+//         font-size: 1.0rem;
+//         color: #28A745;
+//     }
+
+//     & .img {
+//         height: 20px;
+//     }
+// }
+
+
+// .my-custom-class .mat-tab-label {
+//   background-color: transparent;
+//   color: #000;
+//   font-weight: bold;
+// }
+
+// .my-custom-class .mat-tab-label:active,
+// .my-custom-class .mat-tab-label:selected {
+//   border-top: solid orange;
+// }
+
+// .my-custom-class .mat-ink-bar {
+//   background-color: transparent;
+// }

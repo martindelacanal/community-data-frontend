@@ -1,0 +1,307 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(100px, 1fr));
+    grid-template-rows: 40px 10px 30px 150px 50px minmax(100px, 1fr);
+    gap: 32px;
+    justify-content: center;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .header {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+  }
+
+  .subheader {
+    grid-column: 1 / 1;
+    grid-row: 2 / 2;
+    color: var(--texto-primario);
+  }
+
+  .title-1{
+    grid-column: 1 / 1;
+    grid-row: 3 / 3;
+    margin-left: 15%;
+    color: var(--texto-primario);
+  }
+
+  .carga-masiva{
+    grid-column: 1 / 5;
+    grid-row: 4 / 4;
+    width: 85%;
+    margin: 0 auto;
+
+  }
+
+  .title-2{
+    grid-column: 1 / 1;
+    grid-row: 5 / 5;
+    margin-left: 15%;
+    margin-top: 8%;
+    color: var(--texto-primario);
+  }
+
+  .carga-simple{
+    grid-column: 1 / 5;
+    grid-row: 6 / 6;
+    width: 85%;
+    margin: 0 auto;
+
+    & .ui-tarjeta {
+      margin: 0 auto;
+      padding: 32px 64px;
+      background-image: linear-gradient(to bottom, var(--ui-primario) 0%, var(--ui-primario) 2%, transparent 2%, transparent 100%);
+    }
+  }
+
+
+  .grid-carga-masiva {
+    display: grid;
+    grid-template-columns: repeat(4,minmax(100px, 1fr));
+    grid-template-rows: minmax(100px, 1fr);
+    align-items: center;
+    & .ui-tarjeta {
+      border: 1px solid #000000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 150px;
+      height: 100px;
+      box-shadow: none;
+      margin-top: 20px;
+      opacity: 0.2;
+    }
+
+    & p {
+      font-family: var(--fuente);
+      font-style: normal;
+      font-weight: 900;
+      font-size: 1.3rem;
+      line-height: 39px;
+      display: flex;
+      align-items: left;
+
+      color: #000000;
+    }
+
+  }
+
+  .grid-carga-masiva .download {
+    grid-column: 2 / 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 40px;
+  }
+
+  .grid-carga-masiva .upload {
+    grid-column: 3 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 40px;
+  }
+
+  .grid-carga-masiva .cargar {
+    grid-column: 4 / 4;
+    display: flex;
+
+    & .ui-button {
+      width: 50%;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 30%;
+      margin-top: 25%;
+    }
+  }
+
+  .grid-carga-simple {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(100px, 1fr));
+    grid-template-rows: 50px 20px repeat(6, minmax(60px, 1fr)) 10px 60px;
+    column-gap: 40px;
+    align-items: center;
+
+    & label {
+      font-family: var(--fuente);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 1.3rem;
+      line-height: 39px;
+      display: flex;
+      align-items: left;
+
+      color: #000000;
+      margin-left: 1%;
+    }
+
+    & .ui-input {
+      width: 55%;
+      background-color: rgba(93, 93, 94, 0.05);
+    }
+
+    & .ui-input:focus {
+      background-color: #fff;
+    }
+
+    & .ui-input::placeholder {
+      opacity: 0.3;
+    }
+
+
+  }
+
+
+
+  .grid-carga-simple .cliente {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+  }
+
+  .grid-carga-simple .ui-separator-horizontal.ui-separator-horizontal--gris {
+    grid-column: 1 / 3;
+    grid-row: 2 / 2;
+    background: var(--ui-secundario);
+    justify-self: start;
+    align-self: start;
+  }
+
+  .grid-carga-simple .nombre-fantasia {
+    grid-row: 3 / 3;
+    grid-column: 1 / 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .grid-carga-simple .tipo-comercio {
+    grid-row: 4 / 4;
+    grid-column: 1 / 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .grid-carga-simple .categoria {
+    grid-row: 5 / 5;
+    grid-column: 1 / 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .grid-carga-simple .identificacion {
+    grid-row: 6 / 6;
+    grid-column: 1 / 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .grid-carga-simple .id-cliente {
+    grid-column: 2 / 2;
+    grid-row: 1 / 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .grid-carga-simple .direccion {
+    grid-row: 3 / 3;
+    grid-column: 2 / 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .grid-carga-simple .localidad {
+    grid-row: 4 / 4;
+    grid-column: 2 / 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .grid-carga-simple .provincia {
+    grid-row: 5 / 5;
+    grid-column: 2 / 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .grid-carga-simple .pais {
+    grid-row: 6 / 6;
+    grid-column: 2 / 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .grid-carga-simple .latitud {
+    grid-row: 7 / 7;
+    grid-column: 2 / 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .grid-carga-simple .longitud {
+    grid-row: 8 / 8;
+    grid-column: 2 / 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .grid-carga-simple .comentarios {
+    grid-row: 7 / 7;
+    grid-column: 1 / 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // .grid-carga-simple .opcional {
+  //   grid-row: 8 / 8;
+  //   grid-column: 1 / 1;
+  //   display: flex;
+  //   font-size: 1.2rem;
+  //   justify-self: start;
+  //   align-self: end;
+
+  // }
+
+  .grid-carga-simple .ui-separator-horizontal {
+    grid-column: 1 / 3;
+    grid-row: 9 / 9;
+
+  }
+
+  .grid-carga-simple .cargar {
+    grid-column: 2 / 2;
+    grid-row: 10 / 10;
+    justify-self: end;
+
+    & .ui-button {
+      width: 50%;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 30%;
+      margin-top: 25%;
+    }
+  }
+
+
+
+
+

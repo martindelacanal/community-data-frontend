@@ -1,0 +1,182 @@
+<div class="cuerpo">
+  <header>
+    <!-- <img src="../../../../assets/imgs/login/community_logo.png" alt="Logo principal" class="logo"> -->
+    <span>Community Data</span>
+  </header>
+  <main>
+    <div class="container">
+      <section>
+        <div class="ui-tarjeta">
+          <h1>Sign up</h1>
+          <mat-stepper [linear]="isLinear" #stepper>
+            <mat-step [stepControl]="firstFormGroup">
+              <form [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Contact & Personal information</ng-template>
+                <div class="tarjeta__input">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Create user name</mat-label>
+                    <input matInput formControlName="username" type="username" required>
+                    <mat-error *ngIf="firstFormGroup.controls['username'].hasError('invalidUsername')">
+                      User name already exists, choose another one
+                    </mat-error>
+                    <mat-error *ngIf="firstFormGroup.controls['username'].hasError('required')">
+                      Please create user name
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Create password</mat-label>
+                    <input matInput formControlName="password" type="password" required>
+                    <mat-error *ngIf="firstFormGroup.controls['password'].hasError('required')">
+                      Please create password
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>First name</mat-label>
+                    <input matInput formControlName="firstName" required>
+                    <mat-error *ngIf="firstFormGroup.controls['firstName'].hasError('required')">
+                      Please enter your first name
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Last name</mat-label>
+                    <input matInput formControlName="lastName" required>
+                    <mat-error *ngIf="firstFormGroup.controls['lastName'].hasError('required')">
+                      Please enter your last name
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Date of Birth</mat-label>
+                    <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
+                    <mat-datepicker #miPicker1></mat-datepicker>
+                    <mat-error *ngIf="firstFormGroup.controls['dateOfBirth'].hasError('required')">
+                      Please enter your date of birth
+                    </mat-error>
+                    <mat-error *ngIf="firstFormGroup.controls['dateOfBirth'].hasError('invalidAge')">
+                      You must be at least 18 years old
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Email address</mat-label>
+                    <input matInput formControlName="email" type="email">
+                    <mat-error *ngIf="firstFormGroup.controls['email'].hasError('invalidEmail')">
+                      Email already exists, choose another one
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Phone number</mat-label>
+                    <input matInput type="number" formControlName="phone" required matNumberInput>
+                    <mat-error *ngIf="firstFormGroup.controls['phone'].hasError('required')">
+                      Please enter your phone number
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>ZIP code</mat-label>
+                    <input matInput formControlName="zipcode" required>
+                    <mat-error *ngIf="firstFormGroup.controls['zipcode'].hasError('required')">
+                      Please enter the ZIP code
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Household size</mat-label>
+                    <input matInput type="number" formControlName="householdSize" required matNumberInput>
+                    <mat-error *ngIf="firstFormGroup.controls['householdSize'].hasError('required')">
+                      Please enter the household size
+                    </mat-error>
+                  </mat-form-field>
+                  <label class="radio-button-label" id="radio-button-group-label">Pick your gender <span
+                      [ngClass]="{'required': firstFormGroup.controls['gender'].invalid}">*</span></label>
+                  <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
+                    formControlName="gender">
+                    <mat-radio-button class="radio-button" *ngFor="let gender of genders" [value]="gender.id">
+                      {{gender.name}}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <label class="radio-button-label" id="radio-button-group-label">Pick your ethnicity <span
+                      [ngClass]="{'required': firstFormGroup.controls['ethnicity'].invalid}">*</span></label>
+                  <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
+                    formControlName="ethnicity">
+                    <mat-radio-button class="radio-button" *ngFor="let ethnicity of ethnicities" [value]="ethnicity">
+                      {{ethnicity}}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-form-field appearance="outline" *ngIf="firstFormGroup.get('ethnicity').value === 'Others'">
+                    <mat-label>If Others, please specify</mat-label>
+                    <input matInput formControlName="otherEthnicity" required>
+                    <mat-error *ngIf="firstFormGroup.controls['otherEthnicity'].hasError('required')">
+                      Please enter others
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="botones-stepper">
+                  <button class="ui-button next" matStepperNext [disabled]="!firstFormGroup.valid">Next</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup" label="Health Insurance & Assistance information">
+              <form [formGroup]="secondFormGroup">
+                <div class="tarjeta__input">
+                  <label class="radio-button-label" id="radio-button-group-label">Health Insurance? <span
+                      [ngClass]="{'required': secondFormGroup.controls['input1'].invalid}">*</span></label>
+                  <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
+                    formControlName="input1">
+                    <mat-radio-button class="radio-button" *ngFor="let input1 of input1s" [value]="input1">
+                      {{input1}}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <label class="radio-button-label" id="radio-button-group-label">MediCal/Covered California? <span
+                      [ngClass]="{'required': secondFormGroup.controls['input2'].invalid}">*</span></label>
+                  <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
+                    formControlName="input2">
+                    <mat-radio-button class="radio-button" *ngFor="let input2 of input2s" [value]="input2">
+                      {{input2}}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <label class="radio-button-label" id="radio-button-group-label">Which health plan? <span
+                      [ngClass]="{'required': secondFormGroup.controls['input3'].invalid}">*</span></label>
+                  <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
+                    formControlName="input3">
+                    <mat-radio-button class="radio-button" *ngFor="let input3 of input3s" [value]="input3">
+                      {{input3}}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <label class="radio-button-label" id="radio-button-group-label">Need assistance with Health Services?
+                    <span [ngClass]="{'required': secondFormGroup.controls['input4'].invalid}">*</span></label>
+                  <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
+                    formControlName="input4">
+                    <mat-radio-button class="radio-button" *ngFor="let input4 of input4s" [value]="input4">
+                      {{input4}}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                  <mat-form-field appearance="outline">
+                    <mat-label>If yes, please describe the service</mat-label>
+                    <input matInput formControlName="input5" required>
+                  </mat-form-field>
+                  <label class="radio-button-label" id="radio-button-group-label">Need assistance with other social
+                    services? <span
+                      [ngClass]="{'required': secondFormGroupInput6.status === 'INVALID'}">*</span></label>
+                  <div class="checkbox-options" formArrayName="input6">
+                    <mat-checkbox aria-labelledby="radio-button-group-label" class="checkbox-option"
+                      *ngFor="let input6 of input6s; let i = index" [value]="input6"
+                      (change)="onCheckboxChange($event, i)">{{input6}}</mat-checkbox>
+                  </div>
+                  <mat-form-field appearance="outline">
+                    <mat-label>If your answer is Others, please describe the service</mat-label>
+                    <input matInput formControlName="input7" required>
+                  </mat-form-field>
+                </div>
+                <div class="botones-stepper">
+                  <button class="ui-button back" matStepperPrevious>Back</button>
+                  <button class="ui-button next" type="submit" (click)="onSubmit()" [disabled]="!combinedFormGroup.valid">Submit</button>
+                </div>
+              </form>
+            </mat-step>
+          </mat-stepper>
+          <div class="ui-separator-horizontal"></div>
+          <a class="ui-link" (click)="setForgetPassword(false,true)">Already have an account? Sign in</a>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>

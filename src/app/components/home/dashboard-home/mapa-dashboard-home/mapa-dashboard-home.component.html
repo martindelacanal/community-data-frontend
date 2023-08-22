@@ -1,0 +1,8 @@
+<google-map #map height="100%" width="100%" [options]="mapOptions">
+  <map-marker #marker="mapMarker" *ngFor="let markerPosition of markerPositions"
+    [position]="markerPosition.position" (mapClick)="openInfoWindow(marker, markerPosition.label)">
+  </map-marker>
+  <map-info-window>{{ infoContent }}</map-info-window>
+</google-map>
+<button class="ui-button-map" #misionesDisponiblesButton>Enabled locations</button>
+<button class="ui-button-map" #misionesActivasButton>Total locations</button>

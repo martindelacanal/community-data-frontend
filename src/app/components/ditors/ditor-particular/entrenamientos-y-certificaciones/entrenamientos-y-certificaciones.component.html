@@ -1,0 +1,108 @@
+<div class="container">
+    <div class="header" >
+        <h1 class="title" style="margin-top: 40px;">Ditor <img src="../../../../assets/icons/next.svg" style="height: 30px;margin-left: 20px;margin-top: 5px;"> <a class="title"style="color: var(--estado-sistema); font-size: 15px;margin-top:5px;">{{this.listaEntrenamientos[0].nombre}}</a><img src="../../../../assets/icons/next.svg" style="height: 30px;margin-left: 20px;margin-top: 5px;"><a class="title"style="color: var(--estado-sistema); font-size: 15px;margin-top:5px;">Entrenamientos y certificaciones</a> </h1>
+        <div class="input-search">
+            <input class="ui-input" type="search" id="search-input" placeholder="Buscar">
+        </div>
+    </div>
+
+    <div class="entrenamientos">
+      <div class="ui-tarjeta">  
+        <div class="left-content">
+          <div class="left-content-1">
+            <h2 >Entrenamientos disponibles: </h2>
+            
+          </div>
+          <div class="right-content">
+            <div class="right-content-1">
+              <span class="box">{{this.listaEntrenamientos[0].cantidad}}</span>
+            </div>
+          </div>
+        </div>
+       
+       </div>
+    
+          
+  </div>
+  <div class="realizados">
+    <div class="ui-tarjeta">  
+      <div class="left-content">
+        <div class="left-content-1">
+          <h2 style="text-align: center;">Realizados Total</h2>
+         
+        </div>
+        <a class="subtitle">{{this.listaEntrenamientos[0].realizados}}</a>
+      </div>
+      
+    </div>
+   </div>
+   <div class="ultimomes">
+    <div class="ui-tarjeta">  
+      <div class="left-content">
+        <div class="left-content-1">
+          <h2 style="text-align: center;">Realizados ultimo mes</h2>
+         
+        </div>
+        <a class="subtitle">{{this.listaEntrenamientos[0].ultimomes}}</a>
+      </div>
+      
+    </div>
+   </div>
+   <div class="realizados">
+    <div class="ui-tarjeta">  
+      <div class="left-content">
+        <div class="left-content-1">
+          <h2 style="text-align: center;">Realizados Total</h2>
+         
+        </div>
+        <a class="subtitle">{{this.listaEntrenamientos[0].realizados}}</a>
+      </div>
+      
+    </div>
+   </div>
+   <div class="sinfinalizar">
+    <div class="ui-tarjeta">  
+      <div class="left-content">
+        <div class="left-content-1">
+          <h2 style="text-align: center;">No finalizados</h2>
+         
+        </div>
+        <a class="subtitle">{{this.listaEntrenamientos[0].sinfinalizar}}</a>
+      </div>
+      
+    </div>
+   </div>
+<div class="container-table">
+    <mat-tab-group (selectedTabChange)="changeTab($event)">
+        <mat-tab>
+        <ng-template mat-tab-label > 
+         
+            <div class="left-content">
+              <div class="left-content-1">
+             
+              </div>
+            </div><strong style="margin-left: 7px;">Entrenamientos</strong>
+          
+          </ng-template>  
+          <app-tablas [datosTabla]="this.listaEntrenamientos"></app-tablas>
+        </mat-tab>  
+        <mat-tab >
+          <ng-template mat-tab-label > 
+           <div class="left-content">
+              <div class="left-content-1">
+              
+              </div>
+            </div><strong>Certificaciones</strong>
+          </ng-template>  
+          
+          <app-tablas [datosTabla]="this.listaCertificaciones"></app-tablas>
+        </mat-tab>
+    </mat-tab-group>
+    <div class="pie">
+        <div class="right-pie">
+          <a class="ui-link">Exportar como .csv</a>
+        </div>
+      </div>
+
+</div>
+</div>

@@ -1,0 +1,65 @@
+<div class="container">
+  <section class="header">
+    <div>
+      <h1 class="title">Scan QR</h1>
+    </div>
+  </section>
+  <section class="main">
+    <div class="ui-tarjeta ">
+
+      <!-- <form [formGroup]="stockForm" novalidate (ngSubmit)="onSubmit()"> -->
+      <div class="main_formulario">
+        <!-- donation id -->
+        <div class="card" [formGroup]="deliveryForm">
+          <!-- check if field destination in deliveryForm has value -->
+          <div *ngIf="!onBoarded || !deliveryForm.controls['destination'].value; else scanner" class="full-width">
+            <mat-form-field appearance="outline">
+              <mat-label>Destination</mat-label>
+              <mat-select formControlName="destination">
+                <mat-option *ngFor="let location of locations" [value]="location.id">
+                  {{location.organization}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="deliveryForm.controls['destination'].hasError('required')">
+                Please select a destination
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <ng-template #scanner>
+            <button *ngIf="!this.scanActive && !this.infoValid" class="qr-button" type="button" (click)="scanQR()">
+              <mat-icon>qr_code_scanner</mat-icon></button>
+            <p *ngIf="!this.scanActive && this.infoValid" class="ui-text ui-text--ui-secundario">Beneficiary authorized
+              to receive a bag.<br> Press Approved if you agree.</p>
+            <div *ngIf="this.scanActive">
+              <qr-scanner [debug]="false" [canvasWidth]="1080" [canvasHeight]="720" [stopAfterScan]="true"
+                [updateTime]="500">
+              </qr-scanner>
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- separator -->
+        <div class="card ">
+          <!-- <div class="ui-separator-horizontal"></div> -->
+          <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+        </div>
+
+        <div class="card">
+          <div class="main__footer">
+            <span class="main__footer__span"><div *ngIf="this.userLocation && this.userLocation.id">Organization: {{this.userLocation.organization}} - Address: {{this.userLocation.address}}</div></span>
+            <button *ngIf="this.scanActive || this.infoValid" class="ui-button ui-button--ui-secundario" type="button"
+              (click)="onCancel()">Cancel</button>
+            <button *ngIf="onBoarded && !this.scanActive && !this.infoValid" class="ui-button ui-button--ui-secundario" type="button"
+              (click)="onBoard()">Finish</button>
+            <button *ngIf="onBoarded && !this.scanActive" class="ui-button" type="button" (click)="onSubmit()"
+              [disabled]="this.scanActive || !this.infoValid">Approved</button>
+            <button *ngIf="!onBoarded" class="ui-button" type="button" (click)="onBoard()"
+              [disabled]="deliveryForm.controls['destination'].hasError('required')">On board</button>
+          </div>
+        </div>
+      </div>
+      <!-- </form> -->
+
+    </div>
+  </section>
+</div>

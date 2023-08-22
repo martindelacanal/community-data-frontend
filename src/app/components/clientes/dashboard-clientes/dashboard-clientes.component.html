@@ -1,0 +1,278 @@
+<div class="container">
+  <div class="header">
+    <div>
+      <h1 class="title">Clientes</h1>
+    </div>
+    <div class="input-search">
+      <input class="ui-input" type="search" id="search-input" placeholder="Buscar">
+    </div>
+  </div>
+  <div class="grafico">
+    <div class="ui-tarjeta">
+      <div class="header-grafico">
+        <div class="header-titulo">Misiones en revision</div>
+        <div class="header-content">
+          <div class="content">
+            <div class="left-content">
+              <div class="left-content-1">
+                <img src="../../../../assets/icons/revisar-misiones.svg" alt="Icono de revisar-misiones">
+              </div>
+              <div class="left-content-2">
+                <span>{{this.totalMisionesRevision}}</span>
+              </div>
+            </div>
+            <div class="right-content">
+              <div class="right-content-1">
+                <img class="img" src="../../../../assets/icons/arrow-up-green.svg" alt="Icono de arrow-up">
+              </div>
+              <div class="right-content-2">
+                <span class="img">+ 12,34%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="center-content">
+        <app-grafico-linea-dashboard-clientes></app-grafico-linea-dashboard-clientes>
+      </div>
+      <div class="pie">
+        <div class="left-pie"></div>
+        <div class="right-pie">
+          <a class="ui-link">Ver listado ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="total-clientes">
+    <div class="ui-tarjeta">
+      <div class="header-titulo">Total Clientes</div>
+      <div class="content">
+        <div class="left-content">
+          <div class="left-content-1">
+            <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+          </div>
+          <div class="left-content-2">
+            <span>{{this.totalClientes}}</span>
+          </div>
+        </div>
+        <div class="right-content">
+          <div class="right-content-1">
+            <img class="img" src="../../../../assets/icons/arrow-up-green.svg" alt="Icono de arrow-up">
+          </div>
+          <div class="right-content-2">
+            <span class="img">+ 10,00%</span>
+          </div>
+        </div>
+      </div>
+      <div class="pie">
+        <div class="left-pie"></div>
+        <div class="right-pie">
+          <a class="ui-link" (click)="irtotalClientes()">Ver listado ></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="credito-disponible">
+    <div class="ui-tarjeta">
+      <div class="header-titulo">
+        Línea de crédito disponible
+      </div>
+      <div class="center-content">
+        <img src="../../../../assets/icons/linea-de-credito.svg" alt="Icono de linea de credito">
+        <span>$3.800.000</span>
+      </div>
+      <div class="pie">
+        <div class="center-pie">
+          <p class="info"> - $5.000.000 máximo - </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="comercios">
+    <div class="ui-tarjeta">
+      <div class="header-titulo">Comercios</div>
+      <div class="content">
+        <div class="left-content">
+          <div class="left-content-1">
+            <img src="../../../../assets/icons/comercios.svg" alt="Icono de comercios">
+          </div>
+          <div class="left-content-2">
+            <span>{{this.totalComercios}}</span>
+          </div>
+        </div>
+        <div class="right-content">
+          <div class="right-content-1">
+            <img class="img" src="../../../../assets/icons/arrow-up-green.svg" alt="Icono de arrow-up">
+          </div>
+          <div class="right-content-2">
+            <span class="img">+ 50,00%</span>
+          </div>
+        </div>
+      </div>
+      <div class="pie">
+        <div class="left-pie"></div>
+        <div class="right-pie">
+          <a class="ui-link">Ver listado ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pendiente-cobro">
+    <div class="ui-tarjeta">
+      <div class="header-titulo">Pendientes de cobro</div>
+      <div class="pendiente-cobro__tabs-container">
+        <div class="tab" *ngIf="selectedTab === 'Mes'">
+          <div class="center-content">
+            <img src="../../../../assets/icons/pendientes-de-cobro.svg" alt="Icono de pendientes-de-cobro">
+            <span>$1.200.000</span>
+          </div>
+        </div>
+        <div class="tab" *ngIf="selectedTab === 'Acumulado'">
+          <div class="center-content">
+            <img src="../../../../assets/icons/pendientes-de-cobro.svg" alt="Icono de pendientes-de-cobro">
+            <span>$4.200.000</span>
+          </div>
+        </div>
+      </div>
+      <div class="pendiente-cobro__pie">
+        <a class="pendiente-cobro__boton-pie" (click)="selectTab('Mes')">
+          Mes
+          <div class="ui-separator-horizontal" [ngClass]="{'pendiente-cobro__separator--activado': selectedTab === 'Mes'}"></div>
+        </a>
+        <a class="pendiente-cobro__boton-pie" (click)="selectTab('Acumulado')">
+          Acumulado
+          <div class="ui-separator-horizontal" [ngClass]="{'pendiente-cobro__separator--activado': selectedTab === 'Acumulado'}"></div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="articulos">
+    <div class="ui-tarjeta">
+      <div class="header-titulo">Artículos</div>
+      <div class="content">
+        <div class="left-content">
+          <div class="left-content-1">
+            <img src="../../../../assets/icons/articulos.svg" alt="Icono de articulos">
+          </div>
+          <div class="left-content-2">
+            <span>{{this.totalArticulos}}</span>
+          </div>
+        </div>
+        <div class="right-content">
+          <div class="right-content-1">
+            <img class="img" src="../../../../assets/icons/arrow-up-green.svg" alt="Icono de arrow-up">
+          </div>
+          <div class="right-content-2">
+            <span class="img">+ 20,00%</span>
+          </div>
+        </div>
+      </div>
+      <div class="pie">
+        <div class="left-pie"></div>
+        <div class="right-pie">
+          <a class="ui-link" >Ver listado ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="total-reclamos">
+    <div class="ui-tarjeta">
+      <div class="header-titulo">Total Reclamos</div>
+      <div class="content">
+        <div class="left-content">
+          <div class="left-content-1">
+            <img src="../../../../assets/icons/eliminar.svg" alt="Icono de total reclamos">
+          </div>
+          <div class="left-content-2">
+            <span>8</span>
+          </div>
+        </div>
+        <div class="right-content">
+          <div class="right-content-1">
+            <img class="img" src="../../../../assets/icons/arrow-up-green.svg" alt="Icono de arrow-up">
+          </div>
+          <div class="right-content-2">
+            <span class="img">+ 1,26%</span>
+          </div>
+        </div>
+      </div>
+      <div class="pie">
+        <div class="left-pie"></div>
+        <div class="right-pie">
+          <a class="ui-link">Ver listado ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grafico1">
+    <div class="ui-tarjeta">
+      <div class="header-grafico">
+        <div class="header-titulo">Campañas activas</div>
+
+      </div>
+       <div class="grafico-torta">
+        <app-grafico-pie-chart-campanias-activas 
+        ></app-grafico-pie-chart-campanias-activas>
+      </div>  
+      <div class="pie">
+        <div class="left-pie"></div>
+        <div class="right-pie">
+          <a class="ui-link">Ver listado ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grafico2">
+    <div class="ui-tarjeta">
+      <div class="header-grafico">
+        <div class="header-titulo">Campañas en preparación</div>
+      </div>
+      <div class="grafico-torta">
+        <app-grafico-pie-campanias-preparacion 
+       ></app-grafico-pie-campanias-preparacion>
+      </div> 
+      <div class="pie">
+        <div class="left-pie"></div>
+        <div class="right-pie">
+          <a class="ui-link">Ver listado ></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="boton-cliente">
+    <button class="ui-add-button">
+      <div class="center-content">
+        <img src="../../../../assets/icons/añadir-perfil.svg" alt="Icono de añadir cliente">
+        <span class="add-text">Nuevo Cliente</span>
+      </div>
+    </button>
+  </div>
+  <div class="boton-campaña">
+    <button class="ui-add-button" routerLink="/clientes/particular/nuevo-campania">
+      <div class="center-content">
+        <img src="../../../../assets/icons/operaciones.svg" alt="Icono de campaña">
+        <span class="add-text">Nueva Campaña</span>
+      </div>
+    </button>
+  </div>
+  <div class="boton-comercio">
+    <button routerLink="/clientes/particular/nuevo-comercio" class="ui-add-button">
+      <div class="center-content">
+        <img src="../../../../assets/icons/comercios.svg" alt="Icono de comercios">
+        <span class="add-text">Cargar Comercios</span>
+      </div>
+    </button>
+  </div>
+  <div class="boton-articulo">
+    <button routerLink="/clientes/particular/nuevo-articulo" class="ui-add-button">
+      <div class="center-content">
+        <img src="../../../../assets/icons/articulos.svg" alt="Icono de articulos">
+        <span class="add-text">Cargar Artículos</span>
+      </div>
+    </button>
+  </div>
+</div>

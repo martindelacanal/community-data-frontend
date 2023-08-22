@@ -1,0 +1,188 @@
+<div class="container">
+  <div class="tarjeta-principal">
+    <div class="ui-tarjeta">
+      <section>
+        <div class="ui-tarjeta__header">
+          Pounds delivered
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/campanias-activas.svg" alt="Icono de campañas activas">
+          <span>1</span>
+        </div>
+      </section>
+      <div class="ui-separator-vertical"></div>
+      <section>
+        <div class="ui-tarjeta__header">
+          Total locations
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/misiones-disponibles.svg" alt="Icono de misiones disponibles">
+          <span>2</span>
+        </div>
+      </section>
+      <div class="ui-separator-vertical"></div>
+      <section>
+        <div class="ui-tarjeta__header">
+          Total days of operation
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/revisar-misiones.svg" alt="Icono de revisar misiones">
+          <span>30</span>
+        </div>
+      </section>
+      <div class="ui-separator-vertical"></div>
+      <section>
+        <div class="ui-tarjeta__header">
+          Number of stockists
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
+          <span>5</span>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div class="mapa">
+    <div class="ui-tarjeta">
+      <app-mapa-dashboard-home></app-mapa-dashboard-home>
+    </div>
+  </div>
+  <div class="ditors-activos">
+    <div class="ui-tarjeta">
+      <div class="ui-tarjeta__header">
+        Delivery people
+      </div>
+      <div class="ui-tarjeta__footer">
+        <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
+        <span>10</span>
+      </div>
+    </div>
+  </div>
+  <div class="clientes-activos">
+    <div class="ui-tarjeta">
+      <div class="ui-tarjeta__header">
+        Beneficiaries
+      </div>
+      <div class="ui-tarjeta__footer">
+        <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+        <span>52</span>
+      </div>
+    </div>
+  </div>
+  <div class="clientes-activos-porcentaje">
+    <div class="ui-tarjeta">
+      <div class="ui-tarjeta__header">
+        Beneficiaries served
+      </div>
+      <div class="ui-tarjeta__footer">
+        <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+        <span>85%</span>
+      </div>
+    </div>
+  </div>
+  <div class="graficos">
+    <div class="ui-tarjeta">
+      <div class="graficos__header">
+        <a class="graficos__boton-header" (click)="selectTab('Clientes')">
+          <div class="ui-separator-horizontal"
+            [ngClass]="{'graficos__separator--activado': selectedTab === 'Clientes'}"></div>
+          <div class="graficos__boton-header__contenedor">
+            <div class="graficos__tab-nombre">Pounds</div>
+            <!-- <div class="graficos__tab-numero">{{formattedChartDataClientes[0].series[0].value}}</div> -->
+            <div class="graficos__tab-numero-chico" [ngClass]="clientesPositivo ? 'positivo' : 'negativo'">+1</div>
+          </div>
+        </a>
+        <a class="graficos__boton-header" (click)="selectTab('Comercios')">
+          <div class="ui-separator-horizontal"
+            [ngClass]="{'graficos__separator--activado': selectedTab === 'Comercios'}"></div>
+          <div class="graficos__boton-header__contenedor">
+            <div class="graficos__tab-nombre">Beneficiaries</div>
+            <!-- <div class="graficos__tab-numero">{{formattedChartDataComercios[0].series[0].value}}</div> -->
+            <div class="graficos__tab-numero-chico" [ngClass]="comerciosPositivo ? 'positivo' : 'negativo'">-8</div>
+          </div>
+        </a>
+        <a class="graficos__boton-header" (click)="selectTab('Ditors') " >
+          <div class="ui-separator-horizontal" [ngClass]="{'graficos__separator--activado': selectedTab === 'Ditors'}">
+          </div>
+          <div class="graficos__boton-header__contenedor">
+            <div class="graficos__tab-nombre">Delivery people</div>
+            <!-- <div class="graficos__tab-numero">{{formattedChartDataDitors[0].series[0].value}}</div> -->
+            <div class="graficos__tab-numero-chico" [ngClass]="ditorsPositivo ? 'positivo' : 'negativo'"></div>
+          </div>
+        </a>
+        <a class="graficos__boton-header" (click)="selectTab('Misiones')">
+          <div class="ui-separator-horizontal"
+            [ngClass]="{'graficos__separator--activado': selectedTab === 'Misiones'}"></div>
+          <div class="graficos__boton-header__contenedor">
+            <div class="graficos__tab-nombre">Operations</div>
+            <!-- <div class="graficos__tab-numero">{{formattedChartDataMisiones[0].series[0].value}}</div> -->
+            <div class="graficos__tab-numero-chico" [ngClass]="misionesPositivo ? 'positivo' : 'negativo'">+1</div>
+          </div>
+        </a>
+      </div>
+      <div class="graficos__tabs-container">
+        <div class="tab" *ngIf="selectedTab === 'Clientes'" >
+          <div class="center-content">
+            <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"  [dataGraficos]="this.formattedChartDataClientes"></app-grafico-linea-dashboard-home> -->
+            <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
+          </div>
+        </div>
+        <div class="tab" *ngIf="selectedTab === 'Comercios'">
+          <div class="center-content">
+            <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataComercios"></app-grafico-linea-dashboard-home> -->
+            <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
+          </div>
+        </div>
+        <div class="tab" *ngIf="selectedTab === 'Ditors'">
+          <div class="center-content">
+            <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataDitors"></app-grafico-linea-dashboard-home> -->
+            <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
+          </div>
+        </div>
+        <div class="tab" *ngIf="selectedTab === 'Misiones'">
+          <div class="center-content">
+            <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataMisiones"></app-grafico-linea-dashboard-home> -->
+            <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="misiones-activas">
+    <div class="ui-tarjeta">
+      <header>Tables</header>
+      <main>
+        <div class="misiones-activas__fila">
+          <div class="misiones-activas__fila__header">10</div>
+          <div class="misiones-activas__fila__footer">
+            <div class="misiones-activas__izquierda">Enabled users</div>
+            <div class="misiones-activas__derecha">
+              <a class="ui-link">View user table</a>
+            </div>
+          </div>
+        </div>
+        <div class="misiones-activas__fila">
+          <div class="misiones-activas__fila__header">3</div>
+          <div class="misiones-activas__fila__footer">
+            <div class="misiones-activas__izquierda">Qualified beneficiaries</div>
+            <div class="misiones-activas__derecha">
+              <a class="ui-link">View beneficiary table</a>
+            </div>
+          </div>
+        </div>
+        <div class="misiones-activas__fila">
+          <div class="misiones-activas__fila__header">2</div>
+          <div class="misiones-activas__fila__footer">
+            <div class="misiones-activas__izquierda">Tickets uploaded</div>
+            <div class="misiones-activas__derecha">
+              <a class="ui-link">View ticket table</a>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer>
+        <button class="ui-button">See more</button>
+      </footer>
+    </div>
+  </div>
+</div>

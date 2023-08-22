@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="header">
+        <h1 class="title">Clientes</h1>
+        <div class="input-search">
+            <input class="ui-input" type="search" id="search-input" placeholder="Buscar">
+        </div>
+    </div>
+   
+    <div class="total-clientes">
+        <div class="ui-tarjeta">
+            <div class="header-titulo">Total Clientes</div>
+            <div class="content">
+                <div class="left-content">
+                  <div class="left-content-1">
+                    <img src="../../../../assets/icons/clientes.svg" alt="Icono de misiones en revision">
+                  </div>
+                  <div class="left-content-2">
+                    <span>5</span>
+                  </div>
+                </div>
+                <div class="right-content">
+                  <div class="right-content-1">
+                    <img class="img" src="../../../../assets/icons/arrow-up-green.svg" alt="Icono de arrow-up">
+                  </div>
+                  <div class="right-content-2">
+                    <span class="img">+ 1,26%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="pie">
+                <div class="left-pie"></div>
+                <div class="right-pie">
+                  <a class="ui-link">Ver listado ></a>
+                </div>
+              </div>
+        
+            </div>
+        </div>  
+        <div class="clientes-activos">
+            <div class="ui-tarjeta">
+                <div class="header-titulo">Clientes Activos</div>
+                <div class="content">
+                    <div class="left-content">
+                      <div class="left-content-1">
+                        <img src="../../../../assets/icons/clientes.svg" alt="Icono de misiones en revision">
+                      </div>
+                      <div class="left-content-2">
+                        <span>5</span>
+                      </div>
+                    </div>
+                    <div class="right-content">
+                      <div class="right-content-1">
+                        <img class="img" src="../../../../assets/icons/arrow-up-green.svg" alt="Icono de arrow-up">
+                      </div>
+                      <div class="right-content-2">
+                        <span class="img">+ 1,26%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="pie">
+                    <div class="left-pie"></div>
+                    <div class="right-pie">
+                      <a class="ui-link">Ver listado ></a>
+                    </div>
+                  </div>
+            
+                </div>
+            </div> 
+            <app-tablas class="tabla-listado" [datosTabla]="this.listaClientes" [columnas]="columnsClientes" [mapeoColumnas]="mapeoColumnas" [datosMenu]="this.datosMenu"></app-tablas> 
+</div>

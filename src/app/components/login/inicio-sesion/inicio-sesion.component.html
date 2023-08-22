@@ -1,0 +1,92 @@
+<div class="cuerpo">
+  <header>
+    <!-- <img src="../../../../assets/imgs/login/community_logo.png" alt="Logo principal" class="logo"> -->
+    <span>Community Data</span>
+  </header>
+  <main>
+    <div class="container">
+      <section *ngIf="loginSection" [@scaleInOut] (@scaleInOut.done)="animationDone($event, 'password')">
+        <div class="ui-tarjeta">
+          <h1>Log in</h1>
+          <form [formGroup]="loginForm" novalidate (ngSubmit)="logIn()">
+            <div class="tarjeta__input">
+              <mat-form-field appearance="outline">
+                <mat-label>Email or user name</mat-label>
+                <input matInput placeholder="" formControlName="email" name="user" required>
+                <mat-error *ngIf="loginForm.controls['email'].hasError('required')">
+                  Please enter your email or user name
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" placeholder="" formControlName="password" name="password" required>
+                <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
+                  Please enter your password
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="tarjeta__checkbox">
+              <mat-checkbox formControlName="remember">Remember me</mat-checkbox>
+            </div>
+            <div class="tarjeta__button">
+              <button *ngIf="!loading" class="ui-button" type="submit">Submit</button>
+              <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+
+              <mat-error *ngIf="!loginValid">
+                Email / User name or password incorrect
+              </mat-error>
+            </div>
+          </form>
+          <div class="ui-separator-horizontal"></div>
+          <a class="ui-link" (click)="setForgetPassword(false,true)">Forgot password?</a>
+          <!-- add margin -->
+          <a class="ui-link" style="margin-top: 8px;" (click)="signUp()">Need an account? Sign up</a>
+        </div>
+      </section>
+
+      <section *ngIf="passwordSection" [@scaleInOut] (@scaleInOut.done)="animationDone($event, 'login')">
+        <div class="ui-tarjeta">
+          <h1>Recover password</h1>
+          <form [formGroup]="recoverPasswordForm" novalidate (ngSubmit)="logIn()">
+            <div class="tarjeta__input">
+              <label>Contact Support to reset your password.</label>
+              <p class="texto-soporte">Phone: <a class="ui-link">0800-123-456-789</a></p>
+              <p class="texto-soporte">Email: <a class="ui-link">help@test.com</a></p>
+              <div class="line-container">
+                <hr>
+                <span class="line-text">OR</span>
+                <hr>
+              </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Email or user name</mat-label>
+                <input matInput placeholder="" formControlName="email" name="user" required>
+                <mat-error *ngIf="recoverPasswordForm.controls['email'].hasError('required')">
+                  Please enter your email or user name
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Date of Birth</mat-label>
+                <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth">
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
+                <mat-datepicker #miPicker1></mat-datepicker>
+                <mat-error *ngIf="recoverPasswordForm.controls['dateOfBirth'].hasError('required')">
+                  Please enter your date of birth
+                </mat-error>
+                <mat-error *ngIf="recoverPasswordForm.controls['dateOfBirth'].hasError('invalidAge')">
+                  You must be at least 18 years old
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="tarjeta__button">
+              <button class="ui-button" type="submit">Reset</button>
+            </div>
+          </form>
+          <div class="ui-separator-horizontal"></div>
+          <a class="ui-link" (click)="setForgetPassword(true,false)">Back to log in</a>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>

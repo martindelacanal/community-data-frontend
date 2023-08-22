@@ -1,0 +1,142 @@
+<div class="container">
+  <div class="logo-cliente">
+     <img class="img" src="../../../../assets/imgs/clientes-particular/Farmacity_logo.png" > 
+  </div> 
+  <div class="header" >
+   
+    <h1 class="title"  >> Campañas </h1>
+   
+    <div class="input-search">
+        <input class="ui-input" type="search" id="search-input" placeholder="Buscar">
+         <span class="search-icon" (click)="buscar()" style="background-image: url('../../../../assets/icons/search.svg') "></span> 
+    </div>
+    <div class="boton-campaña">
+      <button class="ui-add-button" routerLink="/clientes/particular/nuevo-campania">
+        <div class="center-content">
+          <img src="../../../../assets/icons/agregar.svg" alt="Icono de campaña" style="width: 26px;">
+          <span class="add-text">Nueva Campaña</span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+<div class="container-table">
+  <mat-tab-group (selectedTabChange)="changeTab($event)">
+    <mat-tab>
+    <ng-template mat-tab-label > 
+     
+        <div class="left-content">
+          <div class="left-content-1">
+            <img src="../../../../assets/icons/campanias-activas.svg" alt="Icono de activas" style="width: 26px;">
+          </div>
+        </div><strong>Activas</strong>
+      
+      </ng-template>  
+      <app-tablas [datosTabla]="this.listaResultados" [columnas]="columnsActivas" ></app-tablas>
+    </mat-tab> 
+    <mat-tab >
+      <ng-template mat-tab-label > 
+       <div class="left-content">
+          <div class="left-content-1">
+            <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono en preparacion" style="width: 26px;">
+          </div>
+        </div><strong>En preparación</strong>
+        
+      </ng-template>  
+      <app-tablas [tabIndex]="this.tabIndex"></app-tablas>
+    </mat-tab> 
+    <mat-tab >
+      <ng-template mat-tab-label > 
+       <div class="left-content">
+          <div class="left-content-1">
+            <img src="../../../../assets/icons/finalizadas.svg" alt="Icono en preparacion" style="width: 26px;">
+          </div>
+        </div><strong>Finalizadas</strong>
+      </ng-template>  
+      <!-- Tabla Finalizadas  -->
+      <app-tablas [tabIndex]="this.tabIndex"></app-tablas>
+    </mat-tab>
+    <mat-tab >
+      <ng-template mat-tab-label > 
+       <div class="left-content">
+          <div class="left-content-1">
+            <img src="../../../../assets/icons/pausar.svg" alt="Icono de pausadas" style="width: 26px;">
+          </div>
+        </div><strong>Pausadas</strong>
+      </ng-template>  
+      <app-tablas [tabIndex]="this.tabIndex"></app-tablas>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label > 
+       <div class="left-content">
+          <div class="left-content-1">
+            <img src="../../../../assets/icons/canceladas-original.svg" alt="Icono de canceladas" style="width: 26px;">
+          </div>
+        </div><strong>Canceladas</strong>
+      </ng-template>  
+      <app-tablas [tabIndex]="this.tabIndex"></app-tablas>
+    </mat-tab>
+  </mat-tab-group>
+  <!-- Tabla Activas -->
+  <!-- <table mat-table [dataSource]="dataSource"  *ngIf="tabIndex==0 || tabIndex == 1">
+    <ng-container matColumnDef="ID Campaña" >
+      <th mat-header-cell *matHeaderCellDef><strong>ID Campaña</strong></th>
+      <td mat-cell *matCellDef="let element">{{element.column1}}</td>
+    </ng-container>
+    <ng-container matColumnDef="Cliente" >
+      <th mat-header-cell *matHeaderCellDef><strong>Cliente</strong></th>
+      <td mat-cell *matCellDef="let element">{{element.column1}}</td>
+    </ng-container>
+    <ng-container matColumnDef="Tipo de Campaña" >
+      <th mat-header-cell *matHeaderCellDef><strong>Tipo de Campaña</strong></th>
+      <td mat-cell *matCellDef="let element">{{element.column1}}</td>
+    </ng-container>
+    <ng-container matColumnDef="Fecha de Solicitud" >
+      <th mat-header-cell *matHeaderCellDef><strong>Fecha de Solicitud</strong></th>
+      <td mat-cell *matCellDef="let element">{{element.column1}}</td>
+    </ng-container>
+    <ng-container matColumnDef="# Misiones" >
+      <th mat-header-cell *matHeaderCellDef><strong># Misiones</strong></th>
+      <td mat-cell *matCellDef="let element">{{element.column1}}</td>
+    </ng-container>
+    <ng-container matColumnDef="Presupuesto Total" >
+      <th mat-header-cell *matHeaderCellDef><strong>Presupuesto Total</strong></th>
+      <td mat-cell *matCellDef="let element">{{element.column1}}</td>
+    </ng-container>
+    <ng-container matColumnDef=" " >
+      <th mat-header-cell *matHeaderCellDef><strong></strong></th>
+      <td mat-cell *matCellDef><button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+      <mat-menu #menu="matMenu" class="menu-tabla">
+        <button mat-menu-item>
+        <span class="menu-tabla" > <img src="../../../../assets/icons/editar.svg" alt="Icono de canceladas" style="width: 26px;align-items: center;">
+            Ver en operaciones</span>
+        </button>
+       
+      </mat-menu></td>
+    </ng-container>
+    <tr mat-header-row  style="background-color:var(--ui-secundario); border-radius: 20%;" *matHeaderRowDef="columns">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+
+  </table> -->
+  
+  <!-- <mat-paginator 
+  
+   [pageSizeOptions]="[2, 10, 20]"
+   showFirstLastButtons
+   
+  >
+  </mat-paginator>   -->
+  <div class="pie">
+    <div class="left-pie"></div>
+    <div class="right-pie">
+      <a class="ui-link">Exportar como .csv</a>
+    </div>
+  </div>
+  
+ 
+ </div>
+
+ </div> 
+
+

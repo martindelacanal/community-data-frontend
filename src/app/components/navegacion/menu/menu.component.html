@@ -1,0 +1,72 @@
+<div *ngIf="usuario">
+<header>
+  <div class="header__logo">
+    <div #menuIcon (click)="toggleMenu()" [@iconAnimation]="animationState">
+      <ng-container *ngIf="!menuExpanded; else showCross">
+        <img class="header__logo__menu-icon" src="../../../../assets/icons/menu-hamburguesa.svg" alt="Icono de menú" id="menu-icon-hamburguesa">
+      </ng-container>
+      <ng-template #showCross>
+        <img class="header__logo__menu-icon" src="../../../../assets/icons/cerrar.svg" alt="Icono de cerrar" id="menu-icon-cerrar">
+      </ng-template>
+    </div>
+    <a routerLink="/home">
+      <!-- <img src="../../../../assets/imgs/login/logo-ditory-color.svg" alt="Logo principal" class="logo" id="logo"> -->
+      <span alt="Logo principal" id="logo">Community Data</span>
+    </a>
+  </div>
+  <div class="header__buscador">
+    <input class="ui-input" type="search" id="search-input" placeholder="Search">
+  </div>
+  <div class="header__perfil" (click)="toggleCard()" #profile>
+    <div>
+      <p>{{usuario.firstname}}</p>
+    </div>
+    <img class="header__perfil__icon" src="../../../../assets/icons/perfil.svg" alt="Foto de perfil" class="user" id="perfil">
+  </div>
+</header>
+<section class="opciones-perfil">
+  <div class="ui-tarjeta" *ngIf="showCard" #card>
+    <ul>
+      <li>Settings</li>
+      <li>Notifications</li>
+      <li (click)="logOut()">Log out</li>
+    </ul>
+  </div>
+</section>
+<section class="container">
+  <nav>
+    <div class="ui-tarjeta" [class.collapsed]="!menuExpanded" #menu>
+      <section class="container__header">
+        <ul>
+          <li [class.active-link]="currentRoute.includes('/home')" [class.li-collapsed]="!menuExpanded">
+            <a routerLink="/home">
+              <img class="ui-tarjeta__icono" src="../../../../assets/icons/home.svg" alt="Icono de home">
+              <span [class.hidden]="!menuExpanded">Home</span>
+            </a>
+          </li>
+          <li [class.active-link]="currentRoute.includes('/help')" [class.li-collapsed]="!menuExpanded">
+            <a routerLink="/help">
+              <img class="ui-tarjeta__icono" src="../../../../assets/icons/ayuda.svg" alt="Icono de ayuda">
+              <span [class.hidden]="!menuExpanded">Help</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="container__footer">
+        <!-- <ul>
+          <li [class.active-link]="currentRoute.includes('/help')" [class.li-collapsed]="!menuExpanded">
+            <a routerLink="/help">
+              <img class="ui-tarjeta__icono" src="../../../../assets/icons/ayuda.svg" alt="Icono de ayuda">
+              <span [class.hidden]="!menuExpanded">Help</span>
+            </a>
+          </li>
+        </ul> -->
+      </section>
+    </div>
+  </nav>
+  <div class="container__overlay" *ngIf="menuExpanded"></div>
+  <div class="container__componente-renderizado" [class.overlay]="menuExpanded">
+    <router-outlet></router-outlet>
+  </div>
+</section>
+</div>

@@ -1,0 +1,26 @@
+<ngx-charts-line-chart
+  [xAxisTickFormatting]="formatXAxisTick"
+  [view]="view"
+  [scheme]="colorScheme"
+  [legend]="legend"
+  [showXAxisLabel]="showXAxisLabel"
+  [showYAxisLabel]="showYAxisLabel"
+  [xAxis]="xAxis"
+  [yAxis]="yAxis"
+  [autoScale]="autoScale"
+  [xAxisLabel]="xAxisLabel"
+  [yAxisLabel]="yAxisLabel"
+  [timeline]="timeline"
+  [results]="formattedChartData"
+  (select)="onSelect($event)"
+  (activate)="onActivate($event)"
+  (deactivate)="onDeactivate($event)"
+  >
+  <!-- <ng-template #tooltipTemplate let-model="model">
+    <div class="tooltip-mouse-punto-interseccion">
+      <div>{{ model.series }}</div>
+      <div>{{ model.name | date: 'dd/MM' }}</div>
+      <div>{{ model.value }}</div>
+    </div>
+  </ng-template> -->
+</ngx-charts-line-chart>

@@ -1,0 +1,141 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 56px;
+}
+
+.main {
+  font-size: 1.2rem;
+}
+
+.title {
+  margin-bottom: 16px;
+}
+
+.header,
+.ui-tarjeta {
+  width: 100%;
+}
+
+.ui-tarjeta{
+  margin: 0 auto;
+  padding: 48px;
+  border-top: 4px solid var(--ui-primario);
+  // background-image: linear-gradient(to bottom, var(--ui-primario) 0%, var(--ui-primario) 2%, transparent 2%, transparent 100%);
+}
+
+.main_formulario {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(24px, 1fr));
+  grid-template-rows: repeat(2, auto);
+  row-gap: 16px;
+  column-gap: 48px;
+  align-items: center;
+}
+
+.card:nth-child(1) {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+.card:nth-child(2) {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+}
+
+.card:nth-child(3) {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+.card:nth-child(4) {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+
+.card:nth-child(5) {
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+}
+
+.card:nth-child(6) {
+  grid-column: 2 / 3;
+  grid-row: 3 / 4;
+}
+
+.card:nth-child(7) {
+  grid-column: 1 / 2;
+  grid-row: 4 / 5;
+}
+
+.card:nth-child(8) {
+  grid-column: 2 / 3;
+  grid-row: 4 / 5;
+}
+
+.card:nth-child(9) {
+  grid-column: 1 / -1;
+  grid-row: 5 / 6;
+}
+
+.card:nth-child(10) {
+  grid-column: 1 / -1;
+  grid-row: 6 / 7;
+}
+
+.card:nth-child(11) {
+  grid-column: 1 / -1;
+  grid-row: 7 / 8;
+}
+.card:nth-child(12) {
+  grid-column: 1 / -1;
+  grid-row: 8 / 9;
+}
+
+.card mat-form-field{
+  width: 100%;
+}
+
+.subir-archivo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 1.4rem;
+  justify-content: space-between;
+}
+
+.main_formulario .ui-separator-horizontal.ui-separator-horizontal--gris {
+  background: var(--ui-secundario);
+}
+
+.card__product-quantity {
+  display: flex;
+  align-items: center;
+}
+
+.card__product-quantity > *:first-child {
+  flex-basis: 52%;
+  margin-right: 48px;
+}
+
+.card__product-quantity > *:nth-child(2) {
+  flex-basis: 48%;
+}
+
+.card__product-quantity > *:nth-child(3) {
+  margin-bottom: 16px;
+}
+
+.main_formulario .main__footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ui-button {
+  padding: 0 32px;
+}
+
+.ui-button--estado-sistema {
+  margin: 0 16px;
+}

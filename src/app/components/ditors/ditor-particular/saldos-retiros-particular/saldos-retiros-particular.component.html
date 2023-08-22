@@ -1,0 +1,15 @@
+
+
+<div class="container">
+    <div class="header" >
+        <h1 class="title" style="margin-top: 40px;">Ditor <img src="../../../../assets/icons/next.svg" style="height: 30px;margin-left: 20px;margin-top: 5px;"> <a class="title"style="color: var(--estado-sistema); font-size: 15px;margin-top:5px;">{{this.listaMisiones[0].nombre}}</a><img src="../../../../assets/icons/next.svg" style="height: 30px;margin-left: 20px;margin-top: 5px;"><a class="title"style="color: var(--estado-sistema); font-size: 15px;margin-top:5px;">Saldos y retiros</a> </h1>
+  </div>
+<div class="container-table">
+    <app-tablas [datosTabla]="this.listaMisiones"></app-tablas>
+    <div class="pie">
+        <div class="right-pie">
+          <a class="ui-link">Exportar como .csv</a>
+        </div>
+      </div>
+</div>
+</div>
