@@ -2,89 +2,96 @@
   <header>
     <!-- <img src="../../../../assets/imgs/login/community_logo.png" alt="Logo principal" class="logo"> -->
     <span>Community Data</span>
+    <span class="form-inline">
+      <select class="ui-input" id="languageSelector" #selectedLang (change)="switchLang(selectedLang.value)">
+        <option *ngFor="let language of translate.getLangs()" [value]="language" [selected]="language === translate.currentLang">
+          {{ translate.instant('language_' + language) }}
+        </option>
+      </select>
+    </span>
   </header>
   <main>
     <div class="container">
       <section *ngIf="loginSection" [@scaleInOut] (@scaleInOut.done)="animationDone($event, 'password')">
         <div class="ui-tarjeta">
-          <h1>Log in</h1>
+          <h1>{{'login_title' | translate }}</h1>
           <form [formGroup]="loginForm" novalidate (ngSubmit)="logIn()">
             <div class="tarjeta__input">
               <mat-form-field appearance="outline">
-                <mat-label>Email or user name</mat-label>
+                <mat-label>{{'login_input_username' | translate }}</mat-label>
                 <input matInput placeholder="" formControlName="email" name="user" required>
                 <mat-error *ngIf="loginForm.controls['email'].hasError('required')">
-                  Please enter your email or user name
+                  {{'login_input_username_error' | translate }}
                 </mat-error>
               </mat-form-field>
               <mat-form-field appearance="outline">
-                <mat-label>Password</mat-label>
+                <mat-label>{{'login_input_password' | translate }}</mat-label>
                 <input matInput type="password" placeholder="" formControlName="password" name="password" required>
                 <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
-                  Please enter your password
+                  {{'login_input_password_error' | translate }}
                 </mat-error>
               </mat-form-field>
             </div>
             <div class="tarjeta__checkbox">
-              <mat-checkbox formControlName="remember">Remember me</mat-checkbox>
+              <mat-checkbox formControlName="remember">{{'login_input_remember_me' | translate }}</mat-checkbox>
             </div>
             <div class="tarjeta__button">
-              <button *ngIf="!loading" class="ui-button" type="submit">Submit</button>
+              <button *ngIf="!loading" class="ui-button" type="submit">{{'login_button_submit' | translate }}</button>
               <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
 
               <mat-error *ngIf="!loginValid">
-                Email / User name or password incorrect
+                {{'login_button_submit_error' | translate }}
               </mat-error>
             </div>
           </form>
           <div class="ui-separator-horizontal"></div>
-          <a class="ui-link" (click)="setForgetPassword(false,true)">Forgot password?</a>
+          <a class="ui-link" (click)="setForgetPassword(false,true)">{{'login_link_forgot_password' | translate }}</a>
           <!-- add margin -->
-          <a class="ui-link" style="margin-top: 8px;" (click)="signUp()">Need an account? Sign up</a>
+          <a class="ui-link" style="margin-top: 8px;" (click)="signUp()">{{'login_link_create_account' | translate }}</a>
         </div>
       </section>
 
       <section *ngIf="passwordSection" [@scaleInOut] (@scaleInOut.done)="animationDone($event, 'login')">
         <div class="ui-tarjeta">
-          <h1>Recover password</h1>
+          <h1>{{'login_recover_password_title' | translate }}</h1>
           <form [formGroup]="recoverPasswordForm" novalidate (ngSubmit)="logIn()">
             <div class="tarjeta__input">
-              <label>Contact Support to reset your password.</label>
-              <p class="texto-soporte">Phone: <a class="ui-link">0800-123-456-789</a></p>
-              <p class="texto-soporte">Email: <a class="ui-link">help@test.com</a></p>
+              <label>{{'login_recover_password_subtitle_information' | translate }}</label>
+              <p class="texto-soporte">{{'login_recover_password_subtitle_phone' | translate }}: <a class="ui-link">0800-123-456-789</a></p>
+              <p class="texto-soporte">{{'login_recover_password_subtitle_email' | translate }}: <a class="ui-link">help@test.com</a></p>
               <div class="line-container">
                 <hr>
-                <span class="line-text">OR</span>
+                <span class="line-text">{{'login_recover_password_subtitle_o' | translate }}</span>
                 <hr>
               </div>
               <mat-form-field appearance="outline">
-                <mat-label>Email or user name</mat-label>
+                <mat-label>{{'login_input_username' | translate }}</mat-label>
                 <input matInput placeholder="" formControlName="email" name="user" required>
                 <mat-error *ngIf="recoverPasswordForm.controls['email'].hasError('required')">
-                  Please enter your email or user name
+                  {{'login_input_username_error' | translate }}
                 </mat-error>
               </mat-form-field>
               <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Date of Birth</mat-label>
+                <mat-label>{{'login_recover_password_input_date_of_birth' | translate }}</mat-label>
                 <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth">
                 <mat-hint>MM/DD/YYYY</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
                 <mat-datepicker #miPicker1></mat-datepicker>
                 <mat-error *ngIf="recoverPasswordForm.controls['dateOfBirth'].hasError('required')">
-                  Please enter your date of birth
+                  {{'login_recover_password_input_date_of_birth_error' | translate }}
                 </mat-error>
                 <mat-error *ngIf="recoverPasswordForm.controls['dateOfBirth'].hasError('invalidAge')">
-                  You must be at least 18 years old
+                  {{'login_recover_password_input_date_of_birth_error_age' | translate }}
                 </mat-error>
               </mat-form-field>
             </div>
 
             <div class="tarjeta__button">
-              <button class="ui-button" type="submit">Reset</button>
+              <button class="ui-button" type="submit">{{'login_recover_password_button_reset' | translate }}</button>
             </div>
           </form>
           <div class="ui-separator-horizontal"></div>
-          <a class="ui-link" (click)="setForgetPassword(true,false)">Back to log in</a>
+          <a class="ui-link" (click)="setForgetPassword(true,false)">{{'login_recover_password_link_back' | translate }}</a>
         </div>
       </section>
     </div>

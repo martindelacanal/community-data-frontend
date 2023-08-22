@@ -1,0 +1,26 @@
+{
+  "language_en": "English",
+  "language_es": "Español",
+  "login_title": "Iniciar sesión",
+  "login_input_username": "Correo o nombre de usuario",
+  "login_input_username_error": "Por favor ingrese su correo o nombre de usuario",
+  "login_input_password": "Contraseña",
+  "login_input_password_error": "Por favor ingrese su contraseña",
+  "login_input_remember_me": "Recuérdame",
+  "login_link_forgot_password": "¿Olvidaste tu contraseña?",
+  "login_link_create_account": "¿Necesitas una cuenta? registrate",
+  "login_button_submit": "Ingresar",
+  "login_button_submit_error": "Correo / Nombre de usuario o contraseña incorrectos",
+
+  "login_recover_password_title": "Recuperar contraseña",
+  "login_recover_password_subtitle_information": "Contacta con Soporte para resetear tu contraseña.",
+  "login_recover_password_subtitle_phone": "Teléfono",
+  "login_recover_password_subtitle_email": "Correo",
+  "login_recover_password_subtitle_o": "O",
+  "login_recover_password_input_date_of_birth": "Fecha de nacimiento",
+  "login_recover_password_input_date_of_birth_error": "Por favor ingrese su fecha de nacimiento",
+  "login_recover_password_input_date_of_birth_error_age": "Debe ser mayor de 18 años",
+  "login_recover_password_button_reset": "Resetear",
+  "login_recover_password_button_reset_error": "Correo / Nombre de usuario o fecha de nacimiento incorrectos",
+  "login_recover_password_link_back": "Volver al inicio de sesión"
+}

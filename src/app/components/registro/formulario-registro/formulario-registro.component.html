@@ -2,6 +2,13 @@
   <header>
     <!-- <img src="../../../../assets/imgs/login/community_logo.png" alt="Logo principal" class="logo"> -->
     <span>Community Data</span>
+    <span class="form-inline">
+      <select class="ui-input" id="languageSelector" #selectedLang (change)="switchLang(selectedLang.value)">
+        <option *ngFor="let language of translate.getLangs()" [value]="language" [selected]="language === translate.currentLang">
+          {{ translate.instant('language_' + language) }}
+        </option>
+      </select>
+    </span>
   </header>
   <main>
     <div class="container">
@@ -73,7 +80,7 @@
                   </mat-form-field>
                   <mat-form-field appearance="outline">
                     <mat-label>ZIP code</mat-label>
-                    <input matInput formControlName="zipcode" required>
+                    <input matInput type="number" formControlName="zipcode" required matNumberInput>
                     <mat-error *ngIf="firstFormGroup.controls['zipcode'].hasError('required')">
                       Please enter the ZIP code
                     </mat-error>
@@ -125,17 +132,17 @@
                       {{input1}}
                     </mat-radio-button>
                   </mat-radio-group>
-                  <label class="radio-button-label" id="radio-button-group-label">MediCal/Covered California? <span
+                  <label *ngIf="secondFormGroup.get('input1').value === 'Yes'" class="radio-button-label" id="radio-button-group-label">MediCal/Covered California? <span
                       [ngClass]="{'required': secondFormGroup.controls['input2'].invalid}">*</span></label>
-                  <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
+                  <mat-radio-group *ngIf="secondFormGroup.get('input1').value === 'Yes'" aria-labelledby="radio-button-group-label" class="radio-button-group"
                     formControlName="input2">
                     <mat-radio-button class="radio-button" *ngFor="let input2 of input2s" [value]="input2">
                       {{input2}}
                     </mat-radio-button>
                   </mat-radio-group>
-                  <label class="radio-button-label" id="radio-button-group-label">Which health plan? <span
+                  <label *ngIf="secondFormGroup.get('input1').value === 'Yes'" class="radio-button-label" id="radio-button-group-label">Which health plan? <span
                       [ngClass]="{'required': secondFormGroup.controls['input3'].invalid}">*</span></label>
-                  <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
+                  <mat-radio-group *ngIf="secondFormGroup.get('input1').value === 'Yes'" aria-labelledby="radio-button-group-label" class="radio-button-group"
                     formControlName="input3">
                     <mat-radio-button class="radio-button" *ngFor="let input3 of input3s" [value]="input3">
                       {{input3}}
@@ -149,8 +156,15 @@
                       {{input4}}
                     </mat-radio-button>
                   </mat-radio-group>
-                  <mat-form-field appearance="outline">
-                    <mat-label>If yes, please describe the service</mat-label>
+                  <label *ngIf="secondFormGroup.get('input4').value === 'Yes'"class="radio-button-label" id="radio-button-group-label">Please select which ones <span
+                      [ngClass]="{'required': secondFormGroupInput8.status === 'INVALID'}">*</span></label>
+                  <div *ngIf="secondFormGroup.get('input4').value === 'Yes'" class="checkbox-options" formArrayName="input8">
+                    <mat-checkbox aria-labelledby="radio-button-group-label" class="checkbox-option"
+                      *ngFor="let input8 of input8s; let i = index" [value]="input8"
+                      (change)="onCheckboxChange8($event, i)">{{input8}}</mat-checkbox>
+                  </div>
+                  <mat-form-field *ngIf="secondFormGroup.get('input8').value && secondFormGroup.get('input8').value.includes('Others')" appearance="outline">
+                    <mat-label>If your answer is Others, please describe the service</mat-label>
                     <input matInput formControlName="input5" required>
                   </mat-form-field>
                   <label class="radio-button-label" id="radio-button-group-label">Need assistance with other social
@@ -161,7 +175,7 @@
                       *ngFor="let input6 of input6s; let i = index" [value]="input6"
                       (change)="onCheckboxChange($event, i)">{{input6}}</mat-checkbox>
                   </div>
-                  <mat-form-field appearance="outline">
+                  <mat-form-field *ngIf="secondFormGroup.get('input6').value && secondFormGroup.get('input6').value.includes('Others')" appearance="outline">
                     <mat-label>If your answer is Others, please describe the service</mat-label>
                     <input matInput formControlName="input7" required>
                   </mat-form-field>

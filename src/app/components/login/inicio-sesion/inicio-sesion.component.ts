@@ -6,6 +6,7 @@ import { DecodificadorService } from 'src/app/services/login/decodificador.servi
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { AnimationEvent } from '@angular/animations';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -52,12 +53,19 @@ export class InicioSesionComponent implements OnInit {
     private authService: AuthService,
     private decodificadorService: DecodificadorService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public translate: TranslateService
   ) {
+    translate.addLangs(['en', 'es']);
+    translate.setDefaultLang('en');
     this.buildLoginForm();
     this.buildRecoverPasswordForm();
     this.usuario = this.decodificadorService.getUsuario();
    }
+
+   switchLang(lang: string) {
+    this.translate.use(lang);
+  }
 
   ngOnInit() {
     if (this.usuario !== null) {

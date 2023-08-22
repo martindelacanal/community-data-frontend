@@ -1,0 +1,28 @@
+{
+  "language_en": "English",
+  "language_es": "Español",
+  "login_title": "Log in",
+  "login_input_username": "Email or user name",
+  "login_input_username_error": "Please enter your email or user name",
+  "login_input_password": "Password",
+  "login_input_password_error": "Please enter your password",
+  "login_input_remember_me": "Remember me",
+  "login_link_forgot_password": "Forgot password?",
+  "login_link_create_account": "Need an account? Sign up",
+  "login_button_submit": "Submit",
+  "login_button_submit_error": "Email / User name or password incorrect",
+
+  "login_recover_password_title": "Recover password",
+  "login_recover_password_subtitle_information": "Contact Support to reset your password.",
+  "login_recover_password_subtitle_phone": "Phone",
+  "login_recover_password_subtitle_email": "Email",
+  "login_recover_password_subtitle_o": "OR",
+  "login_recover_password_input_date_of_birth": "Date of birth",
+  "login_recover_password_input_date_of_birth_error": "Please enter your date of birth",
+  "login_recover_password_input_date_of_birth_error_age": "You must be at least 18 years old",
+  "login_recover_password_button_reset": "Reset",
+  "login_recover_password_button_reset_error": "Email / User name or date of birth incorrect",
+  "login_recover_password_link_back": "Back to log in"
+
+
+}

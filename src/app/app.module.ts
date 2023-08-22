@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { InicioSesionComponent } from './components/login/inicio-sesion/inicio-sesion.component';
 import { DashboardHomeComponent } from './components/home/dashboard-home/dashboard-home.component';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from './services/login/token-interceptor.service';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -79,6 +79,10 @@ import { NgQrScannerModule } from 'angular2-qrscanner';
 import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { HelpComponent } from './components/support/help/help.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+
 
 @NgModule({
   declarations: [
@@ -160,8 +164,14 @@ import { HelpComponent } from './components/support/help/help.component';
     NgxQRCodeModule,
     NgQrScannerModule,
     MatSelectModule,
-    MatAutocompleteModule
-
+    MatAutocompleteModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     // JWT
@@ -174,3 +184,6 @@ import { HelpComponent } from './components/support/help/help.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+export function httpTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}

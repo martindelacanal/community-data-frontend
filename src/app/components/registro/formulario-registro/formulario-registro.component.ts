@@ -3,6 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, V
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { Usuario } from 'src/app/models/login/usuario';
 import { AuthService } from 'src/app/services/login/auth.service';
@@ -29,21 +30,25 @@ export class FormularioRegistroComponent implements OnInit {
   emailExists: boolean = false;
 
   isLinear = true;
-  genders: any[] = [{id: 1, name: 'Femenine'}, {id: 2, name: 'Masculine'}, {id: 3, name: 'Other'}, {id: 4, name: 'Prefer not to say'}];
+  genders: any[] = [{ id: 1, name: 'Femenine' }, { id: 2, name: 'Masculine' }, { id: 3, name: 'Other' }, { id: 4, name: 'Prefer not to say' }];
   ethnicities: string[] = ['Hispanic/Latino', 'Black/African American', 'Asian', 'Native Hawaiian', 'American/Indian', 'Others'];
   input1s: string[] = ['Yes', 'No'];
   input2s: string[] = ['Yes', 'No'];
   input3s: string[] = ['IEHP', 'Health Net', 'Kaiser', 'Molina', 'Other'];
   input4s: string[] = ['Yes', 'No'];
   input6s: string[] = ['Education-Training', 'Housing', 'Immigration', 'Legal', 'Taxes', 'Others'];
+  input8s: string[] = ['Primary care', 'Dental care', 'Laboratory and diagnostic care', 'Prenatal care', 'Pharmaceutical care', 'Chronic conditions care (i.e. diabetes, high blood pressure, etc.)', 'Nutritional support', 'Physical and occupational therapy', 'Mental health care', 'Substance abuse treatment','Others'];
 
   constructor(
     private decodificadorService: DecodificadorService,
     private router: Router,
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public translate: TranslateService
   ) {
+    translate.addLangs(['en', 'es']);
+    translate.setDefaultLang('en');
     this.buildForm();
     this.buildFirstFormGroup();
     this.buildSecondFormGroup();
@@ -51,26 +56,31 @@ export class FormularioRegistroComponent implements OnInit {
     this.usuario = this.decodificadorService.getUsuario();
   }
 
+  switchLang(lang: string) {
+    this.translate.use(lang);
+  }
+
   ngOnInit() {
     if (this.usuario !== null) {
       this.redireccionar();
     }
     const input6Array = this.secondFormGroup.get('input6') as FormArray;
+    const input8Array = this.secondFormGroup.get('input8') as FormArray;
     // this.input6s.forEach(() => input6Array.push(this.formBuilder.control(false)));
     this.firstFormGroup.get('username').valueChanges
-        .pipe(debounceTime(300))
-        .subscribe(
-          (res) => {
-            this.updateUserNameExists(res);
-          }
-        );
+      .pipe(debounceTime(300))
+      .subscribe(
+        (res) => {
+          this.updateUserNameExists(res);
+        }
+      );
     this.firstFormGroup.get('email').valueChanges
-        .pipe(debounceTime(300))
-        .subscribe(
-          (res) => {
-            this.updateEmailExists(res);
-          }
-        );
+      .pipe(debounceTime(300))
+      .subscribe(
+        (res) => {
+          this.updateEmailExists(res);
+        }
+      );
   }
 
   logIn() {
@@ -95,6 +105,15 @@ export class FormularioRegistroComponent implements OnInit {
     }
   }
 
+  onCheckboxChange8(event: MatCheckboxChange, index: number) {
+    const input8Array = this.secondFormGroup.get('input8') as FormArray;
+    if (event.checked) {
+      input8Array.push(this.formBuilder.control(this.input8s[index]));
+    } else {
+      input8Array.removeAt(index);
+    }
+  }
+
   onSubmit(): void {
     if (this.combinedFormGroup.valid) {
       this.firstFormGroup.value.dateOfBirth = new Date(this.firstFormGroup.value.dateOfBirth).toISOString().slice(0, 19).replace('T', ' ');
@@ -116,7 +135,7 @@ export class FormularioRegistroComponent implements OnInit {
     }
   }
 
-  private updateUserNameExists(nombre: string){
+  private updateUserNameExists(nombre: string) {
     this.authService.getUserNameExists(nombre).subscribe(
       (res) => {
         if (res) {
@@ -129,7 +148,7 @@ export class FormularioRegistroComponent implements OnInit {
     );
   }
 
-  private updateEmailExists(nombre: string){
+  private updateEmailExists(nombre: string) {
     this.authService.getEmailExists(nombre).subscribe(
       (res) => {
         if (res) {
@@ -161,7 +180,7 @@ export class FormularioRegistroComponent implements OnInit {
       firstName: [null, Validators.required],
       lastName: [null, Validators.required],
       dateOfBirth: [null, [Validators.required, this.validateAge]],
-      email: [null,  [() => this.validateEmail()]],
+      email: [null, [() => this.validateEmail()]],
       phone: [null, Validators.required],
       zipcode: [null],
       householdSize: [null, Validators.required],
@@ -193,6 +212,22 @@ export class FormularioRegistroComponent implements OnInit {
       input5: [null, Validators.required],
       input6: this.formBuilder.array([], [Validators.required]),
       input7: [null, Validators.required],
+      input8: this.formBuilder.array([], [Validators.required]),
+    });
+
+    this.secondFormGroup.get('input1').valueChanges.subscribe(value => {
+      if (value === 'Yes') {
+        // Si el valor es 'Yes', agregar el validador 'Validators.required' al campo 'input2' y 'input3'
+        this.secondFormGroup.get('input2').setValidators(Validators.required);
+        this.secondFormGroup.get('input3').setValidators(Validators.required);
+      } else {
+        // De lo contrario, eliminar el validador
+        this.secondFormGroup.get('input2').clearValidators();
+        this.secondFormGroup.get('input3').clearValidators();
+      }
+      // Actualizar el estado del campo 'input2' y 'input3'
+      this.secondFormGroup.get('input2').updateValueAndValidity();
+      this.secondFormGroup.get('input3').updateValueAndValidity();
     });
   }
 
@@ -234,6 +269,14 @@ export class FormularioRegistroComponent implements OnInit {
 
   get secondFormGroupInput6() {
     return this.secondFormGroup.get('input6') as FormArray;
+  }
+  get selectedOptions8() {
+    const input8Array = this.secondFormGroup.get('input8') as FormArray;
+    return input8Array.controls.filter((control) => control.value === true).map((control) => control.value);
+  }
+
+  get secondFormGroupInput8() {
+    return this.secondFormGroup.get('input8') as FormArray;
   }
 
 
