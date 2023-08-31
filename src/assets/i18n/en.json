@@ -3,9 +3,9 @@
   "language_es": "Español",
   "login_title": "Log in",
   "login_input_username": "Email or user name",
-  "login_input_username_error": "Please enter your email or user name",
+  "login_input_username_error_please": "Please enter your email or user name",
   "login_input_password": "Password",
-  "login_input_password_error": "Please enter your password",
+  "login_input_password_error_please": "Please enter your password",
   "login_input_remember_me": "Remember me",
   "login_link_forgot_password": "Forgot password?",
   "login_link_create_account": "Need an account? Sign up",
@@ -18,11 +18,55 @@
   "login_recover_password_subtitle_email": "Email",
   "login_recover_password_subtitle_o": "OR",
   "login_recover_password_input_date_of_birth": "Date of birth",
-  "login_recover_password_input_date_of_birth_error": "Please enter your date of birth",
+  "login_recover_password_input_date_of_birth_format": "MM/DD/YYYY",
+  "login_recover_password_input_date_of_birth_error_please": "Please enter your date of birth",
   "login_recover_password_input_date_of_birth_error_age": "You must be at least 18 years old",
   "login_recover_password_button_reset": "Reset",
   "login_recover_password_button_reset_error": "Email / User name or date of birth incorrect",
-  "login_recover_password_link_back": "Back to log in"
+  "login_recover_password_link_back": "Back to log in",
+
+  "register_title": "Sign up",
+  "register_first_tab_title": "Contact & Personal information",
+  "register_first_tab_input_user_name": "Create user name",
+  "register_first_tab_input_user_name_error_exists": "User name already exists, choose another one",
+  "register_first_tab_input_user_name_error_please": "Please create user name",
+  "register_first_tab_input_password": "Create password",
+  "register_first_tab_input_password_error_please": "Please create password",
+  "register_first_tab_input_first_name": "First name",
+  "register_first_tab_input_first_name_error_please": "Please enter your first name",
+  "register_first_tab_input_last_name": "Last name",
+  "register_first_tab_input_last_name_error_please": "Please enter your last name",
+  "register_first_tab_input_email_address": "Email address",
+  "register_first_tab_input_email_address_error_exists": "Email already exists, choose another one",
+  "register_first_tab_input_phone": "Phone number",
+  "register_first_tab_input_phone_error_please": "Please enter your phone number",
+  "register_first_tab_input_zip_code": "ZIP code",
+  "register_first_tab_input_zip_code_error_please": "Please enter the ZIP code",
+  "register_first_tab_input_household_size": "Household size",
+  "register_first_tab_input_household_size_error_please": "Please enter the household size",
+  "register_first_tab_input_gender": "Pick your gender",
+  "register_first_tab_input_gender_error_please": "Please pick your gender",
+  "register_first_tab_input_ethnicity": "Pick your ethnicity",
+  "register_first_tab_input_ethnicity_error_please": "Please pick your ethnicity",
+  "register_first_tab_input_others": "Others",
+  "register_first_tab_input_others_error_please": "Please specify others",
+  "register_first_tab_button_next": "Next",
+  "register_second_tab_title": "Health Insurance & Assistance information",
+
+
+
+
+
+  "register_link_already_account": "Already have an account? Sign in",
+
+
+
+
+
+
+
+
+  "ultimo": "ultimo"
 
 
 }

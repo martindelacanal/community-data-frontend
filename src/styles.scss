@@ -59,6 +59,13 @@ html {
   color: var(--texto-secundario);
 }
 
+p {
+  font-size: 1.4rem;
+}
+span {
+  font-size: 1.4rem;
+}
+
 ::-webkit-scrollbar {
   /* Set the width and height of the scrollbar */
   width: 10px;

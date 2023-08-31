@@ -14,85 +14,85 @@
     <div class="container">
       <section>
         <div class="ui-tarjeta">
-          <h1>Sign up</h1>
+          <h1>{{'register_title' | translate }}</h1>
           <mat-stepper [linear]="isLinear" #stepper>
             <mat-step [stepControl]="firstFormGroup">
               <form [formGroup]="firstFormGroup">
-                <ng-template matStepLabel>Contact & Personal information</ng-template>
+                <ng-template matStepLabel>{{'register_first_tab_title' | translate }}</ng-template>
                 <div class="tarjeta__input">
                   <mat-form-field appearance="outline">
-                    <mat-label>Create user name</mat-label>
+                    <mat-label>{{'register_first_tab_input_user_name' | translate }}</mat-label>
                     <input matInput formControlName="username" type="username" required>
                     <mat-error *ngIf="firstFormGroup.controls['username'].hasError('invalidUsername')">
-                      User name already exists, choose another one
+                      {{'register_first_tab_input_user_name_error_exists' | translate }}
                     </mat-error>
                     <mat-error *ngIf="firstFormGroup.controls['username'].hasError('required')">
-                      Please create user name
+                      {{'register_first_tab_input_user_name_error_please' | translate }}
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label>Create password</mat-label>
+                    <mat-label>{{'register_first_tab_input_password' | translate }}</mat-label>
                     <input matInput formControlName="password" type="password" required>
                     <mat-error *ngIf="firstFormGroup.controls['password'].hasError('required')">
-                      Please create password
+                      {{'register_first_tab_input_password_error_please' | translate }}
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label>First name</mat-label>
+                    <mat-label>{{'register_first_tab_input_first_name' | translate }}</mat-label>
                     <input matInput formControlName="firstName" required>
                     <mat-error *ngIf="firstFormGroup.controls['firstName'].hasError('required')">
-                      Please enter your first name
+                      {{'register_first_tab_input_first_name_error_please' | translate }}
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label>Last name</mat-label>
+                    <mat-label>{{'register_first_tab_input_last_name' | translate }}</mat-label>
                     <input matInput formControlName="lastName" required>
                     <mat-error *ngIf="firstFormGroup.controls['lastName'].hasError('required')">
-                      Please enter your last name
+                      {{'register_first_tab_input_last_name_error_please' | translate }}
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Date of Birth</mat-label>
+                    <mat-label>{{'login_recover_password_input_date_of_birth' | translate }}</mat-label>
                     <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
                     <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
                     <mat-datepicker #miPicker1></mat-datepicker>
                     <mat-error *ngIf="firstFormGroup.controls['dateOfBirth'].hasError('required')">
-                      Please enter your date of birth
+                      {{'login_recover_password_input_date_of_birth_error_please' | translate }}
                     </mat-error>
                     <mat-error *ngIf="firstFormGroup.controls['dateOfBirth'].hasError('invalidAge')">
-                      You must be at least 18 years old
+                      {{'login_recover_password_input_date_of_birth_error_age' | translate }}
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label>Email address</mat-label>
+                    <mat-label>{{'register_first_tab_input_email_address' | translate }}</mat-label>
                     <input matInput formControlName="email" type="email">
                     <mat-error *ngIf="firstFormGroup.controls['email'].hasError('invalidEmail')">
-                      Email already exists, choose another one
+                      {{'register_first_tab_input_email_address_error_exists' | translate }}
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label>Phone number</mat-label>
+                    <mat-label>{{'register_first_tab_input_phone' | translate }}</mat-label>
                     <input matInput type="number" formControlName="phone" required matNumberInput>
                     <mat-error *ngIf="firstFormGroup.controls['phone'].hasError('required')">
-                      Please enter your phone number
+                      {{'register_first_tab_input_phone_error_please' | translate }}
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label>ZIP code</mat-label>
+                    <mat-label>{{'register_first_tab_input_zip_code' | translate }}</mat-label>
                     <input matInput type="number" formControlName="zipcode" required matNumberInput>
                     <mat-error *ngIf="firstFormGroup.controls['zipcode'].hasError('required')">
-                      Please enter the ZIP code
+                      {{'register_first_tab_input_zip_code_error_please' | translate }}
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label>Household size</mat-label>
+                    <mat-label>{{'register_first_tab_input_household_size' | translate }}</mat-label>
                     <input matInput type="number" formControlName="householdSize" required matNumberInput>
                     <mat-error *ngIf="firstFormGroup.controls['householdSize'].hasError('required')">
-                      Please enter the household size
+                      {{'register_first_tab_input_household_size_error_please' | translate }}
                     </mat-error>
                   </mat-form-field>
-                  <label class="radio-button-label" id="radio-button-group-label">Pick your gender <span
+                  <label class="radio-button-label" id="radio-button-group-label">{{'register_first_tab_input_gender' | translate }} <span
                       [ngClass]="{'required': firstFormGroup.controls['gender'].invalid}">*</span></label>
                   <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
                     formControlName="gender">
@@ -100,29 +100,30 @@
                       {{gender.name}}
                     </mat-radio-button>
                   </mat-radio-group>
-                  <label class="radio-button-label" id="radio-button-group-label">Pick your ethnicity <span
+                  <label class="radio-button-label" id="radio-button-group-label">{{'register_first_tab_input_ethnicity' | translate }} <span
                       [ngClass]="{'required': firstFormGroup.controls['ethnicity'].invalid}">*</span></label>
                   <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
                     formControlName="ethnicity">
-                    <mat-radio-button class="radio-button" *ngFor="let ethnicity of ethnicities" [value]="ethnicity">
-                      {{ethnicity}}
+                    <mat-radio-button class="radio-button" *ngFor="let ethnicity of ethnicities" [value]="ethnicity.id">
+                      {{ethnicity.name}}
                     </mat-radio-button>
                   </mat-radio-group>
-                  <mat-form-field appearance="outline" *ngIf="firstFormGroup.get('ethnicity').value === 'Others'">
-                    <mat-label>If Others, please specify</mat-label>
+                  <mat-form-field appearance="outline" *ngIf="otroEthnicity && otroEthnicity.id === firstFormGroup.get('ethnicity').value">
+                    <mat-label>{{'register_first_tab_input_others' | translate }}</mat-label>
                     <input matInput formControlName="otherEthnicity" required>
                     <mat-error *ngIf="firstFormGroup.controls['otherEthnicity'].hasError('required')">
-                      Please enter others
+                      {{'register_first_tab_input_others_error_please' | translate }}
                     </mat-error>
                   </mat-form-field>
                 </div>
                 <div class="botones-stepper">
-                  <button class="ui-button next" matStepperNext [disabled]="!firstFormGroup.valid">Next</button>
+                  <button class="ui-button next" matStepperNext [disabled]="!firstFormGroup.valid">{{'register_first_tab_button_next' | translate }}</button>
                 </div>
               </form>
             </mat-step>
-            <mat-step [stepControl]="secondFormGroup" label="Health Insurance & Assistance information">
+            <mat-step [stepControl]="secondFormGroup">
               <form [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>{{'register_second_tab_title' | translate }}</ng-template>
                 <div class="tarjeta__input">
                   <label class="radio-button-label" id="radio-button-group-label">Health Insurance? <span
                       [ngClass]="{'required': secondFormGroup.controls['input1'].invalid}">*</span></label>
@@ -188,7 +189,7 @@
             </mat-step>
           </mat-stepper>
           <div class="ui-separator-horizontal"></div>
-          <a class="ui-link" (click)="setForgetPassword(false,true)">Already have an account? Sign in</a>
+          <a class="ui-link" (click)="setForgetPassword(false,true)">{{'register_link_already_account' | translate }}</a>
         </div>
       </section>
     </div>

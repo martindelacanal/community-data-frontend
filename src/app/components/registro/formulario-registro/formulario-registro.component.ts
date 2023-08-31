@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { Usuario } from 'src/app/models/login/usuario';
+import { Ethnicity } from 'src/app/models/user/ethnicity';
+import { Gender } from 'src/app/models/user/gender';
 import { AuthService } from 'src/app/services/login/auth.service';
 import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 
@@ -30,14 +32,15 @@ export class FormularioRegistroComponent implements OnInit {
   emailExists: boolean = false;
 
   isLinear = true;
-  genders: any[] = [{ id: 1, name: 'Femenine' }, { id: 2, name: 'Masculine' }, { id: 3, name: 'Other' }, { id: 4, name: 'Prefer not to say' }];
-  ethnicities: string[] = ['Hispanic/Latino', 'Black/African American', 'Asian', 'Native Hawaiian', 'American/Indian', 'Others'];
+  genders: Gender[];
+  ethnicities: Ethnicity[];
+  otroEthnicity: Ethnicity;
   input1s: string[] = ['Yes', 'No'];
   input2s: string[] = ['Yes', 'No'];
   input3s: string[] = ['IEHP', 'Health Net', 'Kaiser', 'Molina', 'Other'];
   input4s: string[] = ['Yes', 'No'];
   input6s: string[] = ['Education-Training', 'Housing', 'Immigration', 'Legal', 'Taxes', 'Others'];
-  input8s: string[] = ['Primary care', 'Dental care', 'Laboratory and diagnostic care', 'Prenatal care', 'Pharmaceutical care', 'Chronic conditions care (i.e. diabetes, high blood pressure, etc.)', 'Nutritional support', 'Physical and occupational therapy', 'Mental health care', 'Substance abuse treatment','Others'];
+  input8s: string[] = ['Primary care', 'Dental care', 'Laboratory and diagnostic care', 'Prenatal care', 'Pharmaceutical care', 'Chronic conditions care (i.e. diabetes, high blood pressure, etc.)', 'Nutritional support', 'Physical and occupational therapy', 'Mental health care', 'Substance abuse treatment', 'Others'];
 
   constructor(
     private decodificadorService: DecodificadorService,
@@ -47,17 +50,23 @@ export class FormularioRegistroComponent implements OnInit {
     private snackBar: MatSnackBar,
     public translate: TranslateService
   ) {
+    this.genders = [];
+    this.ethnicities = [];
     translate.addLangs(['en', 'es']);
     translate.setDefaultLang('en');
+    translate.use(localStorage.getItem('language') || 'en');
+    this.usuario = this.decodificadorService.getUsuario();
+
     this.buildForm();
     this.buildFirstFormGroup();
     this.buildSecondFormGroup();
     this.buildCombinedFormGroup();
-    this.usuario = this.decodificadorService.getUsuario();
   }
 
   switchLang(lang: string) {
     this.translate.use(lang);
+    // save in local storage
+    localStorage.setItem('language', lang);
   }
 
   ngOnInit() {
@@ -81,6 +90,19 @@ export class FormularioRegistroComponent implements OnInit {
           this.updateEmailExists(res);
         }
       );
+
+
+    this.getGender(this.translate.currentLang);
+    this.getEthnicity(this.translate.currentLang);
+
+    this.translate.onLangChange.subscribe(() => {
+      this.genders = [];
+      this.ethnicities = [];
+      this.getGender(this.translate.currentLang);
+      this.getEthnicity(this.translate.currentLang);
+    });
+
+
   }
 
   logIn() {
@@ -134,6 +156,29 @@ export class FormularioRegistroComponent implements OnInit {
       this.openSnackBar('Please fill out all required fields.');
     }
   }
+
+private getGender(language: string, id?: number) {
+  this.authService.getGender(language, id).subscribe({
+    next: (res) => {
+      this.genders = res;
+    },
+    error: (error) => {
+      console.error(error);
+    }
+  });
+}
+
+private getEthnicity(language: string, id?: number) {
+  this.authService.getEthnicity(language, id).subscribe({
+    next: (res) => {
+      this.ethnicities = res;
+      this.otroEthnicity = this.ethnicities.find(e => e.name === 'Otros' || e.name === 'Others' || e.name === 'Otro' || e.name === 'Other');
+    },
+    error: (error) => {
+      console.error(error);
+    }
+  });
+}
 
   private updateUserNameExists(nombre: string) {
     this.authService.getUserNameExists(nombre).subscribe(
@@ -191,7 +236,7 @@ export class FormularioRegistroComponent implements OnInit {
 
     // Agregar un observador al campo 'ethnicity'
     this.firstFormGroup.get('ethnicity').valueChanges.subscribe(value => {
-      if (value === 'Others') {
+      if (this.otroEthnicity && value === this.otroEthnicity.id) {
         // Si el valor es 'Others', agregar el validador 'Validators.required' al campo 'otherEthnicity'
         this.firstFormGroup.get('otherEthnicity').setValidators(Validators.required);
       } else {

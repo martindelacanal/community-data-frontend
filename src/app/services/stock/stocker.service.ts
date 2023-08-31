@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Location } from 'src/app/models/mapa/location';
 import { Product } from 'src/app/models/stocker/product';
+import { Provider } from 'src/app/models/stocker/provider';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -19,6 +20,10 @@ export class StockerService {
 
   getLocations(){
     return this.http.get<Location[]>(`${environment.url_api}/locations`);
+  }
+
+  getProviders(){
+    return this.http.get<Provider[]>(`${environment.url_api}/providers`);
   }
 
   getProducts(){

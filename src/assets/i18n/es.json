@@ -3,9 +3,9 @@
   "language_es": "Español",
   "login_title": "Iniciar sesión",
   "login_input_username": "Correo o nombre de usuario",
-  "login_input_username_error": "Por favor ingrese su correo o nombre de usuario",
+  "login_input_username_error_please": "Por favor ingrese su correo o nombre de usuario",
   "login_input_password": "Contraseña",
-  "login_input_password_error": "Por favor ingrese su contraseña",
+  "login_input_password_error_please": "Por favor ingrese su contraseña",
   "login_input_remember_me": "Recuérdame",
   "login_link_forgot_password": "¿Olvidaste tu contraseña?",
   "login_link_create_account": "¿Necesitas una cuenta? registrate",
@@ -18,9 +18,49 @@
   "login_recover_password_subtitle_email": "Correo",
   "login_recover_password_subtitle_o": "O",
   "login_recover_password_input_date_of_birth": "Fecha de nacimiento",
-  "login_recover_password_input_date_of_birth_error": "Por favor ingrese su fecha de nacimiento",
+  "login_recover_password_input_date_of_birth_format": "MM/DD/AAAA",
+  "login_recover_password_input_date_of_birth_error_please": "Por favor ingrese su fecha de nacimiento",
   "login_recover_password_input_date_of_birth_error_age": "Debe ser mayor de 18 años",
   "login_recover_password_button_reset": "Resetear",
   "login_recover_password_button_reset_error": "Correo / Nombre de usuario o fecha de nacimiento incorrectos",
-  "login_recover_password_link_back": "Volver al inicio de sesión"
+  "login_recover_password_link_back": "Volver al inicio de sesión",
+
+  "register_title": "Registro",
+  "register_first_tab_title": "Información personal y contacto",
+  "register_first_tab_input_user_name": "Crea un nombre de usuario",
+  "register_first_tab_input_user_name_error_exists": "El nombre de usuario ya existe, elige otro",
+  "register_first_tab_input_user_name_error_please": "Por favor ingrese un nombre de usuario",
+  "register_first_tab_input_password": "Crea una contraseña",
+  "register_first_tab_input_password_error_please": "Por favor ingrese una contraseña",
+  "register_first_tab_input_first_name": "Nombre",
+  "register_first_tab_input_first_name_error_please": "Por favor ingrese su nombre",
+  "register_first_tab_input_last_name": "Apellido",
+  "register_first_tab_input_last_name_error_please": "Por favor ingrese su apellido",
+  "register_first_tab_input_email_address": "Correo electrónico",
+  "register_first_tab_input_email_address_error_exists": "El correo electrónico ya existe, elige otro",
+  "register_first_tab_input_phone": "Teléfono",
+  "register_first_tab_input_phone_error_please": "Por favor ingrese su teléfono",
+  "register_first_tab_input_zip_code": "Código postal",
+  "register_first_tab_input_zip_code_error_please": "Por favor ingrese el código postal",
+  "register_first_tab_input_household_size": "Miembros en su familia",
+  "register_first_tab_input_household_size_error_please": "Por favor ingrese el número de miembros en su familia",
+  "register_first_tab_input_gender": "Elija su género",
+  "register_first_tab_input_gender_error_please": "Por favor elija su género",
+  "register_first_tab_input_ethnicity": "Elija su etnia",
+  "register_first_tab_input_ethnicity_error_please": "Por favor elija su etnia",
+  "register_first_tab_input_others": "Otros",
+  "register_first_tab_input_others_error_please": "Por favor especifique otros",
+  "register_first_tab_button_next": "Siguiente",
+  "register_second_tab_title": "Información de asistencia y seguro médico",
+
+
+  "register_link_already_account": "¿Ya tienes una cuenta? Inicia sesión",
+
+
+
+
+
+
+
+  "ultimo": "ultimo"
 }

@@ -5,7 +5,7 @@ header {
   height: auto;
   background-color: var(--texto-primario);
   position: fixed;
-  z-index: 9998;
+  z-index: 8;
 }
 
 header>div {
@@ -62,7 +62,7 @@ header #logo {
 }
 
 .container nav {
-  z-index: 9998;
+  z-index: 8;
 
   & ul {
     list-style: none;
@@ -168,7 +168,7 @@ li:hover {
   width: 200px;
   padding: 8px;
   font-size: 1.2rem;
-  z-index: 9999;
+  z-index: 9;
 }
 
 .opciones-perfil .ui-tarjeta ul {
@@ -194,7 +194,7 @@ li:hover {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.25);
-  z-index: 9997;
+  z-index: 7;
 }
 
 .container__componente-renderizado {

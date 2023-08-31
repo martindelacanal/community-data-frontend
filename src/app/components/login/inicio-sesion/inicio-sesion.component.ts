@@ -7,6 +7,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { AnimationEvent } from '@angular/animations';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -42,6 +43,7 @@ export class InicioSesionComponent implements OnInit {
   // variable
   private usuario: Usuario;
   public loginValid: boolean = true;
+  public resetValid: boolean = true;
   public loading: boolean = false;
   public loginSection: boolean = true;
   public passwordSection: boolean = false;
@@ -54,17 +56,21 @@ export class InicioSesionComponent implements OnInit {
     private decodificadorService: DecodificadorService,
     private router: Router,
     private formBuilder: FormBuilder,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private snackBar: MatSnackBar,
   ) {
     translate.addLangs(['en', 'es']);
     translate.setDefaultLang('en');
+    translate.use(localStorage.getItem('language') || 'en');
     this.buildLoginForm();
     this.buildRecoverPasswordForm();
     this.usuario = this.decodificadorService.getUsuario();
-   }
+  }
 
-   switchLang(lang: string) {
+  switchLang(lang: string) {
     this.translate.use(lang);
+    // save in local storage
+    localStorage.setItem('language', lang);
   }
 
   ngOnInit() {
@@ -73,23 +79,23 @@ export class InicioSesionComponent implements OnInit {
     }
   }
 
-  logIn(){
+  logIn() {
     if (this.loginForm.valid) {
       this.loading = true;
-      console.log("this.loginForm.value: ", this.loginForm.value);
       this.authService.signin(this.loginForm.value).subscribe(
-        (res:any) => {
-                console.log("la respuesta fue: ", res);
-                if(res!=null){
-                  localStorage.setItem('token',res.token);
-                  this.redireccionar();
-                }else{
-                  this.loginValid = false;
-                }
-                this.loading = false;
-                this.authService.login();
+        (res: any) => {
+          if (res != null) {
+            localStorage.setItem('token', res.token);
+            localStorage.setItem('reset_password', res.reset_password);
+
+            this.redireccionar();
+          } else {
+            this.loginValid = false;
+          }
+          this.loading = false;
+          this.authService.login();
         },
-        (err:any) => {
+        (err: any) => {
           this.loginValid = false;
           this.loading = false;
         })
@@ -99,9 +105,35 @@ export class InicioSesionComponent implements OnInit {
     }
   }
 
-  redireccionar(){
+  onSubmitResetPassword() {
+    if (this.recoverPasswordForm.valid) {
+      this.loading = true;
+      this.recoverPasswordForm.value.dateOfBirth = new Date(this.recoverPasswordForm.value.dateOfBirth).toISOString().slice(0, 10).replace('T', ' ');
+      console.log(this.recoverPasswordForm.value);
+      this.authService.resetPassword(this.recoverPasswordForm.value).subscribe({
+        next: (res) => {
+          if (res != null) {
+            this.openSnackBar('Your new password is: ' + res.password);
+            this.resetearFormulario();
+          } else {
+            this.resetValid = false;
+          }
+          this.loading = false;
+        },
+        error: (error) => {
+          this.resetValid = false;
+          this.loading = false;
+        }
+      });
+    } else {
+      this.submitted = true;
+      this.loginForm.markAllAsTouched();
+    }
+  }
+
+  redireccionar() {
     // create switch
-    switch(this.decodificadorService.getRol()){
+    switch (this.decodificadorService.getRol()) {
       case 'admin':
         this.router.navigate(['home']);
         break;
@@ -120,15 +152,17 @@ export class InicioSesionComponent implements OnInit {
     }
   }
 
-  signUp(){
+
+
+  signUp() {
     this.router.navigate(['register']);
   }
 
-  setForgetPassword(login:boolean, password: boolean){
-    if(!login){
+  setForgetPassword(login: boolean, password: boolean) {
+    if (!login) {
       this.loginSection = login;
-    }else{
-      if(!password){
+    } else {
+      if (!password) {
         this.passwordSection = password;
       }
     }
@@ -136,14 +170,24 @@ export class InicioSesionComponent implements OnInit {
 
   animationDone(event: AnimationEvent, componente: string) {
     if (event.toState === 'void') {
-      if(componente === 'login'){
+      if (componente === 'login') {
         this.loginSection = true;
-      }else{
-        if(componente === 'password'){
+      } else {
+        if (componente === 'password') {
           this.passwordSection = true;
         }
       }
     }
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Close');
+  }
+
+
+
+  private resetearFormulario() {
+    this.router.navigate(['/login']);
   }
 
   private buildLoginForm(): void {
@@ -156,7 +200,7 @@ export class InicioSesionComponent implements OnInit {
 
   private buildRecoverPasswordForm(): void {
     this.recoverPasswordForm = this.formBuilder.group({
-      email: [null,  Validators.required],
+      email: [null, Validators.required],
       dateOfBirth: [null, [Validators.required, this.validateAge]]
     });
   }

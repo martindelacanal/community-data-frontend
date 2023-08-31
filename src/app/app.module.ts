@@ -81,6 +81,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { HelpComponent } from './components/support/help/help.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ResetPasswordComponent } from './components/dialog/reset-password/reset-password.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 
@@ -128,7 +130,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
    BeneficiaryHomeComponent,
    StockerHomeComponent,
    DeliveryHomeComponent,
-   HelpComponent
+   HelpComponent,
+   ResetPasswordComponent
 
   ],
   imports: [
@@ -165,6 +168,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     NgQrScannerModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatDialogModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

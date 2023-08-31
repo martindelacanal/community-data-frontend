@@ -21,14 +21,14 @@
                 <mat-label>{{'login_input_username' | translate }}</mat-label>
                 <input matInput placeholder="" formControlName="email" name="user" required>
                 <mat-error *ngIf="loginForm.controls['email'].hasError('required')">
-                  {{'login_input_username_error' | translate }}
+                  {{'login_input_username_error_please' | translate }}
                 </mat-error>
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>{{'login_input_password' | translate }}</mat-label>
                 <input matInput type="password" placeholder="" formControlName="password" name="password" required>
                 <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
-                  {{'login_input_password_error' | translate }}
+                  {{'login_input_password_error_please' | translate }}
                 </mat-error>
               </mat-form-field>
             </div>
@@ -54,11 +54,11 @@
       <section *ngIf="passwordSection" [@scaleInOut] (@scaleInOut.done)="animationDone($event, 'login')">
         <div class="ui-tarjeta">
           <h1>{{'login_recover_password_title' | translate }}</h1>
-          <form [formGroup]="recoverPasswordForm" novalidate (ngSubmit)="logIn()">
+          <form [formGroup]="recoverPasswordForm" novalidate (ngSubmit)="onSubmitResetPassword()">
             <div class="tarjeta__input">
               <label>{{'login_recover_password_subtitle_information' | translate }}</label>
-              <p class="texto-soporte">{{'login_recover_password_subtitle_phone' | translate }}: <a class="ui-link">0800-123-456-789</a></p>
-              <p class="texto-soporte">{{'login_recover_password_subtitle_email' | translate }}: <a class="ui-link">help@test.com</a></p>
+              <!-- <p class="texto-soporte">{{'login_recover_password_subtitle_phone' | translate }}: <a class="ui-link">0800-123-456-789</a></p>
+              <p class="texto-soporte">{{'login_recover_password_subtitle_email' | translate }}: <a class="ui-link">help@test.com</a></p> -->
               <div class="line-container">
                 <hr>
                 <span class="line-text">{{'login_recover_password_subtitle_o' | translate }}</span>
@@ -68,17 +68,17 @@
                 <mat-label>{{'login_input_username' | translate }}</mat-label>
                 <input matInput placeholder="" formControlName="email" name="user" required>
                 <mat-error *ngIf="recoverPasswordForm.controls['email'].hasError('required')">
-                  {{'login_input_username_error' | translate }}
+                  {{'login_input_username_error_please' | translate }}
                 </mat-error>
               </mat-form-field>
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>{{'login_recover_password_input_date_of_birth' | translate }}</mat-label>
                 <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth">
-                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
                 <mat-datepicker #miPicker1></mat-datepicker>
                 <mat-error *ngIf="recoverPasswordForm.controls['dateOfBirth'].hasError('required')">
-                  {{'login_recover_password_input_date_of_birth_error' | translate }}
+                  {{'login_recover_password_input_date_of_birth_error_please' | translate }}
                 </mat-error>
                 <mat-error *ngIf="recoverPasswordForm.controls['dateOfBirth'].hasError('invalidAge')">
                   {{'login_recover_password_input_date_of_birth_error_age' | translate }}

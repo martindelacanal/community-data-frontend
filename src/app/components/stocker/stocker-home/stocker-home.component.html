@@ -29,13 +29,18 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <!-- customer -->
+          <!-- provider -->
           <div class="card">
             <mat-form-field appearance="outline">
-              <mat-label>Customer</mat-label>
-              <input matInput formControlName="customer" required>
-              <mat-error *ngIf="stockForm.controls['customer'].hasError('required')">
-                Please enter a customer
+              <mat-label>Provider</mat-label>
+              <input matInput formControlName="provider" required [matAutocomplete]="autoProvider" >
+              <mat-autocomplete #autoProvider="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptionsProvider | async" [value]="option">
+                  {{ option }}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="stockForm.controls['provider'].hasError('required')">
+                Please enter a provider
               </mat-error>
             </mat-form-field>
           </div>
@@ -53,22 +58,12 @@
               </mat-error>
             </mat-form-field>
           </div>
-          <!-- address -->
-          <div class="card">
-            <mat-form-field appearance="outline">
-              <mat-label>Address</mat-label>
-              <input matInput formControlName="address" required>
-              <mat-error *ngIf="stockForm.controls['address'].hasError('required')">
-                Please enter an address
-              </mat-error>
-            </mat-form-field>
-          </div>
           <!-- date -->
           <div class="card">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Date</mat-label>
               <input matInput [matDatepicker]="miPicker1" formControlName="date">
-              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
               <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
               <mat-datepicker #miPicker1></mat-datepicker>
               <mat-error *ngIf="stockForm.controls['date'].hasError('required')">
@@ -103,16 +98,25 @@
 
           <!-- products -->
           <div class="card">
-            <div>
-              <button mat-icon-button type="button" matTooltip="Add product" matTooltipPosition="above"
-                (click)="agregarCampo()">
+            <div class="card__add_products">
+              <button class="card__add_products--button" mat-icon-button type="button" matTooltip="Add product"
+                matTooltipPosition="above" (click)="agregarCampo()">
                 <mat-icon>add</mat-icon>
               </button>
-              <button mat-icon-button type="button" matTooltip="Remove product" matTooltipPosition="above"
-                [disabled]="productsForm.controls.length < 1" (click)="quitarCampo()">
+              <button class="card__add_products--button" mat-icon-button type="button" matTooltip="Remove product"
+                matTooltipPosition="above" [disabled]="productsForm.controls.length < 1" (click)="quitarCampo()">
                 <mat-icon>remove</mat-icon>
               </button>
+              <mat-form-field appearance="outline">
+                <mat-label>Number of fields (optional)</mat-label>
+                <input matInput type="number" matNumberInput min="0" [(ngModel)]="numberOfFields"
+                  [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <button class="ui-button--ui-secundario" type="button" (click)="onNumberOfFieldsChange()">{{this.productsForm.length > 0 ? 'Modify' : 'Create'}}</button>
             </div>
+            <p *ngIf="this.productsForm.length > 0">If you need to create a product, write it in the format "Name - Class (x lbs)"</p>
+          </div>
+          <div class="card">
             <div formArrayName="products" *ngFor="let products of productsForm.controls; let i=index">
               <div [formGroupName]="i">
                 <div class="card__product-quantity">

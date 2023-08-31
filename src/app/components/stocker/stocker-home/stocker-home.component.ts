@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable, map, of, startWith } from 'rxjs';
 import { Location } from 'src/app/models/mapa/location';
 import { Product } from 'src/app/models/stocker/product';
+import { Provider } from 'src/app/models/stocker/provider';
 import { StockerService } from 'src/app/services/stock/stocker.service';
 
 @Component({
@@ -20,23 +22,36 @@ export class StockerHomeComponent implements OnInit {
   private file_ticket: any;
   locations: Location[] = [];
   products: Product[] = [];
+  providers: Provider[] = [];
+  providerNames: string[] = [];
   productNames: string[] = [];
   filteredOptions: Observable<string[]>;
+  filteredOptionsProvider: Observable<string[]>;
   inputIndexModified: number;
+  numberOfFields: number;
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
-    private stockerService: StockerService
+    private stockerService: StockerService,
+    public translate: TranslateService
   ) {
+    this.numberOfFields = 0;
     this.file_ticket = [];
     this.buildStockForm();
+    // get language from local storage
+    translate.use(localStorage.getItem('language') || 'en');
   }
 
   ngOnInit(): void {
     this.getLocations();
+    this.getProviders();
     this.getProducts();
+    this.filteredOptionsProvider = this.stockForm.get('provider').valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterProviders(value))
+    );
     this.filteredOptions = this.stockForm.get('products').valueChanges.pipe(
       startWith(''),
       map(value => this.filterProducts(value))
@@ -54,11 +69,16 @@ export class StockerHomeComponent implements OnInit {
     if (this.stockForm.valid && this.isValidFiles) {
       // this.loading = true;
       this.stockForm.value.date = new Date(this.stockForm.value.date).toISOString().slice(0, 19).replace('T', ' ');
+      // si se usó un provider creado, se guarda el id, si es nuevo se guarda el texto
+      const provider = this.providers.find(p => p.name.toLowerCase() === this.stockForm.get('provider').value.toLowerCase());
+      if (provider) {
+        this.stockForm.get('provider').setValue(provider.id);
+      }
       // si se usó un producto creado, se guarda el id, si es nuevo se guarda el texto
       for (let i = 0; i < this.productsForm.controls.length; i++) {
         const control = this.productsForm.controls[i];
         const productName = control.get('product').value;
-        const product = this.products.find(p => p.name === productName);
+        const product = this.products.find(p => p.name.toLowerCase() === productName.toLowerCase());
         if (product) {
           control.get('product').setValue(product.id);
         }
@@ -76,17 +96,17 @@ export class StockerHomeComponent implements OnInit {
       body.append('form', JSON.stringify(this.stockForm.value));
       console.log("Form: ", this.stockForm.value);
       console.log("Body: ", body);
-      this.stockerService.uploadTicket(body).subscribe(
-        (res: any) => {
+      this.stockerService.uploadTicket(body).subscribe({
+        next: (res) => {
           console.log(res);
           this.openSnackBar('Ticket uploaded successfully');
           this.resetearFormulario();
         },
-        (err: any) => {
-          console.log(err);
+        error: (error) => {
+          console.log(error);
           this.openSnackBar('Error uploading ticket');
         }
-      );
+    });
     } else {
       this.openSnackBar('Please fill the form correctly');
     }
@@ -122,14 +142,35 @@ export class StockerHomeComponent implements OnInit {
     console.log(this.stockForm.value);
   }
 
-  agregarCampo() {
+  onNumberOfFieldsChange() {
+    console.log('El nuevo número de campos es:', this.numberOfFields);
+    if (Number.isInteger(this.numberOfFields) && this.numberOfFields >= 0) {
+      // quitar campos hasta que el número de campos sea igual al número de campos en el formulario
+      while (this.productsForm.length > this.numberOfFields) {
+        this.quitarCampo(true);
+      }
+      // agregar campos hasta que el número de campos sea igual al número de campos en el formulario
+      while (this.productsForm.length < this.numberOfFields) {
+        this.agregarCampo(true);
+      }
+    }
+  }
+  agregarCampo(createButton?: boolean) {
     this.productsForm.push(this.formBuilder.group({
       product: [null],
       quantity: [null]
     }));
+    if (!createButton) {
+      this.numberOfFields++;
+    }
   }
-  quitarCampo() {
-    this.productsForm.removeAt(this.productsForm.length - 1);
+  quitarCampo(createButton?: boolean) {
+    if (this.productsForm.length > 0) {
+      this.productsForm.removeAt(this.productsForm.length - 1);
+      if (!createButton) {
+        this.numberOfFields--;
+      }
+    }
   }
   quitarCampoParticular(index: number): void {
     this.productsForm.removeAt(index);
@@ -137,7 +178,6 @@ export class StockerHomeComponent implements OnInit {
   get productsForm() {
     return this.stockForm.get('products') as FormArray;
   }
-
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Close');
   }
@@ -146,29 +186,45 @@ export class StockerHomeComponent implements OnInit {
     this.router.navigate(['stocker/home']);
   }
 
+  private filterProviders(value: any): string[] {
+    if (typeof value !== 'string') {
+      return [];
+    }
+    if (value === '') {
+      return this.providerNames;
+    }
+    const filterValue = value.toLowerCase();
+    return this.providerNames.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
   private filterProducts(value: any): string[] {
-    console.log("value: ", value);
-    var valueString = '';
-    if (typeof value === 'object') {
-      valueString = value[this.inputIndexModified].product;
-    } else {
-      if (typeof value === 'string') {
-        valueString = value;
-      }
+    if (typeof value !== 'string' && typeof value !== 'object') {
+      return [];
     }
-    if (valueString === '') {
-      console.log("valueString: ", valueString);
+    if (this.inputIndexModified === undefined) {
       return this.productNames;
-    } else {
-      const filterValue = typeof valueString === 'string' ? valueString.toLowerCase() : '';
-      return this.productNames.filter(option => option.toLowerCase().includes(filterValue));
     }
+    const valueString = typeof value === 'object' ? value[this.inputIndexModified]?.product : value;
+    const filterValue = typeof valueString === 'string' ? valueString.toLowerCase() : '';
+    return this.productNames.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   private getLocations() {
     this.stockerService.getLocations().subscribe(
       (res) => {
         this.locations = res;
+      }
+    );
+  }
+
+  private getProviders() {
+    this.stockerService.getProviders().subscribe(
+      (res) => {
+        this.providers = res;
+        // iterate providers and push name into providerNames
+        for (let i = 0; i < this.providers.length; i++) {
+          this.providerNames.push(this.providers[i].name);
+        }
       }
     );
   }
@@ -189,9 +245,8 @@ export class StockerHomeComponent implements OnInit {
     this.stockForm = this.formBuilder.group({
       donation_id: [null, Validators.required],
       total_weight: [null, Validators.required],
-      customer: [null, Validators.required],
+      provider: [null, Validators.required],
       destination: [null, Validators.required],
-      address: [null, Validators.required],
       date: [null, Validators.required],
       delivered_by: [null, Validators.required],
       products: this.formBuilder.array([])
