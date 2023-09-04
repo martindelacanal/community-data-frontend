@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { format } from 'date-fns';
+import { GraphicLineComplete } from 'src/app/models/grafico-linea/graphic-line-complete';
+import { DashboardGeneralService } from 'src/app/services/dashboard/dashboard-general.service';
 
 @Component({
   selector: 'app-grafico-linea-dashboard-home',
@@ -12,7 +14,7 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
 
   @Input() selectedTab: string;
 
-  multi: any[];
+  multi: GraphicLineComplete[] = [];
   view: [number,number] = [undefined, 300];
 
   // options
@@ -35,7 +37,9 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
     domain: ['#28A745']
   };
 
-  constructor() {
+  constructor(
+    private dashboardGeneralService: DashboardGeneralService
+  ) {
     this.multi = [];
 
   }
@@ -43,8 +47,9 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
   ngOnInit(): void {
     // switch value of selectedTab
     console.log(this.selectedTab);
+    this.getGraficoLinea(this.selectedTab);
     switch (this.selectedTab) {
-      case 'Clientes':
+      case 'pounds':
         this.multi = [
           {
             "name": "Pounds",
@@ -73,7 +78,7 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
           }
         ];
         break;
-      case 'Comercios':
+      case 'beneficiaries':
         this.multi = [
           {
             "name": "Beneficiaries",
@@ -102,7 +107,7 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
           }
         ];
         break;
-      case 'Ditors':
+      case 'deliveryPeople':
         this.multi = [
           {
             "name": "Delivery people",
@@ -131,7 +136,7 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
           }
         ];
         break;
-      case 'Misiones':
+      case 'operations':
         this.multi = [
           {
             "name": "Operations",
@@ -176,6 +181,21 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
   }
 
   formatXAxisTick(tick: any): string {
-    return format(new Date(tick), 'dd/MM');
+    return format(new Date(tick), 'MM/yyyy');
   }
+
+  private getGraficoLinea(selectedTab: string) {
+    this.dashboardGeneralService.getGraficoLinea(selectedTab).subscribe(
+      (res) => {
+        console.log(res)
+        if(res.series.length > 0){
+          this.multi = [res];
+        }else{
+          this.multi = [];
+        }
+
+      }
+    );
+  }
+
 }

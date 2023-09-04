@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Location } from 'src/app/models/mapa/location';
+import { Location } from 'src/app/models/map/location';
 import { Product } from 'src/app/models/stocker/product';
 import { Provider } from 'src/app/models/stocker/provider';
 import { environment } from 'src/environments/environment';

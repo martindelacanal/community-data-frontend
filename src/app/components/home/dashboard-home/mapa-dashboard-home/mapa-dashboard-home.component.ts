@@ -1,13 +1,14 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { mapStyle } from 'src/app/models/mapa/map-styles';
+import { mapStyle } from 'src/app/models/map/map-styles';
+import { GoogleMapService } from 'src/app/services/map/google-map.service';
 
 @Component({
   selector: 'app-mapa-dashboard-home',
   templateUrl: './mapa-dashboard-home.component.html',
   styleUrls: ['./mapa-dashboard-home.component.scss']
 })
-export class MapaDashboardHomeComponent {
+export class MapaDashboardHomeComponent implements OnInit {
 
   @ViewChild('map') map: GoogleMap;
   @ViewChild('misionesDisponiblesButton') misionesDisponiblesButton: ElementRef;
@@ -16,8 +17,8 @@ export class MapaDashboardHomeComponent {
 
   mapStyle = mapStyle;
   mapOptions: google.maps.MapOptions = {
-    center: { lat: 34.84875916361835, lng: -117.36738960238455 }, // TO-DO buscar punto medio entre todas las coordenadas y colocar ese como centro
-    zoom: 7,
+    center: { lat: 34.84875916361835, lng: -117.36738960238455 },
+    zoom: 6,
     mapTypeControl: false,
     streetViewControl: false,
     fullscreenControlOptions: {
@@ -32,20 +33,17 @@ export class MapaDashboardHomeComponent {
       }
     ]
   };
-  markerOptions: google.maps.MarkerOptions = {draggable: false};
-  markerPositions: { position: google.maps.LatLngLiteral; label: string }[] = [
-    { position: { lat: 35.75883296922264, lng: -117.37720911870885 }, label: 'Trona Senior Center' },
-    { position: { lat: 34.05617481273772, lng: -117.17576132689786 }, label: 'Inland Empire Filipino SDA Church' },
-    { position: { lat: 34.10424814861694, lng: -117.25626850216977 }, label: 'SAC Norton Clinic' },
-    { position: { lat: 33.887156272643956, lng: -117.23245203066774 }, label: 'Moreno Valley Church' },
-    { position: { lat: 33.748879156137484, lng: -116.99008197478759 }, label: 'Hemet Spanish SDA Church' },
-    { position: { lat: 33.72851890691869, lng: -116.95461367337498 }, label: 'Hemet SDA Church' },
-    { position: { lat: 33.83843555621586, lng: -117.28731680809182 }, label: 'The Concerned Family Ministry' },
-    { position: { lat: 33.961218824926135, lng: -117.40821484723955 }, label: 'Riverside Community Church' },
-  ];
+  markerOptions: google.maps.MarkerOptions = { draggable: false };
+  markerPositions: { position: google.maps.LatLngLiteral; label: string }[] = [];
   infoContent = '';
 
-  constructor() { }
+  constructor(
+    private googleMapService: GoogleMapService
+  ) { }
+
+  ngOnInit(): void {
+    this.getLocationsMap();
+  }
 
   ngAfterViewInit() {
     // Obtener una referencia al objeto map
@@ -64,4 +62,20 @@ export class MapaDashboardHomeComponent {
       this.infoWindow.open(marker);
     }
   }
+
+  private getLocationsMap() {
+  this.googleMapService.getLocationsMap().subscribe({
+    next: (res) => {
+      this.markerPositions = res.locations;
+      this.mapOptions = {
+        ...this.mapOptions,
+        center: res.center
+      };
+    },
+    error: (error) => {
+      console.log(error);
+      this.markerPositions = [];
+    }
+  });
+}
 }

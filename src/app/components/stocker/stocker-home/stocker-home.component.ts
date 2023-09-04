@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, map, of, startWith } from 'rxjs';
-import { Location } from 'src/app/models/mapa/location';
+import { Location } from 'src/app/models/map/location';
 import { Product } from 'src/app/models/stocker/product';
 import { Provider } from 'src/app/models/stocker/provider';
 import { StockerService } from 'src/app/services/stock/stocker.service';
@@ -18,6 +18,7 @@ export class StockerHomeComponent implements OnInit {
 
   public stockForm: FormGroup;
   public isValidFiles: boolean = true;
+  public isQuantityValid: boolean = true;
   public imageTicketUploaded: boolean = false;
   private file_ticket: any;
   locations: Location[] = [];
@@ -66,9 +67,38 @@ export class StockerHomeComponent implements OnInit {
     } else {
       this.isValidFiles = false;
     }
-    if (this.stockForm.valid && this.isValidFiles) {
+
+    // check quantity (and if product isn't null)
+    var sumQuantity = 0;
+    var isQuantityZero = false; // check if there is a product with quantity 0 or null
+    var isProductNull = false; // check if there is a product null
+    for (let i = 0; i < this.productsForm.controls.length; i++) {
+      const control = this.productsForm.controls[i];
+      const quantity = control.get('quantity').value;
+      if (quantity === null || quantity === 0) {
+        isQuantityZero = true;
+      } else {
+        sumQuantity += quantity;
+      }
+      const product = control.get('product').value;
+      if (product === null || product === '') {
+        isProductNull = true;
+      }
+    }
+    if (isQuantityZero || (sumQuantity !== this.stockForm.get('total_weight').value)) {
+      this.isQuantityValid = false;
+    } else {
+      this.isQuantityValid = true;
+    }
+
+    if (this.stockForm.valid && this.isValidFiles && this.isQuantityValid && !isProductNull) {
       // this.loading = true;
-      this.stockForm.value.date = new Date(this.stockForm.value.date).toISOString().slice(0, 19).replace('T', ' ');
+      // Obtener la fecha del formulario
+      const date = new Date(this.stockForm.value.date);
+      // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
+      const dateString = date.toISOString().slice(0, 10);
+      // Asignar la fecha al campo de fecha en el formulario
+      this.stockForm.get('date').setValue(dateString);
       // si se usó un provider creado, se guarda el id, si es nuevo se guarda el texto
       const provider = this.providers.find(p => p.name.toLowerCase() === this.stockForm.get('provider').value.toLowerCase());
       if (provider) {
@@ -77,6 +107,7 @@ export class StockerHomeComponent implements OnInit {
       // si se usó un producto creado, se guarda el id, si es nuevo se guarda el texto
       for (let i = 0; i < this.productsForm.controls.length; i++) {
         const control = this.productsForm.controls[i];
+        // check product
         const productName = control.get('product').value;
         const product = this.products.find(p => p.name.toLowerCase() === productName.toLowerCase());
         if (product) {
@@ -94,11 +125,10 @@ export class StockerHomeComponent implements OnInit {
         body.append('ticket[]', null); // Agregar un valor nulo al FormData si no hay archivos
       }
       body.append('form', JSON.stringify(this.stockForm.value));
-      console.log("Form: ", this.stockForm.value);
-      console.log("Body: ", body);
+      console.log("Form enviado: ", this.stockForm.value);
+      console.log("Body enviado: ", body);
       this.stockerService.uploadTicket(body).subscribe({
         next: (res) => {
-          console.log(res);
           this.openSnackBar('Ticket uploaded successfully');
           this.resetearFormulario();
         },
@@ -106,7 +136,7 @@ export class StockerHomeComponent implements OnInit {
           console.log(error);
           this.openSnackBar('Error uploading ticket');
         }
-    });
+      });
     } else {
       this.openSnackBar('Please fill the form correctly');
     }

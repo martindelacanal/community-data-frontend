@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { delay, from, mergeMap, toArray } from 'rxjs';
 import { GraficoLinea } from 'src/app/models/grafico-linea/grafico-linea.model';
 import { dashboardClientesService } from 'src/app/services/dashboard-clientes/dashboard-clientes.service';
+import { DashboardGeneralService } from 'src/app/services/dashboard/dashboard-general.service';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -11,135 +12,127 @@ import { dashboardClientesService } from 'src/app/services/dashboard-clientes/da
 export class DashboardHomeComponent implements OnInit {
 
 
-  clientesPositivo = true;
-  comerciosPositivo = false;
-  ditorsPositivo = true;
-  misionesPositivo = true;
-  campActivas:number = 0;
-  campPreparacion:number = 0;
-  misionesDisponibles:number = 0;
-  misionesRevision: number =0;
-  clientesActivos: number=0;
-  ditorsActivos: number = 0;
-  formattedChartDataClientes: any[] = [];
-  formattedChartDataComercios: any[] = [];
-  formattedChartDataDitors: any[] = [];
-  formattedChartDataMisiones: any[] = [];
+  // clientesPositivo = true;
+  // comerciosPositivo = false;
+  // ditorsPositivo = true;
+  // misionesPositivo = true;
   selectedTab ='';
+
+  poundsDelivered: number = 0;
+  totalLocations: number = 0;
+  totalDaysOperation: number = 0;
+  totalStockers: number = 0;
+  totalDeliveries: number = 0;
+  totalBeneficiaries: number = 0;
+  totalBeneficiariesServed: number = 0;
+  totalBeneficiariesQualified: number = 0;
+  totalEnabledUsers: number = 0;
+  totalTicketsUploaded: number = 0;
+
+
   constructor(
-    private dashboardClientesService:dashboardClientesService
+    private dashboardGeneralService: DashboardGeneralService
   ) {
-    this.selectedTab = 'Clientes';
+    this.selectedTab = 'pounds';
   }
 
-  getCampaniasActivas(){
-    this.dashboardClientesService.getCampaniasActivas().subscribe(
-      (resul)=>{
-        this.campActivas = resul.total;
-      }
-    )
-  }
-  getCampaniasPreparacion(){
-    this.dashboardClientesService.getCampaniasEnPreparacion().subscribe(
-      (resul)=>{
-        this.campPreparacion = resul.total;
-      }
-    )
-  }
-  getMisionesDisponibles(){
-    this.dashboardClientesService.getMisionesDisponibles().subscribe(
-      (resul)=>{
 
-        this.misionesDisponibles = resul.total;
-      }
-    )
-  }
-  getMisionesRevision(){
-    this.dashboardClientesService.getCantidadMisionesRevision().subscribe(
-      (resul)=>{
-        this.misionesRevision = resul.total;
-      }
-    )
-  }
-  getClientesActivos(){
-    this.dashboardClientesService.getClientesActivos().subscribe(
-      (resul)=>{
-
-        this.clientesActivos= resul.total;
-      }
-    )
-  }
- getDitorsActivos(){
-  this.dashboardClientesService.getDitorsActivos().subscribe(
-    (resul)=>{
-
-      this.ditorsActivos = resul.total;
-    }
-  )
- }
-  getClientesMes(){
-
-  this.dashboardClientesService.getClientesMes().pipe(
-    mergeMap((response: GraficoLinea[]) => {
-      return from(response).pipe(
-        delay(20), // Añade un retardo para simular la carga progresiva
-        toArray()
-      );
-    })).subscribe((formattedData: any[]) => {
-      this.formattedChartDataClientes = [
-        {
-          name: 'Clientes',
-          series: formattedData.map((item: GraficoLinea) => {
-            return {
-              name: item.name,
-              value: item.value
-            };
-          })
-        }
-      ]
-
-    });
-
- }
- getComerciosMes(){
-  this.dashboardClientesService.getComerciosMes().pipe(
-    mergeMap((response: GraficoLinea[]) => {
-      return from(response).pipe(
-        delay(10), // Añade un retardo para simular la carga progresiva
-        toArray()
-      );
-    })).subscribe((formattedData: any[]) => {
-      this.formattedChartDataComercios = [
-        {
-          name: 'Comercios',
-          series: formattedData.map((item: GraficoLinea) => {
-            return {
-              name: item.name,
-              value: item.value
-            };
-          })
-        }
-      ]
-
-    });
-
- }
   ngOnInit(){
-
-    // this.getClientesMes();
-    // this.getCampaniasActivas();
-    // this.getCampaniasPreparacion();
-    // this.getMisionesDisponibles();
-    // this.getMisionesRevision();
-    // this.getClientesActivos();
-    // this.getDitorsActivos();
-
-    // this.getComerciosMes();
-
+    this.getPoundsDelivered();
+    this.getTotalLocations();
+    this.getTotalDaysOperation();
+    this.getTotalStockers();
+    this.getTotalDeliveries();
+    this.getTotalBeneficiaries();
+    this.getTotalBeneficiariesServed();
+    this.getTotalBeneficiariesQualified();
+    this.getTotalEnabledUsers();
+    this.getTotalTicketsUploaded();
   }
 
   selectTab(tab: string) {
     this.selectedTab = tab;
+  }
+
+  private getPoundsDelivered() {
+    this.dashboardGeneralService.getPoundsDelivered().subscribe(
+      (res) => {
+        console.log(res)
+        this.poundsDelivered = res;
+      }
+    );
+  }
+
+  private getTotalLocations() {
+    this.dashboardGeneralService.getTotalLocations().subscribe(
+      (res) => {
+        this.totalLocations = res;
+      }
+    );
+  }
+
+  private getTotalDaysOperation() {
+    this.dashboardGeneralService.getTotalDaysOperation().subscribe(
+      (res) => {
+        this.totalDaysOperation = res;
+      }
+    );
+  }
+
+  private getTotalStockers() {
+    this.dashboardGeneralService.getTotalStockers().subscribe(
+      (res) => {
+        this.totalStockers = res;
+      }
+    );
+  }
+
+  private getTotalDeliveries() {
+    this.dashboardGeneralService.getTotalDeliveries().subscribe(
+      (res) => {
+        this.totalDeliveries = res;
+      }
+    );
+  }
+
+  private getTotalBeneficiaries() {
+    this.dashboardGeneralService.getTotalBeneficiaries().subscribe(
+      (res) => {
+        this.totalBeneficiaries = res;
+      }
+    );
+  }
+
+  private getTotalBeneficiariesServed() {
+    this.dashboardGeneralService.getTotalBeneficiariesServed().subscribe(
+      (res) => {
+        this.totalBeneficiariesServed = res;
+      }
+    );
+  }
+
+  private getTotalBeneficiariesQualified() {
+    this.dashboardGeneralService.getTotalBeneficiariesQualified().subscribe(
+      (res) => {
+        this.totalBeneficiariesQualified = res;
+      }
+    );
+  }
+
+  private getTotalEnabledUsers() {
+    this.dashboardGeneralService.getTotalEnabledUsers().subscribe(
+      (res) => {
+        this.totalEnabledUsers = res;
+      }
+    );
+  }
+
+  private getTotalTicketsUploaded() {
+    this.dashboardGeneralService.getTotalTicketsUploaded().subscribe(
+      (res) => {
+        this.totalTicketsUploaded = res;
+      }
+    );
   }
 
 }

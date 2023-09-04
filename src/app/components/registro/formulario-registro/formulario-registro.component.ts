@@ -138,7 +138,12 @@ export class FormularioRegistroComponent implements OnInit {
 
   onSubmit(): void {
     if (this.combinedFormGroup.valid) {
-      this.firstFormGroup.value.dateOfBirth = new Date(this.firstFormGroup.value.dateOfBirth).toISOString().slice(0, 19).replace('T', ' ');
+      // Obtener la fecha del formulario
+      const date = new Date(this.firstFormGroup.value.dateOfBirth);
+      // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
+      const dateString = date.toISOString().slice(0, 10);
+      // Asignar la fecha al campo de fecha en el formulario
+      this.firstFormGroup.get('dateOfBirth').setValue(dateString);
       console.log(this.firstFormGroup.value);
       console.log(this.secondFormGroup.value);
       this.authService.signup(this.combinedFormGroup.value).subscribe(

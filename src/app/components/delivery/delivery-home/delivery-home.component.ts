@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { QrScannerComponent } from 'angular2-qrscanner';
 import { beneficiaryQR } from 'src/app/models/beneficiary/beneficiary-qr.model';
-import { Location } from 'src/app/models/mapa/location';
+import { Location } from 'src/app/models/map/location';
 import { UserStatus } from 'src/app/models/user/user-status';
 import { DeliveryService } from 'src/app/services/deliver/delivery.service';
 

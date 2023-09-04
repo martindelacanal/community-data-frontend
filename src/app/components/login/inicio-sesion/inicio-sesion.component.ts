@@ -108,7 +108,12 @@ export class InicioSesionComponent implements OnInit {
   onSubmitResetPassword() {
     if (this.recoverPasswordForm.valid) {
       this.loading = true;
-      this.recoverPasswordForm.value.dateOfBirth = new Date(this.recoverPasswordForm.value.dateOfBirth).toISOString().slice(0, 10).replace('T', ' ');
+      // Obtener la fecha del formulario
+      const date = new Date(this.recoverPasswordForm.value.dateOfBirth);
+      // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
+      const dateString = date.toISOString().slice(0, 10);
+      // Asignar la fecha al campo de fecha en el formulario
+      this.recoverPasswordForm.get('dateOfBirth').setValue(dateString);
       console.log(this.recoverPasswordForm.value);
       this.authService.resetPassword(this.recoverPasswordForm.value).subscribe({
         next: (res) => {

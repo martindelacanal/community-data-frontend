@@ -133,7 +133,7 @@ export class MenuComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.status) {
-        console.log("result: ", result)
+
         this.authService.changePassword(this.usuario.id, result.password).subscribe({
           next: (res) => {
             this.snackBar.open(`Password changed successfully`, '', { duration: 4000 });

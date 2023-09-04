@@ -7,7 +7,7 @@
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/campanias-activas.svg" alt="Icono de campañas activas">
-          <span>325</span>
+          <span>{{poundsDelivered}}</span>
         </div>
       </section>
       <div class="ui-separator-vertical"></div>
@@ -17,7 +17,7 @@
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/misiones-disponibles.svg" alt="Icono de misiones disponibles">
-          <span>8</span>
+          <span>{{totalLocations}}</span>
         </div>
       </section>
       <div class="ui-separator-vertical"></div>
@@ -27,7 +27,7 @@
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/revisar-misiones.svg" alt="Icono de revisar misiones">
-          <span>30</span>
+          <span>{{totalDaysOperation}}</span>
         </div>
       </section>
       <div class="ui-separator-vertical"></div>
@@ -37,7 +37,7 @@
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
-          <span>5</span>
+          <span>{{totalStockers}}</span>
         </div>
       </section>
     </div>
@@ -54,7 +54,7 @@
       </div>
       <div class="ui-tarjeta__footer">
         <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
-        <span>10</span>
+        <span>{{totalDeliveries}}</span>
       </div>
     </div>
   </div>
@@ -65,7 +65,7 @@
       </div>
       <div class="ui-tarjeta__footer">
         <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
-        <span>52</span>
+        <span>{{totalBeneficiaries}}</span>
       </div>
     </div>
   </div>
@@ -76,70 +76,70 @@
       </div>
       <div class="ui-tarjeta__footer">
         <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
-        <span>85%</span>
+        <span>{{totalBeneficiariesServed}}%</span>
       </div>
     </div>
   </div>
   <div class="graficos">
     <div class="ui-tarjeta">
       <div class="graficos__header">
-        <a class="graficos__boton-header" (click)="selectTab('Clientes')">
+        <a class="graficos__boton-header" (click)="selectTab('pounds')">
           <div class="ui-separator-horizontal"
-            [ngClass]="{'graficos__separator--activado': selectedTab === 'Clientes'}"></div>
+            [ngClass]="{'graficos__separator--activado': selectedTab === 'pounds'}"></div>
           <div class="graficos__boton-header__contenedor">
             <div class="graficos__tab-nombre">Pounds</div>
             <!-- <div class="graficos__tab-numero">{{formattedChartDataClientes[0].series[0].value}}</div> -->
-            <div class="graficos__tab-numero-chico" [ngClass]="clientesPositivo ? 'positivo' : 'negativo'">+1</div>
+            <!-- <div class="graficos__tab-numero-chico" [ngClass]="clientesPositivo ? 'positivo' : 'negativo'">+1</div> -->
           </div>
         </a>
-        <a class="graficos__boton-header" (click)="selectTab('Comercios')">
+        <a class="graficos__boton-header" (click)="selectTab('beneficiaries')">
           <div class="ui-separator-horizontal"
-            [ngClass]="{'graficos__separator--activado': selectedTab === 'Comercios'}"></div>
+            [ngClass]="{'graficos__separator--activado': selectedTab === 'beneficiaries'}"></div>
           <div class="graficos__boton-header__contenedor">
             <div class="graficos__tab-nombre">Beneficiaries</div>
             <!-- <div class="graficos__tab-numero">{{formattedChartDataComercios[0].series[0].value}}</div> -->
-            <div class="graficos__tab-numero-chico" [ngClass]="comerciosPositivo ? 'positivo' : 'negativo'">-8</div>
+            <!-- <div class="graficos__tab-numero-chico" [ngClass]="comerciosPositivo ? 'positivo' : 'negativo'">-8</div> -->
           </div>
         </a>
-        <a class="graficos__boton-header" (click)="selectTab('Ditors') " >
-          <div class="ui-separator-horizontal" [ngClass]="{'graficos__separator--activado': selectedTab === 'Ditors'}">
+        <a class="graficos__boton-header" (click)="selectTab('deliveryPeople') " >
+          <div class="ui-separator-horizontal" [ngClass]="{'graficos__separator--activado': selectedTab === 'deliveryPeople'}">
           </div>
           <div class="graficos__boton-header__contenedor">
             <div class="graficos__tab-nombre">Delivery people</div>
             <!-- <div class="graficos__tab-numero">{{formattedChartDataDitors[0].series[0].value}}</div> -->
-            <div class="graficos__tab-numero-chico" [ngClass]="ditorsPositivo ? 'positivo' : 'negativo'"></div>
+            <!-- <div class="graficos__tab-numero-chico" [ngClass]="ditorsPositivo ? 'positivo' : 'negativo'"></div> -->
           </div>
         </a>
-        <a class="graficos__boton-header" (click)="selectTab('Misiones')">
+        <a class="graficos__boton-header" (click)="selectTab('operations')">
           <div class="ui-separator-horizontal"
-            [ngClass]="{'graficos__separator--activado': selectedTab === 'Misiones'}"></div>
+            [ngClass]="{'graficos__separator--activado': selectedTab === 'operations'}"></div>
           <div class="graficos__boton-header__contenedor">
             <div class="graficos__tab-nombre">Operations</div>
             <!-- <div class="graficos__tab-numero">{{formattedChartDataMisiones[0].series[0].value}}</div> -->
-            <div class="graficos__tab-numero-chico" [ngClass]="misionesPositivo ? 'positivo' : 'negativo'">+1</div>
+            <!-- <div class="graficos__tab-numero-chico" [ngClass]="misionesPositivo ? 'positivo' : 'negativo'">+1</div> -->
           </div>
         </a>
       </div>
       <div class="graficos__tabs-container">
-        <div class="tab" *ngIf="selectedTab === 'Clientes'" >
+        <div class="tab" *ngIf="selectedTab === 'pounds'" >
           <div class="center-content">
             <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"  [dataGraficos]="this.formattedChartDataClientes"></app-grafico-linea-dashboard-home> -->
             <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
           </div>
         </div>
-        <div class="tab" *ngIf="selectedTab === 'Comercios'">
+        <div class="tab" *ngIf="selectedTab === 'beneficiaries'">
           <div class="center-content">
             <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataComercios"></app-grafico-linea-dashboard-home> -->
             <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
           </div>
         </div>
-        <div class="tab" *ngIf="selectedTab === 'Ditors'">
+        <div class="tab" *ngIf="selectedTab === 'deliveryPeople'">
           <div class="center-content">
             <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataDitors"></app-grafico-linea-dashboard-home> -->
             <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
           </div>
         </div>
-        <div class="tab" *ngIf="selectedTab === 'Misiones'">
+        <div class="tab" *ngIf="selectedTab === 'operations'">
           <div class="center-content">
             <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataMisiones"></app-grafico-linea-dashboard-home> -->
             <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
@@ -153,7 +153,7 @@
       <header>Tables</header>
       <main>
         <div class="misiones-activas__fila">
-          <div class="misiones-activas__fila__header">10</div>
+          <div class="misiones-activas__fila__header">{{totalEnabledUsers}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">Enabled users</div>
             <div class="misiones-activas__derecha">
@@ -162,7 +162,7 @@
           </div>
         </div>
         <div class="misiones-activas__fila">
-          <div class="misiones-activas__fila__header">3</div>
+          <div class="misiones-activas__fila__header">{{totalBeneficiariesQualified}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">Qualified beneficiaries</div>
             <div class="misiones-activas__derecha">
@@ -171,7 +171,7 @@
           </div>
         </div>
         <div class="misiones-activas__fila">
-          <div class="misiones-activas__fila__header">2</div>
+          <div class="misiones-activas__fila__header">{{totalTicketsUploaded}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">Tickets uploaded</div>
             <div class="misiones-activas__derecha">

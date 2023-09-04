@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { beneficiaryQR } from 'src/app/models/beneficiary/beneficiary-qr.model';
-import { Location } from 'src/app/models/mapa/location';
+import { Location } from 'src/app/models/map/location';
 import { UserStatus } from 'src/app/models/user/user-status';
 
 @Injectable({
