@@ -24,6 +24,7 @@
   "login_recover_password_button_reset": "Reset",
   "login_recover_password_button_reset_error": "Email / User name or date of birth incorrect",
   "login_recover_password_link_back": "Back to log in",
+  "login_recover_password_not_available_message": "Not available",
 
   "register_title": "Sign up",
   "register_first_tab_title": "Contact & Personal information",
@@ -52,10 +53,8 @@
   "register_first_tab_input_others_error_please": "Please specify others",
   "register_first_tab_button_next": "Next",
   "register_second_tab_title": "Health Insurance & Assistance information",
-
-
-
-
+  "register_second_tab_button_back": "Back",
+  "register_second_tab_button_submit": "Submit",
 
   "register_link_already_account": "Already have an account? Sign in",
 

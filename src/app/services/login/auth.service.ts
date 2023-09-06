@@ -6,6 +6,7 @@ import { Usuario } from 'src/app/models/login/usuario';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Gender } from 'src/app/models/user/gender';
 import { Ethnicity } from 'src/app/models/user/ethnicity';
+import { RegisterQuestion } from 'src/app/models/login/register-question';
 
 @Injectable({
   providedIn: 'root'
@@ -68,12 +69,16 @@ export class AuthService {
     return this.http.get<any>(`${environment.url_api}/email/exists/search?email=${nombre}`);
   }
 
+  getRegisterQuestions(language: string){
+    return this.http.get<RegisterQuestion[]>(`${environment.url_api}/register/questions?language=${language}`);
+  }
+
   getGender(language: string, id?: number){
-    return this.http.get<Gender[]>(`${environment.url_api}/gender?${id ? 'id='+id : ''}language=${language}`);
+    return this.http.get<Gender[]>(`${environment.url_api}/gender?${id ? 'id='+id+'&' : ''}language=${language}`);
   }
 
   getEthnicity(language: string, id?: number){
-    return this.http.get<Ethnicity[]>(`${environment.url_api}/ethnicity?${id ? 'id='+id : ''}language=${language}`);
+    return this.http.get<Ethnicity[]>(`${environment.url_api}/ethnicity?${id ? 'id='+id+'&' : ''}language=${language}`);
   }
 
 }

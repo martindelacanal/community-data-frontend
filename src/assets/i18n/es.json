@@ -24,6 +24,7 @@
   "login_recover_password_button_reset": "Resetear",
   "login_recover_password_button_reset_error": "Correo / Nombre de usuario o fecha de nacimiento incorrectos",
   "login_recover_password_link_back": "Volver al inicio de sesión",
+  "login_recover_password_not_available_message": "No disponible",
 
   "register_title": "Registro",
   "register_first_tab_title": "Información personal y contacto",
@@ -52,7 +53,8 @@
   "register_first_tab_input_others_error_please": "Por favor especifique otros",
   "register_first_tab_button_next": "Siguiente",
   "register_second_tab_title": "Información de asistencia y seguro médico",
-
+  "register_second_tab_button_back": "Volver",
+  "register_second_tab_button_submit": "Enviar",
 
   "register_link_already_account": "¿Ya tienes una cuenta? Inicia sesión",
 

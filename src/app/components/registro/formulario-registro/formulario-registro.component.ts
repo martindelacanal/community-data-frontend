@@ -5,6 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
+import { RegisterAnswer } from 'src/app/models/login/register-answer';
+import { RegisterQuestion } from 'src/app/models/login/register-question';
 import { Usuario } from 'src/app/models/login/usuario';
 import { Ethnicity } from 'src/app/models/user/ethnicity';
 import { Gender } from 'src/app/models/user/gender';
@@ -21,6 +23,7 @@ import { DecodificadorService } from 'src/app/services/login/decodificador.servi
 export class FormularioRegistroComponent implements OnInit {
 
   private usuario: Usuario;
+  private firstExecuteComponent: boolean = true;
   public loading: boolean = false;
   public submitted = false;
   public loginValid: boolean = true;
@@ -28,6 +31,8 @@ export class FormularioRegistroComponent implements OnInit {
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
   public combinedFormGroup: FormGroup;
+  public registerQuestions: RegisterQuestion[] = [];
+  public loadingRegisterQuestions: boolean = false;
   userNameExists: boolean = false;
   emailExists: boolean = false;
 
@@ -39,8 +44,9 @@ export class FormularioRegistroComponent implements OnInit {
   input2s: string[] = ['Yes', 'No'];
   input3s: string[] = ['IEHP', 'Health Net', 'Kaiser', 'Molina', 'Other'];
   input4s: string[] = ['Yes', 'No'];
-  input6s: string[] = ['Education-Training', 'Housing', 'Immigration', 'Legal', 'Taxes', 'Others'];
-  input8s: string[] = ['Primary care', 'Dental care', 'Laboratory and diagnostic care', 'Prenatal care', 'Pharmaceutical care', 'Chronic conditions care (i.e. diabetes, high blood pressure, etc.)', 'Nutritional support', 'Physical and occupational therapy', 'Mental health care', 'Substance abuse treatment', 'Others'];
+  input5s: string[] = ['Primary care', 'Dental care', 'Laboratory and diagnostic care', 'Prenatal care', 'Pharmaceutical care', 'Chronic conditions care (i.e. diabetes, high blood pressure, etc.)', 'Nutritional support', 'Physical and occupational therapy', 'Mental health care', 'Substance abuse treatment', 'Others'];
+  input7s: string[] = ['Yes', 'No'];
+  input8s: string[] = ['Education-Training', 'Housing', 'Immigration', 'Legal', 'Taxes', 'Others'];
 
   constructor(
     private decodificadorService: DecodificadorService,
@@ -59,8 +65,7 @@ export class FormularioRegistroComponent implements OnInit {
 
     this.buildForm();
     this.buildFirstFormGroup();
-    this.buildSecondFormGroup();
-    this.buildCombinedFormGroup();
+
   }
 
   switchLang(lang: string) {
@@ -73,9 +78,6 @@ export class FormularioRegistroComponent implements OnInit {
     if (this.usuario !== null) {
       this.redireccionar();
     }
-    const input6Array = this.secondFormGroup.get('input6') as FormArray;
-    const input8Array = this.secondFormGroup.get('input8') as FormArray;
-    // this.input6s.forEach(() => input6Array.push(this.formBuilder.control(false)));
     this.firstFormGroup.get('username').valueChanges
       .pipe(debounceTime(300))
       .subscribe(
@@ -91,18 +93,21 @@ export class FormularioRegistroComponent implements OnInit {
         }
       );
 
-
     this.getGender(this.translate.currentLang);
     this.getEthnicity(this.translate.currentLang);
+    this.getRegisterQuestions(this.translate.currentLang);
 
     this.translate.onLangChange.subscribe(() => {
-      this.genders = [];
-      this.ethnicities = [];
-      this.getGender(this.translate.currentLang);
-      this.getEthnicity(this.translate.currentLang);
+      if (this.firstExecuteComponent) {
+        this.firstExecuteComponent = false;
+      } else {
+        this.genders = [];
+        this.ethnicities = [];
+        this.getGender(this.translate.currentLang);
+        this.getEthnicity(this.translate.currentLang);
+        this.getRegisterQuestions(this.translate.currentLang);
+      }
     });
-
-
   }
 
   logIn() {
@@ -118,24 +123,6 @@ export class FormularioRegistroComponent implements OnInit {
     this.router.navigate(['login']);
   }
 
-  onCheckboxChange(event: MatCheckboxChange, index: number) {
-    const input6Array = this.secondFormGroup.get('input6') as FormArray;
-    if (event.checked) {
-      input6Array.push(this.formBuilder.control(this.input6s[index]));
-    } else {
-      input6Array.removeAt(index);
-    }
-  }
-
-  onCheckboxChange8(event: MatCheckboxChange, index: number) {
-    const input8Array = this.secondFormGroup.get('input8') as FormArray;
-    if (event.checked) {
-      input8Array.push(this.formBuilder.control(this.input8s[index]));
-    } else {
-      input8Array.removeAt(index);
-    }
-  }
-
   onSubmit(): void {
     if (this.combinedFormGroup.valid) {
       // Obtener la fecha del formulario
@@ -144,46 +131,95 @@ export class FormularioRegistroComponent implements OnInit {
       const dateString = date.toISOString().slice(0, 10);
       // Asignar la fecha al campo de fecha en el formulario
       this.firstFormGroup.get('dateOfBirth').setValue(dateString);
-      console.log(this.firstFormGroup.value);
-      console.log(this.secondFormGroup.value);
-      this.authService.signup(this.combinedFormGroup.value).subscribe(
-        (res: any) => {
+      // console.log("this.firstFormGroup.value: ", this.firstFormGroup.value);
+      // console.log("this.secondFormGroup.value: ", this.secondFormGroup.value);
+      // console.log("this.combinedFormGroup.value: ", this.combinedFormGroup.value);
+      // Enviar para cada pregunta, el answer_type_id
+      const answers = this.registerQuestions.map(question => {
+        const answer = this.combinedFormGroup.value.secondFormGroup[question.id];
+        if (question.answer_type_id === 4) {
+          return { question_id: question.id, answer_type_id: question.answer_type_id, answer: answer.map(x => parseInt(x, 10)) };
+        } else {
+          return { question_id: question.id, answer_type_id: question.answer_type_id, answer: answer };
+        }
+      });
+      // Crear objeto a enviar que contiene firstFormGroup.value y answers
+      const combinedFormGroupValue = {firstForm: this.firstFormGroup.value, secondForm: answers};
+      this.authService.signup(combinedFormGroupValue).subscribe({
+        next: (res) => {
           console.log(res);
           this.openSnackBar('Form submitted successfully.');
           this.router.navigate(['login']);
         },
-        (err: any) => {
-          console.log(err);
+        error: (error) => {
+          console.log(error);
           this.openSnackBar('Error submitting form.');
         }
-      );
+      });
     } else {
       this.openSnackBar('Please fill out all required fields.');
     }
   }
 
-private getGender(language: string, id?: number) {
-  this.authService.getGender(language, id).subscribe({
-    next: (res) => {
-      this.genders = res;
-    },
-    error: (error) => {
-      console.error(error);
+  shouldShowQuestion(question: any): boolean {
+    if (!question.depends_on_question_id) {
+      return true;
     }
-  });
-}
+    const dependsOnValue = this.secondFormGroup.get(question.depends_on_question_id.toString()).value;
+    if (!dependsOnValue) {
+      return false;
+    }
+    if (Array.isArray(dependsOnValue)) {
+      return dependsOnValue.includes(question.depends_on_answer_id);
+    }
+    return dependsOnValue === question.depends_on_answer_id;
+  }
 
-private getEthnicity(language: string, id?: number) {
-  this.authService.getEthnicity(language, id).subscribe({
-    next: (res) => {
-      this.ethnicities = res;
-      this.otroEthnicity = this.ethnicities.find(e => e.name === 'Otros' || e.name === 'Others' || e.name === 'Otro' || e.name === 'Other');
-    },
-    error: (error) => {
-      console.error(error);
+  onCheckboxChange(event: MatCheckboxChange, index: number, questionId: number) {
+    const inputArray = this.secondFormGroup.get(questionId.toString()) as FormArray;
+    if (event.checked) {
+      inputArray.push(this.formBuilder.control(this.getAnswersForQuestion(questionId)[index].id));
+    } else {
+      const indexFiltered = inputArray.controls.findIndex(x => x.value === this.getAnswersForQuestion(questionId)[index].id);
+      inputArray.removeAt(indexFiltered);
     }
-  });
-}
+  }
+
+  private getRegisterQuestions(language: string) {
+    this.authService.getRegisterQuestions(language).subscribe({
+      next: (res) => {
+        this.registerQuestions = res;
+        this.buildSecondFormGroup();
+        this.buildCombinedFormGroup();
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
+  private getGender(language: string, id?: number) {
+    this.authService.getGender(language, id).subscribe({
+      next: (res) => {
+        this.genders = res;
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
+  private getEthnicity(language: string, id?: number) {
+    this.authService.getEthnicity(language, id).subscribe({
+      next: (res) => {
+        this.ethnicities = res;
+        this.otroEthnicity = this.ethnicities.find(e => e.name === 'Otros' || e.name === 'Others' || e.name === 'Otro' || e.name === 'Other');
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
 
   private updateUserNameExists(nombre: string) {
     this.authService.getUserNameExists(nombre).subscribe(
@@ -253,32 +289,172 @@ private getEthnicity(language: string, id?: number) {
     });
   }
 
-  private buildSecondFormGroup(): void {
-    this.secondFormGroup = this.formBuilder.group({
-      input1: [null, Validators.required],
-      input2: [null, Validators.required],
-      input3: [null, Validators.required],
-      input4: [null, Validators.required],
-      input5: [null, Validators.required],
-      input6: this.formBuilder.array([], [Validators.required]),
-      input7: [null, Validators.required],
-      input8: this.formBuilder.array([], [Validators.required]),
-    });
+  getAnswersForQuestion(questionId: number): RegisterAnswer[] {
+    const question = this.registerQuestions.find(x => x.id === questionId);
+    return question ? question.answers : [];
+  }
 
-    this.secondFormGroup.get('input1').valueChanges.subscribe(value => {
-      if (value === 'Yes') {
-        // Si el valor es 'Yes', agregar el validador 'Validators.required' al campo 'input2' y 'input3'
-        this.secondFormGroup.get('input2').setValidators(Validators.required);
-        this.secondFormGroup.get('input3').setValidators(Validators.required);
+  getChildrenQuestions(question: RegisterQuestion): RegisterQuestion[] {
+    const childrenQuestions = this.registerQuestions.filter(x => x.depends_on_question_id === question.id);
+    let result = [...childrenQuestions];
+    for (const child of childrenQuestions) {
+      result = [...result, ...this.getChildrenQuestions(child)];
+    }
+    return result;
+  }
+
+  private buildSecondFormGroup(): void {
+    this.loadingRegisterQuestions = true;
+
+    const formGroup = this.registerQuestions.reduce((group, control) => {
+      if (control.answer_type_id === 4) {
+        group[control.id] = this.formBuilder.array([], [Validators.required]);
       } else {
-        // De lo contrario, eliminar el validador
-        this.secondFormGroup.get('input2').clearValidators();
-        this.secondFormGroup.get('input3').clearValidators();
+        group[control.id] = [null, Validators.required];
       }
-      // Actualizar el estado del campo 'input2' y 'input3'
-      this.secondFormGroup.get('input2').updateValueAndValidity();
-      this.secondFormGroup.get('input3').updateValueAndValidity();
-    });
+      return group;
+    }, {});
+
+    this.secondFormGroup = this.formBuilder.group(formGroup);
+
+    for (let i = 0; i < this.registerQuestions.length; i++) {
+      // obtener en un array las preguntas que dependen de la pregunta actual
+      const dependsOnQuestionIds = this.registerQuestions.filter(x => x.depends_on_question_id === this.registerQuestions[i].id);
+
+      if (dependsOnQuestionIds.length > 0) {
+        // Si tiene preguntas que dependan de la pregunta actual, agregar un observador al campo de la pregunta actual
+        this.secondFormGroup.get(this.registerQuestions[i].id.toString()).valueChanges.subscribe(value => {
+
+          var answerIds: number[] = []; // obtener los id de las respuestas seleccionadas
+          if (this.registerQuestions[i].answer_type_id === 4) { // es un multiple option
+            answerIds = value.map(x => parseInt(x, 10)); // value es un array de ids en string
+          } else { // es un simple option
+            answerIds.push(value); // value es un id
+          }
+          // obtener los id de las dependQuestionIds cuya depends_on_answer_id sea igual a alguno de los answerIds obtenidos
+          const dependsOnQuestionIdsFiltered_selected = dependsOnQuestionIds.filter(x => answerIds.includes(x.depends_on_answer_id));
+          // obtener los id de las dependQuestionIds cuyo depends_on_answer_id sea diferente a alguno de los answerIds obtenidos
+          const dependsOnQuestionIdsFiltered_notselected = dependsOnQuestionIds.filter(x => !answerIds.includes(x.depends_on_answer_id));
+          // setValidators a los campos de las dependsOnQuestionIdsFiltered_selected
+          for (let j = 0; j < dependsOnQuestionIdsFiltered_selected.length; j++) {
+            this.secondFormGroup.get(dependsOnQuestionIdsFiltered_selected[j].id.toString()).setValidators(Validators.required);
+            this.secondFormGroup.get(dependsOnQuestionIdsFiltered_selected[j].id.toString()).updateValueAndValidity();
+          }
+          // setValidators a los campos de las dependOnQuestionIdsFiltered_notselected
+          for (let j = 0; j < dependsOnQuestionIdsFiltered_notselected.length; j++) {
+            if (dependsOnQuestionIdsFiltered_notselected[j].answer_type_id === 4) {
+              (this.secondFormGroup.get(dependsOnQuestionIdsFiltered_notselected[j].id.toString()) as FormArray).clear();
+            } else {
+              this.secondFormGroup.get(dependsOnQuestionIdsFiltered_notselected[j].id.toString()).reset();
+            }
+            this.secondFormGroup.get(dependsOnQuestionIdsFiltered_notselected[j].id.toString()).clearValidators();
+            this.secondFormGroup.get(dependsOnQuestionIdsFiltered_notselected[j].id.toString()).updateValueAndValidity();
+            // hacer lo mismo con los hijos de las dependOnQuestionIdsFiltered_notselected
+            const childrenQuestions = this.getChildrenQuestions(dependsOnQuestionIdsFiltered_notselected[j]);
+            for (let k = 0; k < childrenQuestions.length; k++) {
+              if (childrenQuestions[k].answer_type_id === 4) {
+                (this.secondFormGroup.get(childrenQuestions[k].id.toString()) as FormArray).clear();
+              } else {
+                this.secondFormGroup.get(childrenQuestions[k].id.toString()).reset();
+              }
+              this.secondFormGroup.get(childrenQuestions[k].id.toString()).clearValidators();
+              this.secondFormGroup.get(childrenQuestions[k].id.toString()).updateValueAndValidity();
+            }
+          }
+        });
+      }
+    }
+
+    this.loadingRegisterQuestions = false;
+
+    // this.secondFormGroup = this.formBuilder.group({
+    //   input1: [null, Validators.required],
+    //   input2: [null, Validators.required],
+    //   input3: [null, Validators.required],
+    //   input4: [null, Validators.required],
+    //   input5: this.formBuilder.array([], [Validators.required]),
+    //   input6: [null, Validators.required],
+    //   input7: [null, Validators.required],
+    //   input8: this.formBuilder.array([], [Validators.required]),
+    //   input9: [null, Validators.required],
+    // });
+
+    // this.secondFormGroup.get('input1').valueChanges.subscribe(value => {
+    //   if (value === 'Yes') {
+    //     // Si el valor es 'Yes', agregar el validador 'Validators.required' al campo 'input2' y 'input3'
+    //     this.secondFormGroup.get('input2').setValidators(Validators.required);
+    //     this.secondFormGroup.get('input3').setValidators(Validators.required);
+    //   } else {
+    //     // De lo contrario, eliminar el validador
+    //     this.secondFormGroup.get('input2').reset(); // si input2 es un opcion simple
+    //     this.secondFormGroup.get('input3').reset(); // si input3 es un opcion simple
+    //     this.secondFormGroup.get('input2').clearValidators();
+    //     this.secondFormGroup.get('input3').clearValidators();
+    //   }
+    //   // Actualizar el estado del campo 'input2' y 'input3'
+    //   this.secondFormGroup.get('input2').updateValueAndValidity();
+    //   this.secondFormGroup.get('input3').updateValueAndValidity();
+    // });
+
+
+    // this.secondFormGroup.get('input4').valueChanges.subscribe(value => {
+    //   if (value === 'Yes') {
+    //     // Si el valor es 'Yes', agregar el validador 'Validators.required' al campo 'input5' y 'input6'
+    //     this.secondFormGroup.get('input5').setValidators(Validators.required);
+    //   } else {
+    //     // De lo contrario, eliminar el validador y limpiar los valores del campo 'input5' y 'input6'
+    //     (this.secondFormGroup.get('input5') as FormArray).clear(); // si input5 es un opcion multiple
+    //     this.secondFormGroup.get('input6').reset(); // si input6 es campo de texto
+    //     this.secondFormGroup.get('input5').clearValidators();
+    //     this.secondFormGroup.get('input6').clearValidators();
+    //   }
+    //   // Actualizar el estado del campo 'input5' y 'input6'
+    //   this.secondFormGroup.get('input5').updateValueAndValidity();
+    //   this.secondFormGroup.get('input6').updateValueAndValidity();
+    // });
+    // this.secondFormGroup.get('input5').valueChanges.subscribe(value => {
+    //   if (value.includes('Others')) {
+    //     // Si el valor es 'Others', agregar el validador 'Validators.required' al campo 'input6'
+    //     this.secondFormGroup.get('input6').setValidators(Validators.required);
+    //   } else {
+    //     // De lo contrario, eliminar el validador
+    //     this.secondFormGroup.get('input6').reset(); // si input6 es campo de texto
+    //     this.secondFormGroup.get('input6').clearValidators();
+    //   }
+    //   // Actualizar el estado del campo 'input6'
+    //   this.secondFormGroup.get('input6').updateValueAndValidity();
+    // }
+    // );
+
+
+    // this.secondFormGroup.get('input7').valueChanges.subscribe(value => {
+    //   if (value === 'Yes') {
+    //     // Si el valor es 'Yes', agregar el validador 'Validators.required' al campo 'input8' y 'input9'
+    //     this.secondFormGroup.get('input8').setValidators(Validators.required);
+    //   } else {
+    //     // De lo contrario, eliminar el validador
+    //     (this.secondFormGroup.get('input8') as FormArray).clear(); // si input8 es un opcion multiple
+    //     this.secondFormGroup.get('input9').reset(); // si input9 es campo de texto
+    //     this.secondFormGroup.get('input8').clearValidators();
+    //     this.secondFormGroup.get('input9').clearValidators();
+    //   }
+    //   // Actualizar el estado del campo 'input8' y 'input9'
+    //   this.secondFormGroup.get('input8').updateValueAndValidity();
+    //   this.secondFormGroup.get('input9').updateValueAndValidity();
+    // });
+    // this.secondFormGroup.get('input8').valueChanges.subscribe(value => {
+    //   if (value.includes('Others')) {
+    //     // Si el valor es 'Others', agregar el validador 'Validators.required' al campo 'input9'
+    //     this.secondFormGroup.get('input9').setValidators(Validators.required);
+    //   } else {
+    //     // De lo contrario, eliminar el validador
+    //     this.secondFormGroup.get('input9').reset(); // si input9 es campo de texto
+    //     this.secondFormGroup.get('input9').clearValidators();
+    //   }
+    //   // Actualizar el estado del campo 'input9'
+    //   this.secondFormGroup.get('input9').updateValueAndValidity();
+    // }
+    // );
   }
 
   private buildCombinedFormGroup(): void {
@@ -311,24 +487,5 @@ private getEthnicity(language: string, id?: number) {
     }
     return null;
   }
-
-  get selectedOptions() {
-    const input6Array = this.secondFormGroup.get('input6') as FormArray;
-    return input6Array.controls.filter((control) => control.value === true).map((control) => control.value);
-  }
-
-  get secondFormGroupInput6() {
-    return this.secondFormGroup.get('input6') as FormArray;
-  }
-  get selectedOptions8() {
-    const input8Array = this.secondFormGroup.get('input8') as FormArray;
-    return input8Array.controls.filter((control) => control.value === true).map((control) => control.value);
-  }
-
-  get secondFormGroupInput8() {
-    return this.secondFormGroup.get('input8') as FormArray;
-  }
-
-
 
 }
