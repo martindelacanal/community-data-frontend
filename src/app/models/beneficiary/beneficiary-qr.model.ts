@@ -1,5 +1,6 @@
 export interface beneficiaryQR {
     id: string,
     role: string,
-    date: string
+    date: string,
+    approved: string,
 }

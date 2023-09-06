@@ -18,7 +18,7 @@
   width: 100%;
 }
 
-.ui-tarjeta{
+.ui-tarjeta {
   margin: 0 auto;
   padding: 48px;
   border-top: 4px solid var(--ui-primario);
@@ -46,6 +46,7 @@
   grid-column: 1 / -1;
   grid-row: 2 / 3;
 }
+
 .card:nth-child(3) {
   grid-column: 1 / -1;
   grid-row: 3 / 4;
@@ -58,7 +59,7 @@
   justify-content: center;
 }
 
-.card mat-form-field{
+.card mat-form-field {
   width: 100%;
   max-width: 525px;
 }
@@ -80,16 +81,75 @@
 
 .ui-button {
   padding: 0 32px;
+  min-width: 140px;
 }
 
 .ui-button--ui-secundario {
-  margin: 0 16px;
+  margin-right: 16px;
 }
 
-.ui-text.ui-text--ui-secundario{
+.ui-text.ui-text--ui-secundario {
   font-size: 2.0rem;
   font-weight: 600;
   color: var(--ui-primario);
 }
 
 
+@media only screen and (max-width: 700px) {
+  // Agrega aquí tus estilos para dispositivos móviles
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 16px;
+  }
+
+  .title {
+    margin-bottom: 8px;
+  }
+
+  .main_formulario .main__footer {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+
+    .main__footer__span {
+      margin-right: 10px;
+      flex-grow: 1;
+    }
+  }
+
+  .ui-button {
+    padding: 0 32px;
+    min-width: 140px;
+    margin-bottom: 16px;
+  }
+
+  .ui-button--ui-secundario {
+    margin-right: 0px;
+  }
+}
+
+@media only screen and (min-width: 701px) and (max-width: 1024px) {
+  // Agrega aquí tus estilos para tablets
+
+  .main_formulario .main__footer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  button {
+    order: 0;
+  }
+
+  .main__footer__span {
+    margin-top: 16px;
+    width: 100%;
+    text-align: center;
+    order: 1;
+  }
+}

@@ -22,7 +22,8 @@ export class BeneficiaryHomeComponent {
     this.objeto = {
       id: this.decodificadorService.getId(),
       role: this.decodificadorService.getRol(),
-      date: new Date().toLocaleString()
+      date: new Date().toLocaleString(),
+      approved: 'N'
     };
     this.value = JSON.stringify(this.objeto);
   }
@@ -31,7 +32,8 @@ export class BeneficiaryHomeComponent {
     this.objeto = {
       id: this.decodificadorService.getId(),
       role: this.decodificadorService.getRol(),
-      date: new Date().toLocaleString()
+      date: new Date().toLocaleString(),
+      approved: 'N'
     };
     this.value = JSON.stringify(this.objeto);
   }

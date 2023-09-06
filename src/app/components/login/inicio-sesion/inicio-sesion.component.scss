@@ -20,6 +20,7 @@ header {
 #languageSelector {
   margin-right: 16px;
 }
+
 // header img {
 //   height: 100%;
 //   margin-left: 15px;
@@ -40,25 +41,24 @@ main {
   align-items: center;
 }
 
-.container {
-  position: relative;
-}
-
-.container section {
-  position: absolute;
-  top: calc(50% - 200px);
-  left: calc(50% - 200px);
+section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ui-tarjeta {
-  width: 416px;
+  max-width: 416px;
+  min-width: 320px;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   padding: 32px;
-  margin-top: -50px;
+  margin: 0 16px;
 }
 
-.ui-tarjeta h1{
+.ui-tarjeta h1 {
   align-self: left;
   font-size: 3.0rem;
   font-weight: 600;
@@ -66,44 +66,44 @@ main {
   margin-bottom: 32px;
 }
 
-.tarjeta__input{
+.tarjeta__input {
   display: flex;
   flex-direction: column;
 }
 
-.tarjeta__input .ui-input{
+.tarjeta__input .ui-input {
   width: 100%;
 }
 
-.tarjeta__input mat-form-field{
+.tarjeta__input mat-form-field {
   margin-bottom: 8px;
 }
 
-.tarjeta__input label{
+.tarjeta__input label {
   font-size: 1.4rem;
   font-weight: 400;
   color: var(--texto-primario);
   // margin-bottom: 8px;
 }
 
-.ui-tarjeta form{
+.ui-tarjeta form {
   display: flex;
   flex-direction: column;
 }
 
-.ui-tarjeta .tarjeta__button{
+.ui-tarjeta .tarjeta__button {
   align-self: center;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.ui-separator-horizontal{
+.ui-separator-horizontal {
   margin-top: 32px;
   margin-bottom: 16px;
 }
 
-.ui-link{
+.ui-link {
   align-self: center;
 }
 
@@ -113,11 +113,11 @@ main {
   margin-bottom: 16px;
 }
 
-.mdc-form-field > label {
+.mdc-form-field>label {
   padding-left: 0px;
 }
 
-.texto-soporte{
+.texto-soporte {
   font-size: 1.4rem;
   font-weight: 600;
   color: var(--texto-primario);

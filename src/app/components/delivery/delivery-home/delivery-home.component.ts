@@ -77,7 +77,20 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
         this.scanActive = false;
         try {
           this.objeto = JSON.parse(result);
-          this.infoValid = this.objeto.role === 'beneficiary';
+          this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination).subscribe({
+            next: (res) => {
+              if (res.could_approve === 'Y'){
+                this.infoValid = true;
+              } else {
+                this.infoValid = false;
+              }
+            },
+            error: (error) => {
+              console.log(error);
+              this.openSnackBar('Error uploading QR');
+              this.infoValid = false;
+            }
+          });
         } catch (error) {
           console.error(error);
           this.infoValid = false;
@@ -108,12 +121,12 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
           console.log(res);
           this.userLocation = null;
 
-          this.openSnackBar('On boarded finished successfully');
+          this.openSnackBar('Off boarded successfully');
         },
         (err: any) => {
           console.log(err);
           this.onBoarded = true;
-          this.openSnackBar('Error cancelling on boarding');
+          this.openSnackBar('Error off boarding');
         }
       );
 
@@ -122,17 +135,19 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
 
   onSubmit() {
     if (this.infoValid && this.deliveryForm.valid) {
-      this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination).subscribe(
-        (res: any) => {
+      // cambiar el approved del objeto
+      this.objeto.approved = 'Y';
+      this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination).subscribe({
+        next: (res) => {
           console.log(res);
-          this.openSnackBar('QR uploaded successfully');
+          this.openSnackBar('Delivery approved successfully');
           this.infoValid = false;
         },
-        (err: any) => {
-          console.log(err);
-          this.openSnackBar('Error uploading QR');
+        error: (error) => {
+          console.log(error);
+          this.openSnackBar('Error approving delivery');
         }
-      );
+      });
     } else {
       this.openSnackBar('Please scan a valid QR');
     }

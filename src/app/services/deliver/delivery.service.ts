@@ -15,7 +15,7 @@ export class DeliveryService {
   ) { }
 
   uploadTicket(beneficiaryQR: beneficiaryQR, location_id: number){
-    return this.http.post(`${environment.url_api}/upload/beneficiaryQR/${location_id}`, beneficiaryQR);
+    return this.http.post<any>(`${environment.url_api}/upload/beneficiaryQR/${location_id}`, beneficiaryQR);
   }
 
   getLocations(){

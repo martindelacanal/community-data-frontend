@@ -1,10 +1,12 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { StepperOrientation } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime } from 'rxjs';
+import { Observable, debounceTime, map } from 'rxjs';
 import { RegisterAnswer } from 'src/app/models/login/register-answer';
 import { RegisterQuestion } from 'src/app/models/login/register-question';
 import { Usuario } from 'src/app/models/login/usuario';
@@ -16,11 +18,13 @@ import { DecodificadorService } from 'src/app/services/login/decodificador.servi
 @Component({
   selector: 'app-formulario-registro',
   templateUrl: './formulario-registro.component.html',
-  styleUrls: ['./formulario-registro.component.scss']
+  styleUrls: ['./formulario-registro.component.scss'],
 })
 
 
 export class FormularioRegistroComponent implements OnInit {
+
+  stepperOrientation: Observable<StepperOrientation>;
 
   private usuario: Usuario;
   private firstExecuteComponent: boolean = true;
@@ -54,8 +58,13 @@ export class FormularioRegistroComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private snackBar: MatSnackBar,
-    public translate: TranslateService
+    public translate: TranslateService,
+    breakpointObserver: BreakpointObserver
   ) {
+    this.stepperOrientation = breakpointObserver
+      .observe('(min-width: 800px)')
+      .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
+
     this.genders = [];
     this.ethnicities = [];
     translate.addLangs(['en', 'es']);
@@ -65,7 +74,6 @@ export class FormularioRegistroComponent implements OnInit {
 
     this.buildForm();
     this.buildFirstFormGroup();
-
   }
 
   switchLang(lang: string) {

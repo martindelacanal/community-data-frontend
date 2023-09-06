@@ -11,7 +11,6 @@
     </span>
   </header>
   <main>
-    <div class="container">
       <section *ngIf="loginSection" [@scaleInOut] (@scaleInOut.done)="animationDone($event, 'password')">
         <div class="ui-tarjeta">
           <h1>{{'login_title' | translate }}</h1>
@@ -94,6 +93,5 @@
           <a class="ui-link" (click)="setForgetPassword(true,false)">{{'login_recover_password_link_back' | translate }}</a>
         </div>
       </section>
-    </div>
   </main>
 </div>

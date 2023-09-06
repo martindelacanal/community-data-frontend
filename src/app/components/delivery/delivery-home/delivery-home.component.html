@@ -50,7 +50,7 @@
             <button *ngIf="this.scanActive || this.infoValid" class="ui-button ui-button--ui-secundario" type="button"
               (click)="onCancel()">Cancel</button>
             <button *ngIf="onBoarded && !this.scanActive && !this.infoValid" class="ui-button ui-button--ui-secundario" type="button"
-              (click)="onBoard()">Finish</button>
+              (click)="onBoard()">Off board</button>
             <button *ngIf="onBoarded && !this.scanActive" class="ui-button" type="button" (click)="onSubmit()"
               [disabled]="this.scanActive || !this.infoValid">Approved</button>
             <button *ngIf="!onBoarded" class="ui-button" type="button" (click)="onBoard()"

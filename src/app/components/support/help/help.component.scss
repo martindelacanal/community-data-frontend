@@ -18,7 +18,7 @@
   width: 100%;
 }
 
-.ui-tarjeta{
+.ui-tarjeta {
   margin: 0 auto;
   padding: 48px;
   border-top: 4px solid var(--ui-primario);
@@ -46,12 +46,13 @@
   grid-column: 1 / -1;
   grid-row: 2 / 3;
 }
+
 .card:nth-child(3) {
   grid-column: 1 / -1;
   grid-row: 3 / 4;
 }
 
-.card mat-form-field{
+.card mat-form-field {
   width: 100%;
 }
 
@@ -80,15 +81,40 @@
 
 }
 
-.card mat-form-field{
+.card mat-form-field {
   width: 100%;
   margin-top: 16px;
   // max-width: 525px;
 }
 
-.texto-soporte{
+.texto-soporte {
   font-size: 1.4rem;
   font-weight: 600;
   color: var(--texto-primario);
   margin-top: 16px;
+}
+
+@media only screen and (max-width: 700px) {
+  // Agrega aquí tus estilos para dispositivos móviles
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 16px;
+  }
+
+  .title {
+    margin-bottom: 8px;
+  }
+
+  .ui-button {
+    padding: 0 32px;
+    min-width: 140px;
+  }
+
+  .ui-button--ui-secundario {
+    padding: 0 24px;
+    margin: 0 auto;
+  }
 }
