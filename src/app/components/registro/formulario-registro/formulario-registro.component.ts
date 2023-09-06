@@ -131,9 +131,6 @@ export class FormularioRegistroComponent implements OnInit {
       const dateString = date.toISOString().slice(0, 10);
       // Asignar la fecha al campo de fecha en el formulario
       this.firstFormGroup.get('dateOfBirth').setValue(dateString);
-      // console.log("this.firstFormGroup.value: ", this.firstFormGroup.value);
-      // console.log("this.secondFormGroup.value: ", this.secondFormGroup.value);
-      // console.log("this.combinedFormGroup.value: ", this.combinedFormGroup.value);
       // Enviar para cada pregunta, el answer_type_id
       const answers = this.registerQuestions.map(question => {
         const answer = this.combinedFormGroup.value.secondFormGroup[question.id];
