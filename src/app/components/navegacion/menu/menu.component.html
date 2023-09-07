@@ -70,3 +70,6 @@
   </div>
 </section>
 </div>
+<div *ngIf="!usuario">
+  <mat-spinner class="logout-loading" mode="indeterminate" [diameter]="100"></mat-spinner>
+</div>

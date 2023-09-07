@@ -1,3 +1,13 @@
+.logout-loading {
+  // display center of screen
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  // display as a block element
+  display: block;
+}
+
 header {
   width: 100%;
   display: flex;
@@ -99,7 +109,8 @@ header #logo {
   display: flex;
   flex-direction: column;
   width: 216px;
-  background-color: var(--ui-sidebar);
+  background-color: var(--ui-secundario);
+  // background-color: var(--ui-sidebar); // COLOR ANTERIOR
   transition: width 0.1s;
 }
 

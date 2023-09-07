@@ -54,7 +54,8 @@ html {
   font-size: 62.5%;
   font-family: var(--fuente);
   /* Definir el color de fondo de la página */
-  background-color: var(--ui-sidebar);
+  background-color: var(--ui-secundario);
+  // background-color: var(--ui-sidebar); // COLOR ANTERIOR
   /* Definir el color de texto principal */
   color: var(--texto-secundario);
 }
@@ -73,7 +74,8 @@ span {
 }
 ::-webkit-scrollbar-track {
   /* Set the color of the scrollbar track */
-  background-color: var(--ui-sidebar);
+  background-color: var(--ui-secundario);
+  // background-color: var(--ui-sidebar); // COLOR ANTERIOR
 }
 ::-webkit-scrollbar-thumb {
   /* Set the color of the scrollbar thumb */
@@ -315,7 +317,8 @@ span {
   box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .ui-button-map:disabled {
-  background: var(--ui-sidebar);
+  background: var(--ui-secundario);
+  // background: var(--ui-sidebar); // COLOR ANTERIOR
   color: var(--texto-secundario);
   cursor: not-allowed;
 }
