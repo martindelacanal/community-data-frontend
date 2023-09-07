@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url_api: 'https://dev-api.ditory.la/retail/api'
+  url_api: 'http://54.219.232.247/api'
 };

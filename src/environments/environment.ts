@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  url_api: 'http://localhost:3000/api'
-  //url_api: 'https://dev-api.ditory.la/retail/api'
+  // url_api: 'http://localhost:3000/api'
+  url_api: 'http://54.219.232.247/api'
 };
 
 /*
