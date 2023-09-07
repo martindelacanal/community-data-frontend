@@ -56,7 +56,7 @@ export class MenuComponent implements OnInit {
     if (!this.usuario) {
       window.location.reload()
     }
-   }
+  }
 
   ngOnInit(): void {
     this.authService.getIsAuthenticated().subscribe(isAuthenticated => {
@@ -118,7 +118,10 @@ export class MenuComponent implements OnInit {
 
   logOut() {
     localStorage.removeItem('token');
+    this.usuario = null;
+    this.router.navigate(['login']).then(() => {
       window.location.reload();
+    });
   }
 
   openSnackBar(message: string) {
@@ -143,7 +146,7 @@ export class MenuComponent implements OnInit {
             console.log(error);
             this.openSnackBar('Error changing password');
           }
-      });
+        });
       }
     });
   }

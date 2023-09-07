@@ -8,15 +8,16 @@ import { DecodificadorService } from 'src/app/services/login/decodificador.servi
   providedIn: 'root'
 })
 export class RoleGuard {
+
   private usuario: Usuario;
 
   constructor(
     private authService: AuthService,
     private decodificadorService: DecodificadorService,
     public router: Router
-  ) {}
+  ) { }
 
-  canActivate: CanActivateFn = (route: ActivatedRouteSnapshot) => {
+  canActivate(route: ActivatedRouteSnapshot): boolean {
     const expectedRoles = route.data['expectedRoles'];
     const token = localStorage.getItem('token');
 

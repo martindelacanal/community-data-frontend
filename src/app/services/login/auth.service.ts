@@ -30,7 +30,6 @@ export class AuthService {
   isAuth():boolean{
     const token = localStorage.getItem('token');
     if(this.jwtHelper.isTokenExpired(token) || !localStorage.getItem('token')){
-      localStorage.removeItem('token');
       return false;
     }
     return true;
