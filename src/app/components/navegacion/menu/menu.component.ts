@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Usuario } from 'src/app/models/login/usuario';
 import { AuthService } from 'src/app/services/login/auth.service';
 import { DecodificadorService } from 'src/app/services/login/decodificador.service';
@@ -7,6 +7,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { MatDialog } from '@angular/material/dialog';
 import { ResetPasswordComponent } from '../../dialog/reset-password/reset-password.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -41,6 +42,7 @@ export class MenuComponent implements OnInit {
   menuExpanded = false;
   showCard = false;
   currentRoute = '';
+  route_role = '';
   animationState = 'menu';
 
   constructor(
@@ -49,12 +51,34 @@ export class MenuComponent implements OnInit {
     private renderer: Renderer2,
     private authService: AuthService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {
     this.usuario = this.decodificadorService.getUsuario();
     console.log(this.usuario)
     if (!this.usuario) {
       window.location.reload()
+    } else {
+      switch (this.usuario.role) {
+        case 'admin':
+          this.route_role = '/home';
+          break;
+        case 'client':
+          this.route_role = '/home';
+          break;
+        case 'stocker':
+          this.route_role = '/stocker/home';
+          break;
+        case 'delivery':
+          this.route_role = '/delivery/home';
+          break;
+        case 'beneficiary':
+          this.route_role = '/beneficiary/home';
+          break;
+        default:
+          this.route_role = '/login';
+          break;
+      }
     }
   }
 
@@ -68,8 +92,12 @@ export class MenuComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.url;
+        if (this.currentRoute === '/login') {
+          window.location.reload();
+        }
       }
     });
+
   }
 
   ngAfterViewInit() {
@@ -96,6 +124,7 @@ export class MenuComponent implements OnInit {
     }
   }
 
+
   toggleMenu() {
     if (this.animationState === 'menu') {
       this.animationState = 'intermediate';
@@ -119,9 +148,10 @@ export class MenuComponent implements OnInit {
   logOut() {
     localStorage.removeItem('token');
     this.usuario = null;
-    this.router.navigate(['login']).then(() => {
-      window.location.reload();
-    });
+    window.location.reload();
+    // this.router.navigate(['login']).then(() => {
+      // window.location.reload();
+    // });
   }
 
   openSnackBar(message: string) {

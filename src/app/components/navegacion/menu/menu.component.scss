@@ -32,6 +32,8 @@ header #logo {
   font-size: 2.0rem;
   font-weight: 600;
   color: var(--texto-blanco);
+  //eliminar el subrayado del link
+  text-decoration: none;
 }
 
 .header__buscador {

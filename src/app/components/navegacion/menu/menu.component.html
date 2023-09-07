@@ -1,4 +1,4 @@
-<div *ngIf="usuario">
+<div *ngIf="usuario && this.currentRoute !== '/login'">
 <header>
   <div class="header__logo">
     <div #menuIcon (click)="toggleMenu()" [@iconAnimation]="animationState">
@@ -9,10 +9,10 @@
         <img class="header__logo__menu-icon" src="../../../../assets/icons/cerrar.svg" alt="Icono de cerrar" id="menu-icon-cerrar">
       </ng-template>
     </div>
-    <a routerLink="/home">
+
       <!-- <img src="../../../../assets/imgs/login/logo-ditory-color.svg" alt="Logo principal" class="logo" id="logo"> -->
-      <span alt="Logo principal" id="logo">Community Data</span>
-    </a>
+      <a routerLink="{{this.route_role}}" alt="Logo principal" id="logo">Community Data</a>
+
   </div>
   <div class="header__buscador">
     <input class="ui-input" type="search" id="search-input" placeholder="Search">
@@ -39,7 +39,7 @@
       <section class="container__header">
         <ul>
           <li [class.active-link]="currentRoute.includes('/home')" [class.li-collapsed]="!menuExpanded">
-            <a routerLink="/home">
+            <a routerLink="{{this.route_role}}">
               <img class="ui-tarjeta__icono" src="../../../../assets/icons/home.svg" alt="Icono de home">
               <span [class.hidden]="!menuExpanded">Home</span>
             </a>
@@ -70,6 +70,6 @@
   </div>
 </section>
 </div>
-<div *ngIf="!usuario">
+<div *ngIf="!usuario || this.currentRoute === '/login'">
   <mat-spinner class="logout-loading" mode="indeterminate" [diameter]="100"></mat-spinner>
 </div>

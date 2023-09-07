@@ -19,28 +19,49 @@ export class AuthService {
     private http: HttpClient,
     private jwtHelper: JwtHelperService) { }
 
-  signin(user:any){
-    return this.http.post(`${environment.url_api}/signin`,user);
+  signin(user: any) {
+    return this.http.post(`${environment.url_api}/signin`, user);
   }
 
-  signup(form:any){
-    return this.http.post(`${environment.url_api}/signup`,form);
+  signup(form: any) {
+    return this.http.post(`${environment.url_api}/signup`, form);
   }
 
-  isAuth():boolean{
+  isAuth(): boolean {
     const token = localStorage.getItem('token');
-    if(this.jwtHelper.isTokenExpired(token) || !localStorage.getItem('token')){
+    if (!token) {
       return false;
     }
-    return true;
+    try {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      if (!decodedToken || this.jwtHelper.isTokenExpired(token)) {
+        localStorage.removeItem('token');
+        return false;
+      }
+      // Aquí puedes agregar cualquier otra verificación que necesites
+      return true;
+    } catch (error) {
+      console.error(error);
+      localStorage.removeItem('token');
+      return false;
+    }
   }
 
   isAuthObservable(): Observable<boolean> {
     const token = localStorage.getItem('token');
-    if (this.jwtHelper.isTokenExpired(token) || !localStorage.getItem('token')) {
+    try {
+      if (this.jwtHelper.isTokenExpired(token) || !token) {
+        if (token) {
+          localStorage.removeItem('token');
+        }
+        return of(false);
+      }
+      return of(true);
+    } catch (error) {
+      console.error(error);
+      localStorage.removeItem('token');
       return of(false);
     }
-    return of(true);
   }
 
 
@@ -52,32 +73,32 @@ export class AuthService {
     this.isAuthenticated.next(true);
   }
 
-  changePassword(idUser: string, form: any){
-    return this.http.put<any>(`${environment.url_api}/change-password/${idUser}`,form);
+  changePassword(idUser: string, form: any) {
+    return this.http.put<any>(`${environment.url_api}/change-password/${idUser}`, form);
   }
 
-  resetPassword(form: any){
-    return this.http.put<any>(`${environment.url_api}/beneficiary/reset-password`,form);
+  resetPassword(form: any) {
+    return this.http.put<any>(`${environment.url_api}/beneficiary/reset-password`, form);
   }
 
-  getUserNameExists(nombre: string){
+  getUserNameExists(nombre: string) {
     return this.http.get<any>(`${environment.url_api}/userName/exists/search?username=${nombre}`);
   }
 
-  getEmailExists(nombre: string){
+  getEmailExists(nombre: string) {
     return this.http.get<any>(`${environment.url_api}/email/exists/search?email=${nombre}`);
   }
 
-  getRegisterQuestions(language: string){
+  getRegisterQuestions(language: string) {
     return this.http.get<RegisterQuestion[]>(`${environment.url_api}/register/questions?language=${language}`);
   }
 
-  getGender(language: string, id?: number){
-    return this.http.get<Gender[]>(`${environment.url_api}/gender?${id ? 'id='+id+'&' : ''}language=${language}`);
+  getGender(language: string, id?: number) {
+    return this.http.get<Gender[]>(`${environment.url_api}/gender?${id ? 'id=' + id + '&' : ''}language=${language}`);
   }
 
-  getEthnicity(language: string, id?: number){
-    return this.http.get<Ethnicity[]>(`${environment.url_api}/ethnicity?${id ? 'id='+id+'&' : ''}language=${language}`);
+  getEthnicity(language: string, id?: number) {
+    return this.http.get<Ethnicity[]>(`${environment.url_api}/ethnicity?${id ? 'id=' + id + '&' : ''}language=${language}`);
   }
 
 }
