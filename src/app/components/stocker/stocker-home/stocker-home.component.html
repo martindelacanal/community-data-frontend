@@ -1,3 +1,4 @@
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
 <div class="container">
   <section class="header">
     <div>
@@ -85,9 +86,12 @@
           <div class="card">
             <div class="subir-archivo">
               <span>
-                Upload ticket *
+                Upload ticket (max. 2 files) <span
+                [ngClass]="{'required': !imageTicketUploaded}">*</span>
               </span>
-              <input type="file" accept="image/png, image/jpeg" name="image_ticket" multiple
+              <label for="ticket-files" class="ui-button--ui-secundario subir-archivo__input--label">Select Image</label>
+              <input type="file" class="subir-archivo__input--new" accept="image/png, image/jpeg" name="image_ticket" multiple (change)="uploadFile($event)" id="ticket-files" style="display:none;">
+              <input type="file" class="subir-archivo__input" accept="image/png, image/jpeg" name="image_ticket" multiple
                 (change)="uploadFile($event)" />
             </div>
           </div>
@@ -99,6 +103,7 @@
           <!-- products -->
           <div class="card">
             <div class="card__add_products">
+              <div class="card__add_products__buttons-container">
               <button class="card__add_products--button" mat-icon-button type="button" matTooltip="Add product"
                 matTooltipPosition="above" (click)="agregarCampo()">
                 <mat-icon>add</mat-icon>
@@ -107,6 +112,7 @@
                 matTooltipPosition="above" [disabled]="productsForm.controls.length < 1" (click)="quitarCampo()">
                 <mat-icon>remove</mat-icon>
               </button>
+            </div>
               <mat-form-field appearance="outline">
                 <mat-label>Number of fields (optional)</mat-label>
                 <input matInput type="number" matNumberInput min="0" [(ngModel)]="numberOfFields"
@@ -155,7 +161,7 @@
             <!-- <div class="ui-separator-horizontal"></div> -->
             <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
           </div>
-
+          <!-- buttons -->
           <div class="card">
             <div class="main__footer">
               <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
@@ -170,4 +176,5 @@
 
     </div>
   </section>
+</div>
 </div>

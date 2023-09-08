@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,6 +16,8 @@ import { StockerService } from 'src/app/services/stock/stocker.service';
   styleUrls: ['./stocker-home.component.scss']
 })
 export class StockerHomeComponent implements OnInit {
+  isMobile: boolean;
+  isTablet: boolean;
 
   public stockForm: FormGroup;
   public isValidFiles: boolean = true;
@@ -33,6 +36,7 @@ export class StockerHomeComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private breakpointObserver: BreakpointObserver,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private stockerService: StockerService,
@@ -46,6 +50,20 @@ export class StockerHomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.breakpointObserver.observe([
+      Breakpoints.Handset,
+      '(max-width: 900px)'
+    ]).subscribe(result => {
+      this.isMobile = result.matches;
+    });
+
+    this.breakpointObserver.observe([
+      Breakpoints.Tablet,
+      '(min-width: 901px) and (max-width: 1200px)'
+    ]).subscribe(result => {
+      this.isTablet = result.matches;
+    });
+
     this.getLocations();
     this.getProviders();
     this.getProducts();
