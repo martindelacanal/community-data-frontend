@@ -31,7 +31,7 @@
             <p *ngIf="!this.scanActive && this.infoValid" class="ui-text ui-text--ui-secundario">Beneficiary authorized
               to receive a bag.<br> Press Approved if you agree.</p>
             <div *ngIf="this.scanActive">
-              <qr-scanner [debug]="false" [canvasWidth]="1080" [canvasHeight]="720" [stopAfterScan]="true"
+              <qr-scanner facing="environment" [canvasWidth]="1080" [canvasHeight]="720" [stopAfterScan]="true"
                 [updateTime]="500">
               </qr-scanner>
             </div>

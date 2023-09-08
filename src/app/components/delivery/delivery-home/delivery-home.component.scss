@@ -109,6 +109,12 @@
     margin-bottom: 8px;
   }
 
+  .ui-tarjeta {
+    margin: 0 auto;
+    padding: 24px;
+    border-top: 4px solid var(--ui-primario);
+  }
+
   .main_formulario .main__footer {
     display: flex;
     flex-direction: column-reverse;
@@ -152,4 +158,5 @@
     text-align: center;
     order: 1;
   }
+
 }

@@ -144,3 +144,12 @@ hr {
   font-size: 1.4rem;
   font-weight: bold;
 }
+
+@media only screen and (max-width: 330px) {
+  header span {
+    margin-left: 16px;
+    font-size: 2.0rem;
+    font-weight: 600;
+    color: var(--texto-blanco);
+  }
+}
