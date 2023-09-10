@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { delay, from, mergeMap, toArray } from 'rxjs';
 import { GraficoLinea } from 'src/app/models/grafico-linea/grafico-linea.model';
@@ -10,7 +11,8 @@ import { DashboardGeneralService } from 'src/app/services/dashboard/dashboard-ge
   styleUrls: ['./dashboard-home.component.scss']
 })
 export class DashboardHomeComponent implements OnInit {
-
+  isMobile: boolean;
+  isTablet: boolean;
 
   // clientesPositivo = true;
   // comerciosPositivo = false;
@@ -31,13 +33,27 @@ export class DashboardHomeComponent implements OnInit {
 
 
   constructor(
-    private dashboardGeneralService: DashboardGeneralService
+    private dashboardGeneralService: DashboardGeneralService,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.selectedTab = 'pounds';
   }
 
 
   ngOnInit(){
+    this.breakpointObserver.observe([
+      '(max-width: 800px)'
+    ]).subscribe(result => {
+      this.isMobile = result.matches;
+    });
+
+    // this.breakpointObserver.observe([
+    //   Breakpoints.Tablet,
+    //   '(min-width: 801px) and (max-width: 1024px)'
+    // ]).subscribe(result => {
+    //   this.isTablet = result.matches;
+    // });
+
     this.getPoundsDelivered();
     this.getTotalLocations();
     this.getTotalDaysOperation();

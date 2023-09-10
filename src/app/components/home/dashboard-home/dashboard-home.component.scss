@@ -4,7 +4,7 @@
   grid-template-rows: repeat(7, minmax(100px, 1fr));
   gap: 32px;
   justify-content: center;
-  max-width: 1300px;
+  max-width: 1328px;
   margin: 0 auto;
 }
 
@@ -233,9 +233,16 @@
   // fit the 100% of the parent
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow-x: scroll;
 }
 
 // FIN IMPLEMENTACION DE MAT-TAB SIMPLE
 
 
+.mobile {
+  @import './dashboard-home-movil.component.scss';
+}
+
+.tablet {
+  @import './dashboard-home-tablet.component.scss';
+}

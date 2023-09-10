@@ -1,0 +1,78 @@
+@media only screen and (max-width: 800px) {
+
+  .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, auto);
+    row-gap: 16px;
+    align-items: center;
+    margin-right: 8px;
+  }
+
+  .tarjetas-movil-tablet {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    display: flex;
+    overflow-x: scroll;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    gap: 4px;
+    margin-right: -8px;
+  }
+
+  .mapa {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .graficos {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    overflow-x: auto;
+  }
+
+  .misiones-activas {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .tarjeta-slider {
+    margin: 4px 4px 12px 4px;
+  }
+
+  .tarjeta-slider .ui-tarjeta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 150px;
+    scroll-snap-align: center;
+  }
+
+  .mapa .ui-tarjeta {
+    height: 300px;
+  }
+
+  .graficos .ui-tarjeta {
+    margin-bottom: 4px;
+    padding: 16px;
+  }
+
+  .graficos__header {
+    overflow-x: auto;
+    gap: 16px;
+    justify-content: start;
+  }
+
+  .graficos__boton-header {
+    min-width: fit-content;
+  }
+
+  .center-content {
+    overflow-x: scroll;
+  }
+
+  .misiones-activas .ui-tarjeta {
+    padding: 16px;
+  }
+}

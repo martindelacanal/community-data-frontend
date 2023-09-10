@@ -1,5 +1,85 @@
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
 <div class="container">
-  <div class="tarjeta-principal">
+  <div *ngIf="isMobile || isTablet" class="tarjetas-movil-tablet">
+    <article class="tarjeta-slider">
+      <div class="ui-tarjeta">
+        <div class="ui-tarjeta__header">
+          Pounds delivered
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/campanias-activas.svg" alt="Icono de campañas activas">
+          <span>{{poundsDelivered}}</span>
+        </div>
+      </div>
+    </article>
+    <article class="tarjeta-slider">
+      <div class="ui-tarjeta">
+        <div class="ui-tarjeta__header">
+          Total locations
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/misiones-disponibles.svg" alt="Icono de misiones disponibles">
+          <span>{{totalLocations}}</span>
+        </div>
+      </div>
+    </article>
+    <article class="tarjeta-slider">
+      <div class="ui-tarjeta">
+        <div class="ui-tarjeta__header">
+          Total days of operation
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/revisar-misiones.svg" alt="Icono de revisar misiones">
+          <span>{{totalDaysOperation}}</span>
+        </div>
+      </div>
+    </article>
+    <article class="tarjeta-slider">
+      <div class="ui-tarjeta">
+        <div class="ui-tarjeta__header">
+          Number of stockists
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
+          <span>{{totalStockers}}</span>
+        </div>
+      </div>
+    </article>
+    <article class="tarjeta-slider">
+      <div class="ui-tarjeta">
+        <div class="ui-tarjeta__header">
+          Delivery people
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
+          <span>{{totalDeliveries}}</span>
+        </div>
+      </div>
+    </article>
+    <article class="tarjeta-slider">
+      <div class="ui-tarjeta">
+        <div class="ui-tarjeta__header">
+          Beneficiaries
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+          <span>{{totalBeneficiaries}}</span>
+        </div>
+      </div>
+    </article>
+    <article class="tarjeta-slider">
+      <div class="ui-tarjeta">
+        <div class="ui-tarjeta__header">
+          Beneficiaries served
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+          <span>{{totalBeneficiariesServed}}%</span>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div *ngIf="!isMobile && !isTablet" class="tarjeta-principal">
     <div class="ui-tarjeta">
       <section>
         <div class="ui-tarjeta__header">
@@ -47,7 +127,7 @@
       <app-mapa-dashboard-home></app-mapa-dashboard-home>
     </div>
   </div>
-  <div class="ditors-activos">
+  <div *ngIf="!isMobile && !isTablet" class="ditors-activos">
     <div class="ui-tarjeta">
       <div class="ui-tarjeta__header">
         Delivery people
@@ -58,7 +138,7 @@
       </div>
     </div>
   </div>
-  <div class="clientes-activos">
+  <div *ngIf="!isMobile && !isTablet" class="clientes-activos">
     <div class="ui-tarjeta">
       <div class="ui-tarjeta__header">
         Beneficiaries
@@ -69,7 +149,7 @@
       </div>
     </div>
   </div>
-  <div class="clientes-activos-porcentaje">
+  <div *ngIf="!isMobile && !isTablet" class="clientes-activos-porcentaje">
     <div class="ui-tarjeta">
       <div class="ui-tarjeta__header">
         Beneficiaries served
@@ -185,4 +265,5 @@
       </footer>
     </div>
   </div>
+</div>
 </div>

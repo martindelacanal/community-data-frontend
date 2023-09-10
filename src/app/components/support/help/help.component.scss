@@ -94,6 +94,11 @@
   margin-top: 16px;
 }
 
+.ui-button--ui-secundario {
+  padding: 0 24px;
+  margin: 0 auto;
+}
+
 @media only screen and (max-width: 700px) {
   // Agrega aquí tus estilos para dispositivos móviles
 
@@ -101,7 +106,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0 16px;
+    margin: 0 8px;
   }
 
   .title {
@@ -114,7 +119,14 @@
   }
 
   .ui-button--ui-secundario {
-    padding: 0 24px;
+    padding: 0 16px;
     margin: 0 auto;
+  }
+
+  .ui-tarjeta {
+    margin: 0 auto;
+    padding: 16px;
+    border-top: 4px solid var(--ui-primario);
+    // background-image: linear-gradient(to bottom, var(--ui-primario) 0%, var(--ui-primario) 2%, transparent 2%, transparent 100%);
   }
 }

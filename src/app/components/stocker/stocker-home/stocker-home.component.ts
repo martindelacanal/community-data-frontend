@@ -51,14 +51,12 @@ export class StockerHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.breakpointObserver.observe([
-      Breakpoints.Handset,
       '(max-width: 900px)'
     ]).subscribe(result => {
       this.isMobile = result.matches;
     });
 
     this.breakpointObserver.observe([
-      Breakpoints.Tablet,
       '(min-width: 901px) and (max-width: 1200px)'
     ]).subscribe(result => {
       this.isTablet = result.matches;
