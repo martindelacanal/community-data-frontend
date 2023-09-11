@@ -57,7 +57,7 @@ export class MenuComponent implements OnInit {
     public translate: TranslateService,
   ) {
     this.usuario = this.decodificadorService.getUsuario();
-    console.log(this.usuario)
+    console.log("SOY EL MENU: ", this.usuario)
     if (!this.usuario) {
       window.location.reload()
     } else {

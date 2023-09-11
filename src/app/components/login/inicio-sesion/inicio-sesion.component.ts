@@ -65,6 +65,9 @@ export class InicioSesionComponent implements OnInit {
     this.buildLoginForm();
     this.buildRecoverPasswordForm();
     this.usuario = this.decodificadorService.getUsuario();
+    if (this.usuario !== null) {
+      this.redireccionar();
+    }
   }
 
   switchLang(lang: string) {
@@ -114,7 +117,6 @@ export class InicioSesionComponent implements OnInit {
       const dateString = date.toISOString().slice(0, 10);
       // Asignar la fecha al campo de fecha en el formulario
       this.recoverPasswordForm.get('dateOfBirth').setValue(dateString);
-      console.log(this.recoverPasswordForm.value);
       this.authService.resetPassword(this.recoverPasswordForm.value).subscribe({
         next: (res) => {
           if (res != null) {
