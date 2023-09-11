@@ -8,7 +8,7 @@ import { AuthService } from './services/login/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ditory-frontend';
+  title = 'community-data-frontend';
 
   isLogged = false;
 
