@@ -145,16 +145,16 @@ export class StockerHomeComponent implements OnInit {
       console.log("Body enviado: ", body);
       this.stockerService.uploadTicket(body).subscribe({
         next: (res) => {
-          this.openSnackBar('Ticket uploaded successfully');
+          this.openSnackBar(this.translate.instant('stocker_snack_ticket_uploaded'));
           this.resetearFormulario();
         },
         error: (error) => {
           console.log(error);
-          this.openSnackBar('Error uploading ticket');
+          this.openSnackBar(this.translate.instant('stocker_snack_ticket_uploaded_error'));
         }
       });
     } else {
-      this.openSnackBar('Please fill the form correctly');
+      this.openSnackBar(this.translate.instant('stocker_snack_form_error'));
     }
   }
 
@@ -170,7 +170,7 @@ export class StockerHomeComponent implements OnInit {
       return;
     }
     if (files.length > 2) {
-      alert('You can only upload a maximum of 2 files');
+      alert(this.translate.instant('stocker_alert_max_files_error'));
       return;
     }
     for (let i = 0; i < files.length; i++) {
@@ -225,7 +225,7 @@ export class StockerHomeComponent implements OnInit {
     return this.stockForm.get('products') as FormArray;
   }
   openSnackBar(message: string) {
-    this.snackBar.open(message, 'Close');
+    this.snackBar.open(message, this.translate.instant('snackbar_close'));
   }
 
   private resetearFormulario() {

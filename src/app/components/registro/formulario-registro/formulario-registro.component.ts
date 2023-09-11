@@ -153,16 +153,16 @@ export class FormularioRegistroComponent implements OnInit {
       this.authService.signup(combinedFormGroupValue).subscribe({
         next: (res) => {
           console.log(res);
-          this.openSnackBar('Form submitted successfully.');
+          this.openSnackBar(this.translate.instant('register_snack_submitted'));
           this.router.navigate(['login']);
         },
         error: (error) => {
           console.log(error);
-          this.openSnackBar('Error submitting form.');
+          this.openSnackBar(this.translate.instant('register_snack_submitted_error'));
         }
       });
     } else {
-      this.openSnackBar('Please fill out all required fields.');
+      this.openSnackBar(this.translate.instant('register_snack_submitted_incomplete_error'));
     }
   }
 
@@ -253,7 +253,7 @@ export class FormularioRegistroComponent implements OnInit {
   }
 
   private openSnackBar(message: string) {
-    this.snackBar.open(message, 'Close');
+    this.snackBar.open(message, this.translate.instant('snackbar_close'));
   }
 
   private buildForm(): void {

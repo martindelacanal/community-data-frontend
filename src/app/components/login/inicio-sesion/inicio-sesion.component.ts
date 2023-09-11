@@ -118,7 +118,7 @@ export class InicioSesionComponent implements OnInit {
       this.authService.resetPassword(this.recoverPasswordForm.value).subscribe({
         next: (res) => {
           if (res != null) {
-            this.openSnackBar('Your new password is: ' + res.password);
+            this.openSnackBar(this.translate.instant('login_snack_your_new_password') + res.password);
             this.resetearFormulario();
           } else {
             this.resetValid = false;
@@ -186,7 +186,7 @@ export class InicioSesionComponent implements OnInit {
   }
 
   openSnackBar(message: string) {
-    this.snackBar.open(message, 'Close');
+    this.snackBar.open(message, this.translate.instant('snackbar_close'));
   }
 
 

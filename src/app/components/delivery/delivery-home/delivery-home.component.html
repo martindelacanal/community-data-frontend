@@ -1,7 +1,7 @@
 <div class="container">
   <section class="header">
     <div>
-      <h1 class="title">Scan QR</h1>
+      <h1 class="title">{{'delivery_title' | translate }}</h1>
     </div>
   </section>
   <section class="main">
@@ -14,22 +14,21 @@
           <!-- check if field destination in deliveryForm has value -->
           <div *ngIf="!onBoarded || !deliveryForm.controls['destination'].value; else scanner" class="full-width">
             <mat-form-field appearance="outline">
-              <mat-label>Destination</mat-label>
+              <mat-label>{{'delivery_input_destination' | translate }}</mat-label>
               <mat-select formControlName="destination">
                 <mat-option *ngFor="let location of locations" [value]="location.id">
                   {{location.organization}}
                 </mat-option>
               </mat-select>
               <mat-error *ngIf="deliveryForm.controls['destination'].hasError('required')">
-                Please select a destination
+                {{'delivery_input_destination_error_please' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
           <ng-template #scanner>
             <button *ngIf="!this.scanActive && !this.infoValid" class="qr-button" type="button" (click)="scanQR()">
               <mat-icon>qr_code_scanner</mat-icon></button>
-            <p *ngIf="!this.scanActive && this.infoValid" class="ui-text ui-text--ui-secundario">Beneficiary authorized
-              to receive a bag.<br> Press Approved if you agree.</p>
+            <p *ngIf="!this.scanActive && this.infoValid" class="ui-text ui-text--ui-secundario">{{'delivery_text_beneficiary_authorized' | translate }}<br> {{'delivery_text_beneficiary_authorized_press_approved' | translate }}</p>
             <div *ngIf="this.scanActive">
               <qr-scanner facing="environment" [canvasWidth]="1080" [canvasHeight]="720" [stopAfterScan]="true"
                 [updateTime]="500">
@@ -46,15 +45,15 @@
 
         <div class="card">
           <div class="main__footer">
-            <span class="main__footer__span"><div *ngIf="this.userLocation && this.userLocation.id">Organization: {{this.userLocation.organization}} - Address: {{this.userLocation.address}}</div></span>
+            <span class="main__footer__span"><div *ngIf="this.userLocation && this.userLocation.id">{{'delivery_text_organization' | translate }}: {{this.userLocation.organization}} - {{'delivery_text_address' | translate }}: {{this.userLocation.address}}</div></span>
             <button *ngIf="this.scanActive || this.infoValid" class="ui-button ui-button--ui-secundario" type="button"
-              (click)="onCancel()">Cancel</button>
+              (click)="onCancel()">{{'delivery_button_cancel' | translate }}</button>
             <button *ngIf="onBoarded && !this.scanActive && !this.infoValid" class="ui-button ui-button--ui-secundario" type="button"
-              (click)="onBoard()">Off board</button>
+              (click)="onBoard()">{{'delivery_button_off_board' | translate }}</button>
             <button *ngIf="onBoarded && !this.scanActive" class="ui-button" type="button" (click)="onSubmit()"
-              [disabled]="this.scanActive || !this.infoValid">Approved</button>
+              [disabled]="this.scanActive || !this.infoValid">{{'delivery_button_approved' | translate }}</button>
             <button *ngIf="!onBoarded" class="ui-button" type="button" (click)="onBoard()"
-              [disabled]="deliveryForm.controls['destination'].hasError('required')">On board</button>
+              [disabled]="deliveryForm.controls['destination'].hasError('required')">{{'delivery_button_on_board' | translate }}</button>
           </div>
         </div>
       </div>

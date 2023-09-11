@@ -14,7 +14,7 @@
 
   </div>
   <div class="header__buscador">
-    <input class="ui-input" type="search" id="search-input" placeholder="Search">
+    <input class="ui-input" type="search" id="search-input" placeholder="{{'menu_input_search' | translate }}">
   </div>
   <div class="header__perfil" (click)="toggleCard()" #profile>
     <div class="header__perfil__nombre">
@@ -26,9 +26,9 @@
 <section class="opciones-perfil">
   <div class="ui-tarjeta" *ngIf="showCard" #card>
     <ul>
-      <li>Settings</li>
-      <li>Notifications</li>
-      <li (click)="logOut()">Log out</li>
+      <li>{{'menu_button_settings' | translate }}</li>
+      <li>{{'menu_button_notifications' | translate }}</li>
+      <li (click)="logOut()">{{'menu_button_log_out' | translate }}</li>
     </ul>
   </div>
 </section>
@@ -40,13 +40,13 @@
           <li [class.active-link]="currentRoute.includes('/home')" [class.li-collapsed]="!menuExpanded">
             <a routerLink="{{this.route_role}}">
               <img class="ui-tarjeta__icono" src="../../../../assets/icons/home.svg" alt="Icono de home">
-              <span [class.hidden]="!menuExpanded">Home</span>
+              <span [class.hidden]="!menuExpanded">{{'menu_button_home' | translate }}</span>
             </a>
           </li>
           <li [class.active-link]="currentRoute.includes('/help')" [class.li-collapsed]="!menuExpanded">
             <a routerLink="/help">
               <img class="ui-tarjeta__icono" src="../../../../assets/icons/ayuda.svg" alt="Icono de ayuda">
-              <span [class.hidden]="!menuExpanded">Help</span>
+              <span [class.hidden]="!menuExpanded">{{'menu_button_help' | translate }}</span>
             </a>
           </li>
         </ul>

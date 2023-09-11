@@ -4,7 +4,7 @@
     <article class="tarjeta-slider">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
-          Pounds delivered
+          {{'dashboard_admin_pounds_delivered' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/campanias-activas.svg" alt="Icono de campañas activas">
@@ -15,7 +15,7 @@
     <article class="tarjeta-slider">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
-          Total locations
+          {{'dashboard_admin_total_locations' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/misiones-disponibles.svg" alt="Icono de misiones disponibles">
@@ -26,7 +26,7 @@
     <article class="tarjeta-slider">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
-          Total days of operation
+          {{'dashboard_admin_days_operation' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/revisar-misiones.svg" alt="Icono de revisar misiones">
@@ -37,7 +37,7 @@
     <article class="tarjeta-slider">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
-          Number of stockists
+          {{'dashboard_admin_number_stockists' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
@@ -48,7 +48,7 @@
     <article class="tarjeta-slider">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
-          Delivery people
+          {{'dashboard_admin_delivery_people' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
@@ -59,7 +59,7 @@
     <article class="tarjeta-slider">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
-          Beneficiaries
+          {{'dashboard_admin_beneficiaries' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
@@ -70,7 +70,7 @@
     <article class="tarjeta-slider">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
-          Beneficiaries served
+          {{'dashboard_admin_beneficiaries_served' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
@@ -83,7 +83,7 @@
     <div class="ui-tarjeta">
       <section>
         <div class="ui-tarjeta__header">
-          Pounds delivered
+          {{'dashboard_admin_pounds_delivered' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/campanias-activas.svg" alt="Icono de campañas activas">
@@ -93,7 +93,7 @@
       <div class="ui-separator-vertical"></div>
       <section>
         <div class="ui-tarjeta__header">
-          Total locations
+          {{'dashboard_admin_total_locations' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/misiones-disponibles.svg" alt="Icono de misiones disponibles">
@@ -103,7 +103,7 @@
       <div class="ui-separator-vertical"></div>
       <section>
         <div class="ui-tarjeta__header">
-          Total days of operation
+          {{'dashboard_admin_days_operation' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/revisar-misiones.svg" alt="Icono de revisar misiones">
@@ -113,7 +113,7 @@
       <div class="ui-separator-vertical"></div>
       <section>
         <div class="ui-tarjeta__header">
-          Number of stockists
+          {{'dashboard_admin_number_stockists' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
@@ -130,7 +130,7 @@
   <div *ngIf="!isMobile && !isTablet" class="ditors-activos">
     <div class="ui-tarjeta">
       <div class="ui-tarjeta__header">
-        Delivery people
+        {{'dashboard_admin_delivery_people' | translate }}
       </div>
       <div class="ui-tarjeta__footer">
         <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
@@ -141,7 +141,7 @@
   <div *ngIf="!isMobile && !isTablet" class="clientes-activos">
     <div class="ui-tarjeta">
       <div class="ui-tarjeta__header">
-        Beneficiaries
+        {{'dashboard_admin_beneficiaries' | translate }}
       </div>
       <div class="ui-tarjeta__footer">
         <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
@@ -152,7 +152,7 @@
   <div *ngIf="!isMobile && !isTablet" class="clientes-activos-porcentaje">
     <div class="ui-tarjeta">
       <div class="ui-tarjeta__header">
-        Beneficiaries served
+        {{'dashboard_admin_beneficiaries_served' | translate }}
       </div>
       <div class="ui-tarjeta__footer">
         <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
@@ -167,7 +167,7 @@
           <div class="ui-separator-horizontal"
             [ngClass]="{'graficos__separator--activado': selectedTab === 'pounds'}"></div>
           <div class="graficos__boton-header__contenedor">
-            <div class="graficos__tab-nombre">Pounds</div>
+            <div class="graficos__tab-nombre">{{'dashboard_admin_tab_title_pounds' | translate }}</div>
             <!-- <div class="graficos__tab-numero">{{formattedChartDataClientes[0].series[0].value}}</div> -->
             <!-- <div class="graficos__tab-numero-chico" [ngClass]="clientesPositivo ? 'positivo' : 'negativo'">+1</div> -->
           </div>
@@ -176,7 +176,7 @@
           <div class="ui-separator-horizontal"
             [ngClass]="{'graficos__separator--activado': selectedTab === 'beneficiaries'}"></div>
           <div class="graficos__boton-header__contenedor">
-            <div class="graficos__tab-nombre">Beneficiaries</div>
+            <div class="graficos__tab-nombre">{{'dashboard_admin_beneficiaries' | translate }}</div>
             <!-- <div class="graficos__tab-numero">{{formattedChartDataComercios[0].series[0].value}}</div> -->
             <!-- <div class="graficos__tab-numero-chico" [ngClass]="comerciosPositivo ? 'positivo' : 'negativo'">-8</div> -->
           </div>
@@ -185,7 +185,7 @@
           <div class="ui-separator-horizontal" [ngClass]="{'graficos__separator--activado': selectedTab === 'deliveryPeople'}">
           </div>
           <div class="graficos__boton-header__contenedor">
-            <div class="graficos__tab-nombre">Delivery people</div>
+            <div class="graficos__tab-nombre">{{'dashboard_admin_delivery_people' | translate }}</div>
             <!-- <div class="graficos__tab-numero">{{formattedChartDataDitors[0].series[0].value}}</div> -->
             <!-- <div class="graficos__tab-numero-chico" [ngClass]="ditorsPositivo ? 'positivo' : 'negativo'"></div> -->
           </div>
@@ -194,7 +194,7 @@
           <div class="ui-separator-horizontal"
             [ngClass]="{'graficos__separator--activado': selectedTab === 'operations'}"></div>
           <div class="graficos__boton-header__contenedor">
-            <div class="graficos__tab-nombre">Operations</div>
+            <div class="graficos__tab-nombre">{{'dashboard_admin_tab_title_operations' | translate }}</div>
             <!-- <div class="graficos__tab-numero">{{formattedChartDataMisiones[0].series[0].value}}</div> -->
             <!-- <div class="graficos__tab-numero-chico" [ngClass]="misionesPositivo ? 'positivo' : 'negativo'">+1</div> -->
           </div>
@@ -230,38 +230,38 @@
   </div>
   <div class="misiones-activas">
     <div class="ui-tarjeta">
-      <header>Tables</header>
+      <header>{{'dashboard_admin_tables_title' | translate }}</header>
       <main>
         <div class="misiones-activas__fila">
           <div class="misiones-activas__fila__header">{{totalEnabledUsers}}</div>
           <div class="misiones-activas__fila__footer">
-            <div class="misiones-activas__izquierda">Enabled users</div>
+            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_enabled_users' | translate }}</div>
             <div class="misiones-activas__derecha">
-              <a class="ui-link">View user table</a>
+              <a class="ui-link">{{'dashboard_admin_tables_enabled_users_view' | translate }}</a>
             </div>
           </div>
         </div>
         <div class="misiones-activas__fila">
           <div class="misiones-activas__fila__header">{{totalBeneficiariesQualified}}</div>
           <div class="misiones-activas__fila__footer">
-            <div class="misiones-activas__izquierda">Qualified beneficiaries</div>
+            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_qualified_beneficiaries' | translate }}</div>
             <div class="misiones-activas__derecha">
-              <a class="ui-link">View beneficiary table</a>
+              <a class="ui-link">{{'dashboard_admin_tables_qualified_beneficiaries_view' | translate }}</a>
             </div>
           </div>
         </div>
         <div class="misiones-activas__fila">
           <div class="misiones-activas__fila__header">{{totalTicketsUploaded}}</div>
           <div class="misiones-activas__fila__footer">
-            <div class="misiones-activas__izquierda">Tickets uploaded</div>
+            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_tickets_uploaded' | translate }}</div>
             <div class="misiones-activas__derecha">
-              <a class="ui-link">View ticket table</a>
+              <a class="ui-link">{{'dashboard_admin_tables_tickets_uploaded_view' | translate }}</a>
             </div>
           </div>
         </div>
       </main>
       <footer>
-        <button class="ui-button">See more</button>
+        <button class="ui-button">{{'dashboard_admin_button_see_more' | translate }}</button>
       </footer>
     </div>
   </div>

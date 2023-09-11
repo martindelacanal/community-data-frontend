@@ -1,49 +1,51 @@
 <div class="container">
   <section class="header">
     <div>
-      <h1 class="title">Help Center</h1>
+      <h1 class="title">{{'help_title' | translate }}</h1>
     </div>
   </section>
   <section class="main">
     <div class="ui-tarjeta ">
       <div class="subtitle">
-        <h2><strong>Contact us</strong></h2>
+        <h2><strong></strong>{{'help_subtitle' | translate }}</h2>
       </div>
       <div class="informacion">
-        <p class="texto-soporte">{{'login_recover_password_subtitle_phone' | translate }}: <a class="ui-link">{{'login_recover_password_not_available_message' | translate }}</a></p>
-        <p class="texto-soporte">{{'login_recover_password_subtitle_email' | translate }}: <a class="ui-link">{{'login_recover_password_not_available_message' | translate }}</a></p>
+        <p class="texto-soporte">{{'login_recover_password_subtitle_phone' | translate }}: <a
+            class="ui-link">{{'login_recover_password_not_available_message' | translate }}</a></p>
+        <p class="texto-soporte">{{'login_recover_password_subtitle_email' | translate }}: <a
+            class="ui-link">{{'login_recover_password_not_available_message' | translate }}</a></p>
       </div>
       <br>
       <a href="https://www.bienestariswell-being.org/" target="_blank">
-        <button class="ui-button--ui-secundario" type="button">Visit our website</button>
+        <button class="ui-button--ui-secundario" type="button">{{'help_visit_website' | translate }}</button>
       </a>
-      <!-- <form [formGroup]="stockForm" novalidate (ngSubmit)="onSubmit()"> -->
-      <div class="main_formulario">
-        <!-- donation id -->
-        <div class="card">
-          <mat-form-field appearance="outline">
-            <mat-label>Send us a message to improve the page</mat-label>
-            <input matInput>
-            <!-- <mat-error *ngIf="stockForm.controls['address'].hasError('required')">
-              Please enter an address
-            </mat-error> -->
-          </mat-form-field>
-        </div>
+      <form [formGroup]="helpForm" novalidate (ngSubmit)="onSubmit()">
+        <div class="main_formulario">
+          <!-- donation id -->
+          <div class="card">
+            <mat-form-field appearance="outline">
+              <mat-label>{{'help_send_us_message' | translate }}</mat-label>
+              <input matInput formControlName="message">
+              <mat-error *ngIf="helpForm.controls['message'].hasError('required')">
+                {{'help_send_us_message_error' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-        <!-- separator -->
-        <div class="card ">
-          <!-- <div class="ui-separator-horizontal"></div> -->
-          <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
-        </div>
+          <!-- separator -->
+          <div class="card ">
+            <!-- <div class="ui-separator-horizontal"></div> -->
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
 
-        <div class="card">
-          <div class="main__footer">
-            <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
-            <button class="ui-button" type="button">Send</button>
+          <div class="card">
+            <div class="main__footer">
+              <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
+              <button class="ui-button" type="submit" [disabled]="!helpForm.valid">{{'help_send' | translate }}</button>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- </form> -->
+      </form>
 
     </div>
   </section>

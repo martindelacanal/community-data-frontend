@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
 import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { format } from 'date-fns';
 import { GraphicLineComplete } from 'src/app/models/grafico-linea/graphic-line-complete';
@@ -38,7 +39,8 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
   };
 
   constructor(
-    private dashboardGeneralService: DashboardGeneralService
+    private dashboardGeneralService: DashboardGeneralService,
+    public translate: TranslateService,
   ) {
     this.multi = [];
 
@@ -47,7 +49,7 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
   ngOnInit(): void {
     // switch value of selectedTab
     console.log(this.selectedTab);
-    this.getGraficoLinea(this.selectedTab);
+    this.getGraficoLinea(this.selectedTab, this.translate.currentLang);
     switch (this.selectedTab) {
       case 'pounds':
         this.multi = [
@@ -184,8 +186,8 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
     return format(new Date(tick), 'MM/yyyy');
   }
 
-  private getGraficoLinea(selectedTab: string) {
-    this.dashboardGeneralService.getGraficoLinea(selectedTab).subscribe(
+  private getGraficoLinea(selectedTab: string, language: string) {
+    this.dashboardGeneralService.getGraficoLinea(selectedTab, language).subscribe(
       (res) => {
         console.log(res)
         if(res.series.length > 0){

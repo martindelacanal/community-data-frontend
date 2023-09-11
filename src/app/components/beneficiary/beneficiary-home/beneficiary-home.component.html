@@ -1,7 +1,7 @@
 <div class="container">
   <section class="header">
     <div>
-      <h1 class="title">QR or form</h1>
+      <h1 class="title">{{'beneficiary_title' | translate }}</h1>
     </div>
   </section>
   <section class="main">
@@ -26,7 +26,7 @@
         <div class="card">
           <div class="main__footer">
             <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
-            <button class="ui-button" type="button" (click)="newQR()">New QR</button>
+            <button class="ui-button" type="button" (click)="newQR()">{{'beneficiary_button_new_qr' | translate }}</button>
           </div>
         </div>
       </div>

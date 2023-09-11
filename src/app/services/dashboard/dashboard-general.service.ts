@@ -12,8 +12,8 @@ export class DashboardGeneralService {
     private http: HttpClient
   ) { }
 
-  getGraficoLinea(selectedTab: string) {
-    return this.http.get<GraphicLineComplete>(`${environment.url_api}/dashboard/graphic-line/${selectedTab}`);
+  getGraficoLinea(selectedTab: string, language: string) {
+    return this.http.get<GraphicLineComplete>(`${environment.url_api}/dashboard/graphic-line/${selectedTab}?language=${language}`);
   }
 
   getPoundsDelivered() {

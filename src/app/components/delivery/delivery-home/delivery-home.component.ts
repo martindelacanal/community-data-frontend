@@ -1,6 +1,7 @@
 import { Component, ViewChild, ViewEncapsulation, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 import { QrScannerComponent } from 'angular2-qrscanner';
 import { beneficiaryQR } from 'src/app/models/beneficiary/beneficiary-qr.model';
 import { Location } from 'src/app/models/map/location';
@@ -29,7 +30,8 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
   constructor(
     private deliveryService: DeliveryService,
     private snackBar: MatSnackBar,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public translate: TranslateService
   ) {
     this.buildDeliveryForm();
   }
@@ -87,7 +89,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
             },
             error: (error) => {
               console.log(error);
-              this.openSnackBar('Error uploading QR');
+              this.openSnackBar(this.translate.instant('delivery_snack_upload_qr_error'));
               this.infoValid = false;
             }
           });
@@ -106,12 +108,12 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
         (res: any) => {
           console.log(res);
           this.userLocation = this.locations.find(location => location.id === this.deliveryForm.value.destination);
-          this.openSnackBar('On boarded successfully');
+          this.openSnackBar(this.translate.instant('delivery_snack_on_boarded'));
         },
         (err: any) => {
           console.log(err);
           this.onBoarded = false;
-          this.openSnackBar('Error on boarding');
+          this.openSnackBar(this.translate.instant('delivery_snack_on_boarded_error'));
         }
       );
     } else {
@@ -121,12 +123,12 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
           console.log(res);
           this.userLocation = null;
 
-          this.openSnackBar('Off boarded successfully');
+          this.openSnackBar(this.translate.instant('delivery_snack_off_boarded'));
         },
         (err: any) => {
           console.log(err);
           this.onBoarded = true;
-          this.openSnackBar('Error off boarding');
+          this.openSnackBar(this.translate.instant('delivery_snack_off_boarded_error'));
         }
       );
 
@@ -140,16 +142,16 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
       this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination).subscribe({
         next: (res) => {
           console.log(res);
-          this.openSnackBar('Delivery approved successfully');
+          this.openSnackBar(this.translate.instant('delivery_snack_delivery_approved'));
           this.infoValid = false;
         },
         error: (error) => {
           console.log(error);
-          this.openSnackBar('Error approving delivery');
+          this.openSnackBar(this.translate.instant('delivery_snack_delivery_approved_error'));
         }
       });
     } else {
-      this.openSnackBar('Please scan a valid QR');
+      this.openSnackBar(this.translate.instant('delivery_snack_scan_valid_error'));
     }
   }
 
@@ -164,7 +166,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
   }
 
   openSnackBar(message: string) {
-    this.snackBar.open(message, 'Close');
+    this.snackBar.open(message, this.translate.instant('snackbar_close'));
   }
 
   private getLocations() {

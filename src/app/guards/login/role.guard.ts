@@ -3,6 +3,7 @@ import { CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot, Router } fr
 import { AuthService } from 'src/app/services/login/auth.service';
 import { Usuario } from 'src/app/models/login/usuario';
 import { DecodificadorService } from 'src/app/services/login/decodificador.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,12 @@ export class RoleGuard {
   constructor(
     private authService: AuthService,
     private decodificadorService: DecodificadorService,
-    public router: Router
+    public router: Router,
+    public translate: TranslateService,
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
+    this.translate.use(localStorage.getItem('language') || 'en');
     const expectedRoles = route.data['expectedRoles'];
     const token = localStorage.getItem('token');
 

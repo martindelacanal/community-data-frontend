@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ResetPasswordComponent } from '../../dialog/reset-password/reset-password.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { filter } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-menu',
@@ -52,7 +53,8 @@ export class MenuComponent implements OnInit {
     private authService: AuthService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public translate: TranslateService,
   ) {
     this.usuario = this.decodificadorService.getUsuario();
     console.log(this.usuario)
@@ -155,13 +157,13 @@ export class MenuComponent implements OnInit {
   }
 
   openSnackBar(message: string) {
-    this.snackBar.open(message, 'Close');
+    this.snackBar.open(message, this.translate.instant('snackbar_close'));
   }
 
   private dialogResetPassword(): void {
     const dialogRef = this.dialog.open(ResetPasswordComponent, {
       width: '370px',
-      data: `Change your password to continue.`
+      data: this.translate.instant('menu_dialog_change_password')
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -169,12 +171,12 @@ export class MenuComponent implements OnInit {
 
         this.authService.changePassword(this.usuario.id, result.password).subscribe({
           next: (res) => {
-            this.snackBar.open(`Password changed successfully`, '', { duration: 4000 });
+            this.snackBar.open(this.translate.instant('menu_snack_password_changed'), '', { duration: 4000 });
             localStorage.setItem('reset_password', 'N');
           },
           error: (error) => {
             console.log(error);
-            this.openSnackBar('Error changing password');
+            this.openSnackBar(this.translate.instant('menu_snack_password_changed_error'));
           }
         });
       }
