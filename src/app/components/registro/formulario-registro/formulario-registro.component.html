@@ -66,8 +66,11 @@
                   <mat-form-field appearance="outline">
                     <mat-label>{{'register_first_tab_input_email_address' | translate }}</mat-label>
                     <input matInput formControlName="email" type="email">
-                    <mat-error *ngIf="firstFormGroup.controls['email'].hasError('invalidEmail')">
+                    <mat-error *ngIf="firstFormGroup.controls['email'].hasError('emailExists')">
                       {{'register_first_tab_input_email_address_error_exists' | translate }}
+                    </mat-error>
+                    <mat-error *ngIf="firstFormGroup.controls['email'].hasError('invalidEmail')">
+                      {{'register_first_tab_input_email_address_error_invalid' | translate }}
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline">
@@ -177,8 +180,9 @@
                 </div>
                 <div class="botones-stepper">
                   <button class="ui-button back" matStepperPrevious>{{'register_second_tab_button_back' | translate}}</button>
-                  <button class="ui-button next" type="submit" (click)="onSubmit()"
+                  <button *ngIf="!loading" class="ui-button next" type="submit" (click)="onSubmit()"
                     [disabled]="!combinedFormGroup.valid">{{'register_second_tab_button_submit' | translate}}</button>
+                    <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
                 </div>
               </form>
             </mat-step>

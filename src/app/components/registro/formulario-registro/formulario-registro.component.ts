@@ -63,7 +63,7 @@ export class FormularioRegistroComponent implements OnInit {
   ) {
     this.stepperOrientation = breakpointObserver
       .observe('(min-width: 800px)')
-      .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
+      .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
 
     this.genders = [];
     this.ethnicities = [];
@@ -133,6 +133,7 @@ export class FormularioRegistroComponent implements OnInit {
 
   onSubmit(): void {
     if (this.combinedFormGroup.valid) {
+      this.loading = true;
       // Obtener la fecha del formulario
       const date = new Date(this.firstFormGroup.value.dateOfBirth);
       // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
@@ -149,15 +150,17 @@ export class FormularioRegistroComponent implements OnInit {
         }
       });
       // Crear objeto a enviar que contiene firstFormGroup.value y answers
-      const combinedFormGroupValue = {firstForm: this.firstFormGroup.value, secondForm: answers};
+      const combinedFormGroupValue = { firstForm: this.firstFormGroup.value, secondForm: answers };
       this.authService.signup(combinedFormGroupValue).subscribe({
         next: (res) => {
           console.log(res);
+          this.loading = false;
           this.openSnackBar(this.translate.instant('register_snack_submitted'));
           this.router.navigate(['login']);
         },
         error: (error) => {
           console.log(error);
+          this.loading = false;
           this.openSnackBar(this.translate.instant('register_snack_submitted_error'));
         }
       });
@@ -488,7 +491,13 @@ export class FormularioRegistroComponent implements OnInit {
 
   private validateEmail(): ValidationErrors | null {
     if (this.emailExists) {
-      return { 'invalidEmail': true };
+      return { 'emailExists': true };
+    }
+    if (this.firstFormGroup && this.firstFormGroup.controls['email'].value !== null && this.firstFormGroup.controls['email'].value !== '') {
+      const email = this.firstFormGroup.controls['email'].value;
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return { 'invalidEmail': true };
+      }
     }
     return null;
   }

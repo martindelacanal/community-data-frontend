@@ -18,6 +18,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
 
   @ViewChild(QrScannerComponent) qrScannerComponent: QrScannerComponent;
 
+  public loading: boolean = false;
   public deliveryForm: FormGroup;
   scanActive: boolean = false;
   infoValid: boolean = false;
@@ -78,6 +79,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
         console.log(result);
         this.scanActive = false;
         try {
+          this.loading = true;
           this.objeto = JSON.parse(result);
           this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination).subscribe({
             next: (res) => {
@@ -86,33 +88,39 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
               } else {
                 this.infoValid = false;
               }
+              this.loading = false;
             },
             error: (error) => {
               console.log(error);
               this.openSnackBar(this.translate.instant('delivery_snack_upload_qr_error'));
               this.infoValid = false;
+              this.loading = false;
             }
           });
         } catch (error) {
           console.error(error);
           this.infoValid = false;
+          this.loading = false;
         }
       });
     }, 0);
   }
 
   onBoard() {
+    this.loading = true;
     if (!this.onBoarded) {
       this.onBoarded = true;
       this.deliveryService.onBoard(true,this.deliveryForm.value.destination).subscribe(
         (res: any) => {
           console.log(res);
           this.userLocation = this.locations.find(location => location.id === this.deliveryForm.value.destination);
+          this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded'));
         },
         (err: any) => {
           console.log(err);
           this.onBoarded = false;
+          this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded_error'));
         }
       );
@@ -122,12 +130,13 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
         (res: any) => {
           console.log(res);
           this.userLocation = null;
-
+          this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_off_boarded'));
         },
         (err: any) => {
           console.log(err);
           this.onBoarded = true;
+          this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_off_boarded_error'));
         }
       );
@@ -137,16 +146,19 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
 
   onSubmit() {
     if (this.infoValid && this.deliveryForm.valid) {
+      this.loading = true;
       // cambiar el approved del objeto
       this.objeto.approved = 'Y';
       this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination).subscribe({
         next: (res) => {
           console.log(res);
+          this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_delivery_approved'));
           this.infoValid = false;
         },
         error: (error) => {
           console.log(error);
+          this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_delivery_approved_error'));
         }
       });

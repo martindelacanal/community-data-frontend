@@ -165,7 +165,8 @@
           <div class="card">
             <div class="main__footer">
               <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
-              <button class="ui-button" type="submit" [disabled]="!stockForm.valid">{{'stocker_button_submit' | translate }}</button>
+              <button *ngIf="!loading" class="ui-button" type="submit" [disabled]="!stockForm.valid">{{'stocker_button_submit' | translate }}</button>
+              <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
               <mat-error *ngIf="!isQuantityValid">
                 {{'stocker_button_submit_sum_error' | translate }}
               </mat-error>

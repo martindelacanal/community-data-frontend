@@ -42,6 +42,7 @@
   "register_first_tab_input_last_name_error_please": "Please enter your last name",
   "register_first_tab_input_email_address": "Email address",
   "register_first_tab_input_email_address_error_exists": "Email already exists, choose another one",
+  "register_first_tab_input_email_address_error_invalid": "Please enter a valid email address",
   "register_first_tab_input_phone": "Phone number",
   "register_first_tab_input_phone_error_please": "Please enter your phone number",
   "register_first_tab_input_zip_code": "ZIP code",

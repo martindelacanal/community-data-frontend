@@ -19,6 +19,7 @@ export class StockerHomeComponent implements OnInit {
   isMobile: boolean;
   isTablet: boolean;
 
+  public loading: boolean = false;
   public stockForm: FormGroup;
   public isValidFiles: boolean = true;
   public isQuantityValid: boolean = true;
@@ -76,6 +77,7 @@ export class StockerHomeComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
     console.log("form: ", this.stockForm.value);
     console.log("imageTicketUploaded: ", this.imageTicketUploaded);
     if (this.imageTicketUploaded === true) {
@@ -108,7 +110,7 @@ export class StockerHomeComponent implements OnInit {
     }
 
     if (this.stockForm.valid && this.isValidFiles && this.isQuantityValid && !isProductNull) {
-      // this.loading = true;
+
       // Obtener la fecha del formulario
       const date = new Date(this.stockForm.value.date);
       // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
@@ -145,15 +147,18 @@ export class StockerHomeComponent implements OnInit {
       console.log("Body enviado: ", body);
       this.stockerService.uploadTicket(body).subscribe({
         next: (res) => {
+          this.loading = false;
           this.openSnackBar(this.translate.instant('stocker_snack_ticket_uploaded'));
           this.resetearFormulario();
         },
         error: (error) => {
           console.log(error);
+          this.loading = false;
           this.openSnackBar(this.translate.instant('stocker_snack_ticket_uploaded_error'));
         }
       });
     } else {
+      this.loading = false;
       this.openSnackBar(this.translate.instant('stocker_snack_form_error'));
     }
   }

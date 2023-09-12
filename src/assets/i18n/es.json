@@ -42,6 +42,7 @@
   "register_first_tab_input_last_name_error_please": "Por favor ingrese su apellido",
   "register_first_tab_input_email_address": "Correo electrónico",
   "register_first_tab_input_email_address_error_exists": "El correo electrónico ya existe, elige otro",
+  "register_first_tab_input_email_address_error_invalid": "Por favor ingrese un correo electrónico válido",
   "register_first_tab_input_phone": "Teléfono",
   "register_first_tab_input_phone_error_please": "Por favor ingrese su teléfono",
   "register_first_tab_input_zip_code": "Código postal",
