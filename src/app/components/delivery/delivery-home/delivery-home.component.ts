@@ -57,30 +57,48 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
 
   scanQR() {
     this.scanActive = true;
+    console.log("version 1.0.0");
     setTimeout(() => {
       // this.qrScannerComponent.getMediaDevices().then(devices => {
-      navigator.mediaDevices.enumerateDevices().then(devices => {
-        const videoDevices: MediaDeviceInfo[] = [];
-        for (const device of devices) {
-          if (device.kind.toString() === 'videoinput') {
-            videoDevices.push(device);
-          }
-        }
-        if (videoDevices.length > 0) {
-          let choosenDev;
-          for (const dev of videoDevices) {
-            if (dev.label.includes('back')) {
-              choosenDev = dev;
-              break;
+      // navigator.mediaDevices.enumerateDevices().then(devices => {
+      //   const videoDevices: MediaDeviceInfo[] = [];
+      //   for (const device of devices) {
+      //     if (device.kind.toString() === 'videoinput') {
+      //       videoDevices.push(device);
+      //     }
+      //   }
+      //   if (videoDevices.length > 0) {
+      //     let choosenDev;
+      //     for (const dev of videoDevices) {
+      //       if (dev.label.includes('back')) {
+      //         choosenDev = dev;
+      //         break;
+      //       }
+      //     }
+      //     if (choosenDev) {
+      //       this.qrScannerComponent.chooseCamera.next(choosenDev);
+      //     } else {
+      //       this.qrScannerComponent.chooseCamera.next(videoDevices[0]);
+      //     }
+      //   }
+      // });
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(stream => {
+          const track = stream.getVideoTracks()[0];
+          const deviceId = track.getSettings().deviceId;
+
+          navigator.mediaDevices.enumerateDevices().then(devices => {
+            const device = devices.find(device => device.deviceId === deviceId);
+            if (device) {
+              this.qrScannerComponent.chooseCamera.next(device);
             }
-          }
-          if (choosenDev) {
-            this.qrScannerComponent.chooseCamera.next(choosenDev);
-          } else {
-            this.qrScannerComponent.chooseCamera.next(videoDevices[0]);
-          }
-        }
-      });
+          });
+        })
+        .catch(err => {
+          console.error('Error al acceder a la cámara trasera', err);
+        });
+
+
 
       this.qrScannerComponent.capturedQr.subscribe(result => {
         console.log(result);
