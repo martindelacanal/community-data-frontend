@@ -10,7 +10,7 @@
       <!-- <form [formGroup]="stockForm" novalidate (ngSubmit)="onSubmit()"> -->
       <div class="main_formulario">
         <!-- donation id -->
-        <div class="card" [formGroup]="deliveryForm">
+        <div class="card" [ngClass]="{'camara-qr': this.scanActive}" [formGroup]="deliveryForm">
           <!-- check if field destination in deliveryForm has value -->
           <div *ngIf="!loading && (!onBoarded || !deliveryForm.controls['destination'].value); else scanner" class="full-width">
             <mat-form-field appearance="outline">
@@ -33,7 +33,7 @@
                 {{'delivery_text_beneficiary_authorized' | translate }}<br>
                 {{'delivery_text_beneficiary_authorized_press_approved' | translate }}</p>
               <div *ngIf="this.scanActive">
-                <qr-scanner facing="environment" [canvasWidth]="1080" [canvasHeight]="720" [stopAfterScan]="true"
+                <qr-scanner facing="environment" [canvasWidth]="720" [canvasHeight]="720" [stopAfterScan]="true"
                   [updateTime]="500">
                 </qr-scanner>
               </div>
@@ -55,7 +55,7 @@
                 {{this.userLocation.organization}} - {{'delivery_text_address' | translate }}:
                 {{this.userLocation.address}}</div>
             </span>
-            <button *ngIf="this.scanActive || this.infoValid" class="ui-button" type="button"
+            <button *ngIf="!loading && (this.scanActive || this.infoValid)" class="ui-button" type="button"
               (click)="onCancel()">{{'delivery_button_cancel' | translate }}</button>
             <button *ngIf="!loading && onBoarded && !this.scanActive && !this.infoValid"
               class="ui-button" type="button" (click)="onBoard()">{{'delivery_button_off_board'

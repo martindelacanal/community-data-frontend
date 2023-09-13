@@ -92,7 +92,7 @@
   "delivery_input_destination": "Destination",
   "delivery_input_destination_error_please": "Please select a destination",
   "delivery_text_beneficiary_authorized": "Beneficiary authorized to receive a bag.",
-  "delivery_text_beneficiary_authorized_press_approved": "Press Approved if you agree.",
+  "delivery_text_beneficiary_authorized_press_approved": "Press approved if you agree.",
   "delivery_text_organization": "Organization",
   "delivery_text_address": "Address",
   "delivery_button_cancel": "Cancel",

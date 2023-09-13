@@ -40,6 +40,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &.camara-qr {
+    max-width: 720px;
+    margin: auto;
+  }
 }
 
 .card:nth-child(2) {
@@ -134,7 +139,9 @@
 
   .ui-button--ui-secundario {
     margin-right: 0px;
+    margin-left: 0px;
   }
+
 }
 
 @media only screen and (min-width: 701px) and (max-width: 1024px) {

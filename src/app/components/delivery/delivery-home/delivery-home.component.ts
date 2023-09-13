@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,7 +14,7 @@ import { DeliveryService } from 'src/app/services/deliver/delivery.service';
   templateUrl: './delivery-home.component.html',
   styleUrls: ['./delivery-home.component.scss'],
 })
-export class DeliveryHomeComponent implements OnInit, AfterViewInit {
+export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   @ViewChild(QrScannerComponent) qrScannerComponent: QrScannerComponent;
 
@@ -47,11 +47,19 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
 
   }
 
+  ngAfterViewChecked(): void {
+    // para iphone
+    if (this.scanActive && this.qrScannerComponent.videoElement) {
+      // console.log(this.qrScannerComponent.videoElement.getAttribute('playsinline'));
+      this.qrScannerComponent.videoElement.setAttribute('playsinline', 'true');
+    }
+  }
+
   scanQR() {
-    console.log('Escaneando QR');
     this.scanActive = true;
     setTimeout(() => {
-      this.qrScannerComponent.getMediaDevices().then(devices => {
+      // this.qrScannerComponent.getMediaDevices().then(devices => {
+      navigator.mediaDevices.enumerateDevices().then(devices => {
         const videoDevices: MediaDeviceInfo[] = [];
         for (const device of devices) {
           if (device.kind.toString() === 'videoinput') {
@@ -82,7 +90,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
           this.objeto = JSON.parse(result);
           this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination).subscribe({
             next: (res) => {
-              if (res.could_approve === 'Y'){
+              if (res.could_approve === 'Y') {
                 this.infoValid = true;
               } else {
                 this.infoValid = false;
@@ -109,7 +117,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
     this.loading = true;
     if (!this.onBoarded) {
       this.onBoarded = true;
-      this.deliveryService.onBoard(true,this.deliveryForm.value.destination).subscribe(
+      this.deliveryService.onBoard(true, this.deliveryForm.value.destination).subscribe(
         (res: any) => {
           console.log(res);
           this.userLocation = this.locations.find(location => location.id === this.deliveryForm.value.destination);
@@ -125,7 +133,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
       );
     } else {
       this.onBoarded = false;
-      this.deliveryService.onBoard(false,this.deliveryForm.value.destination).subscribe(
+      this.deliveryService.onBoard(false, this.deliveryForm.value.destination).subscribe(
         (res: any) => {
           console.log(res);
           this.userLocation = null;
