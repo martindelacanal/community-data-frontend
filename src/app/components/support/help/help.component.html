@@ -41,7 +41,8 @@
           <div class="card">
             <div class="main__footer">
               <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
-              <button class="ui-button" type="submit" [disabled]="!helpForm.valid">{{'help_send' | translate }}</button>
+              <button *ngIf="!loading" class="ui-button" type="submit" [disabled]="!helpForm.valid">{{'help_send' | translate }}</button>
+              <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
             </div>
           </div>
         </div>

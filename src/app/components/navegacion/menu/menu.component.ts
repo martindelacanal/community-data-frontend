@@ -57,7 +57,6 @@ export class MenuComponent implements OnInit {
     public translate: TranslateService,
   ) {
     this.usuario = this.decodificadorService.getUsuario();
-    console.log("SOY EL MENU: ", this.usuario)
     if (!this.usuario) {
       window.location.reload()
     } else {
@@ -152,8 +151,12 @@ export class MenuComponent implements OnInit {
     this.usuario = null;
     window.location.reload();
     // this.router.navigate(['login']).then(() => {
-      // window.location.reload();
+    // window.location.reload();
     // });
+  }
+
+  settings() {
+    this.router.navigate(['settings'])
   }
 
   openSnackBar(message: string) {

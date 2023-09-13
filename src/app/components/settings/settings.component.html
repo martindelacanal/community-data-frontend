@@ -1,0 +1,74 @@
+<div class="container">
+  <section class="header">
+    <div>
+      <h1 class="title">{{'settings_title' | translate }}</h1>
+    </div>
+  </section>
+  <section class="main">
+    <div class="ui-tarjeta ">
+      <div class="subtitle">
+        <h2><strong></strong>{{'settings_subtitle_change_language' | translate }}</h2>
+      </div>
+      <div class="informacion">
+        <select class="ui-input" id="languageSelector" #selectedLang (change)="switchLang(selectedLang.value)">
+          <option *ngFor="let language of translate.getLangs()" [value]="language" [selected]="language === translate.currentLang">
+            {{ translate.instant('language_' + language) }}
+          </option>
+        </select>
+      </div>
+      <br>
+      <div class="subtitle">
+        <h2><strong></strong>{{'settings_subtitle_change_password' | translate }}</h2>
+      </div>
+      <form [formGroup]="passwordForm" novalidate (ngSubmit)="onSubmitPassword()">
+        <div class="main_formulario">
+          <!-- donation id -->
+          <div class="card">
+            <mat-form-field appearance="outline">
+              <mat-label>{{'settings_actual_password' | translate }}</mat-label>
+              <input matInput type="password" formControlName="actual_password">
+              <mat-error *ngIf="passwordForm.controls['actual_password'].hasError('required')">
+                {{'settings_actual_password_error' | translate }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>{{'settings_new_password' | translate }}</mat-label>
+              <input matInput type="password" formControlName="new_password">
+              <mat-error *ngIf="passwordForm.controls['new_password'].hasError('required')">
+                {{'settings_new_password_error' | translate }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>{{'settings_new_password_confirm' | translate }}</mat-label>
+              <input matInput type="password" formControlName="new_password_confirm">
+              <mat-error *ngIf="passwordForm.controls['new_password_confirm'].hasError('required')">
+                {{'settings_new_password_confirm_error' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- separator -->
+          <div class="card ">
+            <!-- <div class="ui-separator-horizontal"></div> -->
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+
+          <div class="card">
+            <div class="main__footer">
+              <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
+              <button *ngIf="!loadingPassword" class="ui-button" type="submit" [disabled]="!passwordForm.valid">{{'settings_send_new_password' | translate }}</button>
+              <mat-spinner *ngIf="loadingPassword" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+              <mat-error *ngIf="!matchPasswords">
+                {{'settings_passwords_do_not_match_error' | translate }}
+              </mat-error>
+              <mat-error *ngIf="actualPasswordError">
+                {{'settings_actual_password_check_error' | translate }}
+              </mat-error>
+            </div>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </section>
+</div>

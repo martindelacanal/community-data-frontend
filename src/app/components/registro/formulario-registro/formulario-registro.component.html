@@ -97,21 +97,23 @@
                   <label class="radio-button-label" id="radio-button-group-label">{{'register_first_tab_input_gender' |
                     translate }} <span
                       [ngClass]="{'required': firstFormGroup.controls['gender'].invalid}">*</span></label>
-                  <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
+                  <mat-radio-group *ngIf="!loadingGender" aria-labelledby="radio-button-group-label" class="radio-button-group"
                     formControlName="gender">
                     <mat-radio-button class="radio-button" *ngFor="let gender of genders" [value]="gender.id">
                       {{gender.name}}
                     </mat-radio-button>
                   </mat-radio-group>
+                  <mat-spinner *ngIf="loadingGender" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
                   <label class="radio-button-label" id="radio-button-group-label">{{'register_first_tab_input_ethnicity'
                     | translate }} <span
                       [ngClass]="{'required': firstFormGroup.controls['ethnicity'].invalid}">*</span></label>
-                  <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
+                  <mat-radio-group *ngIf="!loadingEthnicity" aria-labelledby="radio-button-group-label" class="radio-button-group"
                     formControlName="ethnicity">
                     <mat-radio-button class="radio-button" *ngFor="let ethnicity of ethnicities" [value]="ethnicity.id">
                       {{ethnicity.name}}
                     </mat-radio-button>
                   </mat-radio-group>
+                  <mat-spinner *ngIf="loadingEthnicity" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
                   <mat-form-field appearance="outline"
                     *ngIf="otroEthnicity && otroEthnicity.id === firstFormGroup.get('ethnicity').value">
                     <mat-label>{{'register_first_tab_input_others' | translate }}</mat-label>

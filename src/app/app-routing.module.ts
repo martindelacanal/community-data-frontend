@@ -8,8 +8,10 @@ import { BeneficiaryHomeComponent } from './components/beneficiary/beneficiary-h
 import { DeliveryHomeComponent } from './components/delivery/delivery-home/delivery-home.component';
 import { StockerHomeComponent } from './components/stocker/stocker-home/stocker-home.component';
 import { HelpComponent } from './components/support/help/help.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const routes: Routes = [
+  { path: 'settings', component: SettingsComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client','stocker','delivery','beneficiary']} },
   { path: 'help', component: HelpComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client','stocker','delivery','beneficiary']} },
   { path: 'delivery/home', component: DeliveryHomeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['delivery']} },
   { path: 'stocker/home', component: StockerHomeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['stocker']} },

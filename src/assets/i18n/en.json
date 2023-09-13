@@ -164,5 +164,22 @@
   "map_button_enabled_locations": "Enabled locations",
   "map_button_total_locations": "Total locations",
 
+  "settings_title": "Settings",
+  "settings_subtitle_change_language": "Change language",
+  "settings_subtitle_change_password": "Change password",
+  "settings_actual_password": "Actual password",
+  "settings_actual_password_error": "Please enter your actual password",
+  "settings_new_password": "New password",
+  "settings_new_password_error": "Please enter a new password",
+  "settings_new_password_confirm": "Confirm new password",
+  "settings_new_password_confirm_error": "Please confirm your new password",
+  "settings_send_new_password": "Save",
+  "settings_passwords_do_not_match_error": "Passwords do not match",
+  "settings_actual_password_check_error": "Actual password is incorrect",
+  "settings_snack_new_password": "New password saved successfully",
+  "settings_snack_new_password_error": "Error saving new password",
+  "settings_snack_new_password_form_error": "Please fill the form correctly",
+
+
   "ultimo": "ultimo"
 }

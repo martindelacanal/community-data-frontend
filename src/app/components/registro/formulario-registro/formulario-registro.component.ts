@@ -29,6 +29,8 @@ export class FormularioRegistroComponent implements OnInit {
   private usuario: Usuario;
   private firstExecuteComponent: boolean = true;
   public loading: boolean = false;
+  public loadingGender: boolean = false;
+  public loadingEthnicity: boolean = false;
   public submitted = false;
   public loginValid: boolean = true;
   public loginForm: FormGroup;
@@ -207,9 +209,11 @@ export class FormularioRegistroComponent implements OnInit {
   }
 
   private getGender(language: string, id?: number) {
+    this.loadingGender = true;
     this.authService.getGender(language, id).subscribe({
       next: (res) => {
         this.genders = res;
+        this.loadingGender = false;
       },
       error: (error) => {
         console.error(error);
@@ -218,10 +222,12 @@ export class FormularioRegistroComponent implements OnInit {
   }
 
   private getEthnicity(language: string, id?: number) {
+    this.loadingEthnicity = true;
     this.authService.getEthnicity(language, id).subscribe({
       next: (res) => {
         this.ethnicities = res;
         this.otroEthnicity = this.ethnicities.find(e => e.name === 'Otros' || e.name === 'Others' || e.name === 'Otro' || e.name === 'Other');
+        this.loadingEthnicity = false;
       },
       error: (error) => {
         console.error(error);

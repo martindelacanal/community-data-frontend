@@ -26,7 +26,7 @@
 <section class="opciones-perfil">
   <div class="ui-tarjeta" *ngIf="showCard" #card>
     <ul>
-      <li>{{'menu_button_settings' | translate }}</li>
+      <li (click)="settings()">{{'menu_button_settings' | translate }}</li>
       <li>{{'menu_button_notifications' | translate }}</li>
       <li (click)="logOut()">{{'menu_button_log_out' | translate }}</li>
     </ul>

@@ -40,6 +40,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  margin-top: 8px;
 }
 
 .card:nth-child(2) {
@@ -52,16 +54,8 @@
   grid-row: 3 / 4;
 }
 
-.full-width {
-  width: 100%;
-  max-width: 525px;
-  display: flex;
-  justify-content: center;
-}
-
 .card mat-form-field {
   width: 100%;
-  max-width: 525px;
 }
 
 .main_formulario .ui-separator-horizontal.ui-separator-horizontal--gris {
@@ -71,29 +65,48 @@
 .main_formulario .main__footer {
   display: flex;
   justify-content: flex-end;
-  align-items: center;
-
-  .main__footer__span {
-    margin-right: 10px;
-    flex-grow: 1;
-  }
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .ui-button {
   padding: 0 32px;
-  min-width: 140px;
+}
+
+.ui-button--estado-sistema {
+  margin: 0 16px;
+}
+
+.full-width {
+  width: 100%;
+  max-width: 525px;
+  display: flex;
+  justify-content: center;
+
+}
+
+.card mat-form-field {
+  width: 100%;
+  margin-top: 16px;
+  // max-width: 525px;
+}
+
+.texto-soporte {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--texto-primario);
+  margin-top: 16px;
 }
 
 .ui-button--ui-secundario {
-  margin-left: 16px;
+  padding: 0 24px;
+  margin: 0 auto;
 }
 
-.ui-text.ui-text--ui-secundario {
-  font-size: 2.0rem;
-  font-weight: 600;
-  color: var(--ui-primario);
+.informacion {
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
-
 
 @media only screen and (max-width: 700px) {
   // Agrega aquí tus estilos para dispositivos móviles
@@ -102,61 +115,27 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0 16px;
+    margin: 0 8px;
   }
 
   .title {
     margin-bottom: 8px;
   }
 
-  .ui-tarjeta {
-    margin: 0 auto;
-    padding: 24px;
-    border-top: 4px solid var(--ui-primario);
-  }
-
-  .main_formulario .main__footer {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-
-    .main__footer__span {
-      margin-right: 10px;
-      flex-grow: 1;
-    }
-  }
-
   .ui-button {
     padding: 0 32px;
     min-width: 140px;
-    margin-bottom: 16px;
   }
 
   .ui-button--ui-secundario {
-    margin-right: 0px;
-  }
-}
-
-@media only screen and (min-width: 701px) and (max-width: 1024px) {
-  // Agrega aquí tus estilos para tablets
-
-  .main_formulario .main__footer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+    padding: 0 16px;
+    margin: 0 auto;
   }
 
-  button {
-    order: 0;
+  .ui-tarjeta {
+    margin: 0 auto;
+    padding: 16px;
+    border-top: 4px solid var(--ui-primario);
+    // background-image: linear-gradient(to bottom, var(--ui-primario) 0%, var(--ui-primario) 2%, transparent 2%, transparent 100%);
   }
-
-  .main__footer__span {
-    margin-top: 16px;
-    width: 100%;
-    text-align: center;
-    order: 1;
-  }
-
 }

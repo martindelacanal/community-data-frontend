@@ -55,15 +55,15 @@
                 {{this.userLocation.organization}} - {{'delivery_text_address' | translate }}:
                 {{this.userLocation.address}}</div>
             </span>
-            <button *ngIf="this.scanActive || this.infoValid" class="ui-button ui-button--ui-secundario" type="button"
+            <button *ngIf="this.scanActive || this.infoValid" class="ui-button" type="button"
               (click)="onCancel()">{{'delivery_button_cancel' | translate }}</button>
             <button *ngIf="!loading && onBoarded && !this.scanActive && !this.infoValid"
-              class="ui-button ui-button--ui-secundario" type="button" (click)="onBoard()">{{'delivery_button_off_board'
+              class="ui-button" type="button" (click)="onBoard()">{{'delivery_button_off_board'
               | translate }}</button>
-            <button *ngIf="!loading && onBoarded && !this.scanActive" class="ui-button" type="button"
+            <button *ngIf="!loading && onBoarded && !this.scanActive" class="ui-button ui-button--ui-secundario" type="button"
               (click)="onSubmit()" [disabled]="this.scanActive || !this.infoValid">{{'delivery_button_approved' |
               translate }}</button>
-            <button *ngIf="!loading && !onBoarded" class="ui-button" type="button" (click)="onBoard()"
+            <button *ngIf="!loading && !onBoarded" class="ui-button ui-button--ui-secundario" type="button" (click)="onBoard()"
               [disabled]="deliveryForm.controls['destination'].hasError('required')">{{'delivery_button_on_board' |
               translate }}</button>
             <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>

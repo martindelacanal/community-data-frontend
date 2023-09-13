@@ -52,7 +52,6 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
     this.scanActive = true;
     setTimeout(() => {
       this.qrScannerComponent.getMediaDevices().then(devices => {
-        console.log(devices);
         const videoDevices: MediaDeviceInfo[] = [];
         for (const device of devices) {
           if (device.kind.toString() === 'videoinput') {
@@ -62,7 +61,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
         if (videoDevices.length > 0) {
           let choosenDev;
           for (const dev of videoDevices) {
-            if (dev.label.includes('front')) {
+            if (dev.label.includes('back')) {
               choosenDev = dev;
               break;
             }
@@ -190,6 +189,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
   }
 
   private getUserStatus() {
+    this.loading = true;
     this.deliveryService.getUserStatus().subscribe(
       (res) => {
         this.userStatus = res;
@@ -198,6 +198,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit {
         } else {
           this.onBoarded = false;
         }
+        this.loading = false;
       }
     );
   }

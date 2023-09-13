@@ -13,6 +13,7 @@ import { HelpService } from 'src/app/services/help/help.service';
 export class HelpComponent {
 
   public helpForm: FormGroup;
+  public loading: boolean = false;
 
   constructor(
     private router: Router,
@@ -26,13 +27,16 @@ export class HelpComponent {
 
   onSubmit() {
     if (this.helpForm.valid) {
+      this.loading = true;
       this.helpService.uploadMessage(this.helpForm.value).subscribe({
         next: (res) => {
+          this.loading = false;
           this.openSnackBar(this.translate.instant('help_snack_message'));
           this.resetearFormulario();
         },
         error: (error) => {
           console.log(error);
+          this.loading = false;
           this.openSnackBar(this.translate.instant('help_snack_message_error'));
         }
       });
