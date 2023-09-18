@@ -57,7 +57,6 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
 
   scanQR() {
     this.scanActive = true;
-    console.log("version 1.0.0");
     setTimeout(() => {
       // this.qrScannerComponent.getMediaDevices().then(devices => {
       // navigator.mediaDevices.enumerateDevices().then(devices => {
@@ -97,8 +96,6 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
         .catch(err => {
           console.error('Error al acceder a la cámara trasera', err);
         });
-
-
 
       this.qrScannerComponent.capturedQr.subscribe(result => {
         console.log(result);

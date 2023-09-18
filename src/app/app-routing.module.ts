@@ -9,8 +9,10 @@ import { DeliveryHomeComponent } from './components/delivery/delivery-home/deliv
 import { StockerHomeComponent } from './components/stocker/stocker-home/stocker-home.component';
 import { HelpComponent } from './components/support/help/help.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { MetricsComponent } from './components/metrics/metrics.component';
 
 const routes: Routes = [
+  { path: 'metrics', component: MetricsComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
   { path: 'settings', component: SettingsComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client','stocker','delivery','beneficiary']} },
   { path: 'help', component: HelpComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client','stocker','delivery','beneficiary']} },
   { path: 'delivery/home', component: DeliveryHomeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['delivery']} },

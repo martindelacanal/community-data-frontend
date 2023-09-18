@@ -52,6 +52,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ResetPasswordComponent } from './components/dialog/reset-password/reset-password.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { SettingsComponent } from './components/settings/settings.component';
+import { MetricsComponent } from './components/metrics/metrics.component';
 
 
 
@@ -69,7 +70,8 @@ import { SettingsComponent } from './components/settings/settings.component';
    DeliveryHomeComponent,
    HelpComponent,
    ResetPasswordComponent,
-   SettingsComponent
+   SettingsComponent,
+   MetricsComponent
 
   ],
   imports: [

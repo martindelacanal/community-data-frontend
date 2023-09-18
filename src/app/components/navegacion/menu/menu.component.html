@@ -43,6 +43,12 @@
               <span [class.hidden]="!menuExpanded">{{'menu_button_home' | translate }}</span>
             </a>
           </li>
+          <li *ngIf="usuario.role === 'admin' || usuario.role === 'client'" [class.active-link]="currentRoute.includes('/metrics')" [class.li-collapsed]="!menuExpanded">
+            <a routerLink="/metrics">
+              <img class="ui-tarjeta__icono" src="../../../../assets/icons/metricas.svg" alt="Icono de metricas">
+              <span [class.hidden]="!menuExpanded">{{'menu_button_metrics' | translate }}</span>
+            </a>
+          </li>
           <li [class.active-link]="currentRoute.includes('/help')" [class.li-collapsed]="!menuExpanded">
             <a routerLink="/help">
               <img class="ui-tarjeta__icono" src="../../../../assets/icons/ayuda.svg" alt="Icono de ayuda">

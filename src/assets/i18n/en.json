@@ -77,6 +77,7 @@
 
   "menu_button_home": "Home",
   "menu_button_help": "Help",
+  "menu_button_metrics": "Metrics",
   "menu_button_settings": "Settings",
   "menu_button_notifications": "Notifications",
   "menu_button_log_out": "Log out",
@@ -180,6 +181,8 @@
   "settings_snack_new_password_error": "Error saving new password",
   "settings_snack_new_password_form_error": "Please fill the form correctly",
 
+  "metrics_title": "Metrics",
+  "metrics_button_download_excel": "Download Excel",
 
   "ultimo": "ultimo"
 }

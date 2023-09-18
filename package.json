@@ -27,7 +27,7 @@
     "@swimlane/ngx-charts": "^20.1.2",
     "@techiediaries/ngx-qrcode": "^9.1.0",
     "angular2-qrscanner": "^1.0.7",
-    "apexcharts": "^3.41.0",
+    "apexcharts": "^3.42.0",
     "date-fns": "^2.29.3",
     "jquery": "^3.7.0",
     "jwt-decode": "^3.1.2",
