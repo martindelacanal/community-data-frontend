@@ -166,7 +166,8 @@ export class MenuComponent implements OnInit {
   private dialogResetPassword(): void {
     const dialogRef = this.dialog.open(ResetPasswordComponent, {
       width: '370px',
-      data: this.translate.instant('menu_dialog_change_password')
+      data: '',
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {

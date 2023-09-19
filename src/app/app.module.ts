@@ -53,6 +53,7 @@ import { ResetPasswordComponent } from './components/dialog/reset-password/reset
 import {MatDialogModule} from '@angular/material/dialog';
 import { SettingsComponent } from './components/settings/settings.component';
 import { MetricsComponent } from './components/metrics/metrics.component';
+import { DisclaimerRegisterComponent } from './components/dialog/disclaimer-register/disclaimer-register/disclaimer-register.component';
 
 
 
@@ -71,7 +72,8 @@ import { MetricsComponent } from './components/metrics/metrics.component';
    HelpComponent,
    ResetPasswordComponent,
    SettingsComponent,
-   MetricsComponent
+   MetricsComponent,
+   DisclaimerRegisterComponent
 
   ],
   imports: [

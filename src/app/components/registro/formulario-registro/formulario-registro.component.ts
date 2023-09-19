@@ -2,6 +2,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StepperOrientation } from '@angular/material/stepper';
 import { Router } from '@angular/router';
@@ -14,6 +15,7 @@ import { Ethnicity } from 'src/app/models/user/ethnicity';
 import { Gender } from 'src/app/models/user/gender';
 import { AuthService } from 'src/app/services/login/auth.service';
 import { DecodificadorService } from 'src/app/services/login/decodificador.service';
+import { DisclaimerRegisterComponent } from '../../dialog/disclaimer-register/disclaimer-register/disclaimer-register.component';
 
 @Component({
   selector: 'app-formulario-registro',
@@ -61,6 +63,7 @@ export class FormularioRegistroComponent implements OnInit {
     private authService: AuthService,
     private snackBar: MatSnackBar,
     public translate: TranslateService,
+    private dialog: MatDialog,
     breakpointObserver: BreakpointObserver
   ) {
     this.stepperOrientation = breakpointObserver
@@ -88,6 +91,9 @@ export class FormularioRegistroComponent implements OnInit {
     if (this.usuario !== null) {
       this.redireccionar();
     }
+
+    this.disclaimer();
+
     this.firstFormGroup.get('username').valueChanges
       .pipe(debounceTime(300))
       .subscribe(
@@ -506,6 +512,20 @@ export class FormularioRegistroComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  private disclaimer(): void {
+    const dialogRef = this.dialog.open(DisclaimerRegisterComponent, {
+      width: '370px',
+      data: '',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result.status) {
+        this.router.navigate(['login']);
+      }
+    });
   }
 
 }

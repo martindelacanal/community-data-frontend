@@ -182,7 +182,11 @@
   "settings_snack_new_password_form_error": "Por favor llene el formulario correctamente",
 
   "metrics_title": "Métricas",
-  "metrics_button_download_excel": "Descargar Excel",
+  "metrics_button_download_csv": "Descargar CSV",
+
+  "disclaimer_text": "Formulario voluntario, no vendemos ni compartimos su información con otras entidades.",
+  "disclaimer_button_cancel": "Cancelar",
+  "disclaimer_button_agree": "Aceptar",
 
   "ultimo": "ultimo"
 }

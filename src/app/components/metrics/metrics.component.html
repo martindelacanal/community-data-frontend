@@ -1,36 +1,17 @@
 <div class="container">
   <section class="header">
       <h1 class="title">{{'metrics_title' | translate }}</h1>
-      <button class="ui-button" type="button" (click)="downloadExcel()">{{'metrics_button_download_excel' | translate }}</button>
+      <button class="ui-button" type="button" (click)="downloadCsv()">{{'metrics_button_download_csv' | translate }}</button>
   </section>
-  <section class="main_tarjetas">
-    <div class="ui-tarjeta">
+  <mat-spinner *ngIf="loadingQuestions" class="loading-questions" mode="indeterminate" [diameter]="30"></mat-spinner>
+  <section class="main_tarjetas" *ngIf="!loadingQuestions">
+    <div class="ui-tarjeta" *ngFor="let question of questionsMetrics; let i = index">
       <div class="question">
-        <h2>tarjeta 1</h2>
+        <h2>{{question.question}}</h2>
       </div>
       <div id="chart">
-        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
-          [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis"></apx-chart>
-      </div>
-    </div>
-
-    <div class="ui-tarjeta">
-      <div class="question">
-        <h2>tarjeta 2</h2>
-      </div>
-      <div id="chart">
-        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
-          [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis"></apx-chart>
-      </div>
-    </div>
-
-    <div class="ui-tarjeta">
-      <div class="question">
-        <h2>tarjeta 3</h2>
-      </div>
-      <div id="chart">
-        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [dataLabels]="chartOptions.dataLabels"
-          [plotOptions]="chartOptions.plotOptions" [xaxis]="chartOptions.xaxis"></apx-chart>
+        <apx-chart [series]="chartOptions[i].series" [chart]="chartOptions[i].chart" [dataLabels]="chartOptions[i].dataLabels"
+          [plotOptions]="chartOptions[i].plotOptions" [xaxis]="chartOptions[i].xaxis"></apx-chart>
       </div>
     </div>
   </section>

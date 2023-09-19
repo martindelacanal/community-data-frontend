@@ -182,7 +182,11 @@
   "settings_snack_new_password_form_error": "Please fill the form correctly",
 
   "metrics_title": "Metrics",
-  "metrics_button_download_excel": "Download Excel",
+  "metrics_button_download_csv": "Download CSV",
+
+  "disclaimer_text": "In-take Voluntary Forms, we don't sell or share your information to third parties.",
+  "disclaimer_button_cancel": "Cancel",
+  "disclaimer_button_agree": "Agree",
 
   "ultimo": "ultimo"
 }
