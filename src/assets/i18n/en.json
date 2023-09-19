@@ -142,7 +142,10 @@
   "stocker_input_product": "Product",
   "stocker_input_quantity": "Quantity",
   "stocker_button_submit": "Submit",
-  "stocker_button_submit_sum_error": "The sum of the quantities must be equal to the total weight",
+  "stocker_button_submit_stock_form_error": "Please fill the form correctly.",
+  "stocker_button_submit_files_error": "Please upload the ticket files.",
+  "stocker_button_submit_sum_quantity_error": "The sum of the quantities must be equal to the total weight.",
+  "stocker_button_submit_product_null_error": "Please fill the product and quantity fields, or delete the row.",
 
   "dashboard_admin_pounds_delivered": "Pounds delivered",
   "dashboard_admin_total_locations": "Total locations",

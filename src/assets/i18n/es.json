@@ -142,7 +142,10 @@
   "stocker_input_product": "Producto",
   "stocker_input_quantity": "Cantidad",
   "stocker_button_submit": "Enviar",
-  "stocker_button_submit_sum_error": "La suma de las cantidades debe ser igual al peso total",
+  "stocker_button_submit_stock_form_error": "Por favor llene el formulario correctamente.",
+  "stocker_button_submit_files_error": "Por favor suba los archivos correctamente.",
+  "stocker_button_submit_sum_quantity_error": "La suma de las cantidades debe ser igual al peso total.",
+  "stocker_button_submit_product_null_error": "Por favor ingrese el producto y la cantidad, o elimine el campo.",
 
   "dashboard_admin_pounds_delivered": "Libras entregadas",
   "dashboard_admin_total_locations": "Total de ubicaciones",

@@ -24,6 +24,11 @@ export class StockerHomeComponent implements OnInit {
   public isValidFiles: boolean = true;
   public isQuantityValid: boolean = true;
   public imageTicketUploaded: boolean = false;
+  public showMessageStockFormInvalid: boolean = false;
+  public showMessageFilesInvalid: boolean = false;
+  public showMessageQuantityInvalid: boolean = false;
+  public showMessageProductNull: boolean = false;
+
   private file_ticket: any;
   locations: Location[] = [];
   products: Product[] = [];
@@ -111,6 +116,10 @@ export class StockerHomeComponent implements OnInit {
 
     if (this.stockForm.valid && this.isValidFiles && this.isQuantityValid && !isProductNull) {
 
+      this.showMessageStockFormInvalid = false;
+      this.showMessageFilesInvalid = false;
+      this.showMessageQuantityInvalid = false;
+      this.showMessageProductNull = false;
       // Obtener la fecha del formulario
       const date = new Date(this.stockForm.value.date);
       // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
@@ -159,6 +168,27 @@ export class StockerHomeComponent implements OnInit {
       });
     } else {
       this.loading = false;
+      if (!this.stockForm.valid) {
+        this.showMessageStockFormInvalid = true;
+      } else {
+        this.showMessageStockFormInvalid = false;
+      }
+      if (!this.isValidFiles) {
+        this.showMessageFilesInvalid = true;
+      } else {
+        this.showMessageFilesInvalid = false;
+      }
+      if (!this.isQuantityValid) {
+        this.showMessageQuantityInvalid = true;
+      } else {
+        this.showMessageQuantityInvalid = false;
+      }
+      if (isProductNull) {
+        this.showMessageProductNull = true;
+      } else {
+        this.showMessageProductNull = false;
+      }
+
       this.openSnackBar(this.translate.instant('stocker_snack_form_error'));
     }
   }

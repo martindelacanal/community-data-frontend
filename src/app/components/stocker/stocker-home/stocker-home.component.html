@@ -167,8 +167,17 @@
               <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
               <button *ngIf="!loading" class="ui-button" type="submit" [disabled]="!stockForm.valid">{{'stocker_button_submit' | translate }}</button>
               <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
-              <mat-error *ngIf="!isQuantityValid">
-                {{'stocker_button_submit_sum_error' | translate }}
+              <mat-error *ngIf="showMessageStockFormInvalid">
+                {{'stocker_button_submit_stock_form_error' | translate }}
+              </mat-error>
+              <mat-error *ngIf="showMessageFilesInvalid">
+                {{'stocker_button_submit_files_error' | translate }}
+              </mat-error>
+              <mat-error *ngIf="showMessageQuantityInvalid">
+                {{'stocker_button_submit_sum_quantity_error' | translate }}
+              </mat-error>
+              <mat-error *ngIf="showMessageProductNull">
+                {{'stocker_button_submit_product_null_error' | translate }}
               </mat-error>
             </div>
           </div>

@@ -54,6 +54,11 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { SettingsComponent } from './components/settings/settings.component';
 import { MetricsComponent } from './components/metrics/metrics.component';
 import { DisclaimerRegisterComponent } from './components/dialog/disclaimer-register/disclaimer-register/disclaimer-register.component';
+import { TableUserComponent } from './components/tables/user/table-user/table-user.component';
+import { TableTicketComponent } from './components/tables/ticket/table-ticket/table-ticket.component';
+import { TableLocationComponent } from './components/tables/location/table-location/table-location.component';
+import { TableProductComponent } from './components/tables/product/table-product/table-product.component';
+import { TableNotificationComponent } from './components/tables/notification/table-notification/table-notification.component';
 
 
 
@@ -73,7 +78,12 @@ import { DisclaimerRegisterComponent } from './components/dialog/disclaimer-regi
    ResetPasswordComponent,
    SettingsComponent,
    MetricsComponent,
-   DisclaimerRegisterComponent
+   DisclaimerRegisterComponent,
+   TableUserComponent,
+   TableTicketComponent,
+   TableLocationComponent,
+   TableProductComponent,
+   TableNotificationComponent
 
   ],
   imports: [

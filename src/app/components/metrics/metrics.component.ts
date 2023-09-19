@@ -72,7 +72,6 @@ export class MetricsComponent implements OnInit {
     this.loadingQuestions = true;
     this.metricsService.getQuestions(language, locationId).subscribe({
       next: (res) => {
-        console.log(res);
         this.chartOptions = [];
         this.questionsMetrics = res;
         for (let i = 0; i < this.questionsMetrics.length; i++) {
