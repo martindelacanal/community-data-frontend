@@ -28,6 +28,8 @@ export class StockerHomeComponent implements OnInit {
   public showMessageFilesInvalid: boolean = false;
   public showMessageQuantityInvalid: boolean = false;
   public showMessageProductNull: boolean = false;
+  public locationOrganizationSelected: string = '';
+  public locationAddressSelected: string = '';
 
   private file_ticket: any;
   locations: Location[] = [];
@@ -78,6 +80,20 @@ export class StockerHomeComponent implements OnInit {
     this.filteredOptions = this.stockForm.get('products').valueChanges.pipe(
       startWith(''),
       map(value => this.filterProducts(value))
+    );
+
+    // set locationOrganizationSelected and locationAddressSelected when location changes
+    this.stockForm.get('destination').valueChanges.subscribe(
+      (res) => {
+        const location = this.locations.find(l => l.id === res);
+        if (location) {
+          this.locationOrganizationSelected = location.organization;
+          this.locationAddressSelected = location.address;
+        } else {
+          this.locationOrganizationSelected = '';
+          this.locationAddressSelected = '';
+        }
+      }
     );
   }
 

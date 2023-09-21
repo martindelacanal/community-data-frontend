@@ -27,6 +27,8 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
   locations: Location[] = [];
   userStatus: UserStatus;
   userLocation: Location;
+  public locationOrganizationSelected: string = '';
+  public locationAddressSelected: string = '';
 
   constructor(
     private deliveryService: DeliveryService,
@@ -38,9 +40,30 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   ngOnInit(): void {
+    console.log(this.userLocation);
     this.getLocations();
     this.getUserStatus();
     this.getUserLocation();
+
+    // set locationOrganizationSelected and locationAddressSelected when location changes
+    this.deliveryForm.get('destination').valueChanges.subscribe(
+      (res) => {
+        const location = this.locations.find(l => l.id === res);
+        if (location) {
+          this.locationOrganizationSelected = location.organization;
+          this.locationAddressSelected = location.address;
+        } else {
+          this.locationOrganizationSelected = '';
+          this.locationAddressSelected = '';
+        }
+        console.log(this.locationOrganizationSelected);
+        console.log(this.locationAddressSelected);
+        console.log(this.userLocation);
+        console.log(!this.userLocation && this.locationOrganizationSelected && this.locationAddressSelected);
+
+
+      }
+    );
   }
 
   ngAfterViewInit(): void {
@@ -184,6 +207,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
           this.openSnackBar(this.translate.instant('delivery_snack_delivery_approved_error'));
         }
       });
+
     } else {
       this.openSnackBar(this.translate.instant('delivery_snack_scan_valid_error'));
     }
