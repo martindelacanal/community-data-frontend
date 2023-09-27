@@ -18,7 +18,7 @@ export class DashboardHomeComponent implements OnInit {
   // comerciosPositivo = false;
   // ditorsPositivo = true;
   // misionesPositivo = true;
-  selectedTab ='';
+  selectedTab = '';
 
   poundsDelivered: number = 0;
   totalLocations: number = 0;
@@ -30,6 +30,9 @@ export class DashboardHomeComponent implements OnInit {
   totalBeneficiariesQualified: number = 0;
   totalEnabledUsers: number = 0;
   totalTicketsUploaded: number = 0;
+  totalLocationsEnabled: number = 0;
+  totalProductsUploaded: number = 0;
+  seeMore: boolean = false;
 
 
   constructor(
@@ -40,7 +43,7 @@ export class DashboardHomeComponent implements OnInit {
   }
 
 
-  ngOnInit(){
+  ngOnInit() {
     this.breakpointObserver.observe([
       '(max-width: 800px)'
     ]).subscribe(result => {
@@ -64,10 +67,23 @@ export class DashboardHomeComponent implements OnInit {
     this.getTotalBeneficiariesQualified();
     this.getTotalEnabledUsers();
     this.getTotalTicketsUploaded();
+    this.getTotalLocationsEnabled();
+    this.getTotalProductsUploaded();
   }
 
   selectTab(tab: string) {
     this.selectedTab = tab;
+  }
+
+  toggleSeeMore() {
+    this.seeMore = !this.seeMore;
+    // scroll to bottom
+    setTimeout(() => {
+      const element = document.getElementById('footer');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      }
+    }, 100);
   }
 
   private getPoundsDelivered() {
@@ -147,6 +163,22 @@ export class DashboardHomeComponent implements OnInit {
     this.dashboardGeneralService.getTotalTicketsUploaded().subscribe(
       (res) => {
         this.totalTicketsUploaded = res;
+      }
+    );
+  }
+
+  private getTotalLocationsEnabled() {
+    this.dashboardGeneralService.getTotalLocationsEnabled().subscribe(
+      (res) => {
+        this.totalLocationsEnabled = res;
+      }
+    );
+  }
+
+  private getTotalProductsUploaded() {
+    this.dashboardGeneralService.getTotalProductsUploaded().subscribe(
+      (res) => {
+        this.totalProductsUploaded = res;
       }
     );
   }

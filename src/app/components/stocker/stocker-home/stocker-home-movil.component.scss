@@ -85,6 +85,11 @@
     grid-row: auto;
   }
 
+  .card:nth-child(13) {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
   .subir-archivo {
     display: flex;
     align-items: flex-start;

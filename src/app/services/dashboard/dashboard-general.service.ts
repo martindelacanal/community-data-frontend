@@ -55,4 +55,12 @@ export class DashboardGeneralService {
   getTotalTicketsUploaded() {
     return this.http.get<number>(`${environment.url_api}/total-tickets-uploaded`);
   }
+
+  getTotalLocationsEnabled() {
+    return this.http.get<number>(`${environment.url_api}/total-locations-enabled`);
+  }
+
+  getTotalProductsUploaded() {
+    return this.http.get<number>(`${environment.url_api}/total-products-uploaded`);
+  }
 }

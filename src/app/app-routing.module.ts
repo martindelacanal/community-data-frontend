@@ -10,8 +10,18 @@ import { StockerHomeComponent } from './components/stocker/stocker-home/stocker-
 import { HelpComponent } from './components/support/help/help.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { MetricsComponent } from './components/metrics/metrics.component';
+import { TableUserComponent } from './components/tables/user/table-user/table-user.component';
+import { TableTicketComponent } from './components/tables/ticket/table-ticket/table-ticket.component';
+import { TableProductComponent } from './components/tables/product/table-product/table-product.component';
+import { TableNotificationComponent } from './components/tables/notification/table-notification/table-notification.component';
+import { TableLocationComponent } from './components/tables/location/table-location/table-location.component';
 
 const routes: Routes = [
+  { path: 'table/notification', component: TableNotificationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'table/location', component: TableLocationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'table/product', component: TableProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'table/ticket', component: TableTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'table/user', component: TableUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'metrics', component: MetricsComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
   { path: 'settings', component: SettingsComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client','stocker','delivery','beneficiary']} },
   { path: 'help', component: HelpComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client','stocker','delivery','beneficiary']} },

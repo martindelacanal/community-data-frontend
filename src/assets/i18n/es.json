@@ -163,7 +163,12 @@
   "dashboard_admin_tables_qualified_beneficiaries_view": "Ver beneficiarios",
   "dashboard_admin_tables_tickets_uploaded": "Tickets cargados",
   "dashboard_admin_tables_tickets_uploaded_view": "Ver tickets",
+  "dashboard_admin_tables_locations": "Locaciones habilitadas",
+  "dashboard_admin_tables_locations_view": "Ver locaciones",
+  "dashboard_admin_tables_products": "Productos cargados",
+  "dashboard_admin_tables_products_view": "Ver productos",
   "dashboard_admin_button_see_more": "Ver más",
+  "dashboard_admin_button_see_less": "Ver menos",
 
   "map_button_enabled_locations": "Ubicaciones habilitadas",
   "map_button_total_locations": "Ubicaciones totales",
@@ -190,6 +195,18 @@
   "disclaimer_text": "Formulario voluntario, no vendemos ni compartimos su información con otras entidades.",
   "disclaimer_button_cancel": "Cancelar",
   "disclaimer_button_agree": "Aceptar",
+
+  "table_input_search": "Buscar",
+  "table_users_title": "Usuarios",
+  "table_users_header_username": "Nombre de usuario",
+  "table_users_header_email": "Correo electrónico",
+  "table_users_header_firstname": "Nombre",
+  "table_users_header_lastname": "Apellido",
+  "table_users_header_role": "Rol",
+  "table_users_header_creation_date": "Fecha de creación",
+  "table_users_row_button_view": "Ver",
+  "table_users_row_button_edit": "Editar",
+  "table_users_button_add_user": "Agregar usuario",
 
   "ultimo": "ultimo"
 }

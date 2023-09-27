@@ -136,12 +136,6 @@ export class StockerHomeComponent implements OnInit {
       this.showMessageFilesInvalid = false;
       this.showMessageQuantityInvalid = false;
       this.showMessageProductNull = false;
-      // Obtener la fecha del formulario
-      const date = new Date(this.stockForm.value.date);
-      // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
-      const dateString = date.toISOString().slice(0, 10);
-      // Asignar la fecha al campo de fecha en el formulario
-      this.stockForm.get('date').setValue(dateString);
       // si se usó un provider creado, se guarda el id, si es nuevo se guarda el texto
       const provider = this.providers.find(p => p.name.toLowerCase() === this.stockForm.get('provider').value.toLowerCase());
       if (provider) {
@@ -178,7 +172,19 @@ export class StockerHomeComponent implements OnInit {
         },
         error: (error) => {
           console.log(error);
+          // volver a colocar el provider y el product en el formulario, ya que se cambió a id, ahora se cambia a texto
+          this.stockForm.get('provider').setValue(this.providers.find(p => p.id === this.stockForm.get('provider').value).name);
+          for (let i = 0; i < this.productsForm.controls.length; i++) {
+            const control = this.productsForm.controls[i];
+            const productName = control.get('product').value;
+            const product = this.products.find(p => p.id === productName);
+            if (product) {
+              control.get('product').setValue(product.name);
+            }
+          }
           this.loading = false;
+          // show error message in alert
+          alert(`Please send to administrator: ${error.message} - ${error.error}`);
           this.openSnackBar(this.translate.instant('stocker_snack_ticket_uploaded_error'));
         }
       });
@@ -215,6 +221,8 @@ export class StockerHomeComponent implements OnInit {
 
   uploadFile($event) {
     const files = $event.target.files;
+    // delete all files inside file_ticket
+    this.file_ticket = [];
     if (files.length === 0) {
       console.log('No file selected');
       this.imageTicketUploaded = false;
@@ -236,7 +244,6 @@ export class StockerHomeComponent implements OnInit {
         console.log('File selected');
       }
     }
-    console.log(this.stockForm.value);
   }
 
   onNumberOfFieldsChange() {

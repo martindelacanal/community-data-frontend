@@ -158,6 +158,9 @@ export class MenuComponent implements OnInit {
   settings() {
     this.router.navigate(['settings'])
   }
+  notifications() {
+    this.router.navigate(['table/notification'])
+  }
 
   openSnackBar(message: string) {
     this.snackBar.open(message, this.translate.instant('snackbar_close'));

@@ -237,7 +237,7 @@
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_enabled_users' | translate }}</div>
             <div class="misiones-activas__derecha">
-              <a class="ui-link">{{'dashboard_admin_tables_enabled_users_view' | translate }}</a>
+              <a class="ui-link" routerLink="/table/user">{{'dashboard_admin_tables_enabled_users_view' | translate }}</a>
             </div>
           </div>
         </div>
@@ -246,7 +246,7 @@
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_qualified_beneficiaries' | translate }}</div>
             <div class="misiones-activas__derecha">
-              <a class="ui-link">{{'dashboard_admin_tables_qualified_beneficiaries_view' | translate }}</a>
+              <a class="ui-link" routerLink="/table/user">{{'dashboard_admin_tables_qualified_beneficiaries_view' | translate }}</a>
             </div>
           </div>
         </div>
@@ -255,13 +255,32 @@
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_tickets_uploaded' | translate }}</div>
             <div class="misiones-activas__derecha">
-              <a class="ui-link">{{'dashboard_admin_tables_tickets_uploaded_view' | translate }}</a>
+              <a class="ui-link" routerLink="/table/ticket">{{'dashboard_admin_tables_tickets_uploaded_view' | translate }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="misiones-activas__fila" *ngIf="seeMore">
+          <div class="misiones-activas__fila__header">{{totalLocationsEnabled}}</div>
+          <div class="misiones-activas__fila__footer">
+            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_locations' | translate }}</div>
+            <div class="misiones-activas__derecha">
+              <a class="ui-link" routerLink="/table/location">{{'dashboard_admin_tables_locations_view' | translate }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="misiones-activas__fila" *ngIf="seeMore">
+          <div class="misiones-activas__fila__header">{{totalProductsUploaded}}</div>
+          <div class="misiones-activas__fila__footer">
+            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_products' | translate }}</div>
+            <div class="misiones-activas__derecha">
+              <a class="ui-link" routerLink="/table/product">{{'dashboard_admin_tables_products_view' | translate }}</a>
             </div>
           </div>
         </div>
       </main>
-      <footer>
-        <button class="ui-button">{{'dashboard_admin_button_see_more' | translate }}</button>
+      <footer id="footer">
+        <button *ngIf="!seeMore" class="ui-button" (click)="toggleSeeMore()">{{'dashboard_admin_button_see_more' | translate }}</button>
+        <button *ngIf="seeMore" class="ui-button" (click)="toggleSeeMore()">{{'dashboard_admin_button_see_less' | translate }}</button>
       </footer>
     </div>
   </div>

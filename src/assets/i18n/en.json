@@ -163,7 +163,12 @@
   "dashboard_admin_tables_qualified_beneficiaries_view": "View beneficiaries",
   "dashboard_admin_tables_tickets_uploaded": "Tickets uploaded",
   "dashboard_admin_tables_tickets_uploaded_view": "View tickets",
+  "dashboard_admin_tables_locations": "Locations enabled",
+  "dashboard_admin_tables_locations_view": "View locations",
+  "dashboard_admin_tables_products": "Products uploaded",
+  "dashboard_admin_tables_products_view": "View products",
   "dashboard_admin_button_see_more": "See more",
+  "dashboard_admin_button_see_less": "See less",
 
   "map_button_enabled_locations": "Enabled locations",
   "map_button_total_locations": "Total locations",
@@ -190,6 +195,18 @@
   "disclaimer_text": "In-take Voluntary Forms, we don't sell or share your information to third parties.",
   "disclaimer_button_cancel": "Cancel",
   "disclaimer_button_agree": "Agree",
+
+  "table_input_search": "Search",
+  "table_users_title": "Users",
+  "table_users_header_username": "Username",
+  "table_users_header_email": "Email",
+  "table_users_header_firstname": "First name",
+  "table_users_header_lastname": "Last name",
+  "table_users_header_role": "Role",
+  "table_users_header_creation_date": "Creation date",
+  "table_users_row_button_view": "View",
+  "table_users_row_button_edit": "Edit",
+  "table_users_button_add_user": "Add user",
 
   "ultimo": "ultimo"
 }
