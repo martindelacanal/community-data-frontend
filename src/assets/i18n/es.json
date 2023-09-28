@@ -2,6 +2,9 @@
   "language_en": "English",
   "language_es": "Español",
   "snackbar_close": "Cerrar",
+  "connection_success": "Conexión exitosa",
+  "connection_error": "Error de conexión, compruebe su conexión a internet",
+  "connection_error_full": "Error de conexión, intente recargar la página",
 
   "login_title": "Iniciar sesión",
   "login_input_username": "Correo o nombre de usuario",

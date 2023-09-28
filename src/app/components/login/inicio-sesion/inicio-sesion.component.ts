@@ -59,9 +59,9 @@ export class InicioSesionComponent implements OnInit {
     public translate: TranslateService,
     private snackBar: MatSnackBar,
   ) {
-    translate.addLangs(['en', 'es']);
-    translate.setDefaultLang('en');
-    translate.use(localStorage.getItem('language') || 'en');
+    // translate.addLangs(['en', 'es']);
+    // translate.setDefaultLang('en');
+    // translate.use(localStorage.getItem('language') || 'en');
     this.buildLoginForm();
     this.buildRecoverPasswordForm();
     this.usuario = this.decodificadorService.getUsuario();
