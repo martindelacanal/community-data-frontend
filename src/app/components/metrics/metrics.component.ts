@@ -59,7 +59,7 @@ export class MetricsComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
-        this.openSnackBar(this.translate.instant('delivery_snack_upload_qr_error'));
+        this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
       }
     });
   }

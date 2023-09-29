@@ -37,7 +37,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
   tabIndex = 0;
   totalItems: number = 0;
   numOfPages: number = 0;
-  loading: boolean = true;
+  loading: boolean = false;
   buscar = new FormControl();
   buscarValor: string = '';
   pagina: number = 0;
@@ -53,24 +53,6 @@ export class TableUserComponent implements OnInit, AfterViewInit {
     public translate: TranslateService,
   ) {
     this.columna = 'id'
-  }
-
-  ngAfterViewInit() {
-    if (this.translate.currentLang == 'es') {
-      this.paginator._intl.itemsPerPageLabel = 'Items por página:';
-      this.paginator._intl.nextPageLabel = 'Siguiente';
-      this.paginator._intl.previousPageLabel = 'Anterior';
-      this.paginator._intl.firstPageLabel = 'Primera página';
-      this.paginator._intl.lastPageLabel = 'Última página';
-      this.paginator._intl.getRangeLabel = spanishRangeLabel;
-    } else {
-      this.paginator._intl.itemsPerPageLabel = 'Items per page:';
-      this.paginator._intl.nextPageLabel = 'Next';
-      this.paginator._intl.previousPageLabel = 'Previous';
-      this.paginator._intl.firstPageLabel = 'First page';
-      this.paginator._intl.lastPageLabel = 'Last page';
-      this.paginator._intl.getRangeLabel = englishRangeLabel;
-    }
   }
 
   ngOnInit() {
@@ -106,6 +88,26 @@ export class TableUserComponent implements OnInit, AfterViewInit {
       )
   }
 
+
+  ngAfterViewInit() {
+    if (this.translate.currentLang == 'es') {
+      this.paginator._intl.itemsPerPageLabel = 'Items por página:';
+      this.paginator._intl.nextPageLabel = 'Siguiente';
+      this.paginator._intl.previousPageLabel = 'Anterior';
+      this.paginator._intl.firstPageLabel = 'Primera página';
+      this.paginator._intl.lastPageLabel = 'Última página';
+      this.paginator._intl.getRangeLabel = spanishRangeLabel;
+    } else {
+      this.paginator._intl.itemsPerPageLabel = 'Items per page:';
+      this.paginator._intl.nextPageLabel = 'Next';
+      this.paginator._intl.previousPageLabel = 'Previous';
+      this.paginator._intl.firstPageLabel = 'First page';
+      this.paginator._intl.lastPageLabel = 'Last page';
+      this.paginator._intl.getRangeLabel = englishRangeLabel;
+    }
+  }
+
+
   updatePage(event: PageEvent): void {
     this.pagina = event.pageIndex;
     this.getDataUserTable();
@@ -131,10 +133,9 @@ export class TableUserComponent implements OnInit, AfterViewInit {
         this.ordenarTipo = res.orderType;
         this.dataUserTable = res;
 
-        this.dataSource = new MatTableDataSource(this.dataUserTable.results);
         this.numOfPages = this.dataUserTable.numOfPages;
         this.totalItems = this.dataUserTable.totalItems;
-        this.dataSource.paginator = this.paginator;
+        this.dataSource = new MatTableDataSource(this.dataUserTable.results);
 
         this.loading = false;
       }

@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="dialog-body">
+    <p>{{'dialog_download_ticket_csv_title' | translate }}</p>
+    <form [formGroup]="dateForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{'dialog_download_ticket_csv_input_from_date' | translate }}</mat-label>
+        <input matInput [matDatepicker]="miPicker1" formControlName="from_date">
+        <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
+        <mat-datepicker #miPicker1></mat-datepicker>
+        <mat-error *ngIf="dateForm.controls['from_date'].hasError('required')">
+          {{'dialog_download_ticket_csv_input_date_error' | translate }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{'dialog_download_ticket_csv_input_to_date' | translate }}</mat-label>
+        <input matInput [matDatepicker]="miPicker2" formControlName="to_date">
+        <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="miPicker2"></mat-datepicker-toggle>
+        <mat-datepicker #miPicker2></mat-datepicker>
+        <mat-error *ngIf="dateForm.controls['to_date'].hasError('required')">
+          {{'dialog_download_ticket_csv_input_date_error' | translate }}
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="dialog-footer" mat-dialog-actions>
+    <button class="ui-button" (click)="onClickCancelar()">{{'dialog_download_ticket_csv_button_cancel' | translate }}</button>
+    <button class="ui-button--ui-secundario" (click)="onClickAceptar()" [disabled]="!dateForm.valid">{{'dialog_download_ticket_csv_button_download' | translate }}</button>
+  </div>
+</div>

@@ -27,7 +27,7 @@
   width: 100%;
 }
 
-@media only screen and (max-width: 300px) {
+@media only screen and (max-width: 380px) {
 
   .dialog-footer {
     justify-content: center;
@@ -36,19 +36,6 @@
   .dialog-footer button{
     padding: 0 24px;
     margin: 8px;
-  }
-
-}
-
-@media only screen and (min-width: 301px) and (max-width: 355px) {
-
-  .dialog-footer {
-    justify-content: space-between;
-  }
-
-  .dialog-footer button{
-    padding: 0 24px;
-    margin: 0px;
   }
 
 }

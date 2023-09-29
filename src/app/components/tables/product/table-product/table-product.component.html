@@ -1,1 +1,85 @@
-<p>table-product works!</p>
+<div class="container">
+  <section class="header">
+    <div>
+      <h1 class="title">{{'table_products_title' | translate }}</h1>
+    </div>
+  </section>
+  <section class="main">
+
+    <div class="inputs">
+      <input matInput type="search" class="ui-input" [formControl]="buscar"
+        placeholder="{{'table_input_search' | translate }}">
+      <div>
+        <button class="ui-button">{{'table_products_button_add_product' | translate }}</button>
+      </div>
+    </div>
+    <br>
+
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('id')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'id', 'desc': ordenarTipo === 'desc' && columna === 'id'}">
+          <strong>ID</strong><span></span>
+        </th>
+        <tr>
+          <td mat-cell *matCellDef="let element">{{element.id}}</td>
+        </tr>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('name')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'name', 'desc': ordenarTipo === 'desc' && columna === 'name'}">
+          <strong>{{'table_products_header_name' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+      </ng-container>
+      <ng-container matColumnDef="value_usd">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('value_usd')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'value_usd', 'desc': ordenarTipo === 'desc' && columna === 'value_usd'}">
+          <strong>{{'table_products_header_value_usd' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.value_usd}}</td>
+      </ng-container>
+      <ng-container matColumnDef="creation_date">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('creation_date')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'creation_date', 'desc': ordenarTipo === 'desc' && columna === 'creation_date'}">
+          <strong>{{'table_products_header_creation_date' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.creation_date}}</td>
+      </ng-container>
+      <ng-container matColumnDef=" ">
+        <th mat-header-cell *matHeaderCellDef><strong></strong></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" class="menu-tabla">
+            <!-- [routerLink]="['/ver/usuario',element.id]" -->
+            <button mat-menu-item class="boton-usuario-desplegado">
+              <mat-icon>visibility</mat-icon>
+              <span>{{'table_products_row_button_view' | translate }}</span>
+            </button>
+            <!-- [routerLink]="['/usuario/editar',element.id]" -->
+            <button mat-menu-item class="boton-usuario-desplegado">
+              <mat-icon>edit</mat-icon>
+              <span>{{'table_products_row_button_edit' | translate }}</span>
+            </button>
+            <!-- (click)="openDialog(element.id,'eliminar')" -->
+            <button mat-menu-item class="boton-usuario-desplegado">
+              <mat-icon>delete</mat-icon>
+              <span>{{'table_products_row_button_delete' | translate }}</span>
+            </button>
+
+          </mat-menu>
+        </td>
+      </ng-container>
+      <tr mat-header-row class="table-header-row" *matHeaderRowDef="columns">
+      </tr>
+      <tr mat-row class="hover-effect" *matRowDef="let row; columns: columns;"></tr>
+
+    </table>
+
+    <mat-paginator class="paginador" #paginator [length]="totalItems" [pageIndex]="pagina" [pageSize]="10"
+      [pageSizeOptions]="[10]" (page)="updatePage($event)" aria-label="Seleccione una página">
+    </mat-paginator>
+  </section>
+</div>

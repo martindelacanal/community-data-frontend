@@ -1,1 +1,74 @@
-<p>table-notification works!</p>
+<div class="container">
+  <section class="header">
+    <div>
+      <h1 class="title">{{'table_notifications_title' | translate }}</h1>
+    </div>
+  </section>
+  <section class="main">
+
+    <div class="inputs">
+      <input matInput type="search" class="ui-input" [formControl]="buscar"
+        placeholder="{{'table_input_search' | translate }}">
+    </div>
+    <br>
+
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('id')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'id', 'desc': ordenarTipo === 'desc' && columna === 'id'}">
+          <strong>ID</strong><span></span></th>
+        <tr>
+          <td mat-cell *matCellDef="let element">{{element.id}}</td>
+        </tr>
+      </ng-container>
+      <ng-container matColumnDef="user_id">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('user_id')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'user_id', 'desc': ordenarTipo === 'desc' && columna === 'user_id'}">
+          <strong>{{'table_notifications_header_user_id' | translate }}</strong><span></span></th>
+        <td mat-cell *matCellDef="let element">{{element.user_id}}</td>
+      </ng-container>
+      <ng-container matColumnDef="user_name">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('user_name')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'user_name', 'desc': ordenarTipo === 'desc' && columna === 'user_name'}">
+          <strong>{{'table_notifications_header_user_name' | translate }}</strong><span></span></th>
+        <td mat-cell *matCellDef="let element">{{element.user_name}}</td>
+      </ng-container>
+      <ng-container matColumnDef="message">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('message')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'message', 'desc': ordenarTipo === 'desc' && columna === 'message'}">
+          <strong>{{'table_notifications_header_message' | translate }}</strong><span></span></th>
+        <td mat-cell *matCellDef="let element">{{element.message}}</td>
+      </ng-container>
+      <ng-container matColumnDef="creation_date">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('creation_date')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'creation_date', 'desc': ordenarTipo === 'desc' && columna === 'creation_date'}">
+          <strong>{{'table_notifications_header_creation_date' | translate }}</strong><span></span></th>
+        <td mat-cell *matCellDef="let element">{{element.creation_date}}</td>
+      </ng-container>
+      <ng-container matColumnDef=" ">
+        <th mat-header-cell *matHeaderCellDef><strong></strong></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" class="menu-tabla">
+            <!-- [routerLink]="['/ver/usuario',element.id]" -->
+            <button mat-menu-item class="boton-usuario-desplegado">
+              <mat-icon>visibility</mat-icon>
+              <span>{{'table_notifications_row_button_view' | translate }}</span>
+            </button>
+
+          </mat-menu>
+        </td>
+      </ng-container>
+      <tr mat-header-row class="table-header-row" *matHeaderRowDef="columns">
+      </tr>
+      <tr mat-row class="hover-effect" *matRowDef="let row; columns: columns;"></tr>
+
+    </table>
+
+    <mat-paginator class="paginador" #paginator [length]="totalItems" [pageIndex]="pagina" [pageSize]="10"
+      [pageSizeOptions]="[10]" (page)="updatePage($event)" aria-label="Seleccione una página">
+    </mat-paginator>
+  </section>
+</div>

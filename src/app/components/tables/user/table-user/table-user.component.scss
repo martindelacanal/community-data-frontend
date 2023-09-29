@@ -93,4 +93,15 @@ th strong {
   .title {
     margin-bottom: 8px;
   }
+
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .inputs .ui-button {
+    margin-top: 8px;
+    padding: 0 16px;
+  }
 }

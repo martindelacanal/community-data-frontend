@@ -59,6 +59,7 @@ import { TableTicketComponent } from './components/tables/ticket/table-ticket/ta
 import { TableLocationComponent } from './components/tables/location/table-location/table-location.component';
 import { TableProductComponent } from './components/tables/product/table-product/table-product.component';
 import { TableNotificationComponent } from './components/tables/notification/table-notification/table-notification.component';
+import { DownloadTicketCsvComponent } from './components/dialog/download-ticket-csv/download-ticket-csv/download-ticket-csv.component';
 
 
 
@@ -83,7 +84,8 @@ import { TableNotificationComponent } from './components/tables/notification/tab
    TableTicketComponent,
    TableLocationComponent,
    TableProductComponent,
-   TableNotificationComponent
+   TableNotificationComponent,
+   DownloadTicketCsvComponent
 
   ],
   imports: [
