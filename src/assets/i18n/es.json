@@ -203,6 +203,7 @@
   "table_input_search": "Buscar",
 
   "table_notifications_title": "Notificaciones",
+  "table_notifications_snack_error_get": "Error al obtener las notificaciones",
   "table_notifications_header_user_id": "ID de usuario",
   "table_notifications_header_user_name": "Nombre de usuario",
   "table_notifications_header_message": "Mensaje",
@@ -210,6 +211,7 @@
   "table_notifications_row_button_view": "Ver",
 
   "table_users_title": "Usuarios",
+  "table_users_snack_error_get": "Error al obtener los usuarios",
   "table_users_header_username": "Nombre de usuario",
   "table_users_header_email": "Correo electrónico",
   "table_users_header_firstname": "Nombre",
@@ -223,6 +225,7 @@
   "table_users_button_add_user": "Agregar usuario",
 
   "table_tickets_title": "Tickets",
+  "table_tickets_snack_error_get": "Error al obtener los tickets",
   "table_tickets_header_donation_id": "ID de donación",
   "table_tickets_header_total_weight": "Peso total",
   "table_tickets_header_provider": "Proveedor",
@@ -237,6 +240,7 @@
   "table_tickets_button_add_ticket": "Agregar ticket",
 
   "table_products_title": "Productos",
+  "table_products_snack_error_get": "Error al obtener los productos",
   "table_products_header_name": "Nombre",
   "table_products_header_value_usd": "Valor en USD",
   "table_products_header_creation_date": "Fecha de creación",
@@ -246,6 +250,7 @@
   "table_products_button_add_product": "Agregar producto",
 
   "table_locations_title": "Locaciones",
+  "table_locations_snack_error_get": "Error al obtener las locaciones",
   "table_locations_header_organization": "Organización",
   "table_locations_header_community_city": "Comunidad / Ciudad",
   "table_locations_header_partner": "Socio",

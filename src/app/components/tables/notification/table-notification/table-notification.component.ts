@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -50,6 +51,7 @@ export class TableNotificationComponent implements OnInit, AfterViewInit {
     private route: Router,
     private tablesService: TablesService,
     public translate: TranslateService,
+    private snackBar: MatSnackBar,
   ) {
     this.columna = 'id'
   }
@@ -122,10 +124,14 @@ export class TableNotificationComponent implements OnInit, AfterViewInit {
     this.getDataNotificationTable();
   }
 
+  openSnackBar(message: string) {
+    this.snackBar.open(message, this.translate.instant('snackbar_close'));
+  }
+
   private getDataNotificationTable() {
     this.loading = true;
-    this.tablesService.getDataNotificationTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor).subscribe(
-      (res) => {
+    this.tablesService.getDataNotificationTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor).subscribe({
+      next: (res) => {
 
         this.pagina = res.page;
         this.columna = res.orderBy;
@@ -137,8 +143,13 @@ export class TableNotificationComponent implements OnInit, AfterViewInit {
         this.dataSource = new MatTableDataSource(this.dataNotificationTable.results);
 
         this.loading = false;
+      },
+      error: (error) => {
+        console.log(error);
+        this.openSnackBar(this.translate.instant('table_notifications_snack_error_get'));
+        this.loading = false;
       }
-    )
+    })
   }
 
 }

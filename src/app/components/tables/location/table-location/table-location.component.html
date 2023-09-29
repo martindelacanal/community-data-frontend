@@ -1,7 +1,8 @@
 <div class="container">
   <section class="header">
-    <div>
+    <div class="header__title">
       <h1 class="title">{{'table_locations_title' | translate }}</h1>
+      <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
     </div>
   </section>
   <section class="main">

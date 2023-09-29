@@ -167,8 +167,8 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
 
   private getDataTicketTable() {
     this.loading = true;
-    this.tablesService.getDataTicketTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor).subscribe(
-      (res) => {
+    this.tablesService.getDataTicketTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor).subscribe({
+      next: (res) => {
 
         this.pagina = res.page;
         this.columna = res.orderBy;
@@ -180,10 +180,13 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
         this.dataSource = new MatTableDataSource(this.dataTicketTable.results);
 
         this.loading = false;
+      },
+      error: (error) => {
+        console.log(error);
+        this.openSnackBar(this.translate.instant('table_tickets_snack_error_get'));
+        this.loading = false;
       }
-    )
+    })
   }
-
-
 
 }

@@ -80,6 +80,15 @@ th strong {
   align-items: center;
 }
 
+.header__title{
+  display: flex;
+  align-items: baseline;
+}
+
+.header__title .loading-tables {
+  margin-left: 16px;
+}
+
 @media only screen and (max-width: 700px) {
   // Agrega aquí tus estilos para dispositivos móviles
 

@@ -84,8 +84,23 @@ th strong {
   padding: 0 16px;
 }
 
-#downloadCSV {
-  margin-right: 16px;
+#addButton {
+  margin-left: 16px;
+}
+
+.main .inputs .buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+}
+
+.header__title{
+  display: flex;
+  align-items: baseline;
+}
+
+.header__title .loading-tables {
+  margin-left: 16px;
 }
 
 @media only screen and (max-width: 700px) {
