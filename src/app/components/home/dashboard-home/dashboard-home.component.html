@@ -237,7 +237,7 @@
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_enabled_users' | translate }}</div>
             <div class="misiones-activas__derecha">
-              <a class="ui-link" routerLink="/table/user">{{'dashboard_admin_tables_enabled_users_view' | translate }}</a>
+              <a class="ui-link" routerLink="/table/user/">{{'dashboard_admin_tables_enabled_users_view' | translate }}</a>
             </div>
           </div>
         </div>
@@ -246,7 +246,7 @@
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_qualified_beneficiaries' | translate }}</div>
             <div class="misiones-activas__derecha">
-              <a class="ui-link" routerLink="/table/user">{{'dashboard_admin_tables_qualified_beneficiaries_view' | translate }}</a>
+              <a class="ui-link" [routerLink]="['/table/user', 'beneficiary']">{{'dashboard_admin_tables_qualified_beneficiaries_view' | translate }}</a>
             </div>
           </div>
         </div>

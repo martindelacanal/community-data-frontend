@@ -196,6 +196,7 @@
   "metrics_button_download_csv": "Descargar CSV",
   "metrics_button_download_csv_error": "Error al descargar CSV",
 
+  "disclaimer_text_reset_password": "¿Está seguro que desea reiniciar la contraseña?",
   "disclaimer_text": "Formulario voluntario, no vendemos ni compartimos su información con otras entidades.",
   "disclaimer_button_cancel": "Cancelar",
   "disclaimer_button_agree": "Aceptar",

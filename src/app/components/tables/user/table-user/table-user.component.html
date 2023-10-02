@@ -86,7 +86,7 @@
               <span>{{'table_users_row_button_edit' | translate }}</span>
             </button>
             <!-- (click)="openDialog(element.id,'reiniciar')" -->
-            <button mat-menu-item class="boton-usuario-desplegado">
+            <button mat-menu-item class="boton-usuario-desplegado" (click)="openDialogResetPassword(element.id)">
               <mat-icon>lock_reset</mat-icon>
               <span>{{'table_users_row_button_reset_password' | translate }}</span>
             </button>

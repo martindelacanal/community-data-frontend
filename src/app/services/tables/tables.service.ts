@@ -39,4 +39,8 @@ export class TablesService {
   getFileCSV(from_date: string, to_date: string) {
     return this.http.get(`${environment.url_api}/table/ticket/download-csv?from_date=${from_date}&to_date=${to_date}`, { responseType: 'text' });
   }
+
+  resetPassword(id: string){
+    return this.http.delete<any>(`${environment.url_api}/user/reset-password/${id}`);
+  }
 }

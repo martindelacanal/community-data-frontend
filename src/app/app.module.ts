@@ -60,6 +60,7 @@ import { TableLocationComponent } from './components/tables/location/table-locat
 import { TableProductComponent } from './components/tables/product/table-product/table-product.component';
 import { TableNotificationComponent } from './components/tables/notification/table-notification/table-notification.component';
 import { DownloadTicketCsvComponent } from './components/dialog/download-ticket-csv/download-ticket-csv/download-ticket-csv.component';
+import { DisclaimerResetPasswordComponent } from './components/dialog/disclaimer-reset-password/disclaimer-reset-password/disclaimer-reset-password.component';
 
 
 
@@ -85,7 +86,8 @@ import { DownloadTicketCsvComponent } from './components/dialog/download-ticket-
    TableLocationComponent,
    TableProductComponent,
    TableNotificationComponent,
-   DownloadTicketCsvComponent
+   DownloadTicketCsvComponent,
+   DisclaimerResetPasswordComponent
 
   ],
   imports: [
