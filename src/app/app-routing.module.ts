@@ -15,8 +15,12 @@ import { TableTicketComponent } from './components/tables/ticket/table-ticket/ta
 import { TableProductComponent } from './components/tables/product/table-product/table-product.component';
 import { TableNotificationComponent } from './components/tables/notification/table-notification/table-notification.component';
 import { TableLocationComponent } from './components/tables/location/table-location/table-location.component';
+import { ViewTicketComponent } from './components/view/ticket/view-ticket/view-ticket.component';
+import { NewUserComponent } from './components/new/user/new-user/new-user.component';
 
 const routes: Routes = [
+  { path: 'view/ticket/:id', component: ViewTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'new/user', component: NewUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/notification', component: TableNotificationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/location', component: TableLocationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/product', component: TableProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },

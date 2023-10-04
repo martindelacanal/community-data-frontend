@@ -1,0 +1,139 @@
+
+
+
+
+
+
+
+
+
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div>
+        <h1 class="title">{{'new_user_title' | translate }}</h1>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <form [formGroup]="userForm" novalidate (ngSubmit)="onSubmit()">
+          <div class="main_formulario">
+            <!-- username -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'register_first_tab_input_user_name' | translate }}</mat-label>
+                <input matInput formControlName="username" type="username" required>
+                <mat-error *ngIf="userForm.controls['username'].hasError('invalidUsername')">
+                  {{'register_first_tab_input_user_name_error_exists' | translate }}
+                </mat-error>
+                <mat-error *ngIf="userForm.controls['username'].hasError('required')">
+                  {{'register_first_tab_input_user_name_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- password -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'register_first_tab_input_password' | translate }}</mat-label>
+                <input matInput formControlName="password" type="password">
+                <mat-error *ngIf="userForm.controls['password'].hasError('required')">
+                  {{'register_first_tab_input_password_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- firstname -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'register_first_tab_input_first_name' | translate }}</mat-label>
+                <input matInput formControlName="firstname" required>
+                <mat-error *ngIf="userForm.controls['firstname'].hasError('required')">
+                  {{'register_first_tab_input_first_name_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- lastname -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'register_first_tab_input_last_name' | translate }}</mat-label>
+                <input matInput formControlName="lastname">
+                <mat-error *ngIf="userForm.controls['lastname'].hasError('required')">
+                  {{'register_first_tab_input_last_name_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+             <!-- email -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'register_first_tab_input_email_address' | translate }}</mat-label>
+                <input matInput formControlName="email" type="email">
+                <mat-error *ngIf="userForm.controls['email'].hasError('emailExists')">
+                  {{'register_first_tab_input_email_address_error_exists' | translate }}
+                </mat-error>
+                <mat-error *ngIf="userForm.controls['email'].hasError('invalidEmail')">
+                  {{'register_first_tab_input_email_address_error_invalid' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- date_of_birth -->
+            <div class="card">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'login_recover_password_input_date_of_birth' | translate }}</mat-label>
+                <input matInput [matDatepicker]="miPicker1" formControlName="date_of_birth">
+                <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
+                <mat-datepicker #miPicker1></mat-datepicker>
+                <mat-error *ngIf="userForm.controls['date_of_birth'].hasError('required')">
+                  {{'stocker_input_date_error' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- gender -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_user_input_gender' | translate }}</mat-label>
+                <mat-select formControlName="gender_id">
+                  <mat-option *ngFor="let gender of genders" [value]="gender.id">
+                    {{gender.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.controls['gender_id'].hasError('required')">
+                  {{'new_user_input_gender_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- role -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_user_input_role' | translate }}</mat-label>
+                <mat-select formControlName="role_id">
+                  <mat-option *ngFor="let role of roles" [value]="role.id">
+                    {{role.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.controls['role_id'].hasError('required')">
+                  {{'new_user_input_role_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- separator -->
+            <div class="card ">
+              <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+            </div>
+            <!-- buttons -->
+            <div class="card">
+              <div class="main__footer">
+                <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
+                <button *ngIf="!loading" class="ui-button" type="submit"
+                  [disabled]="!userForm.valid">{{'new_user_button_create' | translate }}</button>
+                <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </section>
+  </div>
+</div>

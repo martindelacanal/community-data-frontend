@@ -61,6 +61,8 @@ import { TableProductComponent } from './components/tables/product/table-product
 import { TableNotificationComponent } from './components/tables/notification/table-notification/table-notification.component';
 import { DownloadTicketCsvComponent } from './components/dialog/download-ticket-csv/download-ticket-csv/download-ticket-csv.component';
 import { DisclaimerResetPasswordComponent } from './components/dialog/disclaimer-reset-password/disclaimer-reset-password/disclaimer-reset-password.component';
+import { ViewTicketComponent } from './components/view/ticket/view-ticket/view-ticket.component';
+import { NewUserComponent } from './components/new/user/new-user/new-user.component';
 
 
 
@@ -87,7 +89,9 @@ import { DisclaimerResetPasswordComponent } from './components/dialog/disclaimer
    TableProductComponent,
    TableNotificationComponent,
    DownloadTicketCsvComponent,
-   DisclaimerResetPasswordComponent
+   DisclaimerResetPasswordComponent,
+   ViewTicketComponent,
+   NewUserComponent
 
   ],
   imports: [

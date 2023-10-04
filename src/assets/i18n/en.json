@@ -272,5 +272,21 @@
   "dialog_download_ticket_csv_button_cancel": "Cancel",
   "dialog_download_ticket_csv_button_download": "Download",
 
+  "view_ticket_title": "View ticket",
+  "view_ticket_error": "Error getting ticket",
+
+
+  "new_user_title": "New user",
+  "new_user_snack_error": "Error creating user",
+  "new_user_invalid_form": "Please fill the form correctly",
+  "new_user_input_role": "Role",
+  "new_user_input_role_error_please": "Please select a role",
+  "new_user_input_gender": "Gender",
+  "new_user_input_gender_error_please": "Please select a gender",
+  "new_user_button_create": "Create",
+  "new_user_snack_password_message": "If you do not enter a password, the system generates it automatically",
+  "new_user_snack_your_new_password": "User created successfully. The password is: ",
+
+
   "ultimo": "ultimo"
 }

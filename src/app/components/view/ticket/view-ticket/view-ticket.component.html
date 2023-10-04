@@ -1,0 +1,71 @@
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div>
+        <h1 class="title">{{'view_ticket_title' | translate }}</h1>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+          <div class="main_formulario">
+            <!-- donation id -->
+            <div class="card">
+                <mat-label>{{'stocker_input_donation_id' | translate }}</mat-label>
+            </div>
+            <!-- total weight -->
+            <div class="card">
+                <mat-label>{{'stocker_input_total_weight' | translate }}</mat-label>
+            </div>
+            <!-- provider -->
+            <div class="card">
+                <mat-label>{{'stocker_input_provider' | translate }}</mat-label>
+            </div>
+            <!-- destination -->
+            <div class="card">
+                <mat-label>{{'stocker_input_destination' | translate }}</mat-label>
+            </div>
+            <!-- date -->
+            <div class="card">
+                <mat-label>{{'stocker_input_date' | translate }}</mat-label>
+            </div>
+            <!-- delivered_by -->
+            <div class="card">
+                <mat-label>{{'stocker_input_delivered_by' | translate }}</mat-label>
+            </div>
+            <!-- ticket_photo -->
+            <div class="card">
+              <div class="subir-archivo">
+                <span>
+                  {{'stocker_text_max_ticket' | translate }}
+                </span>
+              </div>
+            </div>
+            <!-- separator -->
+            <div class="card ">
+              <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+            </div>
+
+            <!-- products -->
+            <div class="card">
+              <!-- <div *ngFor="let products of productsForm.controls; let i=index"> -->
+                <p >{{'stocker_text_format_product' | translate }}</p>
+
+              <!-- </div> -->
+            </div>
+
+            <!-- separator -->
+            <div class="card ">
+              <!-- <div class="ui-separator-horizontal"></div> -->
+              <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+            </div>
+            <!-- buttons -->
+            <div class="card">
+
+            </div>
+          </div>
+
+      </div>
+    </section>
+  </div>
+</div>

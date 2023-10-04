@@ -11,7 +11,7 @@
       <input matInput type="search" class="ui-input" [formControl]="buscar"
         placeholder="{{'table_input_search' | translate }}">
       <div>
-        <button class="ui-button">{{'table_users_button_add_user' | translate }}</button>
+        <button [routerLink]="['/new/user']" class="ui-button">{{'table_users_button_add_user' | translate }}</button>
       </div>
     </div>
     <br>
