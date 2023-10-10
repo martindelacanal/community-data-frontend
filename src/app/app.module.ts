@@ -64,8 +64,6 @@ import { DisclaimerResetPasswordComponent } from './components/dialog/disclaimer
 import { ViewTicketComponent } from './components/view/ticket/view-ticket/view-ticket.component';
 import { NewUserComponent } from './components/new/user/new-user/new-user.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -4,7 +4,7 @@
     <form [formGroup]="dateForm">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>{{'dialog_download_ticket_csv_input_from_date' | translate }}</mat-label>
-        <input matInput [matDatepicker]="miPicker1" formControlName="from_date">
+        <input matInput [matDatepicker]="miPicker1" formControlName="from_date" (input)="formatDate($event)">
         <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
         <mat-datepicker #miPicker1></mat-datepicker>
@@ -14,7 +14,7 @@
       </mat-form-field>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>{{'dialog_download_ticket_csv_input_to_date' | translate }}</mat-label>
-        <input matInput [matDatepicker]="miPicker2" formControlName="to_date">
+        <input matInput [matDatepicker]="miPicker2" formControlName="to_date" (input)="formatDate($event)">
         <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="miPicker2"></mat-datepicker-toggle>
         <mat-datepicker #miPicker2></mat-datepicker>

@@ -71,9 +71,9 @@
               </mat-form-field>
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>{{'login_recover_password_input_date_of_birth' | translate }}</mat-label>
-                <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth">
+                <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth" (input)="formatDate($event)">
                 <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
-                <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
+                <!-- <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle> -->
                 <mat-datepicker #miPicker1></mat-datepicker>
                 <mat-error *ngIf="recoverPasswordForm.controls['dateOfBirth'].hasError('required')">
                   {{'login_recover_password_input_date_of_birth_error_please' | translate }}

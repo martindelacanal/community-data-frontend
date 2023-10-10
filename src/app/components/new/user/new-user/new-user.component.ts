@@ -107,6 +107,21 @@ export class NewUserComponent {
     this.snackBar.open(message, this.translate.instant('snackbar_close'));
   }
 
+  formatDate(event) {
+    let input = event.target.value;
+    input = input.replace(/[^0-9]/g, ''); // Elimina cualquier caracter que no sea un número
+    let formattedInput = '';
+
+    for (let i = 0; i < input.length; i++) {
+      if (i == 2 || i == 4) {
+        formattedInput += '/';
+      }
+      formattedInput += input[i];
+    }
+
+    event.target.value = formattedInput;
+  }
+
   private resetearFormulario() {
     this.userForm.reset();
     this.userForm.get('username').setErrors(null);
