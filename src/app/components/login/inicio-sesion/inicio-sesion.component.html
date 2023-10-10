@@ -2,95 +2,124 @@
   <header>
     <span>Community Data</span>
     <span class="form-inline">
-      <select class="ui-input" id="languageSelector" #selectedLang (change)="switchLang(selectedLang.value)">
-        <option *ngFor="let language of translate.getLangs()" [value]="language" [selected]="language === translate.currentLang">
+      <mat-button-toggle-group [(ngModel)]="selectedLanguage" id="languageSelector" #selectedLang (change)="switchLang()">
+        <mat-button-toggle *ngFor="let language of translate.getLangs()" [value]="language">
+          {{ translate.instant('language_' + language) }}
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+      <!-- <select class="ui-input" id="languageSelector" #selectedLang (change)="switchLang(selectedLang.value)">
+        <option *ngFor="let language of translate.getLangs()" [value]="language"
+          [selected]="language === translate.currentLang">
           {{ translate.instant('language_' + language) }}
         </option>
-      </select>
+      </select> -->
     </span>
   </header>
   <main>
-      <section *ngIf="loginSection" [@scaleInOut] (@scaleInOut.done)="animationDone($event, 'password')">
-        <div class="ui-tarjeta">
-          <h1>{{'login_title' | translate }}</h1>
-          <form [formGroup]="loginForm" novalidate (ngSubmit)="logIn()">
-            <div class="tarjeta__input">
-              <mat-form-field appearance="outline">
-                <mat-label>{{'login_input_username' | translate }}</mat-label>
-                <input matInput placeholder="" formControlName="email" name="user" required>
-                <mat-error *ngIf="loginForm.controls['email'].hasError('required')">
-                  {{'login_input_username_error_please' | translate }}
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>{{'login_input_password' | translate }}</mat-label>
-                <input matInput type="password" placeholder="" formControlName="password" name="password" required>
-                <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
-                  {{'login_input_password_error_please' | translate }}
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div class="tarjeta__checkbox">
-              <mat-checkbox formControlName="remember">{{'login_input_remember_me' | translate }}</mat-checkbox>
-            </div>
-            <div class="tarjeta__button">
-              <button *ngIf="!loading" class="ui-button" type="submit">{{'login_button_submit' | translate }}</button>
-              <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+    <section *ngIf="firstPageSection" [@scaleInOut] (@scaleInOut.done)="animationDone($event, 'login')">
+      <div class="ui-tarjeta">
 
-              <mat-error *ngIf="!loginValid">
-                {{'login_button_submit_error' | translate }}
+        <div class="language__buttons">
+
+        </div>
+
+        <!-- <div class="ui-separator-horizontal firstpage-first"></div> -->
+
+        <div class="tarjeta__button firstpage">
+          <button class="ui-button firstpage" type="button" (click)="setForgetPassword(true,false,false)">{{'login_button_login' | translate }}</button>
+
+          <button class="ui-button firstpage" type="button" (click)="signUp()">{{'login_button_register' | translate }}</button>
+        </div>
+
+        <!-- <div class="ui-separator-horizontal firstpage-second"></div> -->
+      </div>
+    </section>
+
+    <section *ngIf="loginSection" [@scaleInOut] (@scaleInOut.done)="animationDone($event, loginSectionChoice)">
+      <div class="ui-tarjeta">
+        <h1>{{'login_title' | translate }}</h1>
+        <form [formGroup]="loginForm" novalidate (ngSubmit)="logIn()">
+          <div class="tarjeta__input">
+            <mat-form-field appearance="outline">
+              <mat-label>{{'login_input_username' | translate }}</mat-label>
+              <input matInput placeholder="" formControlName="email" name="user" required>
+              <mat-error *ngIf="loginForm.controls['email'].hasError('required')">
+                {{'login_input_username_error_please' | translate }}
               </mat-error>
-            </div>
-          </form>
-          <div class="ui-separator-horizontal"></div>
-          <a class="ui-link" (click)="setForgetPassword(false,true)">{{'login_link_forgot_password' | translate }}</a>
-          <!-- add margin -->
-          <a class="ui-link" style="margin-top: 8px;" (click)="signUp()">{{'login_link_create_account' | translate }}</a>
-        </div>
-      </section>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>{{'login_input_password' | translate }}</mat-label>
+              <input matInput type="password" placeholder="" formControlName="password" name="password" required>
+              <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
+                {{'login_input_password_error_please' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="tarjeta__checkbox">
+            <mat-checkbox formControlName="remember">{{'login_input_remember_me' | translate }}</mat-checkbox>
+          </div>
+          <div class="tarjeta__button">
+            <button *ngIf="!loading" class="ui-button" type="submit">{{'login_button_submit' | translate }}</button>
+            <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
 
-      <section *ngIf="passwordSection" [@scaleInOut] (@scaleInOut.done)="animationDone($event, 'login')">
-        <div class="ui-tarjeta">
-          <h1>{{'login_recover_password_title' | translate }}</h1>
-          <form [formGroup]="recoverPasswordForm" novalidate (ngSubmit)="onSubmitResetPassword()">
-            <div class="tarjeta__input">
-              <label>{{'login_recover_password_subtitle_information' | translate }}</label>
-              <p class="texto-soporte">{{'login_recover_password_subtitle_phone' | translate }}: <a class="ui-link">{{'login_recover_password_not_available_message' | translate }}</a></p>
-              <p class="texto-soporte">{{'login_recover_password_subtitle_email' | translate }}: <a class="ui-link">{{'login_recover_password_not_available_message' | translate }}</a></p>
-              <div class="line-container">
-                <hr>
-                <span class="line-text">{{'login_recover_password_subtitle_o' | translate }}</span>
-                <hr>
-              </div>
-              <mat-form-field appearance="outline">
-                <mat-label>{{'login_input_username' | translate }}</mat-label>
-                <input matInput placeholder="" formControlName="email" name="user" required>
-                <mat-error *ngIf="recoverPasswordForm.controls['email'].hasError('required')">
-                  {{'login_input_username_error_please' | translate }}
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>{{'login_recover_password_input_date_of_birth' | translate }}</mat-label>
-                <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth" (input)="formatDate($event)">
-                <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
-                <!-- <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle> -->
-                <mat-datepicker #miPicker1></mat-datepicker>
-                <mat-error *ngIf="recoverPasswordForm.controls['dateOfBirth'].hasError('required')">
-                  {{'login_recover_password_input_date_of_birth_error_please' | translate }}
-                </mat-error>
-                <mat-error *ngIf="recoverPasswordForm.controls['dateOfBirth'].hasError('invalidAge')">
-                  {{'login_recover_password_input_date_of_birth_error_age' | translate }}
-                </mat-error>
-              </mat-form-field>
-            </div>
+            <mat-error *ngIf="!loginValid">
+              {{'login_button_submit_error' | translate }}
+            </mat-error>
+          </div>
+        </form>
+        <div class="ui-separator-horizontal"></div>
+        <a class="ui-link login" (click)="setForgetPassword(false,false,true)">{{'login_link_forgot_password' | translate }}</a>
+        <!-- add margin -->
+        <a class="ui-link" (click)="setForgetPassword(false,true,false)">{{'login_link_back_firstpage' | translate }}</a>
+        <!-- <a class="ui-link" style="margin-top: 8px;" (click)="signUp()">{{'login_link_create_account' | translate }}</a> -->
+      </div>
+    </section>
 
-            <div class="tarjeta__button">
-              <button class="ui-button" type="submit">{{'login_recover_password_button_reset' | translate }}</button>
+    <section *ngIf="passwordSection" [@scaleInOut] (@scaleInOut.done)="animationDone($event, 'login')">
+      <div class="ui-tarjeta">
+        <h1>{{'login_recover_password_title' | translate }}</h1>
+        <form [formGroup]="recoverPasswordForm" novalidate (ngSubmit)="onSubmitResetPassword()">
+          <div class="tarjeta__input">
+            <label>{{'login_recover_password_subtitle_information' | translate }}</label>
+            <p class="texto-soporte">{{'login_recover_password_subtitle_phone' | translate }}: <a
+                class="ui-link">{{'login_recover_password_not_available_message' | translate }}</a></p>
+            <p class="texto-soporte">{{'login_recover_password_subtitle_email' | translate }}: <a
+                class="ui-link">{{'login_recover_password_not_available_message' | translate }}</a></p>
+            <div class="line-container">
+              <hr>
+              <span class="line-text">{{'login_recover_password_subtitle_o' | translate }}</span>
+              <hr>
             </div>
-          </form>
-          <div class="ui-separator-horizontal"></div>
-          <a class="ui-link" (click)="setForgetPassword(true,false)">{{'login_recover_password_link_back' | translate }}</a>
-        </div>
-      </section>
+            <mat-form-field appearance="outline">
+              <mat-label>{{'login_input_username' | translate }}</mat-label>
+              <input matInput placeholder="" formControlName="email" name="user" required>
+              <mat-error *ngIf="recoverPasswordForm.controls['email'].hasError('required')">
+                {{'login_input_username_error_please' | translate }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{'login_recover_password_input_date_of_birth' | translate }}</mat-label>
+              <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth" (input)="formatDate($event)">
+              <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
+              <!-- <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle> -->
+              <mat-datepicker #miPicker1></mat-datepicker>
+              <mat-error *ngIf="recoverPasswordForm.controls['dateOfBirth'].hasError('required')">
+                {{'login_recover_password_input_date_of_birth_error_please' | translate }}
+              </mat-error>
+              <mat-error *ngIf="recoverPasswordForm.controls['dateOfBirth'].hasError('invalidAge')">
+                {{'login_recover_password_input_date_of_birth_error_age' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="tarjeta__button">
+            <button class="ui-button" type="submit">{{'login_recover_password_button_reset' | translate }}</button>
+          </div>
+        </form>
+        <div class="ui-separator-horizontal"></div>
+        <a class="ui-link" (click)="setForgetPassword(true,false,false)">{{'login_recover_password_link_back' | translate
+          }}</a>
+      </div>
+    </section>
   </main>
 </div>

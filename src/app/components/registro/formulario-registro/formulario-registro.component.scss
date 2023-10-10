@@ -20,6 +20,12 @@ header {
   margin-right: 16px;
 }
 
+.mat-button-toggle-group {
+  height: 32px;
+  align-items: center;
+  font-weight: 400;
+}
+
 // header img {
 //   height: 100%;
 //   margin-left: 15px;
@@ -204,16 +210,25 @@ section {
   // }
 }
 
-@media only screen and (max-width: 355px) {
-
+@media only screen and (max-width: 387px) {
   header span {
+    margin-left: 16px;
     font-size: 2.0rem;
+    font-weight: 600;
+    color: var(--texto-blanco);
+  }
+}
+@media only screen and (max-width: 357px) {
+  header span {
+    margin-left: 16px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--texto-blanco);
   }
 
   .ui-tarjeta h1 {
     font-size: 2.4rem;
   }
-
 }
 
 @media only screen and (min-width: 701px) {

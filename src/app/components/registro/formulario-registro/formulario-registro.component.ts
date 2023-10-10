@@ -41,6 +41,7 @@ export class FormularioRegistroComponent implements OnInit {
   public combinedFormGroup: FormGroup;
   public registerQuestions: RegisterQuestion[] = [];
   public loadingRegisterQuestions: boolean = false;
+  public selectedLanguage: string;
   userNameExists: boolean = false;
   emailExists: boolean = false;
 
@@ -81,11 +82,16 @@ export class FormularioRegistroComponent implements OnInit {
     this.buildFirstFormGroup();
   }
 
-  switchLang(lang: string) {
-    this.translate.use(lang);
+  switchLang() {
+    this.translate.use(this.selectedLanguage);
     // save in local storage
-    localStorage.setItem('language', lang);
+    localStorage.setItem('language', this.selectedLanguage);
   }
+  // switchLang(lang: string) {
+  //   this.translate.use(lang);
+  //   // save in local storage
+  //   localStorage.setItem('language', lang);
+  // }
 
   ngOnInit() {
     if (this.usuario !== null) {

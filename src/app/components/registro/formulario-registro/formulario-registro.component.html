@@ -2,12 +2,17 @@
   <header>
     <span>Community Data</span>
     <span class="form-inline">
-      <select class="ui-input" id="languageSelector" #selectedLang (change)="switchLang(selectedLang.value)">
+      <mat-button-toggle-group [(ngModel)]="selectedLanguage" id="languageSelector" #selectedLang (change)="switchLang()">
+        <mat-button-toggle *ngFor="let language of translate.getLangs()" [value]="language">
+          {{ translate.instant('language_' + language) }}
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+      <!-- <select class="ui-input" id="languageSelector" #selectedLang (change)="switchLang(selectedLang.value)">
         <option *ngFor="let language of translate.getLangs()" [value]="language"
           [selected]="language === translate.currentLang">
           {{ translate.instant('language_' + language) }}
         </option>
-      </select>
+      </select> -->
     </span>
   </header>
   <main>

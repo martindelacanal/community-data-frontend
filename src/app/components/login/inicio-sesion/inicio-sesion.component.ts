@@ -45,11 +45,14 @@ export class InicioSesionComponent implements OnInit {
   public loginValid: boolean = true;
   public resetValid: boolean = true;
   public loading: boolean = false;
-  public loginSection: boolean = true;
+  public loginSection: boolean = false;
   public passwordSection: boolean = false;
+  public firstPageSection: boolean = true;
+  public loginSectionChoice: string;
   public loginForm: FormGroup;
   public recoverPasswordForm: FormGroup;
   public submitted = false;
+  public selectedLanguage: string;
 
   constructor(
     private authService: AuthService,
@@ -70,11 +73,16 @@ export class InicioSesionComponent implements OnInit {
     }
   }
 
-  switchLang(lang: string) {
-    this.translate.use(lang);
+  switchLang() {
+    this.translate.use(this.selectedLanguage);
     // save in local storage
-    localStorage.setItem('language', lang);
+    localStorage.setItem('language', this.selectedLanguage);
   }
+  // switchLang(lang: string) {
+  //   this.translate.use(lang);
+  //   // save in local storage
+  //   localStorage.setItem('language', lang);
+  // }
 
   ngOnInit() {
     if (this.usuario !== null) {
@@ -180,23 +188,33 @@ export class InicioSesionComponent implements OnInit {
     this.router.navigate(['register']);
   }
 
-  setForgetPassword(login: boolean, password: boolean) {
+  setForgetPassword(login: boolean, password: boolean, firstpage: boolean) {
+    console.log("setForgetPassword")
+    if (!firstpage) {
+      this.loginSectionChoice = 'firstpage';
+      this.firstPageSection = firstpage;
+    }
     if (!login) {
       this.loginSection = login;
-    } else {
-      if (!password) {
-        this.passwordSection = password;
-      }
+    }
+    if (!password) {
+      this.loginSectionChoice = 'password';
+      this.passwordSection = password;
     }
   }
 
   animationDone(event: AnimationEvent, componente: string) {
+    console.log("animationDone")
     if (event.toState === 'void') {
       if (componente === 'login') {
         this.loginSection = true;
       } else {
         if (componente === 'password') {
           this.passwordSection = true;
+        } else {
+          if (componente === 'firstpage') {
+            this.firstPageSection = true;
+          }
         }
       }
     }

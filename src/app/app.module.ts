@@ -63,6 +63,7 @@ import { DownloadTicketCsvComponent } from './components/dialog/download-ticket-
 import { DisclaimerResetPasswordComponent } from './components/dialog/disclaimer-reset-password/disclaimer-reset-password/disclaimer-reset-password.component';
 import { ViewTicketComponent } from './components/view/ticket/view-ticket/view-ticket.component';
 import { NewUserComponent } from './components/new/user/new-user/new-user.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
@@ -127,6 +128,7 @@ import { NewUserComponent } from './components/new/user/new-user/new-user.compon
     MatSelectModule,
     MatAutocompleteModule,
     MatDialogModule,
+    MatButtonToggleModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -20,6 +20,12 @@ header {
   margin-right: 16px;
 }
 
+.mat-button-toggle-group {
+  height: 32px;
+  align-items: center;
+  font-weight: 400;
+}
+
 // header img {
 //   height: 100%;
 //   margin-left: 15px;
@@ -97,13 +103,43 @@ section {
   align-items: center;
 }
 
+.ui-tarjeta .tarjeta__button.firstpage{
+  width: inherit;
+}
+
+.ui-button.firstpage{
+  width: 100%;
+  height: 64px;
+}
+.ui-button.firstpage:nth-child(1){
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+.ui-button.firstpage:nth-child(2){
+  margin-bottom: 16px;
+}
+
 .ui-separator-horizontal {
   margin-top: 32px;
   margin-bottom: 16px;
 }
 
+// .ui-separator-horizontal.firstpage-first {
+//   margin-top: 0px;
+//   margin-bottom: 16px;
+// }
+
+// .ui-separator-horizontal.firstpage-second {
+//   margin-bottom: 16px;
+//   margin-bottom: 0px;
+// }
+
 .ui-link {
   align-self: center;
+}
+
+.ui-link.login{
+  margin-bottom: 8px;
 }
 
 .tarjeta__checkbox {
@@ -144,10 +180,18 @@ hr {
   font-weight: bold;
 }
 
-@media only screen and (max-width: 330px) {
+@media only screen and (max-width: 387px) {
   header span {
     margin-left: 16px;
     font-size: 2.0rem;
+    font-weight: 600;
+    color: var(--texto-blanco);
+  }
+}
+@media only screen and (max-width: 357px) {
+  header span {
+    margin-left: 16px;
+    font-size: 1.6rem;
     font-weight: 600;
     color: var(--texto-blanco);
   }
