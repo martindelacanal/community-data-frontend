@@ -57,7 +57,7 @@
                   </mat-form-field>
                   <mat-form-field appearance="outline" class="full-width">
                     <mat-label>{{'login_recover_password_input_date_of_birth' | translate }}</mat-label>
-                    <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth" (input)="formatDate($event)">
+                    <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth" (input)="formatDate($event)" maxlength="10" placeholder="01/01/1990">
                     <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
                     <!-- <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle> -->
                     <mat-datepicker #miPicker1></mat-datepicker>
