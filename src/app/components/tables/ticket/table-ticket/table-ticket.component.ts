@@ -140,7 +140,7 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
         this.loadingCSV = true;
         this.tablesService.getFileCSV(result.date.from_date, result.date.to_date).subscribe({
           next: (res) => {
-            const blob = new Blob([res as BlobPart], { type: 'text/csv' });
+            const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
