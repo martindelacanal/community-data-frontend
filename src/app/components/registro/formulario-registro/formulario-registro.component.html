@@ -1,6 +1,6 @@
 <div class="cuerpo">
   <header>
-    <span>Community Data</span>
+    <span><a routerLink="/login" alt="Logo principal" id="logo">Community Data</a></span>
     <span class="form-inline">
       <mat-button-toggle-group [(ngModel)]="selectedLanguage" id="languageSelector" #selectedLang (change)="switchLang()">
         <mat-button-toggle *ngFor="let language of translate.getLangs()" [value]="language">

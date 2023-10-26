@@ -38,6 +38,13 @@ header span {
   color: var(--texto-blanco);
 }
 
+header #logo {
+  color: var(--texto-blanco);
+  //eliminar el subrayado del link
+  text-decoration: none;
+  cursor: pointer;
+}
+
 main {
   width: 100%;
   display: flex;

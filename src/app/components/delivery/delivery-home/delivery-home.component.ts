@@ -56,11 +56,6 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
           this.locationOrganizationSelected = '';
           this.locationAddressSelected = '';
         }
-        console.log(this.locationOrganizationSelected);
-        console.log(this.locationAddressSelected);
-        console.log(this.userLocation);
-        console.log(!this.userLocation && this.locationOrganizationSelected && this.locationAddressSelected);
-
 
       }
     );
