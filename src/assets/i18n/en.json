@@ -55,6 +55,7 @@
   "register_first_tab_input_zip_code_error_please": "Please enter the ZIP code",
   "register_first_tab_input_household_size": "Household size",
   "register_first_tab_input_household_size_error_please": "Please enter the household size",
+  "register_first_tab_input_household_size_error_max": "Maximum household size exceeded",
   "register_first_tab_input_gender": "Pick your gender",
   "register_first_tab_input_gender_error_please": "Please pick your gender",
   "register_first_tab_input_ethnicity": "Pick your ethnicity",

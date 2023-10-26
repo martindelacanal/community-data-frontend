@@ -94,9 +94,12 @@
                   </mat-form-field>
                   <mat-form-field appearance="outline">
                     <mat-label>{{'register_first_tab_input_household_size' | translate }}</mat-label>
-                    <input matInput type="number" formControlName="householdSize" required matNumberInput>
+                    <input matInput type="number" formControlName="householdSize" required matNumberInput max="400">
                     <mat-error *ngIf="firstFormGroup.controls['householdSize'].hasError('required')">
                       {{'register_first_tab_input_household_size_error_please' | translate }}
+                    </mat-error>
+                    <mat-error *ngIf="firstFormGroup.controls['householdSize'].value > 400">
+                      {{'register_first_tab_input_household_size_error_max' | translate }}
                     </mat-error>
                   </mat-form-field>
                   <label class="radio-button-label" id="radio-button-group-label">{{'register_first_tab_input_gender' |
