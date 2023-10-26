@@ -12,6 +12,8 @@ import {
 } from "ng-apexcharts";
 import { QuestionMetrics } from "src/app/models/metrics/question-metrics";
 import { MetricsService } from "src/app/services/metrics/metrics.service";
+import { DownloadMetricsCsvComponent } from "../dialog/download-metrics-csv/download-metrics-csv/download-metrics-csv.component";
+import { MatDialog } from "@angular/material/dialog";
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -32,11 +34,13 @@ export class MetricsComponent implements OnInit {
   public chartOptions: Partial<ChartOptions>[];
   public loadingQuestions: boolean = false;
   public questionsMetrics: QuestionMetrics[] = [];
+  loadingCSV: boolean = false;
 
   constructor(
     private metricsService: MetricsService,
     private snackBar: MatSnackBar,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private dialog: MatDialog
   ) {
   }
 
@@ -44,22 +48,35 @@ export class MetricsComponent implements OnInit {
     this.getQuestions(this.translate.currentLang);
   }
 
-  downloadCsv() {
-    this.metricsService.getFileCSV().subscribe({
-      next: (res) => {
-        const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'results-beneficiary-form.csv';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-      },
-      error: (error) => {
-        console.log(error);
-        this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
+  dialogDownloadCsv(): void {
+    const dialogRef = this.dialog.open(DownloadMetricsCsvComponent, {
+      width: '370px',
+      data: '',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.status) {
+        this.loadingCSV = true;
+        this.metricsService.getFileCSV(result.date.from_date, result.date.to_date).subscribe({
+          next: (res) => {
+            const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'results-beneficiary-form.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            this.loadingCSV = false;
+          },
+          error: (error) => {
+            console.log(error);
+            this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
+            this.loadingCSV = false;
+          }
+        });
       }
     });
   }

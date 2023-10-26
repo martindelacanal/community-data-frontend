@@ -43,6 +43,12 @@
   margin: 0 auto;
 }
 
+.header .buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+}
+
 @media only screen and (max-width: 355px) {
   // Agrega aquí tus estilos para dispositivos móviles pequeños
 

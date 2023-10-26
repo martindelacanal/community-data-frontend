@@ -243,6 +243,8 @@
   "table_tickets_row_button_edit": "Editar",
   "table_tickets_row_button_delete": "Eliminar",
   "table_tickets_button_add_ticket": "Agregar ticket",
+  "table_tickets_button_download_csv": "Descargar CSV",
+  "table_tickets_button_download_csv_error": "Error al descargar CSV",
 
   "table_products_title": "Productos",
   "table_products_snack_error_get": "Error al obtener los productos",
@@ -266,6 +268,13 @@
   "table_locations_row_button_edit": "Editar",
   "table_locations_row_button_delete": "Eliminar",
   "table_locations_button_add_location": "Agregar locación",
+
+  "dialog_download_ticket_csv_title": "Seleccione fechas",
+  "dialog_download_ticket_csv_input_from_date": "Desde",
+  "dialog_download_ticket_csv_input_to_date": "Hasta",
+  "dialog_download_ticket_csv_input_date_error": "Por favor ingrese una fecha",
+  "dialog_download_ticket_csv_button_cancel": "Cancelar",
+  "dialog_download_ticket_csv_button_download": "Descargar",
 
   "view_ticket_title": "Ver ticket",
   "view_ticket_error": "Error al obtener el ticket",

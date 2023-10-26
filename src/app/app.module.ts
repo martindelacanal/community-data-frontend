@@ -64,6 +64,7 @@ import { DisclaimerResetPasswordComponent } from './components/dialog/disclaimer
 import { ViewTicketComponent } from './components/view/ticket/view-ticket/view-ticket.component';
 import { NewUserComponent } from './components/new/user/new-user/new-user.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { DownloadMetricsCsvComponent } from './components/dialog/download-metrics-csv/download-metrics-csv/download-metrics-csv.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
    DownloadTicketCsvComponent,
    DisclaimerResetPasswordComponent,
    ViewTicketComponent,
-   NewUserComponent
+   NewUserComponent,
+   DownloadMetricsCsvComponent
 
   ],
   imports: [
