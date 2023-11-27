@@ -176,6 +176,8 @@
   "dashboard_admin_tables_locations_view": "Ver locaciones",
   "dashboard_admin_tables_products": "Productos cargados",
   "dashboard_admin_tables_products_view": "Ver productos",
+  "dashboard_admin_tables_delivered": "Entregas",
+  "dashboard_admin_tables_delivered_view": "Ver entregas",
   "dashboard_admin_button_see_more": "Ver más",
   "dashboard_admin_button_see_less": "Ver menos",
 

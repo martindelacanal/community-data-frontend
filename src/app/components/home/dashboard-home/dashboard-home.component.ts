@@ -32,6 +32,7 @@ export class DashboardHomeComponent implements OnInit {
   totalTicketsUploaded: number = 0;
   totalLocationsEnabled: number = 0;
   totalProductsUploaded: number = 0;
+  totalDelivered: number = 0;
   seeMore: boolean = false;
 
 
@@ -69,6 +70,7 @@ export class DashboardHomeComponent implements OnInit {
     this.getTotalTicketsUploaded();
     this.getTotalLocationsEnabled();
     this.getTotalProductsUploaded();
+    this.getTotalDelivered();
   }
 
   selectTab(tab: string) {
@@ -179,6 +181,14 @@ export class DashboardHomeComponent implements OnInit {
     this.dashboardGeneralService.getTotalProductsUploaded().subscribe(
       (res) => {
         this.totalProductsUploaded = res;
+      }
+    );
+  }
+
+  private getTotalDelivered() {
+    this.dashboardGeneralService.getTotalDelivered().subscribe(
+      (res) => {
+        this.totalDelivered = res;
       }
     );
   }

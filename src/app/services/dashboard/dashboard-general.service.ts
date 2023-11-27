@@ -63,4 +63,8 @@ export class DashboardGeneralService {
   getTotalProductsUploaded() {
     return this.http.get<number>(`${environment.url_api}/total-products-uploaded`);
   }
+
+  getTotalDelivered() {
+    return this.http.get<number>(`${environment.url_api}/total-delivered`);
+  }
 }
