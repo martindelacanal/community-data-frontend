@@ -80,7 +80,7 @@
                   </mat-form-field>
                   <mat-form-field appearance="outline">
                     <mat-label>{{'register_first_tab_input_phone' | translate }}</mat-label>
-                    <input matInput type="number" formControlName="phone" required matNumberInput>
+                    <input matInput type="tel" formControlName="phone" required matNumberInput maxlength="20">
                     <mat-error *ngIf="firstFormGroup.controls['phone'].hasError('required')">
                       {{'register_first_tab_input_phone_error_please' | translate }}
                     </mat-error>
