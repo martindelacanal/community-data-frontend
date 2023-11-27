@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { deliveredTable } from 'src/app/models/tables/delivered-table';
 import { locationTable } from 'src/app/models/tables/location-table';
 import { notificationTable } from 'src/app/models/tables/notification-table';
 import { productTable } from 'src/app/models/tables/product-table';
@@ -24,6 +25,10 @@ export class TablesService {
     return this.http.get<ticketTable>(`${environment.url_api}/table/ticket?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`)
   }
 
+  getDataDeliveredTable(page: number, columna: string, ordenarTipo: string, buscar: string){
+    return this.http.get<deliveredTable>(`${environment.url_api}/table/delivered?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`)
+  }
+
   getDataProductTable(page: number, columna: string, ordenarTipo: string, buscar: string){
     return this.http.get<productTable>(`${environment.url_api}/table/product?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`)
   }
@@ -38,6 +43,10 @@ export class TablesService {
 
   getFileCSV(from_date: string, to_date: string) {
     return this.http.get(`${environment.url_api}/table/ticket/download-csv?from_date=${from_date}&to_date=${to_date}`, { responseType: 'text' });
+  }
+
+  getDeliveredFileCSV(from_date: string, to_date: string) {
+    return this.http.get(`${environment.url_api}/table/delivered/download-csv?from_date=${from_date}&to_date=${to_date}`, { responseType: 'text' });
   }
 
   resetPassword(id: string){
