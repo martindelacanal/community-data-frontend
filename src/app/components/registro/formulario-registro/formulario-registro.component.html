@@ -81,6 +81,9 @@
                   <mat-form-field appearance="outline">
                     <mat-label>{{'register_first_tab_input_phone' | translate }}</mat-label>
                     <input matInput type="tel" formControlName="phone" required matNumberInput maxlength="20">
+                    <mat-error *ngIf="firstFormGroup.controls['phone'].hasError('invalidPhone')">
+                      {{'register_first_tab_input_phone_error_exists' | translate }}
+                    </mat-error>
                     <mat-error *ngIf="firstFormGroup.controls['phone'].hasError('required')">
                       {{'register_first_tab_input_phone_error_please' | translate }}
                     </mat-error>

@@ -1,10 +1,10 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, map, of, startWith } from 'rxjs';
+import { Observable, debounceTime, map, of, startWith } from 'rxjs';
 import { Location } from 'src/app/models/map/location';
 import { Product } from 'src/app/models/stocker/product';
 import { Provider } from 'src/app/models/stocker/provider';
@@ -41,6 +41,7 @@ export class StockerHomeComponent implements OnInit {
   filteredOptionsProvider: Observable<string[]>;
   inputIndexModified: number;
   numberOfFields: number;
+  donationIDExists: boolean = false;
 
   constructor(
     private router: Router,
@@ -69,6 +70,14 @@ export class StockerHomeComponent implements OnInit {
     ]).subscribe(result => {
       this.isTablet = result.matches;
     });
+
+    this.stockForm.get('donation_id').valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(
+        (res) => {
+          this.updateDonationIDExists(res);
+        }
+      );
 
     this.getLocations();
     this.getProviders();
@@ -360,9 +369,29 @@ export class StockerHomeComponent implements OnInit {
     );
   }
 
+  private updateDonationIDExists(nombre: string) {
+    this.stockerService.getDonationIDExists(nombre).subscribe(
+      (res) => {
+        if (res) {
+          this.donationIDExists = true;
+        } else {
+          this.donationIDExists = false;
+        }
+        this.stockForm.get('donation_id').updateValueAndValidity();
+      }
+    );
+  }
+
+  private validateDonationID(): ValidationErrors | null {
+    if (this.donationIDExists) {
+      return { 'invalidDonationID': true };
+    }
+    return null;
+  }
+
   private buildStockForm(): void {
     this.stockForm = this.formBuilder.group({
-      donation_id: [null, Validators.required],
+      donation_id: [null, [Validators.required, () => this.validateDonationID()]],
       total_weight: [null, Validators.required],
       provider: [null, Validators.required],
       destination: [null, Validators.required],

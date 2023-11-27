@@ -43,6 +43,7 @@ export class FormularioRegistroComponent implements OnInit {
   public loadingRegisterQuestions: boolean = false;
   public selectedLanguage: string;
   userNameExists: boolean = false;
+  phoneExists: boolean = false;
   emailExists: boolean = false;
 
   isLinear = true;
@@ -105,6 +106,13 @@ export class FormularioRegistroComponent implements OnInit {
       .subscribe(
         (res) => {
           this.updateUserNameExists(res);
+        }
+      );
+    this.firstFormGroup.get('phone').valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(
+        (res) => {
+          this.updatePhoneExists(res);
         }
       );
     this.firstFormGroup.get('email').valueChanges
@@ -282,6 +290,19 @@ export class FormularioRegistroComponent implements OnInit {
     );
   }
 
+  private updatePhoneExists(nombre: string) {
+    this.authService.getPhoneExists(nombre).subscribe(
+      (res) => {
+        if (res) {
+          this.phoneExists = true;
+        } else {
+          this.phoneExists = false;
+        }
+        this.firstFormGroup.get('phone').updateValueAndValidity();
+      }
+    );
+  }
+
   private updateEmailExists(nombre: string) {
     this.authService.getEmailExists(nombre).subscribe(
       (res) => {
@@ -315,7 +336,7 @@ export class FormularioRegistroComponent implements OnInit {
       lastName: [null, Validators.required],
       dateOfBirth: [null, [Validators.required, this.validateAge]],
       email: [null, [() => this.validateEmail()]],
-      phone: [null, Validators.required],
+      phone: [null, [Validators.required, () => this.validatePhone()]],
       zipcode: [null],
       householdSize: [null, Validators.required],
       gender: [null, Validators.required],
@@ -525,6 +546,13 @@ export class FormularioRegistroComponent implements OnInit {
   private validateUserName(): ValidationErrors | null {
     if (this.userNameExists) {
       return { 'invalidUsername': true };
+    }
+    return null;
+  }
+
+  private validatePhone(): ValidationErrors | null {
+    if (this.phoneExists) {
+      return { 'invalidPhone': true };
     }
     return null;
   }

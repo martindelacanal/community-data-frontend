@@ -29,4 +29,9 @@ export class StockerService {
   getProducts(){
     return this.http.get<Product[]>(`${environment.url_api}/products`);
   }
+
+  getDonationIDExists(nombre: string) {
+    return this.http.get<any>(`${environment.url_api}/donation_id/exists/search?donation_id=${nombre}`);
+  }
+
 }

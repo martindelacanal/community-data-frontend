@@ -85,6 +85,10 @@ export class AuthService {
     return this.http.get<any>(`${environment.url_api}/userName/exists/search?username=${nombre}`);
   }
 
+  getPhoneExists(nombre: string) {
+    return this.http.get<any>(`${environment.url_api}/phone/exists/search?phone=${nombre}`);
+  }
+
   getEmailExists(nombre: string) {
     return this.http.get<any>(`${environment.url_api}/email/exists/search?email=${nombre}`);
   }
