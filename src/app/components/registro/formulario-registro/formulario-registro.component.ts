@@ -222,6 +222,13 @@ export class FormularioRegistroComponent implements OnInit {
     event.target.value = formattedInput;
   }
 
+  limitInputHouseholdSizeLength(event: any) {
+    const maxLength = 3;
+    if (event.target.value.length > maxLength) {
+      event.target.value = event.target.value.slice(0, maxLength);
+    }
+  }
+
   private getRegisterQuestions(language: string) {
     this.authService.getRegisterQuestions(language).subscribe({
       next: (res) => {
