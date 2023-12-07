@@ -67,6 +67,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { DownloadMetricsCsvComponent } from './components/dialog/download-metrics-csv/download-metrics-csv/download-metrics-csv.component';
 import { TableDeliveredComponent } from './components/tables/delivered/table-delivered/table-delivered.component';
 import { DownloadDeliveredCsvComponent } from './components/dialog/download-delivered-csv/download-delivered-csv/download-delivered-csv.component';
+import { OnlyNumberDirective } from './directives/only-number.directive';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { DownloadDeliveredCsvComponent } from './components/dialog/download-deli
    NewUserComponent,
    DownloadMetricsCsvComponent,
    TableDeliveredComponent,
-   DownloadDeliveredCsvComponent
+   DownloadDeliveredCsvComponent,
+   OnlyNumberDirective
 
   ],
   imports: [
