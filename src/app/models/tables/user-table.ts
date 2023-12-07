@@ -7,6 +7,7 @@ export interface userTable {
         firstname: string,
         lastname: string,
         role: string,
+        enabled: string,
         creation_date: string
       }
   ],

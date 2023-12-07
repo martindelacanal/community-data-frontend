@@ -35,7 +35,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
 
   dataUserTable: userTable;
   dataSource: any;
-  columns = [' ', 'id', 'username', 'email', 'firstname', 'lastname', 'role', 'creation_date'];
+  columns = [' ', 'id', 'username', 'email', 'firstname', 'lastname', 'role', 'enabled', 'creation_date'];
 
   tabIndex = 0;
   totalItems: number = 0;

@@ -61,6 +61,13 @@
         </th>
         <td mat-cell *matCellDef="let element">{{element.role}}</td>
       </ng-container>
+      <ng-container matColumnDef="enabled">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('enabled')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'enabled', 'desc': ordenarTipo === 'desc' && columna === 'enabled'}">
+          <strong>{{'table_users_header_enabled' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.enabled}}</td>
+      </ng-container>
       <ng-container matColumnDef="creation_date">
         <th mat-header-cell *matHeaderCellDef (click)="updateOrder('creation_date')"
           [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'creation_date', 'desc': ordenarTipo === 'desc' && columna === 'creation_date'}">

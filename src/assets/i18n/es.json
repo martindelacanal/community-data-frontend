@@ -226,6 +226,7 @@
   "table_users_header_firstname": "Nombre",
   "table_users_header_lastname": "Apellido",
   "table_users_header_role": "Rol",
+  "table_users_header_enabled": "Habilitado",
   "table_users_header_creation_date": "Fecha de creación",
   "table_users_row_button_view": "Ver",
   "table_users_row_button_edit": "Editar",
