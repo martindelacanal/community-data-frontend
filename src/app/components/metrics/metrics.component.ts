@@ -91,6 +91,7 @@ export class MetricsComponent implements OnInit {
       next: (res) => {
         this.chartOptions = [];
         this.questionsMetrics = res;
+        console.log("res: ", res);
         for (let i = 0; i < this.questionsMetrics.length; i++) {
           const question = this.questionsMetrics[i];
           const data = [];
@@ -100,6 +101,8 @@ export class MetricsComponent implements OnInit {
             data.push(answer.total);
             categories.push(answer.answer);
           }
+          console.log("data: ", data);
+          console.log("categories: ", categories);
           this.chartOptions.push({
             series: [
               {
@@ -122,7 +125,7 @@ export class MetricsComponent implements OnInit {
             },
             xaxis: {
               categories: categories,
-              tickAmount: Math.max(...data),
+              // tickAmount: Math.max(...data), // problema de muchos numeros en el eje X
               labels: {
                 formatter: function (val) {
                   return parseInt(val).toString();
