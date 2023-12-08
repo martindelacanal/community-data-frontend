@@ -3,6 +3,7 @@ export interface productTable {
       {
         id: string,
         name: string,
+        total_quantity: string,
         value_usd: string,
         creation_date: string
       }

@@ -32,7 +32,7 @@ export class TableProductComponent implements OnInit, AfterViewInit {
 
   dataProductTable: productTable;
   dataSource: any;
-  columns = [' ', 'id', 'name', 'value_usd', 'creation_date'];
+  columns = [' ', 'id', 'name', 'total_quantity', 'value_usd', 'creation_date'];
 
   tabIndex = 0;
   totalItems: number = 0;
