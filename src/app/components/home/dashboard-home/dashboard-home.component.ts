@@ -27,6 +27,8 @@ export class DashboardHomeComponent implements OnInit {
   totalDeliveries: number = 0;
   totalBeneficiaries: number = 0;
   totalBeneficiariesServed: number = 0;
+  totalBeneficiariesRegisteredToday: number = 0;
+  totalBeneficiariesRecurringToday: number = 0;
   totalBeneficiariesQualified: number = 0;
   totalEnabledUsers: number = 0;
   totalTicketsUploaded: number = 0;
@@ -61,10 +63,12 @@ export class DashboardHomeComponent implements OnInit {
     this.getPoundsDelivered();
     this.getTotalLocations();
     this.getTotalDaysOperation();
-    this.getTotalStockers();
-    this.getTotalDeliveries();
+    // this.getTotalStockers();
+    // this.getTotalDeliveries();
     this.getTotalBeneficiaries();
     this.getTotalBeneficiariesServed();
+    this.getTotalBeneficiariesRegisteredToday();
+    this.getTotalBeneficiariesRecurringToday();
     this.getTotalBeneficiariesQualified();
     this.getTotalEnabledUsers();
     this.getTotalTicketsUploaded();
@@ -141,6 +145,22 @@ export class DashboardHomeComponent implements OnInit {
     this.dashboardGeneralService.getTotalBeneficiariesServed().subscribe(
       (res) => {
         this.totalBeneficiariesServed = res;
+      }
+    );
+  }
+
+  private getTotalBeneficiariesRegisteredToday() {
+    this.dashboardGeneralService.getTotalBeneficiariesRegisteredToday().subscribe(
+      (res) => {
+        this.totalBeneficiariesRegisteredToday = res;
+      }
+    );
+  }
+
+  private getTotalBeneficiariesRecurringToday() {
+    this.dashboardGeneralService.getTotalBeneficiariesRecurringToday().subscribe(
+      (res) => {
+        this.totalBeneficiariesRecurringToday = res;
       }
     );
   }

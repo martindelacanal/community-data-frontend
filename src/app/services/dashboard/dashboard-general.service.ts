@@ -44,6 +44,14 @@ export class DashboardGeneralService {
     return this.http.get<number>(`${environment.url_api}/total-beneficiaries-served`);
   }
 
+  getTotalBeneficiariesRegisteredToday() {
+    return this.http.get<number>(`${environment.url_api}/total-beneficiaries-registered-today`);
+  }
+
+  getTotalBeneficiariesRecurringToday() {
+    return this.http.get<number>(`${environment.url_api}/total-beneficiaries-recurring-today`);
+  }
+
   getTotalBeneficiariesQualified() {
     return this.http.get<number>(`${environment.url_api}/total-beneficiaries-qualified`);
   }

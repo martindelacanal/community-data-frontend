@@ -37,31 +37,12 @@
     <article class="tarjeta-slider">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
-          {{'dashboard_admin_number_stockists' | translate }}
-        </div>
-        <div class="ui-tarjeta__footer">
-          <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
-          <span>{{totalStockers}}</span>
-        </div>
-      </div>
-    </article>
-    <article class="tarjeta-slider">
-      <div class="ui-tarjeta">
-        <div class="ui-tarjeta__header">
-          {{'dashboard_admin_delivery_people' | translate }}
-        </div>
-        <div class="ui-tarjeta__footer">
-          <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
-          <span>{{totalDeliveries}}</span>
-        </div>
-      </div>
-    </article>
-    <article class="tarjeta-slider">
-      <div class="ui-tarjeta">
-        <div class="ui-tarjeta__header">
+          <!-- {{'dashboard_admin_number_stockists' | translate }} -->
           {{'dashboard_admin_beneficiaries' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
+          <!-- <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
+          <span>{{totalStockers}}</span> -->
           <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
           <span>{{totalBeneficiaries}}</span>
         </div>
@@ -70,11 +51,36 @@
     <article class="tarjeta-slider">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
+          <!-- {{'dashboard_admin_delivery_people' | translate }} -->
           {{'dashboard_admin_beneficiaries_served' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
+          <!-- <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
+          <span>{{totalDeliveries}}</span> -->
           <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
           <span>{{totalBeneficiariesServed}}%</span>
+        </div>
+      </div>
+    </article>
+    <article class="tarjeta-slider">
+      <div class="ui-tarjeta">
+        <div class="ui-tarjeta__header">
+          {{'dashboard_admin_registered_beneficiaries_today' | translate }}
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+          <span>{{totalBeneficiariesRegisteredToday}}</span>
+        </div>
+      </div>
+    </article>
+    <article class="tarjeta-slider">
+      <div class="ui-tarjeta">
+        <div class="ui-tarjeta__header">
+          {{'dashboard_admin_recurring_beneficiaries_today' | translate }}
+        </div>
+        <div class="ui-tarjeta__footer">
+          <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+          <span>{{totalBeneficiariesRecurringToday}}</span>
         </div>
       </div>
     </article>
@@ -113,11 +119,14 @@
       <div class="ui-separator-vertical"></div>
       <section>
         <div class="ui-tarjeta__header">
-          {{'dashboard_admin_number_stockists' | translate }}
+          <!-- {{'dashboard_admin_number_stockists' | translate }} -->
+          {{'dashboard_admin_beneficiaries' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
-          <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
-          <span>{{totalStockers}}</span>
+          <!-- <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
+          <span>{{totalStockers}}</span> -->
+          <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+        <span>{{totalBeneficiaries}}</span>
         </div>
       </section>
     </div>
@@ -130,33 +139,36 @@
   <div *ngIf="!isMobile && !isTablet" class="ditors-activos">
     <div class="ui-tarjeta">
       <div class="ui-tarjeta__header">
-        {{'dashboard_admin_delivery_people' | translate }}
+        <!-- {{'dashboard_admin_delivery_people' | translate }} -->
+        {{'dashboard_admin_beneficiaries_served' | translate }}
       </div>
       <div class="ui-tarjeta__footer">
-        <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
-        <span>{{totalDeliveries}}</span>
+        <!-- <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
+        <span>{{totalDeliveries}}</span> -->
+        <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+        <span>{{totalBeneficiariesServed}}%</span>
       </div>
     </div>
   </div>
   <div *ngIf="!isMobile && !isTablet" class="clientes-activos">
     <div class="ui-tarjeta">
       <div class="ui-tarjeta__header">
-        {{'dashboard_admin_beneficiaries' | translate }}
+        {{'dashboard_admin_registered_beneficiaries_today' | translate }}
       </div>
       <div class="ui-tarjeta__footer">
         <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
-        <span>{{totalBeneficiaries}}</span>
+        <span>{{totalBeneficiariesRegisteredToday}}</span>
       </div>
     </div>
   </div>
   <div *ngIf="!isMobile && !isTablet" class="clientes-activos-porcentaje">
     <div class="ui-tarjeta">
       <div class="ui-tarjeta__header">
-        {{'dashboard_admin_beneficiaries_served' | translate }}
+        {{'dashboard_admin_recurring_beneficiaries_today' | translate }}
       </div>
       <div class="ui-tarjeta__footer">
         <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
-        <span>{{totalBeneficiariesServed}}%</span>
+        <span>{{totalBeneficiariesRecurringToday}}</span>
       </div>
     </div>
   </div>
