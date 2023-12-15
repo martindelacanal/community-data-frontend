@@ -301,6 +301,9 @@
   "dialog_download_ticket_csv_button_cancel": "Cancelar",
   "dialog_download_ticket_csv_button_download": "Descargar",
 
+  "dialog_selection_delivered_csv_beneficiary_summary": "Resumen del beneficiario",
+  "dialog_selection_delivered_csv_delivery_summary": "Resumen de entrega",
+
   "view_ticket_title": "Ver ticket",
   "view_ticket_error": "Error al obtener el ticket",
 

@@ -68,6 +68,7 @@ import { DownloadMetricsCsvComponent } from './components/dialog/download-metric
 import { TableDeliveredComponent } from './components/tables/delivered/table-delivered/table-delivered.component';
 import { DownloadDeliveredCsvComponent } from './components/dialog/download-delivered-csv/download-delivered-csv/download-delivered-csv.component';
 import { OnlyNumberDirective } from './directives/only-number.directive';
+import { SelectionDeliveredCsvComponent } from './components/dialog/selection-delivered-csv/selection-delivered-csv/selection-delivered-csv.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { OnlyNumberDirective } from './directives/only-number.directive';
    DownloadMetricsCsvComponent,
    TableDeliveredComponent,
    DownloadDeliveredCsvComponent,
-   OnlyNumberDirective
+   OnlyNumberDirective,
+   SelectionDeliveredCsvComponent
 
   ],
   imports: [

@@ -301,6 +301,9 @@
   "dialog_download_ticket_csv_button_cancel": "Cancel",
   "dialog_download_ticket_csv_button_download": "Download",
 
+  "dialog_selection_delivered_csv_beneficiary_summary": "Beneficiary summary",
+  "dialog_selection_delivered_csv_delivery_summary": "Delivery summary",
+
   "view_ticket_title": "View ticket",
   "view_ticket_error": "Error getting ticket",
 

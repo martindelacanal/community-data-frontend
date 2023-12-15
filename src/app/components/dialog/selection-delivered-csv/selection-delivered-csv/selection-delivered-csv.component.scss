@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 8px;
+}
+.dialog-body {
+  width: 100%;
+  padding: 0 16px;
+  margin-top: 16px;
+  & p {
+    margin-bottom: 16px;
+  }
+}
+.dialog-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  & button{
+    padding: 0 32px;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.ui-button.firstpage{
+  width: 100%;
+  height: 64px;
+}
+.ui-button.firstpage:nth-child(1){
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+.ui-button.firstpage:nth-child(2){
+  margin-bottom: 32px;
+}
+
+
+@media only screen and (max-width: 380px) {
+
+  .dialog-footer {
+    justify-content: center;
+  }
+
+  .dialog-footer button{
+    padding: 0 24px;
+    margin: 8px;
+  }
+
+}

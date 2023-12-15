@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { DownloadDeliveredCsvComponent } from 'src/app/components/dialog/download-delivered-csv/download-delivered-csv/download-delivered-csv.component';
+import { SelectionDeliveredCsvComponent } from 'src/app/components/dialog/selection-delivered-csv/selection-delivered-csv/selection-delivered-csv.component';
 import { deliveredTable } from 'src/app/models/tables/delivered-table';
 import { TablesService } from 'src/app/services/tables/tables.service';
 
@@ -72,25 +73,25 @@ export class TableDeliveredComponent {
         }
       );
 
-      this.translate.onLangChange.subscribe(
-        (res) => {
-          if (res.lang == 'es') {
-            this.paginator._intl.itemsPerPageLabel = 'Items por página:';
-            this.paginator._intl.nextPageLabel = 'Siguiente';
-            this.paginator._intl.previousPageLabel = 'Anterior';
-            this.paginator._intl.firstPageLabel = 'Primera página';
-            this.paginator._intl.lastPageLabel = 'Última página';
-            this.paginator._intl.getRangeLabel = spanishRangeLabel;
-          } else {
-            this.paginator._intl.itemsPerPageLabel = 'Items per page:';
-            this.paginator._intl.nextPageLabel = 'Next';
-            this.paginator._intl.previousPageLabel = 'Previous';
-            this.paginator._intl.firstPageLabel = 'First page';
-            this.paginator._intl.lastPageLabel = 'Last page';
-            this.paginator._intl.getRangeLabel = englishRangeLabel;
-          }
+    this.translate.onLangChange.subscribe(
+      (res) => {
+        if (res.lang == 'es') {
+          this.paginator._intl.itemsPerPageLabel = 'Items por página:';
+          this.paginator._intl.nextPageLabel = 'Siguiente';
+          this.paginator._intl.previousPageLabel = 'Anterior';
+          this.paginator._intl.firstPageLabel = 'Primera página';
+          this.paginator._intl.lastPageLabel = 'Última página';
+          this.paginator._intl.getRangeLabel = spanishRangeLabel;
+        } else {
+          this.paginator._intl.itemsPerPageLabel = 'Items per page:';
+          this.paginator._intl.nextPageLabel = 'Next';
+          this.paginator._intl.previousPageLabel = 'Previous';
+          this.paginator._intl.firstPageLabel = 'First page';
+          this.paginator._intl.lastPageLabel = 'Last page';
+          this.paginator._intl.getRangeLabel = englishRangeLabel;
         }
-      )
+      }
+    )
   }
 
   ngAfterViewInit() {
@@ -128,36 +129,74 @@ export class TableDeliveredComponent {
   }
 
   dialogDownloadCsv(): void {
-    const dialogRef = this.dialog.open(DownloadDeliveredCsvComponent, {
+    const dialogRefSeleccionDelivered = this.dialog.open(SelectionDeliveredCsvComponent, {
       width: '370px',
       data: '',
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.status) {
-        this.loadingCSV = true;
-        this.tablesService.getDeliveredFileCSV(result.date.from_date, result.date.to_date).subscribe({
-          next: (res) => {
-            const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'results-delivered.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-            this.loadingCSV = false;
-          },
-          error: (error) => {
-            console.log(error);
-            this.openSnackBar(this.translate.instant('table_delivered_button_download_csv_error'));
-            this.loadingCSV = false;
+    dialogRefSeleccionDelivered.afterClosed().subscribe(resultSelection => {
+      if (resultSelection && resultSelection.option) {
+
+        const dialogRef = this.dialog.open(DownloadDeliveredCsvComponent, {
+          width: '370px',
+          data: '',
+          disableClose: true
+        });
+
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result && result.status) {
+            this.loadingCSV = true;
+            switch (resultSelection.option) {
+              case 1: // Beneficiary summary
+                this.tablesService.getDeliveredBeneficiarySummaryFileCSV(result.date.from_date, result.date.to_date).subscribe({
+                  next: (res) => {
+                    const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'beneficiary-summary.csv';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                    this.loadingCSV = false;
+                  },
+                  error: (error) => {
+                    console.log(error);
+                    this.openSnackBar(this.translate.instant('table_delivered_button_download_csv_error'));
+                    this.loadingCSV = false;
+                  }
+                });
+                break;
+              case 2: // Delivery summary
+                this.tablesService.getDeliveredFileCSV(result.date.from_date, result.date.to_date).subscribe({
+                  next: (res) => {
+                    const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'delivery-summary.csv';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                    this.loadingCSV = false;
+                  },
+                  error: (error) => {
+                    console.log(error);
+                    this.openSnackBar(this.translate.instant('table_delivered_button_download_csv_error'));
+                    this.loadingCSV = false;
+                  }
+                });
+                break;
+            }
           }
         });
       }
     });
+
   }
 
   openSnackBar(message: string) {
