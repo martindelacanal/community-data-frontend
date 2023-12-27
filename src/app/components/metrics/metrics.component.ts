@@ -14,6 +14,7 @@ import { QuestionMetrics } from "src/app/models/metrics/question-metrics";
 import { MetricsService } from "src/app/services/metrics/metrics.service";
 import { DownloadMetricsCsvComponent } from "../dialog/download-metrics-csv/download-metrics-csv/download-metrics-csv.component";
 import { MatDialog } from "@angular/material/dialog";
+import { MetricsFiltersComponent } from "../dialog/metrics-filters/metrics-filters.component";
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -81,13 +82,28 @@ export class MetricsComponent implements OnInit {
     });
   }
 
+  dialogFilters(): void {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
+      width: '370px',
+      data: '',
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.status) {
+        this.getQuestions(this.translate.currentLang,result.data);
+      }
+    });
+  }
+
   openSnackBar(message: string) {
     this.snackBar.open(message, this.translate.instant('snackbar_close'));
   }
 
-  private getQuestions(language: string, locationId?: string) {
+  private getQuestions(language: string, filters?: any) {
     this.loadingQuestions = true;
-    this.metricsService.getQuestions(language, locationId).subscribe({
+    console.log("filters: ", filters)
+    this.metricsService.getQuestions(language, filters).subscribe({
       next: (res) => {
         this.chartOptions = [];
         this.questionsMetrics = res;

@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 8px;
+  max-height: 60vh; /* Ajusta este valor según tus necesidades */
+}
+.dialog-body {
+  width: 100%;
+  padding: 0 16px;
+  margin-top: 16px;
+
+  overflow-y: auto; /* Agrega scroll vertical cuando sea necesario */
+  max-height: 50vh; /* Ajusta este valor según tus necesidades */
+
+  & p {
+    margin-bottom: 16px;
+  }
+}
+.dialog-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  & button{
+    padding: 0 32px;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+@media only screen and (max-width: 380px) {
+
+  .dialog-footer {
+    justify-content: center;
+  }
+
+  .dialog-footer button{
+    padding: 0 24px;
+    margin: 8px;
+  }
+
+}

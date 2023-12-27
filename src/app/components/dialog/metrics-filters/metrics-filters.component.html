@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="dialog-body">
+    <p>Select registration dates</p>
+    <form [formGroup]="filterForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{'dialog_download_ticket_csv_input_from_date' | translate }}</mat-label>
+        <input matInput [matDatepicker]="miPicker1" formControlName="from_date" (input)="formatDate($event)" maxlength="10" placeholder="01/01/2020">
+        <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
+        <mat-datepicker #miPicker1></mat-datepicker>
+        <!-- <mat-error *ngIf="filterForm.controls['from_date'].hasError('required')">
+          {{'dialog_download_ticket_csv_input_date_error' | translate }}
+        </mat-error> -->
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{'dialog_download_ticket_csv_input_to_date' | translate }}</mat-label>
+        <input matInput [matDatepicker]="miPicker2" formControlName="to_date" (input)="formatDate($event)" maxlength="10" placeholder="01/01/2020">
+        <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="miPicker2"></mat-datepicker-toggle>
+        <mat-datepicker #miPicker2></mat-datepicker>
+        <!-- <mat-error *ngIf="filterForm.controls['to_date'].hasError('required')">
+          {{'dialog_download_ticket_csv_input_date_error' | translate }}
+        </mat-error> -->
+      </mat-form-field>
+
+      <br><br>
+      <p>Select locations</p>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Locations</mat-label>
+        <mat-select formControlName="locations" multiple>
+          <mat-option *ngFor="let location of locations" [value]="location.id">
+            {{location.community_city}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+      <p>Select genres</p>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Genres</mat-label>
+        <mat-select formControlName="genders" multiple>
+          <mat-option *ngFor="let gender of genders" [value]="gender.id">
+            {{gender.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+      <p>Select ethnicities</p>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Ethnicity</mat-label>
+        <mat-select formControlName="ethnicities" multiple>
+          <mat-option *ngFor="let ethnicity of ethnicities" [value]="ethnicity.id">
+            {{ethnicity.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br>
+      <p>Select zipcode</p>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>{{'register_first_tab_input_zip_code' | translate }}</mat-label>
+        <input matInput type="number" formControlName="zipcode" matNumberInput>
+      </mat-form-field>
+
+      <br>
+      <p>Select minimum age</p>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Minimum age</mat-label>
+        <input matInput type="number" formControlName="min_age" matNumberInput>
+      </mat-form-field>
+
+      <br>
+      <p>Select maximum age</p>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Maximum age</mat-label>
+        <input matInput type="number" formControlName="max_age" matNumberInput>
+      </mat-form-field>
+
+    </form>
+  </div>
+  <div class="dialog-footer" mat-dialog-actions>
+    <button class="ui-button" (click)="onClickCancelar()">{{'dialog_download_ticket_csv_button_cancel' | translate }}</button>
+    <button class="ui-button--ui-secundario" (click)="onClickAceptar()" [disabled]="!filterForm.valid">Apply</button>
+  </div>
+</div>

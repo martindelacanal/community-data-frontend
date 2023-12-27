@@ -85,7 +85,7 @@
 
   "menu_button_home": "Home",
   "menu_button_help": "Help",
-  "menu_button_metrics": "Metrics",
+  "menu_button_metrics": "Health metrics",
   "menu_button_settings": "Settings",
   "menu_button_notifications": "Notifications",
   "menu_button_log_out": "Log out",
@@ -202,9 +202,11 @@
   "settings_snack_new_password_error": "Error saving new password",
   "settings_snack_new_password_form_error": "Please fill the form correctly",
 
-  "metrics_title": "Metrics",
+  "metrics_title": "Health metrics",
   "metrics_button_download_csv": "Download CSV",
   "metrics_button_download_csv_error": "Error downloading CSV",
+
+  "metrics_filters_button": "Filters",
 
   "disclaimer_text_reset_password": "Are you sure you want to reset your password?",
   "disclaimer_text": "In-take Voluntary Forms, we don't sell or share your information to third parties.",

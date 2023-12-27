@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { QuestionMetrics } from 'src/app/models/metrics/question-metrics';
 import { environment } from 'src/environments/environment';
@@ -16,8 +16,10 @@ export class MetricsService {
     return this.http.get(`${environment.url_api}/metrics/download-csv?from_date=${from_date}&to_date=${to_date}`, { responseType: 'text' });
   }
 
-  getQuestions(language: string, locationId?: string) {
-    return this.http.get<QuestionMetrics[]>(`${environment.url_api}/metrics/questions/${locationId}?language=${language}`);
+  getQuestions(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<QuestionMetrics[]>(`${environment.url_api}/metrics/questions`, filters, httpOptions);
   }
-
 }

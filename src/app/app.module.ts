@@ -72,6 +72,7 @@ import { SelectionDeliveredCsvComponent } from './components/dialog/selection-de
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { DisclaimerRegisterLocationComponent } from './components/dialog/disclaimer-register-location/disclaimer-register-location.component';
+import { MetricsFiltersComponent } from './components/dialog/metrics-filters/metrics-filters.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { DisclaimerRegisterLocationComponent } from './components/dialog/disclai
    OnlyNumberDirective,
    SelectionDeliveredCsvComponent,
    CarouselComponent,
-   DisclaimerRegisterLocationComponent
+   DisclaimerRegisterLocationComponent,
+   MetricsFiltersComponent
 
   ],
   imports: [
