@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ViewTicket } from 'src/app/models/view/view-ticket';
+import { ViewTicketImage } from 'src/app/models/view/view-ticket-image';
 import { ViewService } from 'src/app/services/view/view.service';
 
 @Component({
@@ -14,9 +15,13 @@ import { ViewService } from 'src/app/services/view/view.service';
 export class ViewTicketComponent implements OnInit {
   isMobile: boolean;
   isTablet: boolean;
+  products: any[] = [];
+
+  idTicket: string;
 
   loading: boolean = false;
   viewTicket: ViewTicket;
+  viewTicketImages: ViewTicketImage[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -25,6 +30,37 @@ export class ViewTicketComponent implements OnInit {
     private translate: TranslateService,
     private breakpointObserver: BreakpointObserver,
   ) {
+    this.idTicket = '';
+    this.isMobile = false;
+    this.isTablet = false;
+    this.viewTicket = {
+      id: '',
+      donation_id: '',
+      total_weight: '',
+      provider: '',
+      location: '',
+      date: '',
+      delivered_by: '',
+      created_by_id: '',
+      created_by_username: '',
+      creation_date: '',
+      products: [],
+    };
+
+    this.products = [
+      {
+        product: 'Producto 1Producto 1Producto 1Producto 1Producto 1Producto 1Producto 1',
+        quantity: 2,
+      },
+      {
+        product: 'Producto 2',
+        quantity: 1,
+      },
+      {
+        product: 'Producto 3',
+        quantity: 5,
+      },
+    ];
   }
 
   ngOnInit() {
@@ -41,11 +77,13 @@ export class ViewTicketComponent implements OnInit {
     });
 
     this.activatedRoute.params.subscribe((params: Params) => {
-      const idTicket = params['id'];
-      if (idTicket) {
-        this.getViewTicket(idTicket);
+      this.idTicket = params['id'];
+      if (this.idTicket) {
+        this.getViewTicket(this.idTicket);
+        this.getImages(this.idTicket);
       }
     });
+
   }
 
   openSnackBar(message: string) {
@@ -55,8 +93,24 @@ export class ViewTicketComponent implements OnInit {
   private getViewTicket(idTicket: string) {
     this.viewService.getViewTicket(idTicket).subscribe({
       next: (res) => {
-        console.log(res);
-        this.viewTicket = res;
+        if (res) {
+          this.viewTicket = res;
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        console.log(error);
+        this.openSnackBar(this.translate.instant('view_ticket_error'));
+        this.loading = false;
+      }
+    });
+  }
+
+  private getImages(idTicket: string) {
+    this.viewService.getImages(idTicket).subscribe({
+      next: (res) => {
+        console.log(res)
+        this.viewTicketImages = res;
         this.loading = false;
       },
       error: (error) => {

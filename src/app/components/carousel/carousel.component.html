@@ -1,0 +1,4 @@
+<div *ngIf="imgCollection.length > 0; else noHayImagenes">
+  <ng-image-slider [images]="imgCollection" #nav></ng-image-slider>
+</div>
+<ng-template #noHayImagenes>{{'carousel_not_images' | translate }}</ng-template>

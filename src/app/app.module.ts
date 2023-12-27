@@ -69,6 +69,8 @@ import { TableDeliveredComponent } from './components/tables/delivered/table-del
 import { DownloadDeliveredCsvComponent } from './components/dialog/download-delivered-csv/download-delivered-csv/download-delivered-csv.component';
 import { OnlyNumberDirective } from './directives/only-number.directive';
 import { SelectionDeliveredCsvComponent } from './components/dialog/selection-delivered-csv/selection-delivered-csv/selection-delivered-csv.component';
+import { CarouselComponent } from './components/carousel/carousel.component';
+import { NgImageSliderModule } from 'ng-image-slider';
 
 @NgModule({
   declarations: [
@@ -100,7 +102,8 @@ import { SelectionDeliveredCsvComponent } from './components/dialog/selection-de
    TableDeliveredComponent,
    DownloadDeliveredCsvComponent,
    OnlyNumberDirective,
-   SelectionDeliveredCsvComponent
+   SelectionDeliveredCsvComponent,
+   CarouselComponent
 
   ],
   imports: [
@@ -139,6 +142,7 @@ import { SelectionDeliveredCsvComponent } from './components/dialog/selection-de
     MatAutocompleteModule,
     MatDialogModule,
     MatButtonToggleModule,
+    NgImageSliderModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

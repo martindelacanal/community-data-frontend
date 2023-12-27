@@ -306,6 +306,11 @@
 
   "view_ticket_title": "Ver ticket",
   "view_ticket_error": "Error al obtener el ticket",
+  "view_ticket_images": "Imágenes",
+  "view_ticket_created_by_id": "Creado por el ID de usuario",
+  "view_ticket_created_by_username": "Creado por el nombre de usuario",
+
+  "carousel_not_images": "No hay imágenes",
 
   "new_user_title": "Nuevo usuario",
   "new_user_snack_error": "Error al crear el usuario",
