@@ -71,6 +71,7 @@ import { OnlyNumberDirective } from './directives/only-number.directive';
 import { SelectionDeliveredCsvComponent } from './components/dialog/selection-delivered-csv/selection-delivered-csv/selection-delivered-csv.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
 import { NgImageSliderModule } from 'ng-image-slider';
+import { DisclaimerRegisterLocationComponent } from './components/dialog/disclaimer-register-location/disclaimer-register-location.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +104,8 @@ import { NgImageSliderModule } from 'ng-image-slider';
    DownloadDeliveredCsvComponent,
    OnlyNumberDirective,
    SelectionDeliveredCsvComponent,
-   CarouselComponent
+   CarouselComponent,
+   DisclaimerRegisterLocationComponent
 
   ],
   imports: [

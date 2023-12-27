@@ -11,41 +11,42 @@
         <div class="main_formulario">
           <!-- donation id -->
           <div class="card">
-            <mat-label>{{'stocker_input_donation_id' | translate }}: {{viewTicket.donation_id}}</mat-label>
+            <mat-label><strong>{{'stocker_input_donation_id' | translate }}:</strong> {{viewTicket.donation_id}}</mat-label>
           </div>
           <!-- provider -->
           <div class="card">
-            <mat-label>{{'stocker_input_provider' | translate }}: {{viewTicket.provider}}</mat-label>
+            <mat-label><strong>{{'stocker_input_provider' | translate }}:</strong> {{viewTicket.provider}}</mat-label>
           </div>
           <!-- destination -->
           <div class="card">
-            <mat-label>{{'stocker_input_destination' | translate }}: {{viewTicket.location}}</mat-label>
+            <mat-label><strong>{{'stocker_input_destination' | translate }}:</strong> {{viewTicket.location}}</mat-label>
           </div>
           <!-- delivered_by -->
           <div class="card">
-            <mat-label>{{'stocker_input_delivered_by' | translate }}: {{viewTicket.delivered_by}}</mat-label>
+            <mat-label><strong>{{'stocker_input_delivered_by' | translate }}:</strong> {{viewTicket.delivered_by}}</mat-label>
           </div>
           <!-- date -->
           <div class="card">
-            <mat-label>{{'stocker_input_date' | translate }}: {{viewTicket.date}}</mat-label>
+            <mat-label><strong>{{'stocker_input_date' | translate }}:</strong> {{viewTicket.date}}</mat-label>
           </div>
           <!-- created by id -->
           <div class="card">
-            <mat-label>{{'view_ticket_created_by_id' | translate }}: {{viewTicket.created_by_id}}</mat-label>
+            <mat-label><strong>{{'view_ticket_created_by_id' | translate }}:</strong> {{viewTicket.created_by_id}}</mat-label>
           </div>
           <!-- total weight -->
           <div class="card">
-            <mat-label>{{'stocker_input_total_weight' | translate }}: {{viewTicket.total_weight}}</mat-label>
+            <mat-label><strong>{{'stocker_input_total_weight' | translate }}:</strong> {{viewTicket.total_weight}}</mat-label>
           </div>
           <!-- created by username -->
           <div class="card">
-            <mat-label>{{'view_ticket_created_by_username' | translate }}: {{viewTicket.created_by_username}}</mat-label>
+            <mat-label><strong>{{'view_ticket_created_by_username' | translate }}:</strong> {{viewTicket.created_by_username}}</mat-label>
           </div>
           <!-- ticket_photo -->
           <div class="card">
             <!-- <div class="subir-archivo">
                 <span> -->
-            <mat-label>{{'view_ticket_images' | translate }}:</mat-label>
+            <mat-label><strong>{{'view_ticket_images' | translate }}:</strong></mat-label>
+            <br><br>
             <app-carousel [imagenes]="this.viewTicketImages"></app-carousel>
             <!-- </span>
               </div> -->

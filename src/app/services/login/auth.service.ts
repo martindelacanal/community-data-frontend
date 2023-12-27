@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Gender } from 'src/app/models/user/gender';
 import { Ethnicity } from 'src/app/models/user/ethnicity';
 import { RegisterQuestion } from 'src/app/models/login/register-question';
+import { Location } from 'src/app/models/map/location';
 
 @Injectable({
   providedIn: 'root'
@@ -103,6 +104,10 @@ export class AuthService {
 
   getEthnicity(language: string, id?: number) {
     return this.http.get<Ethnicity[]>(`${environment.url_api}/ethnicity?${id ? 'id=' + id + '&' : ''}language=${language}`);
+  }
+
+  getLocations(){
+    return this.http.get<Location[]>(`${environment.url_api}/register/locations`);
   }
 
 }

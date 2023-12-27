@@ -211,6 +211,8 @@
   "disclaimer_button_cancel": "Cancel",
   "disclaimer_button_agree": "Agree",
 
+  "disclaimer_register_location_text": "Are you picking up at this location?",
+
   "table_input_search": "Search",
 
   "table_notifications_title": "Notifications",

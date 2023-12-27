@@ -211,6 +211,8 @@
   "disclaimer_button_cancel": "Cancelar",
   "disclaimer_button_agree": "Aceptar",
 
+  "disclaimer_register_location_text": "¿Vas a retirar en esta ubicación?",
+
   "table_input_search": "Buscar",
 
   "table_notifications_title": "Notificaciones",

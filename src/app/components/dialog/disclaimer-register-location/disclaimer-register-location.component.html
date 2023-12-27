@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="dialog-body">
+    <p style="font-weight: bold; font-size: 1.5em;">{{'disclaimer_register_location_text' | translate }}</p>
+    <p>{{'delivery_text_organization' | translate }}: {{this.organization}}</p>
+    <p>{{'delivery_text_address' | translate }}: {{this.address}}</p>
+  </div>
+  <div class="dialog-footer" mat-dialog-actions>
+    <button class="ui-button" (click)="onClickCancelar()">{{'disclaimer_button_cancel' | translate }}</button>
+    <button class="ui-button--ui-secundario" (click)="onClickAceptar()">{{'disclaimer_button_agree' | translate
+      }}</button>
+  </div>
+</div>

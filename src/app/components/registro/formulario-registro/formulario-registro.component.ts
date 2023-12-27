@@ -16,6 +16,8 @@ import { Gender } from 'src/app/models/user/gender';
 import { AuthService } from 'src/app/services/login/auth.service';
 import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { DisclaimerRegisterComponent } from '../../dialog/disclaimer-register/disclaimer-register/disclaimer-register.component';
+import { Location } from 'src/app/models/map/location';
+import { DisclaimerRegisterLocationComponent } from '../../dialog/disclaimer-register-location/disclaimer-register-location.component';
 
 @Component({
   selector: 'app-formulario-registro',
@@ -42,6 +44,7 @@ export class FormularioRegistroComponent implements OnInit {
   public registerQuestions: RegisterQuestion[] = [];
   public loadingRegisterQuestions: boolean = false;
   public selectedLanguage: string;
+  locations: Location[] = [];
   userNameExists: boolean = false;
   phoneExists: boolean = false;
   emailExists: boolean = false;
@@ -126,6 +129,7 @@ export class FormularioRegistroComponent implements OnInit {
     this.getGender(this.translate.currentLang);
     this.getEthnicity(this.translate.currentLang);
     this.getRegisterQuestions(this.translate.currentLang);
+    this.getLocations();
 
     this.translate.onLangChange.subscribe(() => {
       if (this.firstExecuteComponent) {
@@ -138,6 +142,17 @@ export class FormularioRegistroComponent implements OnInit {
         this.getRegisterQuestions(this.translate.currentLang);
       }
     });
+
+    this.firstFormGroup.get('destination').valueChanges.subscribe(
+      (res) => {
+        if (res) {
+          const location = this.locations.find(l => l.id === res);
+          if (location) {
+            this.disclaimerLocation(location.organization, location.address);
+          }
+        }
+      }
+    );
   }
 
   logIn() {
@@ -277,6 +292,14 @@ export class FormularioRegistroComponent implements OnInit {
     });
   }
 
+  private getLocations() {
+    this.authService.getLocations().subscribe(
+      (res) => {
+        this.locations = res;
+      }
+    );
+  }
+
   private updateUserNameExists(nombre: string) {
     this.authService.getUserNameExists(nombre).subscribe(
       (res) => {
@@ -338,6 +361,7 @@ export class FormularioRegistroComponent implements OnInit {
       email: [null, [() => this.validateEmail()]],
       phone: [null, [Validators.required, () => this.validatePhone()]],
       zipcode: [null],
+      destination: [null, Validators.required],
       householdSize: [null, Validators.required],
       gender: [null, Validators.required],
       ethnicity: [null, Validators.required],
@@ -580,6 +604,24 @@ export class FormularioRegistroComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (!result.status) {
         this.router.navigate(['login']);
+      }
+    });
+  }
+
+  private disclaimerLocation(organization: string, address: string): void {
+    const dialogRef = this.dialog.open(DisclaimerRegisterLocationComponent, {
+      width: '370px',
+      data: {
+        organization: organization,
+        address: address
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result.status) {
+        // reset destination
+        this.firstFormGroup.get('destination').setValue(null);
       }
     });
   }
