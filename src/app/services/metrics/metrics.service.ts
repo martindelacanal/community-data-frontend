@@ -12,8 +12,8 @@ export class MetricsService {
     private http: HttpClient
   ) { }
 
-  getFileCSV(from_date: string, to_date: string) {
-    return this.http.get(`${environment.url_api}/metrics/download-csv?from_date=${from_date}&to_date=${to_date}`, { responseType: 'text' });
+  getFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/metrics/download-csv`, filters, { responseType: 'text' });
   }
 
   getQuestions(language: string, filters: any) {

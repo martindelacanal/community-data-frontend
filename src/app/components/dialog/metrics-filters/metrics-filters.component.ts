@@ -21,18 +21,12 @@ export class MetricsFiltersComponent {
 
   constructor(
     public dialogRef: MatDialogRef<MetricsFiltersComponent>,
-    @Inject(MAT_DIALOG_DATA) public message: string,
+    @Inject(MAT_DIALOG_DATA) public message: FormGroup,
     private formBuilder: FormBuilder,
     private deliveryService: DeliveryService,
     public translate: TranslateService,
     private authService: AuthService,
-  ) { }
-
-  ngOnInit(): void {
-    this.getLocations();
-    this.getGender(this.translate.currentLang);
-    this.getEthnicity(this.translate.currentLang);
-
+  ) {
     this.filterForm = this.formBuilder.group({
       from_date: [null],
       to_date: [null],
@@ -43,18 +37,30 @@ export class MetricsFiltersComponent {
       max_age: [null],
       zipcode: [null]
     });
+
+    if (this.message) {
+      this.filterForm.patchValue(this.message.value);
+    }
+  }
+
+  ngOnInit(): void {
+    this.getLocations();
+    this.getGender(this.translate.currentLang);
+    this.getEthnicity(this.translate.currentLang);
   }
 
   onClickAceptar() {
 
     // Si hay elemento en from_date
     if (this.filterForm.value.from_date) {
+    console.log(this.filterForm.value.from_date);
     // Obtener la fecha del formulario
     const date = new Date(this.filterForm.value.from_date);
     // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
     const dateString = date.toISOString().slice(0, 10);
     // Asignar la fecha al campo de fecha en el formulario
     this.filterForm.get('from_date').setValue(dateString);
+    console.log(this.filterForm.value.from_date);
     }
 
     // Si hay elemento en to_date

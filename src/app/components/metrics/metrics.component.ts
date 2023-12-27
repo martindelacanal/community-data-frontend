@@ -15,6 +15,7 @@ import { MetricsService } from "src/app/services/metrics/metrics.service";
 import { DownloadMetricsCsvComponent } from "../dialog/download-metrics-csv/download-metrics-csv/download-metrics-csv.component";
 import { MatDialog } from "@angular/material/dialog";
 import { MetricsFiltersComponent } from "../dialog/metrics-filters/metrics-filters.component";
+import { FormBuilder, FormGroup } from "@angular/forms";
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -35,14 +36,28 @@ export class MetricsComponent implements OnInit {
   public chartOptions: Partial<ChartOptions>[];
   public loadingQuestions: boolean = false;
   public questionsMetrics: QuestionMetrics[] = [];
+  filterForm: FormGroup;
   loadingCSV: boolean = false;
 
   constructor(
     private metricsService: MetricsService,
     private snackBar: MatSnackBar,
     public translate: TranslateService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder
   ) {
+
+    this.filterForm = this.formBuilder.group({
+      from_date: [null],
+      to_date: [null],
+      locations: [null],
+      genders: [null],
+      ethnicities: [null],
+      min_age: [null],
+      max_age: [null],
+      zipcode: [null]
+    });
+
   }
 
   ngOnInit() {
@@ -50,16 +65,35 @@ export class MetricsComponent implements OnInit {
   }
 
   dialogDownloadCsv(): void {
-    const dialogRef = this.dialog.open(DownloadMetricsCsvComponent, {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: '',
+      data: this.filterForm,
       disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.status) {
         this.loadingCSV = true;
-        this.metricsService.getFileCSV(result.date.from_date, result.date.to_date).subscribe({
+
+        // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
+        if (result.data.from_date) {
+          const date = new Date(result.data.from_date + 'T00:00');
+          this.filterForm.get('from_date').setValue(date);
+        }
+        if (result.data.to_date) {
+          const date2 = new Date(result.data.to_date + 'T00:00');
+          this.filterForm.get('to_date').setValue(date2);
+        }
+
+        // set values into filterForm
+        this.filterForm.get('locations').setValue(result.data.locations);
+        this.filterForm.get('genders').setValue(result.data.genders);
+        this.filterForm.get('ethnicities').setValue(result.data.ethnicities);
+        this.filterForm.get('min_age').setValue(result.data.min_age);
+        this.filterForm.get('max_age').setValue(result.data.max_age);
+        this.filterForm.get('zipcode').setValue(result.data.zipcode);
+
+        this.metricsService.getFileCSV(result.data).subscribe({
           next: (res) => {
             const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
             const url = window.URL.createObjectURL(blob);
@@ -85,13 +119,31 @@ export class MetricsComponent implements OnInit {
   dialogFilters(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: '',
+      data: this.filterForm,
       disableClose: false
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.status) {
-        this.getQuestions(this.translate.currentLang,result.data);
+        // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
+        if (result.data.from_date) {
+          const date = new Date(result.data.from_date + 'T00:00');
+          this.filterForm.get('from_date').setValue(date);
+        }
+        if (result.data.to_date) {
+          const date2 = new Date(result.data.to_date + 'T00:00');
+          this.filterForm.get('to_date').setValue(date2);
+        }
+
+        // set values into filterForm
+        this.filterForm.get('locations').setValue(result.data.locations);
+        this.filterForm.get('genders').setValue(result.data.genders);
+        this.filterForm.get('ethnicities').setValue(result.data.ethnicities);
+        this.filterForm.get('min_age').setValue(result.data.min_age);
+        this.filterForm.get('max_age').setValue(result.data.max_age);
+        this.filterForm.get('zipcode').setValue(result.data.zipcode);
+
+        this.getQuestions(this.translate.currentLang, result.data);
       }
     });
   }
