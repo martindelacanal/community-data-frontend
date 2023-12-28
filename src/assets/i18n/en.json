@@ -207,6 +207,18 @@
   "metrics_button_download_csv_error": "Error downloading CSV",
 
   "metrics_filters_button": "Filters",
+  "metrics_filters_title_registration_dates": "Select registration dates",
+  "metrics_filters_title_locations": "Select locations",
+  "metrics_filters_input_locations": "Locations",
+  "metrics_filters_title_genres": "Select genres",
+  "metrics_filters_input_genres": "Genres",
+  "metrics_filters_title_ethnicities": "Select ethnicities",
+  "metrics_filters_input_ethnicities": "Ethnicities",
+  "metrics_filters_title_zipcode": "Select ZIP code",
+  "metrics_filters_title_minimum_age": "Select minimum age",
+  "metrics_filters_input_minimum_age": "Minimum age",
+  "metrics_filters_title_maximum_age": "Select maximum age",
+  "metrics_filters_input_maximum_age": "Maximum age",
 
   "disclaimer_text_reset_password": "Are you sure you want to reset your password?",
   "disclaimer_text": "In-take Voluntary Forms, we don't sell or share your information to third parties.",
