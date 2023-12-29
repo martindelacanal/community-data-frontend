@@ -53,6 +53,12 @@
   margin-left: 16px;
 }
 
+#chartYESNO {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 
 @media only screen and (max-width: 355px) {
   // Agrega aquí tus estilos para dispositivos móviles pequeños
