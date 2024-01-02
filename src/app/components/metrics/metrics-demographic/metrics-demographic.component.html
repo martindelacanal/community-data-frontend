@@ -1,1 +1,73 @@
-<p>metrics-demographic works!</p>
+<div class="container">
+  <section class="header">
+    <h1 class="title">{{'metrics_demographic_title' | translate }}</h1>
+    <div class="buttons">
+      <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+      <button *ngIf="!loadingCSV" class="ui-button" type="button"
+        (click)="dialogDownloadCsv()">{{'metrics_button_download_csv' | translate }}</button>
+      <button id="filtersButton" class="ui-button" type="button" (click)="dialogFilters()">{{'metrics_filters_button' |
+        translate }}</button>
+    </div>
+  </section>
+  <mat-spinner *ngIf="loadingMetrics" class="loading-questions" mode="indeterminate" [diameter]="30"></mat-spinner>
+  <section class="main_tarjetas">
+    <div class="ui-tarjeta">
+      <div class="question">
+        <h2>{{'metrics_demographic_gender_title' | translate }}</h2>
+      </div>
+      <div id="chartYESNO" *ngIf="chartOptionsGender">
+        <apx-chart [series]="chartOptionsGender.series" [chart]="chartOptionsGender.chart"
+          [labels]="chartOptionsGender.labels" [legend]="chartOptionsEthnicity.legend"
+          [colors]="chartOptionsEthnicity.colors" [responsive]="chartOptionsGender.responsive"
+          [theme]="chartOptionsGender.theme" [dataLabels]="chartOptionsGender.dataLabels"
+          [tooltip]="chartOptionsGender.tooltip"></apx-chart>
+      </div>
+    </div>
+    <div class="ui-tarjeta">
+      <div class="question">
+        <h2>{{'metrics_demographic_ethnicity_title' | translate }}</h2>
+      </div>
+      <div id="chartYESNO" *ngIf="chartOptionsEthnicity">
+        <apx-chart [series]="chartOptionsEthnicity.series" [chart]="chartOptionsEthnicity.chart"
+          [labels]="chartOptionsEthnicity.labels" [legend]="chartOptionsEthnicity.legend"
+          [colors]="chartOptionsEthnicity.colors" [responsive]="chartOptionsEthnicity.responsive"
+          [theme]="chartOptionsEthnicity.theme" [dataLabels]="chartOptionsEthnicity.dataLabels"
+          [tooltip]="chartOptionsEthnicity.tooltip"></apx-chart>
+      </div>
+    </div>
+    <div class="ui-tarjeta">
+      <div class="question">
+        <h2>{{'metrics_demographic_household_title' | translate }}</h2>
+      </div>
+      <br>
+      <p>{{'metrics_demographic_average' | translate }}: {{ this.householdMetricsAverage}}</p>
+      <br>
+      <p>{{'metrics_demographic_median' | translate }}: {{this.householdMetricsMedian}}</p>
+      <br>
+      <div class="chart-container">
+        <div id="chart" *ngIf="chartOptionsHousehold">
+          <apx-chart [series]="chartOptionsHousehold.series" [chart]="chartOptionsHousehold.chart"
+            [dataLabels]="chartOptionsHousehold.dataLabels" [plotOptions]="chartOptionsHousehold.plotOptions"
+            [xaxis]="chartOptionsHousehold.xaxis"></apx-chart>
+        </div>
+      </div>
+    </div>
+    <div class="ui-tarjeta">
+      <div class="question">
+        <h2>{{'metrics_demographic_age_title' | translate }}</h2>
+      </div>
+      <br>
+      <p>{{'metrics_demographic_average' | translate }}: {{ this.ageMetricsAverage}}</p>
+      <br>
+      <p>{{'metrics_demographic_median' | translate }}: {{this.ageMetricsMedian}}</p>
+      <br>
+      <div class="chart-container">
+        <div id="chart" *ngIf="chartOptionsAge">
+          <apx-chart [series]="chartOptionsAge.series" [chart]="chartOptionsAge.chart"
+            [dataLabels]="chartOptionsAge.dataLabels" [plotOptions]="chartOptionsAge.plotOptions"
+            [xaxis]="chartOptionsAge.xaxis"></apx-chart>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

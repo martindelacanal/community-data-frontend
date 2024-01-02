@@ -60,6 +60,16 @@
   height: 100%;
 }
 
+#chart {
+  margin-right: 20px;
+}
+
+.chart-container {
+  width: 100%;
+  height: 365px;
+  overflow-y: auto;
+}
+
 @media only screen and (max-width: 355px) {
   // Agrega aquí tus estilos para dispositivos móviles pequeños
 

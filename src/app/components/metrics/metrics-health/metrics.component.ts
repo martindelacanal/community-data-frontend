@@ -82,7 +82,6 @@ export class MetricsComponent implements OnInit {
 
   private getQuestions(language: string, filters?: any) {
     this.loadingQuestions = true;
-    console.log("filters: ", filters)
     this.metricsService.getQuestions(language, filters).subscribe({
       next: (res) => {
         // this.chartOptions = [];
@@ -156,7 +155,7 @@ export class MetricsComponent implements OnInit {
               ],
               chart: {
                 type: "bar",
-                height: 350,
+                height: Math.max(350, 30 * categories.length), // Ajusta la altura en función del número de categorías (minimo 350px)
               },
               plotOptions: {
                 bar: {
@@ -215,13 +214,13 @@ export class MetricsComponent implements OnInit {
         this.filterForm.get('max_age').setValue(result.data.max_age);
         this.filterForm.get('zipcode').setValue(result.data.zipcode);
 
-        this.metricsService.getFileCSV(result.data).subscribe({
+        this.metricsService.getHealthFileCSV(result.data).subscribe({
           next: (res) => {
             const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'results-beneficiary-form.csv';
+            a.download = 'health-metrics.csv';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

@@ -206,9 +206,16 @@
   "settings_snack_new_password_error": "Error saving new password",
   "settings_snack_new_password_form_error": "Please fill the form correctly",
 
-  "metrics_title": "Health metrics",
+  "metrics_health_title": "Health metrics",
+  "metrics_demographic_title": "Demographic metrics",
   "metrics_button_download_csv": "Download CSV",
   "metrics_button_download_csv_error": "Error downloading CSV",
+  "metrics_demographic_gender_title": "Gender",
+  "metrics_demographic_ethnicity_title": "Ethnicity",
+  "metrics_demographic_household_title": "Household size",
+  "metrics_demographic_age_title": "Age",
+  "metrics_demographic_average": "Average",
+  "metrics_demographic_median": "Median",
 
   "metrics_filters_button": "Filters",
   "metrics_filters_title_registration_dates": "Select registration dates",
