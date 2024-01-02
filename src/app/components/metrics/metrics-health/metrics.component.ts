@@ -108,7 +108,13 @@ export class MetricsComponent implements OnInit {
               series: data,
               chart: {
                 width: 380,
-                type: "pie"
+                type: "pie",
+                toolbar: {
+                  show: true,
+                  tools: {
+                    download: true, // Habilitar la descarga de imágenes
+                  },
+                },
               },
               labels: categories,
               theme: {
@@ -145,12 +151,12 @@ export class MetricsComponent implements OnInit {
                 {
                   name: "value",
                   data: data,
-                  color: "var(--ui-secundario-oscuro)"
+                  color: "#97c481"
                 }
               ],
               chart: {
                 type: "bar",
-                height: 350
+                height: 350,
               },
               plotOptions: {
                 bar: {
