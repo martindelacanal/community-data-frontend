@@ -52,7 +52,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ResetPasswordComponent } from './components/dialog/reset-password/reset-password.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { SettingsComponent } from './components/settings/settings.component';
-import { MetricsComponent } from './components/metrics/metrics.component';
+import { MetricsComponent } from './components/metrics/metrics-health/metrics.component';
 import { DisclaimerRegisterComponent } from './components/dialog/disclaimer-register/disclaimer-register/disclaimer-register.component';
 import { TableUserComponent } from './components/tables/user/table-user/table-user.component';
 import { TableTicketComponent } from './components/tables/ticket/table-ticket/table-ticket.component';
@@ -73,6 +73,9 @@ import { CarouselComponent } from './components/carousel/carousel.component';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { DisclaimerRegisterLocationComponent } from './components/dialog/disclaimer-register-location/disclaimer-register-location.component';
 import { MetricsFiltersComponent } from './components/dialog/metrics-filters/metrics-filters.component';
+import { MetricsDemographicComponent } from './components/metrics/metrics-demographic/metrics-demographic.component';
+import { MetricsParticipantComponent } from './components/metrics/metrics-participant/metrics-participant.component';
+import { MetricsProductComponent } from './components/metrics/metrics-product/metrics-product.component';
 
 @NgModule({
   declarations: [
@@ -107,7 +110,10 @@ import { MetricsFiltersComponent } from './components/dialog/metrics-filters/met
    SelectionDeliveredCsvComponent,
    CarouselComponent,
    DisclaimerRegisterLocationComponent,
-   MetricsFiltersComponent
+   MetricsFiltersComponent,
+   MetricsDemographicComponent,
+   MetricsParticipantComponent,
+   MetricsProductComponent
 
   ],
   imports: [

@@ -9,7 +9,7 @@ import { DeliveryHomeComponent } from './components/delivery/delivery-home/deliv
 import { StockerHomeComponent } from './components/stocker/stocker-home/stocker-home.component';
 import { HelpComponent } from './components/support/help/help.component';
 import { SettingsComponent } from './components/settings/settings.component';
-import { MetricsComponent } from './components/metrics/metrics.component';
+import { MetricsComponent } from './components/metrics/metrics-health/metrics.component';
 import { TableUserComponent } from './components/tables/user/table-user/table-user.component';
 import { TableTicketComponent } from './components/tables/ticket/table-ticket/table-ticket.component';
 import { TableProductComponent } from './components/tables/product/table-product/table-product.component';
@@ -18,6 +18,9 @@ import { TableLocationComponent } from './components/tables/location/table-locat
 import { ViewTicketComponent } from './components/view/ticket/view-ticket/view-ticket.component';
 import { NewUserComponent } from './components/new/user/new-user/new-user.component';
 import { TableDeliveredComponent } from './components/tables/delivered/table-delivered/table-delivered.component';
+import { MetricsDemographicComponent } from './components/metrics/metrics-demographic/metrics-demographic.component';
+import { MetricsParticipantComponent } from './components/metrics/metrics-participant/metrics-participant.component';
+import { MetricsProductComponent } from './components/metrics/metrics-product/metrics-product.component';
 
 const routes: Routes = [
   { path: 'view/ticket/:id', component: ViewTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
@@ -29,7 +32,10 @@ const routes: Routes = [
   { path: 'table/ticket', component: TableTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/user', component: TableUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/user/:search', component: TableUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
-  { path: 'metrics', component: MetricsComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
+  { path: 'metrics/product', component: MetricsProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
+  { path: 'metrics/participant', component: MetricsParticipantComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
+  { path: 'metrics/demographic', component: MetricsDemographicComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
+  { path: 'metrics/health', component: MetricsComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
   { path: 'settings', component: SettingsComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client','stocker','delivery','beneficiary']} },
   { path: 'help', component: HelpComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client','stocker','delivery','beneficiary']} },
   { path: 'delivery/home', component: DeliveryHomeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['delivery']} },

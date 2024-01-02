@@ -1,64 +1,94 @@
 <div *ngIf="usuario && this.currentRoute !== '/login'">
-<header>
-  <div class="header__logo">
-    <div #menuIcon (click)="toggleMenu()" [@iconAnimation]="animationState">
-      <ng-container *ngIf="!menuExpanded; else showCross">
-        <img class="header__logo__menu-icon" src="../../../../assets/icons/menu-hamburguesa.svg" alt="Icono de menú" id="menu-icon-hamburguesa">
-      </ng-container>
-      <ng-template #showCross>
-        <img class="header__logo__menu-icon" src="../../../../assets/icons/cerrar.svg" alt="Icono de cerrar" id="menu-icon-cerrar">
-      </ng-template>
-    </div>
+  <header>
+    <div class="header__logo">
+      <div #menuIcon (click)="toggleMenu()" [@iconAnimation]="animationState">
+        <ng-container *ngIf="!menuExpanded; else showCross">
+          <img class="header__logo__menu-icon" src="../../../../assets/icons/menu-hamburguesa.svg" alt="Icono de menú"
+            id="menu-icon-hamburguesa">
+        </ng-container>
+        <ng-template #showCross>
+          <img class="header__logo__menu-icon" src="../../../../assets/icons/cerrar.svg" alt="Icono de cerrar"
+            id="menu-icon-cerrar">
+        </ng-template>
+      </div>
 
       <a routerLink="{{this.route_role}}" alt="Logo principal" id="logo">Community Data</a>
 
-  </div>
-  <div class="header__buscador">
-    <input class="ui-input" type="search" id="search-input" placeholder="{{'menu_input_search' | translate }}">
-  </div>
-  <div class="header__perfil" (click)="toggleCard()" #profile>
-    <div class="header__perfil__nombre">
-      <p>{{usuario.firstname}}</p>
     </div>
-    <img class="header__perfil__icon" src="../../../../assets/icons/perfil.svg" alt="Foto de perfil" class="user" id="perfil">
-  </div>
-</header>
-<section class="opciones-perfil">
-  <div class="ui-tarjeta" *ngIf="showCard" #card>
-    <ul>
-      <li (click)="settings()">{{'menu_button_settings' | translate }}</li>
-      <li (click)="notifications()">{{'menu_button_notifications' | translate }}</li>
-      <li (click)="logOut()">{{'menu_button_log_out' | translate }}</li>
-    </ul>
-  </div>
-</section>
-<section class="container">
-  <nav>
-    <div class="ui-tarjeta" [class.collapsed]="!menuExpanded" #menu>
-      <section class="container__header">
-        <ul>
-          <li [class.active-link]="currentRoute.includes('/home')" [class.li-collapsed]="!menuExpanded">
-            <a routerLink="{{this.route_role}}">
-              <img class="ui-tarjeta__icono" src="../../../../assets/icons/home.svg" alt="Icono de home">
-              <span [class.hidden]="!menuExpanded">{{'menu_button_home' | translate }}</span>
-            </a>
-          </li>
-          <li *ngIf="usuario.role === 'admin' || usuario.role === 'client'" [class.active-link]="currentRoute.includes('/metrics')" [class.li-collapsed]="!menuExpanded">
-            <a routerLink="/metrics">
-              <img class="ui-tarjeta__icono" src="../../../../assets/icons/metricas.svg" alt="Icono de metricas">
-              <span [class.hidden]="!menuExpanded">{{'menu_button_metrics' | translate }}</span>
-            </a>
-          </li>
-          <li [class.active-link]="currentRoute.includes('/help')" [class.li-collapsed]="!menuExpanded">
-            <a routerLink="/help">
-              <img class="ui-tarjeta__icono" src="../../../../assets/icons/ayuda.svg" alt="Icono de ayuda">
-              <span [class.hidden]="!menuExpanded">{{'menu_button_help' | translate }}</span>
-            </a>
-          </li>
-        </ul>
-      </section>
-      <section class="container__footer">
-        <!-- <ul>
+    <div class="header__buscador">
+      <input class="ui-input" type="search" id="search-input" placeholder="{{'menu_input_search' | translate }}">
+    </div>
+    <div class="header__perfil" (click)="toggleCard()" #profile>
+      <div class="header__perfil__nombre">
+        <p>{{usuario.firstname}}</p>
+      </div>
+      <img class="header__perfil__icon" src="../../../../assets/icons/perfil.svg" alt="Foto de perfil" class="user"
+        id="perfil">
+    </div>
+  </header>
+  <section class="opciones-perfil">
+    <div class="ui-tarjeta" *ngIf="showCard" #card>
+      <ul>
+        <li (click)="settings()">{{'menu_button_settings' | translate }}</li>
+        <li (click)="notifications()">{{'menu_button_notifications' | translate }}</li>
+        <li (click)="logOut()">{{'menu_button_log_out' | translate }}</li>
+      </ul>
+    </div>
+  </section>
+  <section class="opciones-metrics">
+    <div class="ui-tarjeta" *ngIf="showCardMetrics" #cardMetrics>
+      <ul>
+        <li routerLink="/metrics/health">
+          <a>
+            {{'menu_button_health_metrics' | translate }}
+          </a>
+        </li>
+        <li routerLink="/metrics/demographic">
+          <a>
+            {{'menu_button_demographic_metrics' | translate }}
+          </a>
+        </li>
+        <li routerLink="/metrics/participant">
+          <a>
+            {{'menu_button_participant_metrics' | translate }}
+          </a>
+        </li>
+        <li routerLink="/metrics/product">
+          <a>
+            {{'menu_button_product_metrics' | translate }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section class="container">
+    <nav>
+      <div class="ui-tarjeta" [class.collapsed]="!menuExpanded" #menu>
+        <section class="container__header">
+          <ul>
+            <li [class.active-link]="currentRoute.includes('/home')" [class.li-collapsed]="!menuExpanded">
+              <a routerLink="{{this.route_role}}">
+                <img class="ui-tarjeta__icono" src="../../../../assets/icons/home.svg" alt="Icono de home">
+                <span [class.hidden]="!menuExpanded">{{'menu_button_home' | translate }}</span>
+              </a>
+            </li>
+            <li *ngIf="usuario.role === 'admin' || usuario.role === 'client'"
+              [class.active-link]="currentRoute.includes('/metrics')" [class.li-collapsed]="!menuExpanded">
+              <a (click)="toggleCardMetrics()" #metricsButton>
+                <img class="ui-tarjeta__icono" src="../../../../assets/icons/metricas.svg" alt="Metrics icon">
+                <span [class.hidden]="!menuExpanded">{{'menu_button_metrics' | translate }}</span>
+              </a>
+            </li>
+            <li [class.active-link]="currentRoute.includes('/help')" [class.li-collapsed]="!menuExpanded">
+              <a routerLink="/help">
+                <img class="ui-tarjeta__icono" src="../../../../assets/icons/ayuda.svg" alt="Icono de ayuda">
+                <span [class.hidden]="!menuExpanded">{{'menu_button_help' | translate }}</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+        <section class="container__footer">
+          <!-- <ul>
           <li [class.active-link]="currentRoute.includes('/help')" [class.li-collapsed]="!menuExpanded">
             <a routerLink="/help">
               <img class="ui-tarjeta__icono" src="../../../../assets/icons/ayuda.svg" alt="Icono de ayuda">
@@ -66,14 +96,14 @@
             </a>
           </li>
         </ul> -->
-      </section>
+        </section>
+      </div>
+    </nav>
+    <div class="container__overlay" *ngIf="menuExpanded"></div>
+    <div class="container__componente-renderizado" [class.overlay]="menuExpanded">
+      <router-outlet></router-outlet>
     </div>
-  </nav>
-  <div class="container__overlay" *ngIf="menuExpanded"></div>
-  <div class="container__componente-renderizado" [class.overlay]="menuExpanded">
-    <router-outlet></router-outlet>
-  </div>
-</section>
+  </section>
 </div>
 <div *ngIf="!usuario || this.currentRoute === '/login'">
   <mat-spinner class="logout-loading" mode="indeterminate" [diameter]="100"></mat-spinner>

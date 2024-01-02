@@ -13,13 +13,13 @@ export class MetricsService {
   ) { }
 
   getFileCSV(filters: any) {
-    return this.http.post(`${environment.url_api}/metrics/download-csv`, filters, { responseType: 'text' });
+    return this.http.post(`${environment.url_api}/metrics/health/download-csv`, filters, { responseType: 'text' });
   }
 
   getQuestions(language: string, filters: any) {
     const httpOptions = {
       params: new HttpParams().set('language', language)
     };
-    return this.http.post<QuestionMetrics[]>(`${environment.url_api}/metrics/questions`, filters, httpOptions);
+    return this.http.post<QuestionMetrics[]>(`${environment.url_api}/metrics/health/questions`, filters, httpOptions);
   }
 }

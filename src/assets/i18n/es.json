@@ -85,7 +85,11 @@
 
   "menu_button_home": "Inicio",
   "menu_button_help": "Ayuda",
-  "menu_button_metrics": "Métricas de salud",
+  "menu_button_metrics": "Métricas",
+  "menu_button_health_metrics": "Salud",
+  "menu_button_demographic_metrics": "Demográficas",
+  "menu_button_participant_metrics": "Participantes",
+  "menu_button_product_metrics": "Productos",
   "menu_button_settings": "Configuración",
   "menu_button_notifications": "Notificaciones",
   "menu_button_log_out": "Cerrar sesión",

@@ -16,9 +16,9 @@ import {
 } from "ng-apexcharts";
 import { QuestionMetrics } from "src/app/models/metrics/question-metrics";
 import { MetricsService } from "src/app/services/metrics/metrics.service";
-import { DownloadMetricsCsvComponent } from "../dialog/download-metrics-csv/download-metrics-csv/download-metrics-csv.component";
+import { DownloadMetricsCsvComponent } from "../../dialog/download-metrics-csv/download-metrics-csv/download-metrics-csv.component";
 import { MatDialog } from "@angular/material/dialog";
-import { MetricsFiltersComponent } from "../dialog/metrics-filters/metrics-filters.component";
+import { MetricsFiltersComponent } from "../../dialog/metrics-filters/metrics-filters.component";
 import { FormBuilder, FormGroup } from "@angular/forms";
 
 export type ChartOptions = {
