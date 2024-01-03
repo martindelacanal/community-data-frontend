@@ -89,7 +89,6 @@ export class MetricsComponent implements OnInit {
         this.questionsMetrics = res;
         this.chartOptions = new Array(this.questionsMetrics.length).fill(null);
         this.chartOptionsYESNO = new Array(this.questionsMetrics.length).fill(null);
-        console.log("res: ", res);
         for (let i = 0; i < this.questionsMetrics.length; i++) {
           const question = this.questionsMetrics[i];
           const data = [];
@@ -99,8 +98,6 @@ export class MetricsComponent implements OnInit {
             data.push(answer.total);
             categories.push(answer.answer);
           }
-          console.log("data: ", data);
-          console.log("categories: ", categories);
 
           if ((categories.includes('Yes') && categories.includes('No')) || (categories.includes('Sí') && categories.includes('No')) || (categories.includes('Si') && categories.includes('No'))) {
             this.chartOptionsYESNO[i] = {
@@ -132,10 +129,54 @@ export class MetricsComponent implements OnInit {
               },
               responsive: [
                 {
-                  breakpoint: 480,
+                  breakpoint: 1100,
                   options: {
                     chart: {
-                      width: 200
+                      width: 380
+                    },
+                    legend: {
+                      position: "bottom"
+                    }
+                  }
+                },
+                {
+                  breakpoint: 850,
+                  options: {
+                    chart: {
+                      width: 500
+                    },
+                    legend: {
+                      position: "bottom"
+                    }
+                  }
+                },
+                {
+                  breakpoint: 510,
+                  options: {
+                    chart: {
+                      width: 400
+                    },
+                    legend: {
+                      position: "bottom"
+                    }
+                  }
+                },
+                {
+                  breakpoint: 450,
+                  options: {
+                    chart: {
+                      width: 350
+                    },
+                    legend: {
+                      position: "bottom"
+                    }
+                  }
+                },
+                {
+                  breakpoint: 350,
+                  options: {
+                    chart: {
+                      width: 300
                     },
                     legend: {
                       position: "bottom"

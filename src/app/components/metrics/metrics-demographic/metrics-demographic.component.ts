@@ -80,7 +80,6 @@ export class MetricsDemographicComponent {
     private dialog: MatDialog,
     private formBuilder: FormBuilder
   ) {
-
     this.filterForm = this.formBuilder.group({
       from_date: [null],
       to_date: [null],
@@ -116,7 +115,7 @@ export class MetricsDemographicComponent {
         this.chartOptionsGender = {
           series: data,
           chart: {
-            width: 380,
+            width: 480,
             type: "pie",
             toolbar: {
               show: true,
@@ -146,10 +145,54 @@ export class MetricsDemographicComponent {
           },
           responsive: [
             {
-              breakpoint: 480,
+              breakpoint: 1100,
               options: {
                 chart: {
-                  width: 200
+                  width: 380
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            },
+            {
+              breakpoint: 850,
+              options: {
+                chart: {
+                  width: 500
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            },
+            {
+              breakpoint: 510,
+              options: {
+                chart: {
+                  width: 400
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            },
+            {
+              breakpoint: 450,
+              options: {
+                chart: {
+                  width: 350
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            },
+            {
+              breakpoint: 350,
+              options: {
+                chart: {
+                  width: 300
                 },
                 legend: {
                   position: "bottom"
@@ -183,7 +226,7 @@ export class MetricsDemographicComponent {
         this.chartOptionsEthnicity = {
           series: data,
           chart: {
-            width: 380,
+            width: 480,
             type: "pie",
             toolbar: {
               show: true,
@@ -213,10 +256,54 @@ export class MetricsDemographicComponent {
           },
           responsive: [
             {
-              breakpoint: 480,
+              breakpoint: 1100,
               options: {
                 chart: {
-                  width: 200
+                  width: 380
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            },
+            {
+              breakpoint: 850,
+              options: {
+                chart: {
+                  width: 500
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            },
+            {
+              breakpoint: 510,
+              options: {
+                chart: {
+                  width: 400
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            },
+            {
+              breakpoint: 450,
+              options: {
+                chart: {
+                  width: 350
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            },
+            {
+              breakpoint: 350,
+              options: {
+                chart: {
+                  width: 300
                 },
                 legend: {
                   position: "bottom"
