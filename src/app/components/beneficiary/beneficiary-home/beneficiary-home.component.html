@@ -10,11 +10,28 @@
       <!-- <form [formGroup]="stockForm" novalidate (ngSubmit)="onSubmit()"> -->
       <div class="main_formulario">
         <!-- donation id -->
-        <div class="card">
-          <div *ngIf="value">
-            <ngx-qrcode [value]="value" cssClass="aclass" [errorCorrectionLevel]="errorCorrectionLevel">
-            </ngx-qrcode>
+        <div class="card" [formGroup]="beneficiaryForm">
+          <div *ngIf="!loading && (!onBoarded || !beneficiaryForm.controls['destination'].value); else imageQR"
+            class="full-width">
+            <mat-form-field appearance="outline">
+              <mat-label>{{'delivery_input_destination' | translate }}</mat-label>
+              <mat-select formControlName="destination">
+                <mat-option *ngFor="let location of locations" [value]="location.id">
+                  {{location.community_city}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="beneficiaryForm.controls['destination'].hasError('required')">
+                {{'delivery_input_destination_error_please' | translate }}
+              </mat-error>
+            </mat-form-field>
           </div>
+          <ng-template #imageQR>
+            <div *ngIf="!loading && value">
+              <ngx-qrcode [value]="value" cssClass="aclass" [errorCorrectionLevel]="errorCorrectionLevel">
+              </ngx-qrcode>
+            </div>
+          </ng-template>
+          <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
         </div>
 
         <!-- separator -->
@@ -25,8 +42,21 @@
 
         <div class="card">
           <div class="main__footer">
+            <span class="main__footer__span">
+              <div *ngIf="!(this.userLocation && this.userLocation.id) && locationOrganizationSelected && locationAddressSelected">{{'delivery_text_organization' | translate }}:
+                {{locationOrganizationSelected}} - {{'delivery_text_address' | translate }}:
+                {{locationAddressSelected}}</div>
+              <div *ngIf="this.userLocation && this.userLocation.id">{{'delivery_text_organization' | translate }}:
+                {{this.userLocation.organization}} - {{'delivery_text_address' | translate }}:
+                {{this.userLocation.address}}</div>
+            </span>
             <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
-            <button class="ui-button" type="button" (click)="newQR()">{{'beneficiary_button_new_qr' | translate }}</button>
+            <button *ngIf="!loading && onBoarded" class="ui-button" type="button"
+              (click)="onBoard()">{{'beneficiary_button_change_location' | translate }}</button>
+            <button *ngIf="!loading && onBoarded" class="ui-button ui-button--ui-secundario" type="button"
+              (click)="newQR()">{{'beneficiary_button_new_qr' | translate}}</button>
+            <button *ngIf="!loading && !onBoarded" class="ui-button ui-button--ui-secundario" type="button"
+              (click)="onBoard()">{{'beneficiary_button_generate_qr' | translate}}</button>
           </div>
         </div>
       </div>

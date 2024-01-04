@@ -100,6 +100,8 @@
 
   "beneficiary_title": "QR o formulario",
   "beneficiary_button_new_qr": "Nuevo QR",
+  "beneficiary_button_generate_qr": "Generar QR",
+  "beneficiary_button_change_location": "Cambiar ubicación",
 
   "delivery_title": "Escanear QR",
   "delivery_input_destination": "Destino",

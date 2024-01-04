@@ -52,6 +52,13 @@
   grid-row: 3 / 4;
 }
 
+.full-width {
+  width: 100%;
+  max-width: 525px;
+  display: flex;
+  justify-content: center;
+}
+
 .card mat-form-field {
   width: 100%;
 }
@@ -63,6 +70,12 @@
 .main_formulario .main__footer {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+
+  .main__footer__span {
+    margin-right: 10px;
+    flex-grow: 1;
+  }
 }
 
 .ui-button {
@@ -73,6 +86,9 @@
   margin: 0 16px;
 }
 
+.ui-button--ui-secundario {
+  margin-left: 16px;
+}
 
 @media only screen and (max-width: 700px) {
   // Agrega aquí tus estilos para dispositivos móviles
@@ -96,8 +112,48 @@
 
   .main_formulario .main__footer {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
+
+    .main__footer__span {
+      margin-right: 10px;
+      flex-grow: 1;
+    }
+  }
+
+  .ui-button {
+    padding: 0 32px;
+    min-width: 140px;
+    margin-bottom: 16px;
+  }
+
+  .ui-button--ui-secundario {
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+
+}
+
+@media only screen and (min-width: 701px) and (max-width: 1024px) {
+  // Agrega aquí tus estilos para tablets
+
+  .main_formulario .main__footer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  button {
+    order: 0;
+  }
+
+  .main__footer__span {
+    margin-top: 16px;
+    width: 100%;
+    text-align: center;
+    order: 1;
   }
 
 }
