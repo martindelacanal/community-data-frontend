@@ -536,19 +536,22 @@ export class MetricsDemographicComponent {
   private generateColors(n) {
     const colors = [];
     const baseColor = '97c481';
-    const half = Math.floor(n / 2);
-    for (let i = 0; i < n; i++) {
-      // Genera colores más oscuros para la primera mitad
-      if (i < half) {
-        const amount = -20 * (half - i);
-        colors.push(this.adjustColor(baseColor, amount));
-      }
-      // Genera colores más claros para la segunda mitad
-      else {
-        const amount = 20 * (i - half + 1);
-        colors.push(this.adjustColor(baseColor, amount));
-      }
+    const maxLightColors = 2;
+    const darkColorsCount = Math.max(n - maxLightColors, 0);
+    const lightColorsCount = Math.min(n, maxLightColors);
+
+    // Genera colores más oscuros
+    for (let i = 0; i < darkColorsCount; i++) {
+      const amount = -20 * (darkColorsCount - i);
+      colors.push(this.adjustColor(baseColor, amount));
     }
+
+    // Genera colores más claros
+    for (let i = 0; i < lightColorsCount; i++) {
+      const amount = 20 * (i + 1);
+      colors.push(this.adjustColor(baseColor, amount));
+    }
+
     return colors;
   }
 
