@@ -50,14 +50,14 @@ export class AppComponent {
       }
     });
 
-    interval(5000)
+    interval(6000)
       .pipe(
         switchMap(() => this.http.get(environment.url_api + '/ping').pipe(
           retryWhen(errors => errors.pipe(
             // Imprime el error en la consola
             tap(() => this.conexionError()),
-            // Espera 5 segundos antes de reintentar
-            delay(5000)
+            // Espera 6 segundos antes de reintentar
+            delay(6000)
           ))
         ))
       )
