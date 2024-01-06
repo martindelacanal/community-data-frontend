@@ -93,17 +93,31 @@ export class MetricsComponent implements OnInit {
           const question = this.questionsMetrics[i];
           const data = [];
           const categories = [];
+          const categories_aux = [];
+          let total = 0;
           for (let j = 0; j < question.answers.length; j++) {
             const answer = question.answers[j];
             data.push(answer.total);
-            categories.push(answer.answer);
+            total += answer.total;
+            categories_aux.push(answer.answer);
+          }
+          for (let j = 0; j < question.answers.length; j++) {
+            const answer = question.answers[j];
+            if ((categories_aux.includes('Yes') && categories_aux.includes('No')) || (categories_aux.includes('Sí') && categories_aux.includes('No')) || (categories_aux.includes('Si') && categories_aux.includes('No'))) {
+              // categories.push(answer.answer);
+              const percentage = Number(((answer.total / total) * 100).toFixed(2));
+              categories.push(answer.answer + ' (' + percentage + '%)');
+            } else {
+              const percentage = Number(((answer.total / total) * 100).toFixed(2));
+              categories.push('(' + percentage + '%) ' + answer.answer);
+            }
           }
 
-          if ((categories.includes('Yes') && categories.includes('No')) || (categories.includes('Sí') && categories.includes('No')) || (categories.includes('Si') && categories.includes('No'))) {
+          if ((categories_aux.includes('Yes') && categories_aux.includes('No')) || (categories_aux.includes('Sí') && categories_aux.includes('No')) || (categories_aux.includes('Si') && categories_aux.includes('No'))) {
             this.chartOptionsYESNO[i] = {
               series: data,
               chart: {
-                width: 380,
+                width: 480,
                 type: "pie",
                 toolbar: {
                   show: true,
@@ -208,6 +222,15 @@ export class MetricsComponent implements OnInit {
               },
               xaxis: {
                 categories: categories,
+                title: {
+                  text: this.translate.instant('metrics_health_title_barchart_x_axis'),
+                  style: {
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    color: '#5D5D5E',
+                    fontFamily: 'Roboto, sans-serif',
+                  }
+                },
                 // tickAmount: Math.max(...data), // problema de muchos numeros en el eje X
                 labels: {
                   formatter: function (val) {

@@ -209,13 +209,16 @@
   "settings_snack_new_password_form_error": "Por favor llene el formulario correctamente",
 
   "metrics_health_title": "Métricas de salud",
+  "metrics_health_title_barchart_x_axis": "Cantidad de beneficiarios",
   "metrics_demographic_title": "Métricas demográficas",
   "metrics_button_download_csv": "Descargar CSV",
   "metrics_button_download_csv_error": "Error al descargar CSV",
   "metrics_demographic_gender_title": "Género",
   "metrics_demographic_ethnicity_title": "Etnia",
   "metrics_demographic_household_title": "Tamaño del hogar",
+  "metrics_demographic_household_title_x_axis": "Cantidad de beneficiarios",
   "metrics_demographic_age_title": "Edad",
+  "metrics_demographic_age_title_x_axis": "Cantidad de beneficiarios",
   "metrics_demographic_average": "Promedio",
   "metrics_demographic_median": "Mediana",
 

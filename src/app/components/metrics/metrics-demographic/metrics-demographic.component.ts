@@ -107,9 +107,14 @@ export class MetricsDemographicComponent {
         this.genderMetrics = res;
         const data = [];
         const categories = [];
+        let total = 0;
+        for (let i = 0; i < this.genderMetrics.length; i++) {
+          total += this.genderMetrics[i].total;
+        }
         for (let i = 0; i < this.genderMetrics.length; i++) {
           data.push(this.genderMetrics[i].total);
-          categories.push(this.genderMetrics[i].name);
+          const percentage = Number(((this.genderMetrics[i].total / total) * 100).toFixed(2));
+          categories.push(this.genderMetrics[i].name + ' (' + percentage + '%)');
         }
 
         this.chartOptionsGender = {
@@ -218,9 +223,14 @@ export class MetricsDemographicComponent {
         this.ethnicityMetrics = res;
         const data = [];
         const categories = [];
+        let total = 0;
+        for (let i = 0; i < this.ethnicityMetrics.length; i++) {
+          total += this.ethnicityMetrics[i].total;
+        }
         for (let i = 0; i < this.ethnicityMetrics.length; i++) {
           data.push(this.ethnicityMetrics[i].total);
-          categories.push(this.ethnicityMetrics[i].name);
+          const percentage = Number(((this.ethnicityMetrics[i].total / total) * 100).toFixed(2));
+          categories.push(this.ethnicityMetrics[i].name + ' (' + percentage + '%)');
         }
 
         this.chartOptionsEthnicity = {
@@ -331,11 +341,15 @@ export class MetricsDemographicComponent {
         this.householdMetricsMedian = res.median;
         const data = [];
         const categories = [];
+        let total = 0;
         for (let i = 0; i < this.householdMetrics.data.length; i++) {
-          data.push(this.householdMetrics.data[i].total);
-          categories.push(this.householdMetrics.data[i].name);
+          total += this.householdMetrics.data[i].total;
         }
-
+        for (let i = 0; i < this.householdMetrics.data.length; i++) {
+          const percentage = Number(((this.householdMetrics.data[i].total / total) * 100).toFixed(2));
+          data.push(this.householdMetrics.data[i].total);
+          categories.push(this.householdMetrics.data[i].name + ' (' + percentage + '%)');
+        }
         this.chartOptionsHousehold = {
           series: [
             {
@@ -354,16 +368,22 @@ export class MetricsDemographicComponent {
             }
           },
           dataLabels: {
-            enabled: true
+            enabled: true,
+            formatter: function (val) {
+              return val.toString(); // Mostrar el valor absoluto
+            }
           },
           xaxis: {
             categories: categories,
-            // tickAmount: Math.max(...data), // problema de muchos numeros en el eje X
-            labels: {
-              formatter: function (val) {
-                return parseInt(val).toString();
+            title: {
+              text: this.translate.instant('metrics_demographic_household_title_x_axis'),
+              style: {
+                fontSize: '12px',
+                fontWeight: 'bold',
+                color: '#5D5D5E',
+                fontFamily: 'Roboto, sans-serif',
               }
-            }
+            },
           }
         };
 
@@ -375,7 +395,6 @@ export class MetricsDemographicComponent {
       }
     });
   }
-
   private getAgeMetrics(language: string, filters?: any) {
     this.loadingAgeMetrics = true;
     this.metricsService.getAgeMetrics(language, filters).subscribe({
@@ -385,11 +404,15 @@ export class MetricsDemographicComponent {
         this.ageMetricsMedian = res.median;
         const data = [];
         const categories = [];
+        let total = 0;
         for (let i = 0; i < this.ageMetrics.data.length; i++) {
-          data.push(this.ageMetrics.data[i].total);
-          categories.push(this.ageMetrics.data[i].name);
+          total += this.ageMetrics.data[i].total;
         }
-
+        for (let i = 0; i < this.ageMetrics.data.length; i++) {
+          const percentage = Number(((this.ageMetrics.data[i].total / total) * 100).toFixed(2));
+          data.push(this.ageMetrics.data[i].total);
+          categories.push(this.ageMetrics.data[i].name + ' (' + percentage + '%)');
+        }
 
         this.chartOptionsAge = {
           series: [
@@ -413,7 +436,15 @@ export class MetricsDemographicComponent {
           },
           xaxis: {
             categories: categories,
-            // tickAmount: Math.max(...data), // problema de muchos numeros en el eje X
+            title: {
+              text: this.translate.instant('metrics_demographic_age_title_x_axis'),
+              style: {
+                fontSize: '12px',
+                fontWeight: 'bold',
+                color: '#5D5D5E',
+                fontFamily: 'Roboto, sans-serif',
+              }
+            },
             labels: {
               formatter: function (val) {
                 return parseInt(val).toString();
@@ -430,7 +461,6 @@ export class MetricsDemographicComponent {
       }
     });
   }
-
   dialogDownloadCsv(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
