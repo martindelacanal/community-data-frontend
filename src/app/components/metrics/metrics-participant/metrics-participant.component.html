@@ -1,1 +1,51 @@
-<p>metrics-participant works!</p>
+<div class="container">
+  <section class="header">
+    <h1 class="title">{{'metrics_participant_title' | translate }}</h1>
+    <div class="buttons">
+      <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+      <!-- <button *ngIf="!loadingCSV" class="ui-button" type="button"
+        (click)="dialogDownloadCsv()">{{'metrics_button_download_csv' | translate }}</button> -->
+      <button id="filtersButton" class="ui-button" type="button" (click)="dialogFilters()">{{'metrics_filters_button' |
+        translate }}</button>
+    </div>
+  </section>
+  <mat-spinner *ngIf="loadingMetrics" class="loading-questions" mode="indeterminate" [diameter]="30"></mat-spinner>
+  <section class="main_tarjetas">
+    <div class="ui-tarjeta">
+      <div class="question">
+        <h2>{{'metrics_participant_registers_title' | translate }}</h2>
+      </div>
+      <br>
+      <p>{{'metrics_participant_registers_total' | translate }}: {{ this.registerMetrics.total}}</p>
+      <br>
+      <p>{{'metrics_participant_registers_new' | translate }}: {{this.registerMetrics.new}}</p>
+      <br>
+      <p>{{'metrics_participant_registers_recurring' | translate }}: {{this.registerMetrics.recurring}}</p>
+      <br>
+    </div>
+    <div class="ui-tarjeta">
+      <div class="question">
+        <h2>{{'metrics_participant_with_email_title' | translate }}</h2>
+      </div>
+      <div id="chartYESNO" *ngIf="chartOptionsEmail">
+        <apx-chart [series]="chartOptionsEmail.series" [chart]="chartOptionsEmail.chart"
+          [labels]="chartOptionsEmail.labels" [legend]="chartOptionsEmail.legend"
+          [colors]="chartOptionsEmail.colors" [responsive]="chartOptionsEmail.responsive"
+          [theme]="chartOptionsEmail.theme" [dataLabels]="chartOptionsEmail.dataLabels"
+          [tooltip]="chartOptionsEmail.tooltip"></apx-chart>
+      </div>
+    </div>
+    <div class="ui-tarjeta">
+      <div class="question">
+        <h2>{{'metrics_participant_with_phone_title' | translate }}</h2>
+      </div>
+      <div id="chartYESNO" *ngIf="chartOptionsPhone">
+        <apx-chart [series]="chartOptionsPhone.series" [chart]="chartOptionsPhone.chart"
+          [labels]="chartOptionsPhone.labels" [legend]="chartOptionsPhone.legend"
+          [colors]="chartOptionsPhone.colors" [responsive]="chartOptionsPhone.responsive"
+          [theme]="chartOptionsPhone.theme" [dataLabels]="chartOptionsPhone.dataLabels"
+          [tooltip]="chartOptionsPhone.tooltip"></apx-chart>
+      </div>
+    </div>
+  </section>
+</div>

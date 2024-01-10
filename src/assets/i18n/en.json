@@ -221,6 +221,13 @@
   "metrics_demographic_age_title_x_axis": "Number of beneficiaries",
   "metrics_demographic_average": "Average",
   "metrics_demographic_median": "Median",
+  "metrics_participant_title": "Participant metrics",
+  "metrics_participant_registers_title": "Registers",
+  "metrics_participant_registers_total": "Total",
+  "metrics_participant_registers_new": "New",
+  "metrics_participant_registers_recurring": "Recurring",
+  "metrics_participant_with_email_title": "Quantity with email",
+  "metrics_participant_with_phone_title": "Quantity with phone",
 
   "metrics_filters_button": "Filters",
   "metrics_filters_title_registration_dates": "Select registration dates",

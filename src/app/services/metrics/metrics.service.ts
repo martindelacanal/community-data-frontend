@@ -1,10 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AgeMetrics } from 'src/app/models/metrics/age-metrics';
+import { EmailMetrics } from 'src/app/models/metrics/email-metrics';
 import { EthnicityMetrics } from 'src/app/models/metrics/ethnicity-metrics';
 import { GenderMetrics } from 'src/app/models/metrics/gender-metrics';
 import { HouseholdMetrics } from 'src/app/models/metrics/household-metrics';
+import { PhoneMetrics } from 'src/app/models/metrics/phone-metrics';
 import { QuestionMetrics } from 'src/app/models/metrics/question-metrics';
+import { RegisterMetrics } from 'src/app/models/metrics/register-metrics';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -21,6 +24,9 @@ export class MetricsService {
   }
   getDemographicFileCSV(filters: any) {
     return this.http.post(`${environment.url_api}/metrics/demographic/download-csv`, filters, { responseType: 'text' });
+  }
+  getParticipantFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/metrics/participant/download-csv`, filters, { responseType: 'text' });
   }
 
   getQuestions(language: string, filters: any) {
@@ -56,5 +62,26 @@ export class MetricsService {
       params: new HttpParams().set('language', language)
     };
     return this.http.post<AgeMetrics>(`${environment.url_api}/metrics/demographic/age`, filters, httpOptions);
+  }
+
+  getRegisterMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<RegisterMetrics>(`${environment.url_api}/metrics/participant/register`, filters, httpOptions);
+  }
+
+  getEmailMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<EmailMetrics[]>(`${environment.url_api}/metrics/participant/email`, filters, httpOptions);
+  }
+
+  getPhoneMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<PhoneMetrics[]>(`${environment.url_api}/metrics/participant/phone`, filters, httpOptions);
   }
 }
