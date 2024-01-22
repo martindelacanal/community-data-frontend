@@ -52,6 +52,8 @@
   "register_first_tab_input_phone": "Teléfono",
   "register_first_tab_input_phone_error_exists": "El teléfono ya existe, elige otro",
   "register_first_tab_input_phone_error_please": "Por favor ingrese su teléfono",
+  "register_first_tab_input_phone_error_minlength": "El número de teléfono debe tener 10 dígitos",
+  "register_first_tab_input_phone_error_maxlength": "El número de teléfono debe tener 10 dígitos",
   "register_first_tab_input_zip_code": "Código postal",
   "register_first_tab_input_zip_code_error_please": "Por favor ingrese el código postal",
   "register_first_tab_input_household_size": "Miembros en su familia",

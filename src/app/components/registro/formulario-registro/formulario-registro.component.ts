@@ -359,7 +359,7 @@ export class FormularioRegistroComponent implements OnInit {
       lastName: [null, Validators.required],
       dateOfBirth: [null, [Validators.required, this.validateAge]],
       email: [null, [() => this.validateEmail()]],
-      phone: [null, [Validators.required, () => this.validatePhone()]],
+      phone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), () => this.validatePhone()]],
       zipcode: [null],
       destination: [null, Validators.required],
       householdSize: [null, Validators.required],

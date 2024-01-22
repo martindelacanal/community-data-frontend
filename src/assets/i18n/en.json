@@ -52,6 +52,8 @@
   "register_first_tab_input_phone": "Phone number",
   "register_first_tab_input_phone_error_exists": "Phone number already exists, choose another one",
   "register_first_tab_input_phone_error_please": "Please enter your phone number",
+  "register_first_tab_input_phone_error_minlength": "Phone number must be 10 digits long",
+  "register_first_tab_input_phone_error_maxlength": "Phone number must be 10 digits long",
   "register_first_tab_input_zip_code": "ZIP code",
   "register_first_tab_input_zip_code_error_please": "Please enter the ZIP code",
   "register_first_tab_input_household_size": "Household size",
