@@ -1,11 +1,11 @@
-<!-- <div class="container">
+<div class="container">
   <section class="header">
-    <h1 class="title">{{'metrics_participant_title' | translate }}</h1>
+    <h1 class="title">{{'metrics_product_title' | translate }}</h1>
     <div class="buttons">
-      <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner> -->
+      <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
       <!-- <button *ngIf="!loadingCSV" class="ui-button" type="button"
         (click)="dialogDownloadCsv()">{{'metrics_button_download_csv' | translate }}</button> -->
-      <!-- <button id="filtersButton" class="ui-button" type="button" (click)="dialogFilters()">{{'metrics_filters_button' |
+      <button id="filtersButton" class="ui-button" type="button" (click)="dialogFilters()">{{'metrics_filters_button' |
         translate }}</button>
     </div>
   </section>
@@ -13,39 +13,42 @@
   <section class="main_tarjetas">
     <div class="ui-tarjeta">
       <div class="question">
-        <h2>{{'metrics_participant_registers_title' | translate }}</h2>
+        <h2>{{'metrics_product_reachs_title' | translate }}</h2>
       </div>
       <br>
-      <p>{{'metrics_participant_registers_total' | translate }}: {{ this.registerMetrics.total}}</p>
+      <p>{{'metrics_product_reachs_reach' | translate }}: {{ this.reachMetrics.reach}}</p>
       <br>
-      <p>{{'metrics_participant_registers_new' | translate }}: {{this.registerMetrics.new}}</p>
-      <br>
-      <p>{{'metrics_participant_registers_recurring' | translate }}: {{this.registerMetrics.recurring}}</p>
+      <p>{{'metrics_product_reachs_pounds_delivered' | translate }}: {{this.reachMetrics.poundsDelivered}}</p>
       <br>
     </div>
     <div class="ui-tarjeta">
       <div class="question">
-        <h2>{{'metrics_participant_with_email_title' | translate }}</h2>
+        <h2>{{'metrics_product_kind_of_product_title' | translate }}</h2>
       </div>
-      <div id="chartYESNO" *ngIf="chartOptionsEmail">
-        <apx-chart [series]="chartOptionsEmail.series" [chart]="chartOptionsEmail.chart"
-          [labels]="chartOptionsEmail.labels" [legend]="chartOptionsEmail.legend"
-          [colors]="chartOptionsEmail.colors" [responsive]="chartOptionsEmail.responsive"
-          [theme]="chartOptionsEmail.theme" [dataLabels]="chartOptionsEmail.dataLabels"
-          [tooltip]="chartOptionsEmail.tooltip"></apx-chart>
+      <div id="chartYESNO" *ngIf="chartOptionsKindOfProduct">
+        <apx-chart [series]="chartOptionsKindOfProduct.series" [chart]="chartOptionsKindOfProduct.chart"
+          [labels]="chartOptionsKindOfProduct.labels" [legend]="chartOptionsKindOfProduct.legend"
+          [colors]="chartOptionsKindOfProduct.colors" [responsive]="chartOptionsKindOfProduct.responsive"
+          [theme]="chartOptionsKindOfProduct.theme" [dataLabels]="chartOptionsKindOfProduct.dataLabels"
+          [tooltip]="chartOptionsKindOfProduct.tooltip"></apx-chart>
       </div>
     </div>
     <div class="ui-tarjeta">
       <div class="question">
-        <h2>{{'metrics_participant_with_phone_title' | translate }}</h2>
+        <h2>{{'metrics_product_with_pounds_per_location_title' | translate }}</h2>
       </div>
+      <br>
+      <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerLocationAverage}}</p>
+      <br>
+      <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerLocationMedian}}</p>
+      <br>
       <div class="chart-container">
-        <div id="chart" *ngIf="chartOptionsAge">
-          <apx-chart [series]="chartOptionsAge.series" [chart]="chartOptionsAge.chart"
-            [dataLabels]="chartOptionsAge.dataLabels" [plotOptions]="chartOptionsAge.plotOptions"
-            [xaxis]="chartOptionsAge.xaxis"></apx-chart>
+        <div id="chart" *ngIf="chartOptionsPoundsPerLocation">
+          <apx-chart [series]="chartOptionsPoundsPerLocation.series" [chart]="chartOptionsPoundsPerLocation.chart"
+            [dataLabels]="chartOptionsPoundsPerLocation.dataLabels" [plotOptions]="chartOptionsPoundsPerLocation.plotOptions"
+            [xaxis]="chartOptionsPoundsPerLocation.xaxis"></apx-chart>
         </div>
       </div>
     </div>
   </section>
-</div> -->
+</div>

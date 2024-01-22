@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -49,7 +49,7 @@ export type ChartOptionsYESNO = {
   templateUrl: './metrics-demographic.component.html',
   styleUrls: ['./metrics-demographic.component.scss']
 })
-export class MetricsDemographicComponent {
+export class MetricsDemographicComponent implements OnInit{
 
   @ViewChild("chart") chart: ChartComponent;
   @ViewChild("chartYESNO") chartYESNO: ChartComponent;

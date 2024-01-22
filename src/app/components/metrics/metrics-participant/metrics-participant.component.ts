@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -27,7 +27,7 @@ export type ChartOptionsYESNO = {
   templateUrl: './metrics-participant.component.html',
   styleUrls: ['./metrics-participant.component.scss']
 })
-export class MetricsParticipantComponent {
+export class MetricsParticipantComponent implements OnInit{
 
   @ViewChild("chartYESNO") chartYESNO: ChartComponent;
   public chartOptionsEmail: Partial<ChartOptionsYESNO>;

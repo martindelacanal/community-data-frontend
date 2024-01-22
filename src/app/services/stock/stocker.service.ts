@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Location } from 'src/app/models/map/location';
 import { Product } from 'src/app/models/stocker/product';
+import { ProductType } from 'src/app/models/stocker/product-type';
 import { Provider } from 'src/app/models/stocker/provider';
 import { environment } from 'src/environments/environment';
 
@@ -28,6 +29,10 @@ export class StockerService {
 
   getProducts(){
     return this.http.get<Product[]>(`${environment.url_api}/products`);
+  }
+
+  getProductTypes(language: string, id?: number) {
+    return this.http.get<ProductType[]>(`${environment.url_api}/product_types?${id ? 'id=' + id + '&' : ''}language=${language}`);
   }
 
   getDonationIDExists(nombre: string) {

@@ -5,8 +5,11 @@ import { EmailMetrics } from 'src/app/models/metrics/email-metrics';
 import { EthnicityMetrics } from 'src/app/models/metrics/ethnicity-metrics';
 import { GenderMetrics } from 'src/app/models/metrics/gender-metrics';
 import { HouseholdMetrics } from 'src/app/models/metrics/household-metrics';
+import { KindOfProductMetrics } from 'src/app/models/metrics/kindOfProduct-metrics';
 import { PhoneMetrics } from 'src/app/models/metrics/phone-metrics';
+import { PoundsPerLocationMetrics } from 'src/app/models/metrics/poundsPerLocation-metrics';
 import { QuestionMetrics } from 'src/app/models/metrics/question-metrics';
+import { ReachMetrics } from 'src/app/models/metrics/reach-metrics';
 import { RegisterMetrics } from 'src/app/models/metrics/register-metrics';
 import { environment } from 'src/environments/environment';
 
@@ -83,5 +86,26 @@ export class MetricsService {
       params: new HttpParams().set('language', language)
     };
     return this.http.post<PhoneMetrics[]>(`${environment.url_api}/metrics/participant/phone`, filters, httpOptions);
+  }
+
+  getReachMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<ReachMetrics>(`${environment.url_api}/metrics/product/reach`, filters, httpOptions);
+  }
+
+  getKindOfProductMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<KindOfProductMetrics[]>(`${environment.url_api}/metrics/product/kind_of_product`, filters, httpOptions);
+  }
+
+  getPoundsPerLocationMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<PoundsPerLocationMetrics>(`${environment.url_api}/metrics/product/pounds_per_location`, filters, httpOptions);
   }
 }

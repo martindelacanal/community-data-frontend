@@ -76,6 +76,7 @@ import { MetricsFiltersComponent } from './components/dialog/metrics-filters/met
 import { MetricsDemographicComponent } from './components/metrics/metrics-demographic/metrics-demographic.component';
 import { MetricsParticipantComponent } from './components/metrics/metrics-participant/metrics-participant.component';
 import { MetricsProductComponent } from './components/metrics/metrics-product/metrics-product.component';
+import { MetricsFiltersProductComponent } from './components/dialog/metrics-filters-product/metrics-filters-product.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import { MetricsProductComponent } from './components/metrics/metrics-product/me
    MetricsFiltersComponent,
    MetricsDemographicComponent,
    MetricsParticipantComponent,
-   MetricsProductComponent
+   MetricsProductComponent,
+   MetricsFiltersProductComponent
 
   ],
   imports: [

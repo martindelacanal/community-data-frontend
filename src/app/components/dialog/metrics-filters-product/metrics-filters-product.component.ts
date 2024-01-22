@@ -1,41 +1,37 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { StockerService } from 'src/app/services/stock/stocker.service';
+import { Provider } from 'src/app/models/stocker/provider';
+import { ProductType } from 'src/app/models/stocker/product-type';
 import { Location } from 'src/app/models/map/location';
-import { Ethnicity } from 'src/app/models/user/ethnicity';
-import { Gender } from 'src/app/models/user/gender';
-import { DeliveryService } from 'src/app/services/deliver/delivery.service';
-import { AuthService } from 'src/app/services/login/auth.service';
 
 @Component({
-  selector: 'app-metrics-filters',
-  templateUrl: './metrics-filters.component.html',
-  styleUrls: ['./metrics-filters.component.scss']
+  selector: 'app-metrics-filters-product',
+  templateUrl: './metrics-filters-product.component.html',
+  styleUrls: ['./metrics-filters-product.component.scss']
 })
-export class MetricsFiltersComponent implements OnInit{
+export class MetricsFiltersProductComponent implements OnInit{
+
   filterForm: FormGroup;
   locations: Location[] = [];
-  genders: Gender[];
-  ethnicities: Ethnicity[];
+  providers: Provider[] = [];
+  product_types: ProductType[] = [];
 
   constructor(
-    public dialogRef: MatDialogRef<MetricsFiltersComponent>,
+    public dialogRef: MatDialogRef<MetricsFiltersProductComponent>,
     @Inject(MAT_DIALOG_DATA) public message: FormGroup,
     private formBuilder: FormBuilder,
-    private deliveryService: DeliveryService,
+    private stockerService: StockerService,
     public translate: TranslateService,
-    private authService: AuthService,
   ) {
     this.filterForm = this.formBuilder.group({
       from_date: [null],
       to_date: [null],
       locations: [null],
-      genders: [null],
-      ethnicities: [null],
-      min_age: [null],
-      max_age: [null],
-      zipcode: [null]
+      providers: [null],
+      product_types: [null],
     });
 
     if (this.message) {
@@ -45,8 +41,8 @@ export class MetricsFiltersComponent implements OnInit{
 
   ngOnInit(): void {
     this.getLocations();
-    this.getGender(this.translate.currentLang);
-    this.getEthnicity(this.translate.currentLang);
+    this.getProviders();
+    this.getProductTypes(this.translate.currentLang);
   }
 
   onClickAceptar() {
@@ -96,17 +92,17 @@ export class MetricsFiltersComponent implements OnInit{
   }
 
   private getLocations() {
-    this.deliveryService.getLocations().subscribe(
+    this.stockerService.getLocations().subscribe(
       (res) => {
         this.locations = res;
       }
     );
   }
 
-  private getGender(language: string, id?: number) {
-    this.authService.getGender(language, id).subscribe({
+  private getProviders() {
+    this.stockerService.getProviders().subscribe({
       next: (res) => {
-        this.genders = res;
+        this.providers = res;
       },
       error: (error) => {
         console.error(error);
@@ -114,10 +110,10 @@ export class MetricsFiltersComponent implements OnInit{
     });
   }
 
-  private getEthnicity(language: string, id?: number) {
-    this.authService.getEthnicity(language, id).subscribe({
+  private getProductTypes(language: string, id?: number) {
+    this.stockerService.getProductTypes(language, id).subscribe({
       next: (res) => {
-        this.ethnicities = res;
+        this.product_types = res;
       },
       error: (error) => {
         console.error(error);
@@ -126,3 +122,4 @@ export class MetricsFiltersComponent implements OnInit{
   }
 
 }
+
