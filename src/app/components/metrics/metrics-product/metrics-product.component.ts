@@ -18,9 +18,11 @@ import {
 } from "ng-apexcharts";
 import { KindOfProductMetrics } from 'src/app/models/metrics/kindOfProduct-metrics';
 import { PoundsPerLocationMetrics } from 'src/app/models/metrics/poundsPerLocation-metrics';
+import { PoundsPerProductMetrics } from 'src/app/models/metrics/poundsPerProduct-metrics';
 import { ReachMetrics } from 'src/app/models/metrics/reach-metrics';
 import { MetricsService } from 'src/app/services/metrics/metrics.service';
 import { MetricsFiltersProductComponent } from '../../dialog/metrics-filters-product/metrics-filters-product.component';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -42,6 +44,20 @@ export type ChartOptionsYESNO = {
   colors: string[];
 };
 
+const spanishRangeLabel = (page: number, pageSize: number, length: number) => {
+  const amountPages = Math.ceil(length / pageSize);
+  if (length == 0 || pageSize == 0) { return `Página 0 de ${amountPages}`; }
+  length = Math.max(length, 0);
+  return `Página ${page + 1} de ${amountPages}`;
+}
+
+const englishRangeLabel = (page: number, pageSize: number, length: number) => {
+  const amountPages = Math.ceil(length / pageSize);
+  if (length == 0 || pageSize == 0) { return `Page 0 of ${amountPages}`; }
+  length = Math.max(length, 0);
+  return `Page ${page + 1} of ${amountPages}`;
+}
+
 @Component({
   selector: 'app-metrics-product',
   templateUrl: './metrics-product.component.html',
@@ -51,20 +67,28 @@ export class MetricsProductComponent implements OnInit {
 
   @ViewChild("chart") chart: ChartComponent;
   @ViewChild("chartYESNO") chartYESNO: ChartComponent;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   public chartOptionsKindOfProduct: Partial<ChartOptionsYESNO>;
   public chartOptionsPoundsPerLocation: Partial<ChartOptions>;
+  public chartOptionsPoundsPerProduct: Partial<ChartOptions>;
 
   public loadingMetrics: boolean = false;
   public loadingReachMetrics: boolean = false;
   public loadingKindOfProductMetrics: boolean = false;
   public loadingPoundsPerLocationMetrics: boolean = false;
+  public loadingPoundsPerProductMetrics: boolean = false;
 
   public reachMetrics: ReachMetrics;
   public kindOfProductMetrics: KindOfProductMetrics[] = [];
   public poundsPerLocationMetrics: PoundsPerLocationMetrics;
   public poundsPerLocationAverage: number = 0;
   public poundsPerLocationMedian: number = 0;
+  public poundsPerProductMetrics: PoundsPerProductMetrics;
+  public poundsPerProductAverage: number = 0;
+  public poundsPerProductMedian: number = 0;
+  poundsPerProductPage: number = 0;
+  poundsPerProductTotalItems: number = 0;
 
   filterForm: FormGroup;
   loadingCSV: boolean = false;
@@ -94,6 +118,27 @@ export class MetricsProductComponent implements OnInit {
     this.getReachMetrics(this.translate.currentLang);
     this.getKindOfProductMetrics(this.translate.currentLang);
     this.getPoundsPerLocationMetrics(this.translate.currentLang);
+    this.getPoundsPerProductMetrics(this.translate.currentLang);
+
+    this.translate.onLangChange.subscribe(
+      (res) => {
+        if (res.lang == 'es') {
+          this.paginator._intl.itemsPerPageLabel = 'Items por página:';
+          this.paginator._intl.nextPageLabel = 'Siguiente';
+          this.paginator._intl.previousPageLabel = 'Anterior';
+          this.paginator._intl.firstPageLabel = 'Primera página';
+          this.paginator._intl.lastPageLabel = 'Última página';
+          this.paginator._intl.getRangeLabel = spanishRangeLabel;
+        } else {
+          this.paginator._intl.itemsPerPageLabel = 'Items per page:';
+          this.paginator._intl.nextPageLabel = 'Next';
+          this.paginator._intl.previousPageLabel = 'Previous';
+          this.paginator._intl.firstPageLabel = 'First page';
+          this.paginator._intl.lastPageLabel = 'Last page';
+          this.paginator._intl.getRangeLabel = englishRangeLabel;
+        }
+      }
+    )
   }
 
   private getReachMetrics(language: string, filters?: any) {
@@ -292,6 +337,79 @@ export class MetricsProductComponent implements OnInit {
     });
   }
 
+  private getPoundsPerProductMetrics(language: string, filters?: any) {
+    this.loadingPoundsPerProductMetrics = true;
+    this.metricsService.getPoundsPerProductMetrics(language, filters, this.poundsPerProductPage + 1).subscribe({
+      next: (res) => {
+        this.poundsPerProductMetrics = res;
+        this.poundsPerProductAverage = res.average;
+        this.poundsPerProductMedian = res.median;
+        this.poundsPerProductPage = res.page;
+        this.poundsPerProductTotalItems = res.totalItems;
+
+        const data = [];
+        const categories = [];
+        let total = 0;
+        for (let i = 0; i < this.poundsPerProductMetrics.data.length; i++) {
+          total += this.poundsPerProductMetrics.data[i].total;
+        }
+        for (let i = 0; i < this.poundsPerProductMetrics.data.length; i++) {
+          const percentage = Number(((this.poundsPerProductMetrics.data[i].total / total) * 100).toFixed(2));
+          data.push(this.poundsPerProductMetrics.data[i].total);
+          categories.push(this.poundsPerProductMetrics.data[i].name + ' (' + percentage + '%)');
+        }
+
+        this.chartOptionsPoundsPerProduct = {
+          series: [
+            {
+              name: "value",
+              data: data,
+              color: "#97c481"
+            }
+          ],
+          chart: {
+            type: "bar",
+            height: Math.max(350, 30 * categories.length), // Ajusta la altura en función del número de categorías (minimo 350px)
+          },
+          plotOptions: {
+            bar: {
+              horizontal: true
+            }
+          },
+          dataLabels: {
+            enabled: true,
+            formatter: function (val) {
+              return val.toString(); // Mostrar el valor absoluto
+            }
+          },
+          xaxis: {
+            categories: categories,
+            title: {
+              text: this.translate.instant('metrics_product_pounds_per_location_title_x_axis'),
+              style: {
+                fontSize: '12px',
+                fontWeight: 'bold',
+                color: '#5D5D5E',
+                fontFamily: 'Roboto, sans-serif',
+              }
+            },
+          }
+        };
+
+        this.loadingPoundsPerProductMetrics = false;
+        this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
+  updatePage(event: PageEvent): void {
+    this.poundsPerProductPage = event.pageIndex;
+    this.getPoundsPerProductMetrics(this.translate.currentLang, this.filterForm.value);
+  }
+
   dialogDownloadCsv(): void {
     const dialogRef = this.dialog.open(MetricsFiltersProductComponent, {
       width: '370px',
@@ -368,7 +486,7 @@ export class MetricsProductComponent implements OnInit {
         this.getReachMetrics(this.translate.currentLang, result.data);
         this.getKindOfProductMetrics(this.translate.currentLang, result.data);
         this.getPoundsPerLocationMetrics(this.translate.currentLang, result.data);
-
+        this.getPoundsPerProductMetrics(this.translate.currentLang, result.data);
       }
     });
   }

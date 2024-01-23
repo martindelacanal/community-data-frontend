@@ -50,5 +50,25 @@
         </div>
       </div>
     </div>
+    <div class="ui-tarjeta">
+      <div class="question">
+        <h2>{{'metrics_product_with_pounds_per_product_title' | translate }}</h2>
+      </div>
+      <br>
+      <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerProductAverage}}</p>
+      <br>
+      <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerProductMedian}}</p>
+      <br>
+      <div class="chart-container">
+        <div id="chart" *ngIf="chartOptionsPoundsPerProduct">
+          <apx-chart [series]="chartOptionsPoundsPerProduct.series" [chart]="chartOptionsPoundsPerProduct.chart"
+            [dataLabels]="chartOptionsPoundsPerProduct.dataLabels" [plotOptions]="chartOptionsPoundsPerProduct.plotOptions"
+            [xaxis]="chartOptionsPoundsPerProduct.xaxis"></apx-chart>
+        </div>
+      </div>
+      <mat-paginator class="paginador" #paginator [length]="poundsPerProductTotalItems" [pageIndex]="poundsPerProductPage" [pageSize]="10"
+      [pageSizeOptions]="[10]" (page)="updatePage($event)" aria-label="Seleccione una página">
+    </mat-paginator>
+    </div>
   </section>
 </div>

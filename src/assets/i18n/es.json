@@ -237,6 +237,7 @@
   "metrics_product_reachs_pounds_delivered": "Libras totales entregadas",
   "metrics_product_kind_of_product_title": "Tipo de comida",
   "metrics_product_with_pounds_per_location_title": "Libras por locación",
+  "metrics_product_with_pounds_per_product_title": "Libras por producto",
   "metrics_product_pounds_per_location_title_x_axis": "Libras",
 
   "metrics_filters_button": "Filtros",

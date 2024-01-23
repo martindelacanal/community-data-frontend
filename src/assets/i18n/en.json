@@ -237,6 +237,7 @@
   "metrics_product_reachs_pounds_delivered": "Total pounds delivered",
   "metrics_product_kind_of_product_title": "Food type",
   "metrics_product_with_pounds_per_location_title": "Pounds per location",
+  "metrics_product_with_pounds_per_product_title": "Pounds per product",
   "metrics_product_pounds_per_location_title_x_axis": "Pounds",
 
   "metrics_filters_button": "Filters",

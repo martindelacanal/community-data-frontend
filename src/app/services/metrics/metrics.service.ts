@@ -8,6 +8,7 @@ import { HouseholdMetrics } from 'src/app/models/metrics/household-metrics';
 import { KindOfProductMetrics } from 'src/app/models/metrics/kindOfProduct-metrics';
 import { PhoneMetrics } from 'src/app/models/metrics/phone-metrics';
 import { PoundsPerLocationMetrics } from 'src/app/models/metrics/poundsPerLocation-metrics';
+import { PoundsPerProductMetrics } from 'src/app/models/metrics/poundsPerProduct-metrics';
 import { QuestionMetrics } from 'src/app/models/metrics/question-metrics';
 import { ReachMetrics } from 'src/app/models/metrics/reach-metrics';
 import { RegisterMetrics } from 'src/app/models/metrics/register-metrics';
@@ -107,5 +108,12 @@ export class MetricsService {
       params: new HttpParams().set('language', language)
     };
     return this.http.post<PoundsPerLocationMetrics>(`${environment.url_api}/metrics/product/pounds_per_location`, filters, httpOptions);
+  }
+
+  getPoundsPerProductMetrics(language: string, filters: any, page: number) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<PoundsPerProductMetrics>(`${environment.url_api}/metrics/product/pounds_per_product?page=${page}`, filters, httpOptions);
   }
 }

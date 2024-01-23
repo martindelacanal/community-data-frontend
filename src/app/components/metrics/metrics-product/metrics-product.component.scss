@@ -70,6 +70,12 @@
   overflow-y: auto;
 }
 
+.paginador {
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
 @media only screen and (max-width: 355px) {
   // Agrega aquí tus estilos para dispositivos móviles pequeños
 
