@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable, debounceTime, map, of, startWith } from 'rxjs';
 import { Location } from 'src/app/models/map/location';
 import { Product } from 'src/app/models/stocker/product';
+import { ProductType } from 'src/app/models/stocker/product-type';
 import { Provider } from 'src/app/models/stocker/provider';
 import { StockerService } from 'src/app/services/stock/stocker.service';
 
@@ -34,6 +35,7 @@ export class StockerHomeComponent implements OnInit {
   private file_ticket: any;
   locations: Location[] = [];
   products: Product[] = [];
+  product_types: ProductType[] = [];
   providers: Provider[] = [];
   providerNames: string[] = [];
   productNames: string[] = [];
@@ -82,6 +84,7 @@ export class StockerHomeComponent implements OnInit {
     this.getLocations();
     this.getProviders();
     this.getProducts();
+    this.getProductTypes(this.translate.currentLang);
     this.filteredOptionsProvider = this.stockForm.get('provider').valueChanges.pipe(
       startWith(''),
       map(value => this.filterProviders(value))
@@ -109,7 +112,6 @@ export class StockerHomeComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     console.log("form: ", this.stockForm.value);
-    console.log("imageTicketUploaded: ", this.imageTicketUploaded);
     if (this.imageTicketUploaded === true) {
       this.isValidFiles = true;
     } else {
@@ -254,6 +256,25 @@ export class StockerHomeComponent implements OnInit {
       }
     }
   }
+  setProductTypeFromProduct(index: number): void {
+    setTimeout(() => {
+      const control = this.productsForm.controls[index];
+      // check product
+      const productName = control.get('product').value;
+      if (productName) {
+        const product = this.products.find(p => p.name && p.name.toLowerCase() === productName.toLowerCase());
+        if (product) {
+          // set product_type
+          control.get('product_type').setValue(product.product_type_id);
+          // disable product_type
+          control.get('product_type').disable();
+        } else {
+          // enable product_type if no match
+          control.get('product_type').enable();
+        }
+      }
+    });
+  }
 
   onNumberOfFieldsChange() {
     console.log('El nuevo número de campos es:', this.numberOfFields);
@@ -271,6 +292,7 @@ export class StockerHomeComponent implements OnInit {
   agregarCampo(createButton?: boolean) {
     this.productsForm.push(this.formBuilder.group({
       product: [null],
+      product_type: [null],
       quantity: [null]
     }));
     if (!createButton) {
@@ -287,6 +309,7 @@ export class StockerHomeComponent implements OnInit {
   }
   quitarCampoParticular(index: number): void {
     this.productsForm.removeAt(index);
+    this.numberOfFields--;
   }
   get productsForm() {
     return this.stockForm.get('products') as FormArray;
@@ -367,6 +390,17 @@ export class StockerHomeComponent implements OnInit {
         }
       }
     );
+  }
+
+  private getProductTypes(language: string, id?: number) {
+    this.stockerService.getProductTypes(language, id).subscribe({
+      next: (res) => {
+        this.product_types = res;
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
 
   private updateDonationIDExists(nombre: string) {

@@ -72,7 +72,8 @@
             <div class="card">
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>{{'stocker_input_date' | translate }}</mat-label>
-                <input matInput [matDatepicker]="miPicker1" formControlName="date" (input)="formatDate($event)" maxlength="10" placeholder="01/31/2023">
+                <input matInput [matDatepicker]="miPicker1" formControlName="date" (input)="formatDate($event)"
+                  maxlength="10" placeholder="01/31/2023">
                 <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
                 <mat-datepicker #miPicker1></mat-datepicker>
@@ -142,32 +143,54 @@
             <div class="card">
               <div formArrayName="products" *ngFor="let products of productsForm.controls; let i=index">
                 <div [formGroupName]="i">
-                  <div class="card__product-quantity">
+                  <div class="card__product-quantity--grid">
 
-                    <!-- COMIENZO PRODUCT-->
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>{{'stocker_input_product' | translate }}</mat-label>
-                      <input matInput formControlName="product" [matAutocomplete]="auto" (focus)="onInputFocus(i)">
-                      <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                          {{ option }}
-                        </mat-option>
-                      </mat-autocomplete>
-                    </mat-form-field>
-                    <!-- FIN PRODUCT -->
-
-                    <!-- COMIENZO QUANTITY -->
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>{{'stocker_input_quantity' | translate }}</mat-label>
-                      <input matInput type="number" formControlName="quantity" matNumberInput>
-                    </mat-form-field>
-                    <!-- FIN QUANTITY -->
-
-                    <button mat-icon-button class="more-button" aria-label="Toggle menu" type="button"
+                    <button mat-icon-button class="more-button first" aria-label="Toggle menu" type="button"
                       matTooltip="{{'stocker_tooltip_remove_product' | translate }}" matTooltipPosition="above"
                       (click)="quitarCampoParticular(i)">
                       <mat-icon>close</mat-icon>
                     </button>
+
+                    <!-- COMIENZO PRODUCT-->
+                    <div class="card__product">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>{{'stocker_input_product' | translate }}</mat-label>
+                        <input matInput formControlName="product" [matAutocomplete]="auto" (focus)="onInputFocus(i)" (blur)="setProductTypeFromProduct(i)" required>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setProductTypeFromProduct(i)">
+                          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            {{ option }}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>
+                    <!-- FIN PRODUCT -->
+
+                    <!-- COMIENZO PRODUCT-TYPE QUANTITY -->
+                    <div class="card__product-type-button">
+                      <div class="card__product-type-quantity">
+                        <!-- PRODUCT-TYPE -->
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>{{'stocker_input_product_type' | translate }}</mat-label>
+                          <mat-select formControlName="product_type" required>
+                            <mat-option *ngFor="let product_type of product_types" [value]="product_type.id">
+                              {{product_type.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <!-- QUANTITY -->
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>{{'stocker_input_quantity' | translate }}</mat-label>
+                          <input matInput type="number" formControlName="quantity" matNumberInput required>
+                        </mat-form-field>
+                      </div>
+                      <!-- FIN PRODUCT-TYPE QUANTITY -->
+
+                      <button mat-icon-button class="more-button second" aria-label="Toggle menu" type="button"
+                        matTooltip="{{'stocker_tooltip_remove_product' | translate }}" matTooltipPosition="above"
+                        (click)="quitarCampoParticular(i)">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
 
                   </div>
                 </div>

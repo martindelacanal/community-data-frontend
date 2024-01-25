@@ -118,22 +118,36 @@
   background: var(--ui-secundario);
 }
 
-.card__product-quantity {
-  display: flex;
+.card__product-quantity--grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(24px, 1fr));
+  grid-template-rows: repeat(2, auto);
+  row-gap: 16px;
+  column-gap: 48px;
   align-items: center;
 }
-
-.card__product-quantity > *:first-child {
-  flex-basis: 52%;
-  margin-right: 48px;
+.card__product-type-quantity{
+  display: flex;
+  justify-content: space-between;
+  gap: 48px;
 }
 
-.card__product-quantity > *:nth-child(2) {
-  flex-basis: 48%;
+.card__product-type-button {
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }
-
-.card__product-quantity > *:nth-child(3) {
+.card__product-type-button > *:first-child {
+  flex-basis: 95%;
+  margin-right: 16px;
+  min-width: inherit;
+}
+.card__product-type-button > *:nth-child(2) {
   margin-bottom: 16px;
+}
+
+.more-button.first {
+  display: none;
 }
 
 .main_formulario .main__footer {

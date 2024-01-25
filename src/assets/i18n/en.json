@@ -157,6 +157,7 @@
   "stocker_button_create": "Create",
   "stocker_text_format_product": "If you need to create a product, write it in the format 'Name - Class (x lbs)'",
   "stocker_input_product": "Product",
+  "stocker_input_product_type": "Product type",
   "stocker_input_quantity": "Quantity",
   "stocker_button_submit": "Submit",
   "stocker_button_submit_stock_form_error": "Please fill the form correctly.",
