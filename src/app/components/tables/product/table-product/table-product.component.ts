@@ -32,7 +32,7 @@ export class TableProductComponent implements OnInit, AfterViewInit {
 
   dataProductTable: productTable;
   dataSource: any;
-  columns = [' ', 'id', 'name', 'total_quantity', 'value_usd', 'creation_date'];
+  columns = [' ', 'id', 'name', 'product_type', 'total_quantity', 'value_usd', 'creation_date'];
 
   tabIndex = 0;
   totalItems: number = 0;
@@ -130,7 +130,7 @@ export class TableProductComponent implements OnInit, AfterViewInit {
 
   private getDataProductTable() {
     this.loading = true;
-    this.tablesService.getDataProductTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor).subscribe({
+    this.tablesService.getDataProductTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, this.translate.currentLang).subscribe({
       next: (res) => {
 
         this.pagina = res.page;

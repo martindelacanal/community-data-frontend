@@ -29,8 +29,8 @@ export class TablesService {
     return this.http.get<deliveredTable>(`${environment.url_api}/table/delivered?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`)
   }
 
-  getDataProductTable(page: number, columna: string, ordenarTipo: string, buscar: string){
-    return this.http.get<productTable>(`${environment.url_api}/table/product?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`)
+  getDataProductTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
+    return this.http.get<productTable>(`${environment.url_api}/table/product?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
   }
 
   getDataNotificationTable(page: number, columna: string, ordenarTipo: string, buscar: string){
