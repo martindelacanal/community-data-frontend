@@ -184,20 +184,11 @@
             <!-- <div class="graficos__tab-numero-chico" [ngClass]="clientesPositivo ? 'positivo' : 'negativo'">+1</div> -->
           </div>
         </a>
-        <a class="graficos__boton-header" (click)="selectTab('beneficiaries')">
-          <div class="ui-separator-horizontal"
-            [ngClass]="{'graficos__separator--activado': selectedTab === 'beneficiaries'}"></div>
-          <div class="graficos__boton-header__contenedor">
-            <div class="graficos__tab-nombre">{{'dashboard_admin_beneficiaries' | translate }}</div>
-            <!-- <div class="graficos__tab-numero">{{formattedChartDataComercios[0].series[0].value}}</div> -->
-            <!-- <div class="graficos__tab-numero-chico" [ngClass]="comerciosPositivo ? 'positivo' : 'negativo'">-8</div> -->
-          </div>
-        </a>
-        <a class="graficos__boton-header" (click)="selectTab('deliveryPeople') " >
-          <div class="ui-separator-horizontal" [ngClass]="{'graficos__separator--activado': selectedTab === 'deliveryPeople'}">
+        <a class="graficos__boton-header" (click)="selectTab('locationsWorking') " >
+          <div class="ui-separator-horizontal" [ngClass]="{'graficos__separator--activado': selectedTab === 'locationsWorking'}">
           </div>
           <div class="graficos__boton-header__contenedor">
-            <div class="graficos__tab-nombre">{{'dashboard_admin_delivery_people' | translate }}</div>
+            <div class="graficos__tab-nombre">{{'dashboard_admin_tab_title_locations_working' | translate }}</div>
             <!-- <div class="graficos__tab-numero">{{formattedChartDataDitors[0].series[0].value}}</div> -->
             <!-- <div class="graficos__tab-numero-chico" [ngClass]="ditorsPositivo ? 'positivo' : 'negativo'"></div> -->
           </div>
@@ -211,6 +202,15 @@
             <!-- <div class="graficos__tab-numero-chico" [ngClass]="misionesPositivo ? 'positivo' : 'negativo'">+1</div> -->
           </div>
         </a>
+        <a class="graficos__boton-header" (click)="selectTab('beneficiaries')">
+          <div class="ui-separator-horizontal"
+            [ngClass]="{'graficos__separator--activado': selectedTab === 'beneficiaries'}"></div>
+          <div class="graficos__boton-header__contenedor">
+            <div class="graficos__tab-nombre">{{'dashboard_admin_beneficiaries' | translate }}</div>
+            <!-- <div class="graficos__tab-numero">{{formattedChartDataComercios[0].series[0].value}}</div> -->
+            <!-- <div class="graficos__tab-numero-chico" [ngClass]="comerciosPositivo ? 'positivo' : 'negativo'">-8</div> -->
+          </div>
+        </a>
       </div>
       <div class="graficos__tabs-container">
         <div class="tab" *ngIf="selectedTab === 'pounds'" >
@@ -219,13 +219,7 @@
             <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
           </div>
         </div>
-        <div class="tab" *ngIf="selectedTab === 'beneficiaries'">
-          <div class="center-content">
-            <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataComercios"></app-grafico-linea-dashboard-home> -->
-            <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
-          </div>
-        </div>
-        <div class="tab" *ngIf="selectedTab === 'deliveryPeople'">
+        <div class="tab" *ngIf="selectedTab === 'locationsWorking'">
           <div class="center-content">
             <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataDitors"></app-grafico-linea-dashboard-home> -->
             <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
@@ -234,6 +228,12 @@
         <div class="tab" *ngIf="selectedTab === 'operations'">
           <div class="center-content">
             <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataMisiones"></app-grafico-linea-dashboard-home> -->
+            <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
+          </div>
+        </div>
+        <div class="tab" *ngIf="selectedTab === 'beneficiaries'">
+          <div class="center-content">
+            <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataComercios"></app-grafico-linea-dashboard-home> -->
             <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
           </div>
         </div>
