@@ -2,8 +2,10 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { delay, from, mergeMap, toArray } from 'rxjs';
 import { GraficoLinea } from 'src/app/models/grafico-linea/grafico-linea.model';
+import { Usuario } from 'src/app/models/login/usuario';
 import { dashboardClientesService } from 'src/app/services/dashboard-clientes/dashboard-clientes.service';
 import { DashboardGeneralService } from 'src/app/services/dashboard/dashboard-general.service';
+import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -13,6 +15,8 @@ import { DashboardGeneralService } from 'src/app/services/dashboard/dashboard-ge
 export class DashboardHomeComponent implements OnInit {
   isMobile: boolean;
   isTablet: boolean;
+
+  usuario: Usuario;
 
   // clientesPositivo = true;
   // comerciosPositivo = false;
@@ -30,6 +34,7 @@ export class DashboardHomeComponent implements OnInit {
   totalBeneficiariesRegisteredToday: number = 0;
   totalBeneficiariesRecurringToday: number = 0;
   totalBeneficiariesQualified: number = 0;
+  totalClients: number = 0;
   totalEnabledUsers: number = 0;
   totalTicketsUploaded: number = 0;
   totalLocationsEnabled: number = 0;
@@ -40,9 +45,11 @@ export class DashboardHomeComponent implements OnInit {
 
   constructor(
     private dashboardGeneralService: DashboardGeneralService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private decodificadorService: DecodificadorService
   ) {
     this.selectedTab = 'pounds';
+    this.usuario = this.decodificadorService.getUsuario();
   }
 
 
@@ -70,6 +77,7 @@ export class DashboardHomeComponent implements OnInit {
     this.getTotalBeneficiariesRegisteredToday();
     this.getTotalBeneficiariesRecurringToday();
     this.getTotalBeneficiariesQualified();
+    this.getTotalClients();
     this.getTotalEnabledUsers();
     this.getTotalTicketsUploaded();
     this.getTotalLocationsEnabled();
@@ -89,7 +97,7 @@ export class DashboardHomeComponent implements OnInit {
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
       }
-    }, 100);
+    }, 50);
   }
 
   private getPoundsDelivered() {
@@ -169,6 +177,14 @@ export class DashboardHomeComponent implements OnInit {
     this.dashboardGeneralService.getTotalBeneficiariesQualified().subscribe(
       (res) => {
         this.totalBeneficiariesQualified = res;
+      }
+    );
+  }
+
+  private getTotalClients() {
+    this.dashboardGeneralService.getTotalClients().subscribe(
+      (res) => {
+        this.totalClients = res;
       }
     );
   }

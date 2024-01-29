@@ -262,7 +262,16 @@
             </div>
           </div>
         </div>
-        <div class="misiones-activas__fila">
+        <div class="misiones-activas__fila"  *ngIf="usuario.role === 'admin'">
+          <div class="misiones-activas__fila__header">{{totalClients}}</div>
+          <div class="misiones-activas__fila__footer">
+            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_clients' | translate }}</div>
+            <div class="misiones-activas__derecha">
+              <a class="ui-link" [routerLink]="['/table/user', 'client']">{{'dashboard_admin_tables_clients_view' | translate }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="misiones-activas__fila" *ngIf="seeMore || usuario.role === 'client'">
           <div class="misiones-activas__fila__header">{{totalTicketsUploaded}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_tickets_uploaded' | translate }}</div>

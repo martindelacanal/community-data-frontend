@@ -1,7 +1,11 @@
 <div class="container">
   <section class="header">
     <div class="header__title">
-      <h1 class="title">{{'table_users_title' | translate }}</h1>
+      <h1 class="title" [ngSwitch]="tableRole">
+        <ng-container *ngSwitchCase="'all'">{{'table_users_title' | translate }}</ng-container>
+        <ng-container *ngSwitchCase="'beneficiary'">{{'table_users_beneficiaries_title' | translate }}</ng-container>
+        <ng-container *ngSwitchCase="'client'">{{'table_users_clients_title' | translate }}</ng-container>
+      </h1>
       <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
     </div>
   </section>

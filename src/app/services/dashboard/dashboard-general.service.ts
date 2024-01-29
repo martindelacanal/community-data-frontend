@@ -56,6 +56,10 @@ export class DashboardGeneralService {
     return this.http.get<number>(`${environment.url_api}/total-beneficiaries-qualified`);
   }
 
+  getTotalClients() {
+    return this.http.get<number>(`${environment.url_api}/total-clients`);
+  }
+
   getTotalEnabledUsers() {
     return this.http.get<number>(`${environment.url_api}/total-enabled-users`);
   }

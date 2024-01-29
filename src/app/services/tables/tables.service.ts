@@ -17,8 +17,8 @@ export class TablesService {
     private http: HttpClient
   ) { }
 
-  getDataUserTable(page: number, columna: string, ordenarTipo: string, buscar: string){
-    return this.http.get<userTable>(`${environment.url_api}/table/user?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`)
+  getDataUserTable(page: number, columna: string, ordenarTipo: string, buscar: string, tableRole: string){
+    return this.http.get<userTable>(`${environment.url_api}/table/user?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&tableRole=${tableRole}`)
   }
 
   getDataTicketTable(page: number, columna: string, ordenarTipo: string, buscar: string){

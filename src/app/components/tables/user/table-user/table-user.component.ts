@@ -47,6 +47,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
   columna: string = 'id';
   ordenarTipo: string = 'desc';
   ordenCambiado: { columna: string, direccion: string };
+  tableRole: string = 'all';
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -62,22 +63,15 @@ export class TableUserComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.getDataUserTable();
 
-    this.buscar.valueChanges
-      .pipe(debounceTime(300))
-      .subscribe(
-        (res) => {
-          this.buscarValor = res;
-          this.getDataUserTable();
-        }
-      );
 
     this.activatedRoute.params.subscribe((params: Params) => {
       const search = params['search'];
       if (search) {
-        this.buscar.setValue(search);
+        // this.buscar.setValue(search);
+        this.tableRole = search;
       }
+      this.getDataUserTable();
     });
 
     this.translate.onLangChange.subscribe(
@@ -99,6 +93,16 @@ export class TableUserComponent implements OnInit, AfterViewInit {
         }
       }
     )
+
+    this.buscar.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(
+        (res) => {
+          this.buscarValor = res;
+          this.getDataUserTable();
+        }
+      );
+
   }
 
 
@@ -160,7 +164,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
 
   private getDataUserTable() {
     this.loading = true;
-    this.tablesService.getDataUserTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor).subscribe({
+    this.tablesService.getDataUserTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, this.tableRole).subscribe({
       next: (res) => {
 
         this.pagina = res.page;
