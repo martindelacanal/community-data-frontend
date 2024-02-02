@@ -372,6 +372,10 @@
   "view_ticket_created_by_id": "Creado por el ID de usuario",
   "view_ticket_created_by_username": "Creado por el nombre de usuario",
 
+  "view_product_title": "Ver producto",
+  "view_product_error": "Error al obtener el producto",
+  "view_product_modification_date": "Fecha de modificación",
+
   "carousel_not_images": "No hay imágenes",
 
   "new_user_title": "Nuevo usuario",

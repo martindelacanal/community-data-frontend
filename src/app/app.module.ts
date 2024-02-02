@@ -61,7 +61,7 @@ import { TableProductComponent } from './components/tables/product/table-product
 import { TableNotificationComponent } from './components/tables/notification/table-notification/table-notification.component';
 import { DownloadTicketCsvComponent } from './components/dialog/download-ticket-csv/download-ticket-csv/download-ticket-csv.component';
 import { DisclaimerResetPasswordComponent } from './components/dialog/disclaimer-reset-password/disclaimer-reset-password/disclaimer-reset-password.component';
-import { ViewTicketComponent } from './components/view/ticket/view-ticket/view-ticket.component';
+import { ViewTicketComponent } from './components/view/view-ticket/view-ticket.component';
 import { NewUserComponent } from './components/new/user/new-user/new-user.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { DownloadMetricsCsvComponent } from './components/dialog/download-metrics-csv/download-metrics-csv/download-metrics-csv.component';
@@ -77,6 +77,11 @@ import { MetricsDemographicComponent } from './components/metrics/metrics-demogr
 import { MetricsParticipantComponent } from './components/metrics/metrics-participant/metrics-participant.component';
 import { MetricsProductComponent } from './components/metrics/metrics-product/metrics-product.component';
 import { MetricsFiltersProductComponent } from './components/dialog/metrics-filters-product/metrics-filters-product.component';
+import { ViewProductComponent } from './components/view/view-product/view-product.component';
+import { ViewNotificationComponent } from './components/view/view-notification/view-notification.component';
+import { ViewLocationComponent } from './components/view/view-location/view-location.component';
+import { ViewDeliveredComponent } from './components/view/view-delivered/view-delivered.component';
+import { ViewUserComponent } from './components/view/view-user/view-user.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +120,12 @@ import { MetricsFiltersProductComponent } from './components/dialog/metrics-filt
    MetricsDemographicComponent,
    MetricsParticipantComponent,
    MetricsProductComponent,
-   MetricsFiltersProductComponent
+   MetricsFiltersProductComponent,
+   ViewProductComponent,
+   ViewNotificationComponent,
+   ViewLocationComponent,
+   ViewDeliveredComponent,
+   ViewUserComponent
 
   ],
   imports: [

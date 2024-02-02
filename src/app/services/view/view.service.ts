@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ViewProduct } from 'src/app/models/view/view-product';
 import { ViewTicket } from 'src/app/models/view/view-ticket';
 import { ViewTicketImage } from 'src/app/models/view/view-ticket-image';
 import { environment } from 'src/environments/environment';
@@ -13,11 +14,15 @@ export class ViewService {
     private http: HttpClient
   ) { }
 
+  getViewProduct(idProduct: string){
+    return this.http.get<ViewProduct>(`${environment.url_api}/view/product/${idProduct}`)
+  }
+
   getViewTicket(idTicket: string){
     return this.http.get<ViewTicket>(`${environment.url_api}/view/ticket/${idTicket}`)
   }
 
-  getImages(idTicket: string){
+  getImagesTicket(idTicket: string){
     return this.http.get<ViewTicketImage[]>(`${environment.url_api}/view/ticket/images/${idTicket}`);
   }
 }

@@ -15,15 +15,25 @@ import { TableTicketComponent } from './components/tables/ticket/table-ticket/ta
 import { TableProductComponent } from './components/tables/product/table-product/table-product.component';
 import { TableNotificationComponent } from './components/tables/notification/table-notification/table-notification.component';
 import { TableLocationComponent } from './components/tables/location/table-location/table-location.component';
-import { ViewTicketComponent } from './components/view/ticket/view-ticket/view-ticket.component';
+import { ViewTicketComponent } from './components/view/view-ticket/view-ticket.component';
 import { NewUserComponent } from './components/new/user/new-user/new-user.component';
 import { TableDeliveredComponent } from './components/tables/delivered/table-delivered/table-delivered.component';
 import { MetricsDemographicComponent } from './components/metrics/metrics-demographic/metrics-demographic.component';
 import { MetricsParticipantComponent } from './components/metrics/metrics-participant/metrics-participant.component';
 import { MetricsProductComponent } from './components/metrics/metrics-product/metrics-product.component';
+import { ViewProductComponent } from './components/view/view-product/view-product.component';
+import { ViewDeliveredComponent } from './components/view/view-delivered/view-delivered.component';
+import { ViewLocationComponent } from './components/view/view-location/view-location.component';
+import { ViewNotificationComponent } from './components/view/view-notification/view-notification.component';
+import { ViewUserComponent } from './components/view/view-user/view-user.component';
 
 const routes: Routes = [
+  { path: 'view/delivered/:id', component: ViewDeliveredComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'view/location/:id', component: ViewLocationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'view/notification/:id', component: ViewNotificationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'view/product/:id', component: ViewProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/ticket/:id', component: ViewTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'view/user/:id', component: ViewUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'new/user', component: NewUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/delivered', component: TableDeliveredComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/notification', component: TableNotificationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },

@@ -54,7 +54,7 @@
           </button>
           <mat-menu #menu="matMenu" class="menu-tabla">
             <!-- [routerLink]="['/ver/usuario',element.id]" -->
-            <button mat-menu-item class="boton-usuario-desplegado">
+            <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/view/notification',element.id]">
               <mat-icon>visibility</mat-icon>
               <span>{{'table_notifications_row_button_view' | translate }}</span>
             </button>

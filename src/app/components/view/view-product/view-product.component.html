@@ -1,0 +1,81 @@
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div>
+        <h1 class="title">{{'view_product_title' | translate }} {{idProduct}}</h1>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <div class="main_formulario">
+          <!-- name -->
+          <div class="card">
+            <mat-label><strong>{{'table_products_header_name' | translate }}:</strong> {{viewProduct.name}}</mat-label>
+          </div>
+          <!-- product_type -->
+          <div class="card">
+            <mat-label><strong>{{'table_products_header_product_type' | translate }}:</strong>
+              {{viewProduct.product_type}}</mat-label>
+          </div>
+          <!-- quantity -->
+          <div class="card">
+            <mat-label><strong>{{'table_products_header_total_quantity' | translate }}:</strong>
+              {{viewProduct.total_quantity}}</mat-label>
+          </div>
+          <!-- value_usd -->
+          <div class="card">
+            <mat-label><strong>{{'table_products_header_value_usd' | translate }}:</strong>
+              {{viewProduct.value_usd}}</mat-label>
+          </div>
+          <!-- creation_date -->
+          <div class="card">
+            <mat-label><strong>{{'table_products_header_creation_date' | translate }}:</strong>
+              {{viewProduct.creation_date}}</mat-label>
+          </div>
+          <!-- modification_date -->
+          <div class="card">
+            <mat-label><strong>{{'view_product_modification_date' | translate }}:</strong>
+              {{viewProduct.modification_date}}</mat-label>
+          </div>
+          <!-- separator -->
+          <div class="card ">
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+
+          <div class="card">
+            <table>
+              <thead>
+                <tr>
+                  <th>{{'table_tickets_header_donation_id' | translate}}</th>
+                  <th>{{'table_products_header_total_quantity' | translate}}</th>
+                  <th>{{'table_tickets_header_creation_date' | translate}}</th>
+                  <th>{{'view_ticket_title' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ticket of viewProduct.tickets">
+                  <td>{{ticket.donation_id}}</td>
+                  <td>{{ticket.quantity}}</td>
+                  <td>{{ticket.creation_date}}</td>
+                  <td><a class="ui-link" [routerLink]="['/view/ticket', ticket.ticket_id]"><mat-icon>visibility</mat-icon></a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- separator -->
+          <div class="card ">
+            <!-- <div class="ui-separator-horizontal"></div> -->
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+          <!-- buttons -->
+          <div class="card">
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>

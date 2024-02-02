@@ -15,7 +15,6 @@ import { ViewService } from 'src/app/services/view/view.service';
 export class ViewTicketComponent implements OnInit {
   isMobile: boolean;
   isTablet: boolean;
-  products: any[] = [];
 
   idTicket: string;
 
@@ -47,20 +46,6 @@ export class ViewTicketComponent implements OnInit {
       products: [],
     };
 
-    this.products = [
-      {
-        product: 'Producto 1Producto 1Producto 1Producto 1Producto 1Producto 1Producto 1',
-        quantity: 2,
-      },
-      {
-        product: 'Producto 2',
-        quantity: 1,
-      },
-      {
-        product: 'Producto 3',
-        quantity: 5,
-      },
-    ];
   }
 
   ngOnInit() {
@@ -107,7 +92,7 @@ export class ViewTicketComponent implements OnInit {
   }
 
   private getImages(idTicket: string) {
-    this.viewService.getImages(idTicket).subscribe({
+    this.viewService.getImagesTicket(idTicket).subscribe({
       next: (res) => {
         console.log(res)
         this.viewTicketImages = res;

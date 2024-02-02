@@ -60,14 +60,16 @@
             <table>
               <thead>
                 <tr>
-                  <th>{{'Product' | translate}}</th>
-                  <th>{{'Quantity' | translate}}</th>
+                  <th>{{'stocker_input_product' | translate}}</th>
+                  <th>{{'stocker_input_quantity' | translate}}</th>
+                  <th>{{'view_product_title' | translate}}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let product of viewTicket.products">
                   <td>{{product.product}}</td>
                   <td>{{product.quantity}}</td>
+                  <td><a class="ui-link" [routerLink]="['/view/product', product.product_id]"><mat-icon>visibility</mat-icon></a></td>
                 </tr>
               </tbody>
             </table>
