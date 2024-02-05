@@ -19,6 +19,13 @@
   width: 100%;
 }
 
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .ui-tarjeta{
   margin: 0 auto;
   padding: 48px;

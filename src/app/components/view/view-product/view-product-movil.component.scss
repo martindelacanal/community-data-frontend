@@ -75,5 +75,14 @@
     grid-row: auto;
   }
 
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header .ui-button {
+    margin-bottom: 16px;
+  }
 
 }

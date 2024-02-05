@@ -85,24 +85,6 @@
     grid-row: auto;
   }
 
-  .card:nth-child(13) {
-    grid-column: 1 / -1;
-    grid-row: auto;
-  }
-
-  .subir-archivo {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 16px;
-    font-size: 1.4rem;
-    justify-content: left;
-    flex-direction: column;
-
-    & span {
-      margin-bottom: 14px;
-    }
-  }
-
   .header {
     display: flex;
     flex-direction: column;
@@ -112,4 +94,5 @@
   .header .ui-button {
     margin-bottom: 16px;
   }
+
 }

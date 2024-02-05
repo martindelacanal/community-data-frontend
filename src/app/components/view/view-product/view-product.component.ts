@@ -14,7 +14,6 @@ import { ViewService } from 'src/app/services/view/view.service';
 export class ViewProductComponent implements OnInit {
   isMobile: boolean;
   isTablet: boolean;
-  products: any[] = [];
 
   idProduct: string;
 

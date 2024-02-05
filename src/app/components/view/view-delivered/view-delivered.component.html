@@ -1,1 +1,100 @@
-<p>view-delivered works!</p>
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div>
+        <h1 class="title">{{'view_delivered_title' | translate }} {{idDelivered}}</h1>
+      </div>
+      <div>
+        <button type="button" class="ui-button" routerLink="/table/delivered">{{'view_delivered_button_delivered' |
+          translate }}</button>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <div class="main_formulario">
+          <!-- delivering_user_id -->
+          <div class="card">
+            <mat-label><strong>{{'table_delivered_header_delivering_user_id' | translate }}:</strong> {{viewDelivered.delivering_user_id}}</mat-label>
+          </div>
+          <!-- delivering_user_name -->
+          <div class="card">
+            <mat-label><strong>{{'table_delivered_header_delivery_username' | translate }}:</strong>
+              {{viewDelivered.delivery_username}}</mat-label>
+          </div>
+          <!-- receiving_user_id -->
+          <div class="card">
+            <mat-label><strong>{{'table_delivered_header_receiving_user_id' | translate }}:</strong>
+              {{viewDelivered.receiving_user_id}}</mat-label>
+          </div>
+          <!-- beneficiary_user_name -->
+          <div class="card">
+            <mat-label><strong>{{'table_delivered_header_beneficiary_username' | translate }}:</strong>
+              {{viewDelivered.beneficiary_username}}</mat-label>
+          </div>
+          <!-- location_id -->
+          <div class="card">
+            <mat-label><strong>{{'table_delivered_header_location_id' | translate }}:</strong>
+              {{viewDelivered.location_id}}</mat-label>
+          </div>
+          <!-- community_city -->
+          <div class="card">
+            <mat-label><strong>{{'table_delivered_header_community_city' | translate }}:</strong>
+              {{viewDelivered.community_city}}</mat-label>
+          </div>
+          <!-- approved -->
+          <div class="card">
+            <mat-label><strong>{{'table_delivered_header_approved' | translate }}:</strong>
+              {{viewDelivered.approved}}</mat-label>
+          </div>
+          <!-- creation_date -->
+          <div class="card">
+            <mat-label><strong>{{'table_delivered_header_creation_date' | translate }}:</strong>
+              {{viewDelivered.creation_date}}</mat-label>
+          </div>
+          <!-- separator -->
+          <div class="card ">
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+
+          <div class="card">
+            <table>
+              <thead>
+                <tr>
+                  <th>{{'table_delivered_header_delivery_username' | translate}}</th>
+                  <th>{{'table_delivered_header_receiving_user_id' | translate}}</th>
+                  <th>{{'table_delivered_header_community_city' | translate}}</th>
+                  <th>{{'table_delivered_header_approved' | translate}}</th>
+                  <th>{{'table_delivered_header_creation_date' | translate}}</th>
+                  <th>{{'view_delivered_title' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let delivered of viewDelivered.deliveries">
+                  <td>{{delivered.delivery_username}}</td>
+                  <td>{{delivered.receiving_user_id}}</td>
+                  <td>{{delivered.community_city}}</td>
+                  <td>{{delivered.approved}}</td>
+                  <td>{{delivered.creation_date}}</td>
+                  <td><a class="ui-link"
+                      [routerLink]="['/view/delivered', delivered.delivered_id]"><mat-icon>visibility</mat-icon></a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- separator -->
+          <div class="card ">
+            <!-- <div class="ui-separator-horizontal"></div> -->
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+          <!-- buttons -->
+          <div class="card">
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>

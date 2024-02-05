@@ -318,7 +318,7 @@
   "table_delivered_snack_error_get": "Error getting delivered",
   "table_delivered_header_delivering_user_id": "Delivering user ID",
   "table_delivered_header_delivery_username": "Delivery user name",
-  "table_delivered_header_receiving_user_id": "Receiving user ID",
+  "table_delivered_header_receiving_user_id": "Beneficiary user ID",
   "table_delivered_header_beneficiary_username": "Beneficiary user name",
   "table_delivered_header_location_id": "Location ID",
   "table_delivered_header_community_city": "Community / City",
@@ -371,10 +371,16 @@
   "view_ticket_images": "Images",
   "view_ticket_created_by_id": "Created by user ID",
   "view_ticket_created_by_username": "Created by username",
+  "view_ticket_button_tickets": "Tickets",
 
   "view_product_title": "View product",
   "view_product_error": "Error getting product",
   "view_product_modification_date": "Modification date",
+  "view_product_button_products": "Products",
+
+  "view_delivered_title": "View delivered",
+  "view_delivered_error": "Error getting delivered",
+  "view_delivered_button_delivered": "Deliveries",
 
   "carousel_not_images": "No images",
 

@@ -19,6 +19,13 @@
   width: 100%;
 }
 
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .ui-tarjeta{
   margin: 0 auto;
   padding: 48px;
@@ -97,12 +104,12 @@
 // separator
 .card:nth-child(9) {
   grid-column: 1 / -1;
-  grid-row: 7 / 8;
+  grid-row: 6 / 7;
 }
 // buttons
 .card:nth-child(10) {
   grid-column: 1 / -1;
-  grid-row: 9 / 10;
+  grid-row: 7 / 8;
 }
 
 .card mat-form-field{

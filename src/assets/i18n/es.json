@@ -318,8 +318,8 @@
   "table_delivered_snack_error_get": "Error al obtener las entregas",
   "table_delivered_header_delivering_user_id": "ID de usuario que entrega",
   "table_delivered_header_delivery_username": "Nombre de usuario que entrega",
-  "table_delivered_header_receiving_user_id": "ID de usuario que recibe",
-  "table_delivered_header_beneficiary_username": "Nombre de usuario que recibe",
+  "table_delivered_header_receiving_user_id": "ID de beneficiario",
+  "table_delivered_header_beneficiary_username": "Nombre de beneficiario",
   "table_delivered_header_location_id": "ID de locación",
   "table_delivered_header_community_city": "Comunidad / Ciudad",
   "table_delivered_header_approved": "Aprobado",
@@ -371,10 +371,16 @@
   "view_ticket_images": "Imágenes",
   "view_ticket_created_by_id": "Creado por el ID de usuario",
   "view_ticket_created_by_username": "Creado por el nombre de usuario",
+  "view_ticket_button_tickets": "Tickets",
 
   "view_product_title": "Ver producto",
   "view_product_error": "Error al obtener el producto",
   "view_product_modification_date": "Fecha de modificación",
+  "view_product_button_products": "Productos",
+
+  "view_delivered_title": "Ver entrega",
+  "view_delivered_error": "Error al obtener la entrega",
+  "view_delivered_button_delivered": "Entregas",
 
   "carousel_not_images": "No hay imágenes",
 
