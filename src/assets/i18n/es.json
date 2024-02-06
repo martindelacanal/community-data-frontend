@@ -382,6 +382,11 @@
   "view_delivered_error": "Error al obtener la entrega",
   "view_delivered_button_delivered": "Entregas",
 
+  "view_notification_title": "Ver notificación",
+  "view_notification_error": "Error al obtener la notificación",
+  "view_notification_user_email": "Correo electrónico del usuario",
+  "view_notification_button_notifications": "Notificaciones",
+
   "carousel_not_images": "No hay imágenes",
 
   "new_user_title": "Nuevo usuario",

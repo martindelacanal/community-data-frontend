@@ -1,1 +1,79 @@
-<p>view-notification works!</p>
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div>
+        <h1 class="title">{{'view_notification_title' | translate }} {{idNotification}}</h1>
+      </div>
+      <div>
+        <button type="button" class="ui-button" routerLink="/table/notification">{{'view_notification_button_notifications' | translate }}</button>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <div class="main_formulario">
+          <!-- user_id -->
+          <div class="card">
+            <mat-label><strong>{{'table_notifications_header_user_id' | translate }}:</strong> {{viewNotification.user_id}}</mat-label>
+          </div>
+          <!-- user_name -->
+          <div class="card">
+            <mat-label><strong>{{'table_notifications_header_user_name' | translate }}:</strong>
+              {{viewNotification.user_name}}</mat-label>
+          </div>
+          <!-- user_email -->
+          <div class="card">
+            <mat-label><strong>{{'view_notification_user_email' | translate }}:</strong>
+              {{viewNotification.user_email}}</mat-label>
+          </div>
+          <!-- message -->
+          <div class="card">
+            <mat-label><strong>{{'table_notifications_header_message' | translate }}:</strong>
+              {{viewNotification.message}}</mat-label>
+          </div>
+          <!-- creation_date -->
+          <div class="card">
+            <mat-label><strong>{{'table_notifications_header_creation_date' | translate }}:</strong>
+              {{viewNotification.creation_date}}</mat-label>
+          </div>
+          <!-- separator -->
+          <div class="card ">
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+
+          <div class="card">
+            <table>
+              <thead>
+                <tr>
+                  <th>{{'table_notifications_header_user_id' | translate}}</th>
+                  <th>{{'table_notifications_header_message' | translate}}</th>
+                  <th>{{'table_notifications_header_creation_date' | translate}}</th>
+                  <th>{{'view_notification_title' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let notification of viewNotification.notifications">
+                  <td>{{notification.user_id}}</td>
+                  <td>{{notification.message}}</td>
+                  <td>{{notification.creation_date}}</td>
+                  <td><a class="ui-link" [routerLink]="['/view/notification', notification.notification_id]"><mat-icon>visibility</mat-icon></a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- separator -->
+          <div class="card ">
+            <!-- <div class="ui-separator-horizontal"></div> -->
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+          <!-- buttons -->
+          <div class="card">
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>

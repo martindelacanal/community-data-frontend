@@ -382,6 +382,11 @@
   "view_delivered_error": "Error getting delivered",
   "view_delivered_button_delivered": "Deliveries",
 
+  "view_notification_title": "View notification",
+  "view_notification_error": "Error getting notification",
+  "view_notification_user_email": "User email",
+  "view_notification_button_notifications": "Notifications",
+
   "carousel_not_images": "No images",
 
   "new_user_title": "New user",
