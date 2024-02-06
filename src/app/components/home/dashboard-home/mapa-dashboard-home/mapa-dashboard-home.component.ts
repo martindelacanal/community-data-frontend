@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { mapStyle } from 'src/app/models/map/map-styles';
 import { GoogleMapService } from 'src/app/services/map/google-map.service';
@@ -15,9 +15,12 @@ export class MapaDashboardHomeComponent implements OnInit {
   @ViewChild('misionesActivasButton') misionesActivasButton: ElementRef;
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow | undefined;
 
+  @Input() selectedLocationsId: string[] = [];
+  @Input() locationsEnabled: boolean;
+
   mapStyle = mapStyle;
   mapOptions: google.maps.MapOptions = {
-    center: { lat: 34.84875916361835, lng: -117.36738960238455 },
+    center: {lat: 34.84875916361835, lng: -117.36738960238455},
     zoom: 6,
     mapTypeControl: false,
     streetViewControl: false,
@@ -64,18 +67,24 @@ export class MapaDashboardHomeComponent implements OnInit {
   }
 
   private getLocationsMap() {
-  this.googleMapService.getLocationsMap().subscribe({
-    next: (res) => {
-      this.markerPositions = res.locations;
-      this.mapOptions = {
-        ...this.mapOptions,
-        center: res.center
-      };
-    },
-    error: (error) => {
-      console.log(error);
-      this.markerPositions = [];
-    }
-  });
-}
+    this.googleMapService.getLocationsMap(this.selectedLocationsId, this.locationsEnabled).subscribe({
+      next: (res) => {
+        console.log("res", res)
+        if (res.center.lat === 0 && res.center.lng === 0) {
+          this.markerPositions = [];
+          return;
+        } else {
+          this.markerPositions = res.locations;
+          this.mapOptions = {
+            ...this.mapOptions,
+            center: res.center
+          };
+        }
+      },
+      error: (error) => {
+        console.log(error);
+        this.markerPositions = [];
+      }
+    });
+  }
 }

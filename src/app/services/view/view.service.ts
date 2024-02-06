@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ViewDelivered } from 'src/app/models/view/view-delivered';
+import { ViewLocation } from 'src/app/models/view/view-location';
 import { ViewNotification } from 'src/app/models/view/view-notification';
 import { ViewProduct } from 'src/app/models/view/view-product';
 import { ViewTicket } from 'src/app/models/view/view-ticket';
@@ -15,6 +16,10 @@ export class ViewService {
   constructor(
     private http: HttpClient
   ) { }
+
+  getViewLocation(idLocation: string){
+    return this.http.get<ViewLocation>(`${environment.url_api}/view/location/${idLocation}`)
+  }
 
   getViewNotification(idNotification: string){
     return this.http.get<ViewNotification>(`${environment.url_api}/view/notification/${idNotification}`)

@@ -387,6 +387,11 @@
   "view_notification_user_email": "User email",
   "view_notification_button_notifications": "Notifications",
 
+  "view_location_title": "View location",
+  "view_location_error": "Error getting location",
+  "view_location_coordinates": "Coordinates",
+  "view_location_button_locations": "Locations",
+
   "carousel_not_images": "No images",
 
   "new_user_title": "New user",

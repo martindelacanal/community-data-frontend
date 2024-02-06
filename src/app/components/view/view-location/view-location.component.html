@@ -1,1 +1,76 @@
-<p>view-location works!</p>
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div>
+        <h1 class="title">{{'view_location_title' | translate }} {{idLocation}}</h1>
+      </div>
+      <div>
+        <button type="button" class="ui-button" routerLink="/table/location">{{'view_location_button_locations' |
+          translate }}</button>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <div class="main_formulario">
+          <!-- organization -->
+          <div class="card">
+            <mat-label><strong>{{'table_locations_header_organization' | translate }}:</strong>
+              {{viewLocation.organization}}</mat-label>
+          </div>
+          <!-- community_city -->
+          <div class="card">
+            <mat-label><strong>{{'table_locations_header_community_city' | translate }}:</strong>
+              {{viewLocation.community_city}}</mat-label>
+          </div>
+          <!-- partner -->
+          <div class="card">
+            <mat-label><strong>{{'table_locations_header_partner' | translate }}:</strong>
+              {{viewLocation.partner}}</mat-label>
+          </div>
+          <!-- address -->
+          <div class="card">
+            <mat-label><strong>{{'table_locations_header_address' | translate }}:</strong>
+              {{viewLocation.address}}</mat-label>
+          </div>
+          <!-- coordinates -->
+          <div class="card">
+            <mat-label><strong>{{'view_location_coordinates' | translate }}:</strong>
+              {{viewLocation.coordinates}}</mat-label>
+          </div>
+          <!-- enabled -->
+          <div class="card">
+            <mat-label><strong>{{'table_locations_header_enabled' | translate }}:</strong>
+              {{viewLocation.enabled}}</mat-label>
+          </div>
+          <!-- creation_date -->
+          <div class="card">
+            <mat-label><strong>{{'table_locations_header_creation_date' | translate }}:</strong>
+              {{viewLocation.creation_date}}</mat-label>
+          </div>
+          <!-- separator -->
+          <div class="card ">
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+
+          <div class="card">
+            <div class="mapa">
+              <app-mapa-dashboard-home [selectedLocationsId]="locationMapArray"></app-mapa-dashboard-home>
+            </div>
+          </div>
+
+          <!-- separator -->
+          <div class="card ">
+            <!-- <div class="ui-separator-horizontal"></div> -->
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+          <!-- buttons -->
+          <div class="card">
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>

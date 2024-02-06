@@ -23,6 +23,7 @@ export class DashboardHomeComponent implements OnInit {
   // ditorsPositivo = true;
   // misionesPositivo = true;
   selectedTab = '';
+  locationsEnabled: boolean = true;
 
   poundsDelivered: number = 0;
   totalLocations: number = 0;
