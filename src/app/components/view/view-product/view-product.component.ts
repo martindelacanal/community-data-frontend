@@ -70,6 +70,7 @@ export class ViewProductComponent implements OnInit {
   }
 
   private getViewProduct(idProduct: string) {
+    this.loading = true;
     this.viewService.getViewProduct(idProduct).subscribe({
       next: (res) => {
         if (res) {

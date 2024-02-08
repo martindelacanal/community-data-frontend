@@ -1,1 +1,164 @@
-<p>view-user works!</p>
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div class="header__title">
+        <h1 class="title">{{'view_user_title' | translate }} {{idUser}}</h1>
+        <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+      </div>
+      <div>
+        <button *ngIf="viewUser.role_name !== 'client' && viewUser.role_name !== 'beneficiary'" type="button"
+          class="ui-button" routerLink="/table/user">{{'view_user_button_users' | translate }}</button>
+        <button *ngIf="viewUser.role_name === 'beneficiary'" type="button" class="ui-button"
+          [routerLink]="['/table/user', 'beneficiary']">{{'view_user_button_beneficiaries' | translate }}</button>
+        <button *ngIf="viewUser.role_name === 'client'" type="button" class="ui-button"
+          [routerLink]="['/table/user', 'client']">{{'view_user_button_clients' | translate }}</button>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <div class="main_formulario">
+          <!-- username -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_username' | translate }}:</strong> {{viewUser.username}}</mat-label>
+          </div>
+          <!-- email -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_email' | translate }}:</strong>
+              {{viewUser.email}}</mat-label>
+          </div>
+          <!-- firstname -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_firstname' | translate }}:</strong>
+              {{viewUser.firstname}}</mat-label>
+          </div>
+          <!-- lastname -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_lastname' | translate }}:</strong>
+              {{viewUser.lastname}}</mat-label>
+          </div>
+          <!-- client_name -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_client_name' | translate }}:</strong>
+              {{viewUser.client_name}}</mat-label>
+          </div>
+          <!-- date_of_birth -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_date_of_birth' | translate }}:</strong>
+              {{viewUser.date_of_birth}}</mat-label>
+          </div>
+          <!-- last_location_community_city -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_last_location_community_city' | translate }}:</strong>
+              {{viewUser.last_location_community_city}}</mat-label>
+          </div>
+          <!-- role_name -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_role_name' | translate }}:</strong>
+              {{viewUser.role_name}}</mat-label>
+          </div>
+          <!-- reset_password -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_reset_password' | translate }}:</strong>
+              {{viewUser.reset_password}}</mat-label>
+          </div>
+          <!-- enabled -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_enabled' | translate }}:</strong>
+              {{viewUser.enabled}}</mat-label>
+          </div>
+          <!-- modification_date -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_modification_date' | translate }}:</strong>
+              {{viewUser.modification_date}}</mat-label>
+          </div>
+          <!-- creation_date -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_creation_date' | translate }}:</strong>
+              {{viewUser.creation_date}}</mat-label>
+          </div>
+          <!-- ethnicity_name -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_ethnicity_name' | translate }}:</strong>
+              {{viewUser.ethnicity_name}}</mat-label>
+          </div>
+          <!-- other_ethnicity -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_other_ethnicity' | translate }}:</strong>
+              {{viewUser.other_ethnicity}}</mat-label>
+          </div>
+          <!-- gender_name -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_gender_name' | translate }}:</strong>
+              {{viewUser.gender_name}}</mat-label>
+          </div>
+          <!-- phone -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_phone' | translate }}:</strong>
+              {{viewUser.phone}}</mat-label>
+          </div>
+          <!-- zipcode -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_zipcode' | translate }}:</strong>
+              {{viewUser.zipcode}}</mat-label>
+          </div>
+          <!-- household_size -->
+          <div class="card">
+            <mat-label><strong>{{'view_user_household_size' | translate }}:</strong>
+              {{viewUser.household_size}}</mat-label>
+          </div>
+          <!-- separator -->
+          <div class="card ">
+            <div *ngIf="viewUser.table_header.length > 0" class="ui-separator-horizontal ui-separator-horizontal--gris">
+            </div>
+          </div>
+
+          <div class="card">
+            <div *ngIf="viewUser.role_name === 'stocker'">
+              <h2>{{'view_user_table_title_stocker' | translate}}</h2>
+              <br>
+            </div>
+            <div *ngIf="viewUser.role_name === 'delivery'">
+              <h2>{{'view_user_table_title_delivery' | translate}}</h2>
+              <br>
+            </div>
+            <table *ngIf="viewUser.table_header.length > 0">
+              <thead>
+                <tr>
+                  <th *ngFor="let headerName of viewUser.table_header">
+                    {{headerName}}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of viewUser.table_rows">
+                  <td *ngFor="let cell of row">
+                    {{cell}}
+                  </td>
+                  <td *ngIf="viewUser.role_name === 'delivery'">
+                    <a class="ui-link" [routerLink]="['/view/delivered', row[0]]"><mat-icon>visibility</mat-icon></a>
+                  </td>
+                  <td *ngIf="viewUser.role_name === 'stocker'">
+                    <a class="ui-link" [routerLink]="['/view/ticket', row[0]]"><mat-icon>visibility</mat-icon></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- separator -->
+          <div class="card ">
+            <!-- <div class="ui-separator-horizontal"></div> -->
+            <div *ngIf="viewUser.table_header.length > 0" class="ui-separator-horizontal ui-separator-horizontal--gris">
+            </div>
+          </div>
+          <!-- buttons -->
+          <div class="card">
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>

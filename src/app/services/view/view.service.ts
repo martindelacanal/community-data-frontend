@@ -6,6 +6,7 @@ import { ViewNotification } from 'src/app/models/view/view-notification';
 import { ViewProduct } from 'src/app/models/view/view-product';
 import { ViewTicket } from 'src/app/models/view/view-ticket';
 import { ViewTicketImage } from 'src/app/models/view/view-ticket-image';
+import { ViewUser } from 'src/app/models/view/view-user';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -16,6 +17,10 @@ export class ViewService {
   constructor(
     private http: HttpClient
   ) { }
+
+  getViewUser(idUser: string, language: string){
+    return this.http.get<ViewUser>(`${environment.url_api}/view/user/${idUser}?language=${language}`)
+  }
 
   getViewLocation(idLocation: string){
     return this.http.get<ViewLocation>(`${environment.url_api}/view/location/${idLocation}`)

@@ -1,8 +1,9 @@
 <div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
   <div class="container">
     <section class="header">
-      <div>
+      <div class="header__title">
         <h1 class="title">{{'view_notification_title' | translate }} {{idNotification}}</h1>
+        <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
       </div>
       <div>
         <button type="button" class="ui-button" routerLink="/table/notification">{{'view_notification_button_notifications' | translate }}</button>

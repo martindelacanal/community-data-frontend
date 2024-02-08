@@ -1,8 +1,9 @@
 <div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
   <div class="container">
     <section class="header">
-      <div>
+      <div class="header__title">
         <h1 class="title">{{'view_ticket_title' | translate }} {{idTicket}}</h1>
+        <mat-spinner *ngIf="loading || loadingImages" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
       </div>
       <div>
         <button type="button" class="ui-button" routerLink="/table/ticket">{{'view_ticket_button_tickets' | translate }}</button>

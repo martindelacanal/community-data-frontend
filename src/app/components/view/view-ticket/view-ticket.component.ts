@@ -19,6 +19,7 @@ export class ViewTicketComponent implements OnInit {
   idTicket: string;
 
   loading: boolean = false;
+  loadingImages: boolean = false;
   viewTicket: ViewTicket;
   viewTicketImages: ViewTicketImage[] = [];
 
@@ -76,6 +77,7 @@ export class ViewTicketComponent implements OnInit {
   }
 
   private getViewTicket(idTicket: string) {
+    this.loading = true;
     this.viewService.getViewTicket(idTicket).subscribe({
       next: (res) => {
         if (res) {
@@ -92,16 +94,17 @@ export class ViewTicketComponent implements OnInit {
   }
 
   private getImages(idTicket: string) {
+    this.loadingImages = true;
     this.viewService.getImagesTicket(idTicket).subscribe({
       next: (res) => {
         console.log(res)
         this.viewTicketImages = res;
-        this.loading = false;
+        this.loadingImages = false;
       },
       error: (error) => {
         console.log(error);
         this.openSnackBar(this.translate.instant('view_ticket_error'));
-        this.loading = false;
+        this.loadingImages = false;
       }
     });
   }

@@ -1,8 +1,9 @@
 <div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
   <div class="container">
     <section class="header">
-      <div>
+      <div class="header__title">
         <h1 class="title">{{'view_product_title' | translate }} {{idProduct}}</h1>
+        <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
       </div>
       <div>
         <button type="button" class="ui-button" routerLink="/table/product">{{'view_product_button_products' | translate }}</button>
@@ -47,6 +48,8 @@
           </div>
 
           <div class="card">
+            <h2>{{'view_product_table_title' | translate}}</h2>
+            <br>
             <table>
               <thead>
                 <tr>

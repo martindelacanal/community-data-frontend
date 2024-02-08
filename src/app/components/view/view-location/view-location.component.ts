@@ -73,6 +73,7 @@ export class ViewLocationComponent implements OnInit {
   }
 
   private getViewLocation(idLocation: string) {
+    this.loading = true;
     this.viewService.getViewLocation(idLocation).subscribe({
       next: (res) => {
         if (res) {

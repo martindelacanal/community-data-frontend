@@ -69,7 +69,6 @@ export class MapaDashboardHomeComponent implements OnInit {
   private getLocationsMap() {
     this.googleMapService.getLocationsMap(this.selectedLocationsId, this.locationsEnabled).subscribe({
       next: (res) => {
-        console.log("res", res)
         if (res.center.lat === 0 && res.center.lng === 0) {
           this.markerPositions = [];
           return;

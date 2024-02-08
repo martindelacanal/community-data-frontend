@@ -26,6 +26,15 @@
   align-items: center;
 }
 
+.header__title{
+  display: flex;
+  align-items: baseline;
+}
+
+.header__title .loading-tables {
+  margin-left: 16px;
+}
+
 .ui-tarjeta{
   margin: 0 auto;
   padding: 48px;

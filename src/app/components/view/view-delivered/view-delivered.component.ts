@@ -72,6 +72,7 @@ export class ViewDeliveredComponent implements OnInit {
   }
 
   private getViewDelivered(idDelivered: string) {
+    this.loading = true;
     this.viewService.getViewDelivered(idDelivered).subscribe({
       next: (res) => {
         if (res) {

@@ -69,6 +69,7 @@ export class ViewNotificationComponent implements OnInit {
   }
 
   private getViewNotification(idNotification: string) {
+    this.loading = true;
     this.viewService.getViewNotification(idNotification).subscribe({
       next: (res) => {
         if (res) {
