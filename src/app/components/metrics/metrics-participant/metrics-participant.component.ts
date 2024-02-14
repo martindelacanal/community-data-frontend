@@ -33,7 +33,7 @@ export class MetricsParticipantComponent implements OnInit{
   public chartOptionsEmail: Partial<ChartOptionsYESNO>;
   public chartOptionsPhone: Partial<ChartOptionsYESNO>;
 
-  public loadingMetrics: boolean = false;
+  public loadingMetrics: boolean = true;
   public loadingRegisterMetrics: boolean = false;
   public loadingEmailMetrics: boolean = false;
   public loadingPhoneMetrics: boolean = false;

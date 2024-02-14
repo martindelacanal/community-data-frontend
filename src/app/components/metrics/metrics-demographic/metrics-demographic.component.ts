@@ -57,7 +57,7 @@ export class MetricsDemographicComponent implements OnInit{
   public chartOptionsEthnicity: Partial<ChartOptionsYESNO>;
   public chartOptionsHousehold: Partial<ChartOptions>;
   public chartOptionsAge: Partial<ChartOptions>;
-  public loadingMetrics: boolean = false;
+  public loadingMetrics: boolean = true;
   public loadingGenderMetrics: boolean = false;
   public loadingEthnicityMetrics: boolean = false;
   public loadingHouseholdMetrics: boolean = false;

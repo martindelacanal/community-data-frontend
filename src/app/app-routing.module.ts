@@ -34,6 +34,7 @@ const routes: Routes = [
   { path: 'view/product/:id', component: ViewProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/ticket/:id', component: ViewTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/user/:id', component: ViewUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'edit/user/:id', component: NewUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'new/user', component: NewUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/delivered', component: TableDeliveredComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/notification', component: TableNotificationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },

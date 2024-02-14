@@ -4,7 +4,9 @@ export interface NewUser {
   email: string;
   firstname: string;
   lastname: string;
-  date_of_birth: string;
+  date_of_birth: Date;
   gender_id: string;
-  role_id: string;
+  role_id: number;
+  phone: string;
+  client_id: string;
 }

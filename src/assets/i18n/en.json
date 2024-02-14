@@ -429,10 +429,16 @@
   "new_user_input_role_error_please": "Please select a role",
   "new_user_input_gender": "Gender",
   "new_user_input_gender_error_please": "Please select a gender",
+  "new_user_input_client": "Client",
+  "new_user_input_client_error_please": "Please select a client",
   "new_user_button_create": "Create",
   "new_user_snack_password_message": "If you do not enter a password, the system generates it automatically",
   "new_user_snack_your_new_password": "User created successfully. The password is: ",
 
+  "edit_user_title": "Edit user",
+  "edit_user_button_create": "Save",
+  "edit_user_snack_user_updated": "User updated successfully",
+  "edit_user_snack_error_update": "Error updating user",
 
   "ultimo": "ultimo"
 }

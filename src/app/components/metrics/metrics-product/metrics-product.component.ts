@@ -73,7 +73,7 @@ export class MetricsProductComponent implements OnInit {
   public chartOptionsPoundsPerLocation: Partial<ChartOptions>;
   public chartOptionsPoundsPerProduct: Partial<ChartOptions>;
 
-  public loadingMetrics: boolean = false;
+  public loadingMetrics: boolean = true;
   public loadingReachMetrics: boolean = false;
   public loadingKindOfProductMetrics: boolean = false;
   public loadingPoundsPerLocationMetrics: boolean = false;
