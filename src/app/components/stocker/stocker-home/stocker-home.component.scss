@@ -21,6 +21,26 @@
   width: 100%;
 }
 
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__title{
+  display: flex;
+  align-items: baseline;
+}
+
+.header__title .loading-inputs {
+  margin-left: 16px;
+}
+
+.header .ui-button {
+  margin-bottom: 16px;
+}
+
 .ui-tarjeta{
   margin: 0 auto;
   padding: 48px;

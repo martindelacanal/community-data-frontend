@@ -14,7 +14,7 @@
         <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
         <button *ngIf="!loadingCSV"  class="ui-button" type="button"
           (click)="dialogDownloadCsv()">{{'table_tickets_button_download_csv' | translate }}</button>
-        <button id="addButton" class="ui-button">{{'table_tickets_button_add_ticket' | translate }}</button>
+        <button id="addButton" [routerLink]="['/stocker/home']" class="ui-button">{{'table_tickets_button_add_ticket' | translate }}</button>
       </div>
     </div>
     <br>

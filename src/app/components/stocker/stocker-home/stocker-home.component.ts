@@ -9,6 +9,7 @@ import { Location } from 'src/app/models/map/location';
 import { Product } from 'src/app/models/stocker/product';
 import { ProductType } from 'src/app/models/stocker/product-type';
 import { Provider } from 'src/app/models/stocker/provider';
+import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { StockerService } from 'src/app/services/stock/stocker.service';
 
 @Component({
@@ -20,7 +21,11 @@ export class StockerHomeComponent implements OnInit {
   isMobile: boolean;
   isTablet: boolean;
 
-  public loading: boolean = false;
+  public loading: boolean = true;
+  private loadingLocations: boolean = false;
+  private loadingProviders: boolean = false;
+  private loadingProducts: boolean = false;
+  private loadingProductTypes: boolean = false;
   public stockForm: FormGroup;
   public isValidFiles: boolean = true;
   public isQuantityValid: boolean = true;
@@ -51,7 +56,9 @@ export class StockerHomeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private stockerService: StockerService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public decodificadorService: DecodificadorService
+
   ) {
     this.numberOfFields = 0;
     this.file_ticket = [];
@@ -361,44 +368,77 @@ export class StockerHomeComponent implements OnInit {
   }
 
   private getLocations() {
-    this.stockerService.getLocations().subscribe(
-      (res) => {
+    this.loadingLocations = true;
+    this.stockerService.getLocations().subscribe({
+      next: (res) => {
         this.locations = res;
+      },
+      error: (error) => {
+        console.log(error);
+        this.openSnackBar(this.translate.instant('table_locations_snack_error_get'));
+      },
+      complete: () => {
+        this.loadingLocations = false;
+        this.checkLoading();
       }
-    );
+    });
   }
 
   private getProviders() {
-    this.stockerService.getProviders().subscribe(
-      (res) => {
+    this.loadingProviders = true;
+    this.stockerService.getProviders().subscribe({
+      next: (res) => {
         this.providers = res;
         // iterate providers and push name into providerNames
         for (let i = 0; i < this.providers.length; i++) {
           this.providerNames.push(this.providers[i].name);
         }
+      },
+      error: (error) => {
+        console.error(error);
+        this.openSnackBar(this.translate.instant('table_providers_snack_error_get'));
+      },
+      complete: () => {
+        this.loadingProviders = false;
+        this.checkLoading();
       }
-    );
+    });
   }
 
   private getProducts() {
-    this.stockerService.getProducts().subscribe(
-      (res) => {
+    this.loadingProducts = true;
+    this.stockerService.getProducts().subscribe({
+      next: (res) => {
         this.products = res;
         // iterate products and push name into productNames
         for (let i = 0; i < this.products.length; i++) {
           this.productNames.push(this.products[i].name);
         }
+      },
+      error: (error) => {
+        console.error(error);
+        this.openSnackBar(this.translate.instant('table_products_snack_error_get'));
+      },
+      complete: () => {
+        this.loadingProducts = false;
+        this.checkLoading();
       }
-    );
+    });
   }
 
   private getProductTypes(language: string, id?: number) {
+    this.loadingProductTypes = true;
     this.stockerService.getProductTypes(language, id).subscribe({
       next: (res) => {
         this.product_types = res;
       },
       error: (error) => {
         console.error(error);
+        this.openSnackBar(this.translate.instant('table_product_types_snack_error_get'));
+      },
+      complete: () => {
+        this.loadingProductTypes = false;
+        this.checkLoading();
       }
     });
   }
@@ -421,6 +461,12 @@ export class StockerHomeComponent implements OnInit {
       return { 'invalidDonationID': true };
     }
     return null;
+  }
+
+  private checkLoading() {
+    if (!this.loadingLocations && !this.loadingProviders && !this.loadingProducts && !this.loadingProductTypes) {
+      this.loading = false;
+    }
   }
 
   private buildStockForm(): void {

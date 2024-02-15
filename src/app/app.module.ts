@@ -82,6 +82,10 @@ import { ViewNotificationComponent } from './components/view/view-notification/v
 import { ViewLocationComponent } from './components/view/view-location/view-location.component';
 import { ViewDeliveredComponent } from './components/view/view-delivered/view-delivered.component';
 import { ViewUserComponent } from './components/view/view-user/view-user.component';
+import { NewProductComponent } from './components/new/product/new-product/new-product.component';
+import { NewProviderComponent } from './components/new/provider/new-provider/new-provider.component';
+import { NewClientComponent } from './components/new/client/new-client/new-client.component';
+import { NewLocationComponent } from './components/new/location/new-location/new-location.component';
 
 @NgModule({
   declarations: [
@@ -125,7 +129,11 @@ import { ViewUserComponent } from './components/view/view-user/view-user.compone
    ViewNotificationComponent,
    ViewLocationComponent,
    ViewDeliveredComponent,
-   ViewUserComponent
+   ViewUserComponent,
+   NewProductComponent,
+   NewProviderComponent,
+   NewClientComponent,
+   NewLocationComponent
 
   ],
   imports: [

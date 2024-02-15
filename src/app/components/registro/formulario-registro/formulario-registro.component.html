@@ -114,7 +114,7 @@
                   </mat-form-field>
                   <mat-form-field appearance="outline">
                     <mat-label>{{'register_first_tab_input_household_size' | translate }}</mat-label>
-                    <input matInput type="number" formControlName="householdSize" required matNumberInput
+                    <input matInput type="number" formControlName="householdSize" required matNumberInput onlyNumber
                            (input)="limitInputHouseholdSizeLength($event)">
                     <mat-error *ngIf="firstFormGroup.controls['householdSize'].hasError('required')">
                       {{'register_first_tab_input_household_size_error_please' | translate }}

@@ -1,8 +1,12 @@
 <div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
   <div class="container">
     <section class="header">
-      <div>
+      <div class="header__title">
         <h1 class="title">{{'stocker_title' | translate }}</h1>
+        <mat-spinner *ngIf="loading" class="loading-inputs" mode="indeterminate" [diameter]="30"></mat-spinner>
+      </div>
+      <div>
+        <button *ngIf="this.decodificadorService.getRol() == 'admin'" type="button" class="ui-button" routerLink="/table/ticket">{{'view_ticket_button_tickets' | translate }}</button>
       </div>
     </section>
     <section class="main">
