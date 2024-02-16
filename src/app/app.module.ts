@@ -86,6 +86,7 @@ import { NewProductComponent } from './components/new/product/new-product/new-pr
 import { NewProviderComponent } from './components/new/provider/new-provider/new-provider.component';
 import { NewClientComponent } from './components/new/client/new-client/new-client.component';
 import { NewLocationComponent } from './components/new/location/new-location/new-location.component';
+import { NewProductTypeComponent } from './components/new/product-type/new-product-type/new-product-type.component';
 
 @NgModule({
   declarations: [
@@ -133,7 +134,8 @@ import { NewLocationComponent } from './components/new/location/new-location/new
    NewProductComponent,
    NewProviderComponent,
    NewClientComponent,
-   NewLocationComponent
+   NewLocationComponent,
+   NewProductTypeComponent
 
   ],
   imports: [

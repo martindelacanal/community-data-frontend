@@ -11,7 +11,7 @@
       <input matInput type="search" class="ui-input" [formControl]="buscar"
         placeholder="{{'table_input_search' | translate }}">
       <div>
-        <button class="ui-button">{{'table_products_button_add_product' | translate }}</button>
+        <button [routerLink]="['/new/product']" class="ui-button">{{'table_products_button_add_product' | translate }}</button>
       </div>
     </div>
     <br>
@@ -74,7 +74,7 @@
               <span>{{'table_products_row_button_view' | translate }}</span>
             </button>
             <!-- [routerLink]="['/usuario/editar',element.id]" -->
-            <button mat-menu-item class="boton-usuario-desplegado">
+            <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/product',element.id]">
               <mat-icon>edit</mat-icon>
               <span>{{'table_products_row_button_edit' | translate }}</span>
             </button>

@@ -423,7 +423,6 @@
   "carousel_not_images": "No hay imágenes",
 
   "new_user_title": "Nuevo usuario",
-  "new_user_snack_error": "Error al crear el usuario",
   "new_user_invalid_form": "Por favor llene el formulario correctamente",
   "new_user_input_role": "Rol",
   "new_user_input_role_error_please": "Por favor seleccione un rol",
@@ -434,11 +433,31 @@
   "new_user_button_create": "Crear",
   "new_user_snack_password_message": "Si no ingresas una contraseña, el sistema la genera automáticamente",
   "new_user_snack_your_new_password": "Usuario creado con éxito, su contraseña es: ",
+  "new_user_snack_error": "Error al crear el usuario",
 
   "edit_user_title": "Editar usuario",
   "edit_user_button_create": "Guardar",
+  "edit_user_snack_get_error": "Error al obtener el usuario",
   "edit_user_snack_user_updated": "Usuario actualizado con éxito",
   "edit_user_snack_error_update": "Error al actualizar el usuario",
+
+  "new_product_title": "Nuevo producto",
+  "new_product_invalid_form": "Por favor llene el formulario correctamente",
+  "new_product_input_name": "Nombre",
+  "new_product_input_name_error_exists": "El nombre ya existe, elige otro",
+  "new_product_input_name_error_please": "Por favor ingrese un nombre",
+  "new_product_input_product_type": "Tipo de producto",
+  "new_product_input_product_type_error_please": "Por favor seleccione un tipo de producto",
+  "new_product_input_value_usd": "Valor en USD",
+  "new_product_button_create": "Crear",
+  "new_product_snack_created": "Producto creado con éxito",
+  "new_product_snack_error": "Error al crear el producto",
+
+  "edit_product_title": "Editar producto",
+  "edit_product_button_create": "Guardar",
+  "edit_product_snack_get_error": "Error al obtener el producto",
+  "edit_product_snack_product_updated": "Producto actualizado con éxito",
+  "edit_product_snack_error_update": "Error al actualizar el producto",
 
   "ultimo": "ultimo"
 }

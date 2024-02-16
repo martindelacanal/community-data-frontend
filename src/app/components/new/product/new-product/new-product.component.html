@@ -1,1 +1,72 @@
-<p>new-product works!</p>
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div class="header__title">
+        <h1 class="title" *ngIf="!this.idProduct" >{{'new_product_title' | translate }}</h1>
+        <h1 class="title" *ngIf="this.idProduct" >{{'edit_product_title' | translate }} {{this.idProduct}}</h1>
+        <mat-spinner *ngIf="loadingGet" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+      </div>
+      <div>
+        <button type="button" class="ui-button" routerLink="/table/product">{{'view_product_button_products' | translate }}</button>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <form [formGroup]="productForm" novalidate (ngSubmit)="onSubmit()">
+          <div class="main_formulario">
+            <!-- name -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_product_input_name' | translate }}</mat-label>
+                <input matInput formControlName="name" required>
+                <mat-error *ngIf="productForm.controls['name'].hasError('invalidName')">
+                  {{'new_product_input_name_error_exists' | translate }}
+                </mat-error>
+                <mat-error *ngIf="productForm.controls['name'].hasError('required')">
+                  {{'new_product_input_name_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- product_type -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_product_input_product_type' | translate }}</mat-label>
+                <mat-select formControlName="product_type_id">
+                  <mat-option *ngFor="let product_type of product_types" [value]="product_type.id">
+                    {{product_type.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="productForm.controls['product_type_id'].hasError('required')">
+                  {{'new_product_input_product_type_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- value_usd -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_product_input_value_usd' | translate }}</mat-label>
+                <input matInput formControlName="value_usd">
+              </mat-form-field>
+            </div>
+
+            <!-- separator -->
+            <div class="card ">
+              <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+            </div>
+            <!-- buttons -->
+            <div class="card">
+              <div class="main__footer">
+                <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
+                <button *ngIf="!loading" class="ui-button" type="submit"
+                  [disabled]="!productForm.valid">{{ idProduct == '' ? ('new_product_button_create' | translate) : ('edit_product_button_create' | translate) }}</button>
+                <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </section>
+  </div>
+</div>

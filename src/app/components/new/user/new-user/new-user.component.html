@@ -2,9 +2,17 @@
   <div class="container">
     <section class="header">
       <div class="header__title">
-        <h1 class="title" *ngIf="!this.idUser" >{{'new_user_title' | translate }}</h1>
-        <h1 class="title" *ngIf="this.idUser" >{{'edit_user_title' | translate }} {{this.idUser}}</h1>
+        <h1 class="title" *ngIf="!this.idUser">{{'new_user_title' | translate }}</h1>
+        <h1 class="title" *ngIf="this.idUser">{{'edit_user_title' | translate }} {{this.idUser}}</h1>
         <mat-spinner *ngIf="loadingGet" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+      </div>
+      <div>
+        <button *ngIf="(role_id_button_table !== 2 && role_id_button_table !== 5) || !role_id_button_table"
+          type="button" class="ui-button" routerLink="/table/user">{{'view_user_button_users' | translate }}</button>
+        <button *ngIf="role_id_button_table === 5" type="button" class="ui-button"
+          [routerLink]="['/table/user', 'beneficiary']">{{'view_user_button_beneficiaries' | translate }}</button>
+        <button *ngIf="role_id_button_table === 2" type="button" class="ui-button"
+          [routerLink]="['/table/user', 'client']">{{'view_user_button_clients' | translate }}</button>
       </div>
     </section>
     <section class="main">
@@ -147,8 +155,8 @@
             <div class="card">
               <div class="main__footer">
                 <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
-                <button *ngIf="!loading" class="ui-button" type="submit"
-                  [disabled]="!userForm.valid">{{ idUser == '' ? ('new_user_button_create' | translate) : ('edit_user_button_create' | translate) }}</button>
+                <button *ngIf="!loading" class="ui-button" type="submit" [disabled]="!userForm.valid">{{ idUser == '' ?
+                  ('new_user_button_create' | translate) : ('edit_user_button_create' | translate) }}</button>
                 <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
               </div>
             </div>

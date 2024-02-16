@@ -97,7 +97,7 @@
               <span>{{'table_tickets_row_button_view' | translate }}</span>
             </button>
             <!-- [routerLink]="['/usuario/editar',element.id]" -->
-            <button mat-menu-item class="boton-usuario-desplegado">
+            <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/ticket',element.id]">
               <mat-icon>edit</mat-icon>
               <span>{{'table_tickets_row_button_edit' | translate }}</span>
             </button>

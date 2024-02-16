@@ -1,5 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -17,7 +17,7 @@ import { NewService } from 'src/app/services/new/new.service';
   templateUrl: './new-user.component.html',
   styleUrls: ['./new-user.component.scss']
 })
-export class NewUserComponent {
+export class NewUserComponent implements OnInit {
   isMobile: boolean;
   isTablet: boolean;
 
@@ -36,6 +36,7 @@ export class NewUserComponent {
   public genders: Gender[] = [];
   public idUser: string = '';
   private userGetted: NewUser;
+  public role_id_button_table: number;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -106,6 +107,12 @@ export class NewUserComponent {
       .subscribe(
         (res) => {
           this.updatePhoneExists(res);
+        }
+      );
+    this.userForm.get('role_id').valueChanges.pipe(debounceTime(300))
+      .subscribe(
+        (res) => {
+          this.updateRoleIdButtonTable(res);
         }
       );
 
@@ -189,6 +196,8 @@ export class NewUserComponent {
     this.loadingGetForm = true;
     this.newService.getUser(this.idUser).subscribe({
       next: (res) => {
+        this.role_id_button_table = res.role_id;
+
         this.userGetted = {
           username: res.username,
           firstname: res.firstname,
@@ -214,8 +223,9 @@ export class NewUserComponent {
           client_id: res.client_id
         });
 
-        // Si se obtiene un usuario, desactivar el validador required para role_id
+        // Si se obtiene un usuario, desactivar el validador required para role_id y password
         this.userForm.get('role_id').setValidators([]);
+        this.userForm.get('password').setValidators([]);
 
         // Si role_id es 2, entonces client_id debe tener validators.required
         if (res.role_id === 2 && res.client_id === null) {
@@ -240,11 +250,12 @@ export class NewUserComponent {
 
         console.log("!userForm.valid", !this.userForm.valid);
 
-        this.loadingGetForm = false;
-        this.checkLoadingGet();
       },
       error: (error) => {
         console.error(error);
+        this.openSnackBar(this.translate.instant('edit_user_snack_get_error'));
+      },
+      complete: () => {
         this.loadingGetForm = false;
         this.checkLoadingGet();
       }
@@ -351,6 +362,11 @@ export class NewUserComponent {
         }
       );
     }
+  }
+
+  // Actualizar el valor para cambiar boton para ver tabla correspondiente
+  private updateRoleIdButtonTable(id: number) {
+    this.role_id_button_table = id;
   }
 
   private validateUserName(): ValidationErrors | null {

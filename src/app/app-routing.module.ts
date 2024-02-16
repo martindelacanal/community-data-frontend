@@ -26,6 +26,11 @@ import { ViewDeliveredComponent } from './components/view/view-delivered/view-de
 import { ViewLocationComponent } from './components/view/view-location/view-location.component';
 import { ViewNotificationComponent } from './components/view/view-notification/view-notification.component';
 import { ViewUserComponent } from './components/view/view-user/view-user.component';
+import { NewProviderComponent } from './components/new/provider/new-provider/new-provider.component';
+import { NewProductComponent } from './components/new/product/new-product/new-product.component';
+import { NewLocationComponent } from './components/new/location/new-location/new-location.component';
+import { NewClientComponent } from './components/new/client/new-client/new-client.component';
+import { NewProductTypeComponent } from './components/new/product-type/new-product-type/new-product-type.component';
 
 const routes: Routes = [
   { path: 'view/delivered/:id', component: ViewDeliveredComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
@@ -34,7 +39,18 @@ const routes: Routes = [
   { path: 'view/product/:id', component: ViewProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/ticket/:id', component: ViewTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/user/:id', component: ViewUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'edit/ticket/:id', component: StockerHomeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'edit/product/:id', component: NewProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'edit/product-type/:id', component: NewProductTypeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'edit/provider/:id', component: NewProviderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'edit/location/:id', component: NewLocationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'edit/client/:id', component: NewClientComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'edit/user/:id', component: NewUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'new/product', component: NewProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'new/product-type', component: NewProductTypeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'new/provider', component: NewProviderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'new/location', component: NewLocationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'new/client', component: NewClientComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'new/user', component: NewUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/delivered', component: TableDeliveredComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/notification', component: TableNotificationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
