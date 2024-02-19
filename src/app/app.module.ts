@@ -87,6 +87,9 @@ import { NewProviderComponent } from './components/new/provider/new-provider/new
 import { NewClientComponent } from './components/new/client/new-client/new-client.component';
 import { NewLocationComponent } from './components/new/location/new-location/new-location.component';
 import { NewProductTypeComponent } from './components/new/product-type/new-product-type/new-product-type.component';
+import { TableClientComponent } from './components/tables/client/table-client/table-client.component';
+import { TableProductTypeComponent } from './components/tables/product-type/table-product-type/table-product-type.component';
+import { TableProviderComponent } from './components/tables/provider/table-provider/table-provider.component';
 
 @NgModule({
   declarations: [
@@ -135,7 +138,10 @@ import { NewProductTypeComponent } from './components/new/product-type/new-produ
    NewProviderComponent,
    NewClientComponent,
    NewLocationComponent,
-   NewProductTypeComponent
+   NewProductTypeComponent,
+   TableClientComponent,
+   TableProductTypeComponent,
+   TableProviderComponent
 
   ],
   imports: [

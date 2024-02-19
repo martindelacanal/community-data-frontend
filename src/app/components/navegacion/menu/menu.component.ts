@@ -37,7 +37,9 @@ export class MenuComponent implements OnInit {
   @ViewChild('card') card: ElementRef;
   @ViewChild('profile') profile: ElementRef;
   @ViewChild('cardMetrics') cardMetrics: ElementRef;
+  @ViewChild('cardTables') cardTables: ElementRef;
   @ViewChild('metricsButton') metricsButton: ElementRef;
+  @ViewChild('tablesButton') tablesButton: ElementRef;
   @ViewChild('menuIcon') menuIcon: ElementRef;
   @ViewChild('menu') menu: ElementRef;
 
@@ -45,6 +47,7 @@ export class MenuComponent implements OnInit {
   menuExpanded = false;
   showCard = false;
   showCardMetrics = false;
+  showCardTables = false;
   currentRoute = '';
   route_role = '';
   animationState = 'menu';
@@ -121,6 +124,13 @@ export class MenuComponent implements OnInit {
         this.toggleCardMetrics();
       }
       if (
+        this.showCardTables &&
+        !this.cardTables.nativeElement.contains(event.target) &&
+        !this.tablesButton.nativeElement.contains(event.target)
+      ) {
+        this.toggleCardTables();
+      }
+      if (
         this.menuExpanded &&
         !this.menuIcon.nativeElement.contains(event.target) &&
         !this.menu.nativeElement.contains(event.target)
@@ -158,6 +168,10 @@ export class MenuComponent implements OnInit {
 
   toggleCardMetrics() {
     this.showCardMetrics = !this.showCardMetrics;
+  }
+
+  toggleCardTables() {
+    this.showCardTables = !this.showCardTables;
   }
 
   logOut() {

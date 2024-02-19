@@ -31,6 +31,9 @@ import { NewProductComponent } from './components/new/product/new-product/new-pr
 import { NewLocationComponent } from './components/new/location/new-location/new-location.component';
 import { NewClientComponent } from './components/new/client/new-client/new-client.component';
 import { NewProductTypeComponent } from './components/new/product-type/new-product-type/new-product-type.component';
+import { TableProviderComponent } from './components/tables/provider/table-provider/table-provider.component';
+import { TableProductTypeComponent } from './components/tables/product-type/table-product-type/table-product-type.component';
+import { TableClientComponent } from './components/tables/client/table-client/table-client.component';
 
 const routes: Routes = [
   { path: 'view/delivered/:id', component: ViewDeliveredComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
@@ -52,10 +55,13 @@ const routes: Routes = [
   { path: 'new/location', component: NewLocationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'new/client', component: NewClientComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'new/user', component: NewUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'table/client', component: TableClientComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/delivered', component: TableDeliveredComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
-  { path: 'table/notification', component: TableNotificationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/location', component: TableLocationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'table/notification', component: TableNotificationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/product', component: TableProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'table/product-type', component: TableProductTypeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'table/provider', component: TableProviderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/ticket', component: TableTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/user', component: TableUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/user/:search', component: TableUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },

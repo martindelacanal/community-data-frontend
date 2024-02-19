@@ -241,6 +241,38 @@ li:hover {
   border-bottom: none;
 }
 
+.opciones-tables .ui-tarjeta {
+  position: fixed;
+  top: 192px;
+  left: 16px;
+  width: 184px;
+  padding: 8px;
+  font-size: 1.2rem;
+  z-index: 9;
+}
+
+.opciones-tables .ui-tarjeta ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.opciones-tables .ui-tarjeta li {
+  padding: 16px;
+  border-radius: 8px;
+  border-bottom: 1px solid #ccc;
+  font-weight: 500;
+  & a {
+    text-decoration: none;
+    color: var(--texto-secundario);
+    font-size: 1.2rem;
+  }
+}
+
+.opciones-tables .ui-tarjeta li:last-child {
+  border-bottom: none;
+}
+
 .container__overlay {
   position: fixed;
   top: 0;

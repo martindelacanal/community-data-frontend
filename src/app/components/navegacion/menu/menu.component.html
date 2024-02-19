@@ -61,6 +61,62 @@
       </ul>
     </div>
   </section>
+  <section class="opciones-tables">
+    <div class="ui-tarjeta" *ngIf="showCardTables" #cardTables>
+      <ul>
+        <li routerLink="/table/user/">
+          <a>
+            {{'menu_button_system_user_table' | translate }}
+          </a>
+        </li>
+        <li [routerLink]="['/table/user', 'beneficiary']">
+          <a>
+            {{'menu_button_beneficiary_table' | translate }}
+          </a>
+        </li>
+        <li [routerLink]="['/table/user', 'client']">
+          <a>
+            {{'menu_button_client_user_table' | translate }}
+          </a>
+        </li>
+        <li routerLink="/table/client">
+          <a>
+            {{'menu_button_client_table' | translate }}
+          </a>
+        </li>
+        <li routerLink="/table/delivered">
+          <a>
+            {{'menu_button_delivered_table' | translate }}
+          </a>
+        </li>
+        <li routerLink="/table/location">
+          <a>
+            {{'menu_button_location_table' | translate }}
+          </a>
+        </li>
+        <li routerLink="/table/product">
+          <a>
+            {{'menu_button_product_table' | translate }}
+          </a>
+        </li>
+        <li routerLink="/table/product-type">
+          <a>
+            {{'menu_button_product_type_table' | translate }}
+          </a>
+        </li>
+        <li routerLink="/table/provider">
+          <a>
+            {{'menu_button_provider_table' | translate }}
+          </a>
+        </li>
+        <li routerLink="/table/ticket">
+          <a>
+            {{'menu_button_ticket_table' | translate }}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
   <section class="container">
     <nav>
       <div class="ui-tarjeta" [class.collapsed]="!menuExpanded" #menu>
@@ -77,6 +133,13 @@
               <a (click)="toggleCardMetrics()" #metricsButton>
                 <img class="ui-tarjeta__icono" src="../../../../assets/icons/metricas.svg" alt="Metrics icon">
                 <span [class.hidden]="!menuExpanded">{{'menu_button_metrics' | translate }}</span>
+              </a>
+            </li>
+            <li *ngIf="usuario.role === 'admin'"
+              [class.active-link]="currentRoute.includes('/table')" [class.li-collapsed]="!menuExpanded">
+              <a (click)="toggleCardTables()" #tablesButton>
+                <img class="ui-tarjeta__icono" src="../../../../assets/icons/tablas.svg" alt="Tables icon">
+                <span [class.hidden]="!menuExpanded">{{'menu_button_tables' | translate }}</span>
               </a>
             </li>
             <li [class.active-link]="currentRoute.includes('/help')" [class.li-collapsed]="!menuExpanded">
