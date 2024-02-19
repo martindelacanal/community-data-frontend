@@ -182,7 +182,7 @@ export class NewProductComponent implements OnInit {
   private updateNameExists(nombre: string) {
     if (this.idProduct && this.productGetted.name === nombre) {
       this.nameExists = false;
-      this.productForm.get('name').updateValueAndValidity();
+      this.productForm.get('name').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.newService.getProductExists(nombre).subscribe(
         (res) => {
@@ -191,7 +191,7 @@ export class NewProductComponent implements OnInit {
           } else {
             this.nameExists = false;
           }
-          this.productForm.get('name').updateValueAndValidity();
+          this.productForm.get('name').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
         }
       );
     }

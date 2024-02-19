@@ -308,7 +308,7 @@ export class FormularioRegistroComponent implements OnInit {
         } else {
           this.userNameExists = false;
         }
-        this.firstFormGroup.get('username').updateValueAndValidity();
+        this.firstFormGroup.get('username').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
       }
     );
   }
@@ -321,7 +321,7 @@ export class FormularioRegistroComponent implements OnInit {
         } else {
           this.phoneExists = false;
         }
-        this.firstFormGroup.get('phone').updateValueAndValidity();
+        this.firstFormGroup.get('phone').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
       }
     );
   }
@@ -334,7 +334,7 @@ export class FormularioRegistroComponent implements OnInit {
         } else {
           this.emailExists = false;
         }
-        this.firstFormGroup.get('email').updateValueAndValidity();
+        this.firstFormGroup.get('email').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
       }
     );
   }
@@ -378,7 +378,7 @@ export class FormularioRegistroComponent implements OnInit {
         this.firstFormGroup.get('otherEthnicity').clearValidators();
       }
       // Actualizar el estado del campo 'otherEthnicity'
-      this.firstFormGroup.get('otherEthnicity').updateValueAndValidity();
+      this.firstFormGroup.get('otherEthnicity').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     });
   }
 
@@ -459,95 +459,6 @@ export class FormularioRegistroComponent implements OnInit {
     }
 
     this.loadingRegisterQuestions = false;
-
-    // this.secondFormGroup = this.formBuilder.group({
-    //   input1: [null, Validators.required],
-    //   input2: [null, Validators.required],
-    //   input3: [null, Validators.required],
-    //   input4: [null, Validators.required],
-    //   input5: this.formBuilder.array([], [Validators.required]),
-    //   input6: [null, Validators.required],
-    //   input7: [null, Validators.required],
-    //   input8: this.formBuilder.array([], [Validators.required]),
-    //   input9: [null, Validators.required],
-    // });
-
-    // this.secondFormGroup.get('input1').valueChanges.subscribe(value => {
-    //   if (value === 'Yes') {
-    //     // Si el valor es 'Yes', agregar el validador 'Validators.required' al campo 'input2' y 'input3'
-    //     this.secondFormGroup.get('input2').setValidators(Validators.required);
-    //     this.secondFormGroup.get('input3').setValidators(Validators.required);
-    //   } else {
-    //     // De lo contrario, eliminar el validador
-    //     this.secondFormGroup.get('input2').reset(); // si input2 es un opcion simple
-    //     this.secondFormGroup.get('input3').reset(); // si input3 es un opcion simple
-    //     this.secondFormGroup.get('input2').clearValidators();
-    //     this.secondFormGroup.get('input3').clearValidators();
-    //   }
-    //   // Actualizar el estado del campo 'input2' y 'input3'
-    //   this.secondFormGroup.get('input2').updateValueAndValidity();
-    //   this.secondFormGroup.get('input3').updateValueAndValidity();
-    // });
-
-
-    // this.secondFormGroup.get('input4').valueChanges.subscribe(value => {
-    //   if (value === 'Yes') {
-    //     // Si el valor es 'Yes', agregar el validador 'Validators.required' al campo 'input5' y 'input6'
-    //     this.secondFormGroup.get('input5').setValidators(Validators.required);
-    //   } else {
-    //     // De lo contrario, eliminar el validador y limpiar los valores del campo 'input5' y 'input6'
-    //     (this.secondFormGroup.get('input5') as FormArray).clear(); // si input5 es un opcion multiple
-    //     this.secondFormGroup.get('input6').reset(); // si input6 es campo de texto
-    //     this.secondFormGroup.get('input5').clearValidators();
-    //     this.secondFormGroup.get('input6').clearValidators();
-    //   }
-    //   // Actualizar el estado del campo 'input5' y 'input6'
-    //   this.secondFormGroup.get('input5').updateValueAndValidity();
-    //   this.secondFormGroup.get('input6').updateValueAndValidity();
-    // });
-    // this.secondFormGroup.get('input5').valueChanges.subscribe(value => {
-    //   if (value.includes('Others')) {
-    //     // Si el valor es 'Others', agregar el validador 'Validators.required' al campo 'input6'
-    //     this.secondFormGroup.get('input6').setValidators(Validators.required);
-    //   } else {
-    //     // De lo contrario, eliminar el validador
-    //     this.secondFormGroup.get('input6').reset(); // si input6 es campo de texto
-    //     this.secondFormGroup.get('input6').clearValidators();
-    //   }
-    //   // Actualizar el estado del campo 'input6'
-    //   this.secondFormGroup.get('input6').updateValueAndValidity();
-    // }
-    // );
-
-
-    // this.secondFormGroup.get('input7').valueChanges.subscribe(value => {
-    //   if (value === 'Yes') {
-    //     // Si el valor es 'Yes', agregar el validador 'Validators.required' al campo 'input8' y 'input9'
-    //     this.secondFormGroup.get('input8').setValidators(Validators.required);
-    //   } else {
-    //     // De lo contrario, eliminar el validador
-    //     (this.secondFormGroup.get('input8') as FormArray).clear(); // si input8 es un opcion multiple
-    //     this.secondFormGroup.get('input9').reset(); // si input9 es campo de texto
-    //     this.secondFormGroup.get('input8').clearValidators();
-    //     this.secondFormGroup.get('input9').clearValidators();
-    //   }
-    //   // Actualizar el estado del campo 'input8' y 'input9'
-    //   this.secondFormGroup.get('input8').updateValueAndValidity();
-    //   this.secondFormGroup.get('input9').updateValueAndValidity();
-    // });
-    // this.secondFormGroup.get('input8').valueChanges.subscribe(value => {
-    //   if (value.includes('Others')) {
-    //     // Si el valor es 'Others', agregar el validador 'Validators.required' al campo 'input9'
-    //     this.secondFormGroup.get('input9').setValidators(Validators.required);
-    //   } else {
-    //     // De lo contrario, eliminar el validador
-    //     this.secondFormGroup.get('input9').reset(); // si input9 es campo de texto
-    //     this.secondFormGroup.get('input9').clearValidators();
-    //   }
-    //   // Actualizar el estado del campo 'input9'
-    //   this.secondFormGroup.get('input9').updateValueAndValidity();
-    // }
-    // );
   }
 
   private buildCombinedFormGroup(): void {

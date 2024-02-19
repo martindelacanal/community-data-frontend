@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { NewLocation } from 'src/app/models/new/new-location';
 import { NewProduct } from 'src/app/models/new/new-product';
 import { NewUser } from 'src/app/models/new/new-user';
 import { Client } from 'src/app/models/user/client';
@@ -14,6 +15,22 @@ export class NewService {
   constructor(
     private http: HttpClient
   ) { }
+
+  newLocation(usuario: NewLocation) {
+    return this.http.post<any>(`${environment.url_api}/new/location`, usuario)
+  }
+
+  updateLocation(id: string, usuario: NewLocation) {
+    return this.http.put<any>(`${environment.url_api}/new/location/${id}`, usuario)
+  }
+
+  getLocation(id: string) {
+    return this.http.get<NewLocation>(`${environment.url_api}/new/location/${id}`)
+  }
+
+  getLocationExists(community_city: string) {
+    return this.http.get<any>(`${environment.url_api}/location/exists/search?community_city=${community_city}`);
+  }
 
   newProduct(usuario: NewProduct) {
     return this.http.post<any>(`${environment.url_api}/new/product`, usuario)

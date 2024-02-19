@@ -1,1 +1,115 @@
-<p>new-location works!</p>
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div class="header__title">
+        <h1 class="title" *ngIf="!this.idLocation">{{'new_location_title' | translate }}</h1>
+        <h1 class="title" *ngIf="this.idLocation">{{'edit_location_title' | translate }} {{this.idLocation}}</h1>
+        <mat-spinner *ngIf="loadingGet" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+      </div>
+      <div>
+        <button type="button" class="ui-button" routerLink="/table/location">{{'view_location_button_locations' |
+          translate }}</button>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <form [formGroup]="locationForm" novalidate (ngSubmit)="onSubmit()">
+          <div class="main_formulario">
+            <!-- organization -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_location_input_organization' | translate }}</mat-label>
+                <input matInput formControlName="organization" required>
+                <mat-error *ngIf="locationForm.controls['organization'].hasError('required')">
+                  {{'new_location_input_organization_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- community_city -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_location_input_community_city' | translate }}</mat-label>
+                <input matInput formControlName="community_city" required>
+                <mat-error *ngIf="locationForm.controls['community_city'].hasError('invalidCommunityCity')">
+                  {{'new_location_input_community_city_error_exists' | translate }}
+                </mat-error>
+                <mat-error *ngIf="locationForm.controls['community_city'].hasError('required')">
+                  {{'new_location_input_community_city_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- client_ids -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_location_input_client_ids' | translate }}</mat-label>
+                <mat-select formControlName="client_ids" multiple>
+                  <mat-option *ngFor="let client of clients" [value]="client.id">
+                    {{client.short_name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="locationForm.controls['client_ids'].hasError('required')">
+                  {{'new_location_input_client_ids_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- address -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_location_input_address' | translate }}</mat-label>
+                <input matInput formControlName="address" required>
+                <mat-error *ngIf="locationForm.controls['address'].hasError('required')">
+                  {{'new_location_input_address_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- coordinates -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_location_input_coordinates' | translate }}</mat-label>
+                <input matInput matTooltip="{{'new_location_input_coordinates_info' | translate }}"
+                [matTooltipPosition]="'below'"
+                [matTooltipPositionAtOrigin]="true"
+                formControlName="coordinates" required placeholder="34.425626004997646, -117.29969236571405">
+                <mat-error *ngIf="locationForm.controls['coordinates'].hasError('required')">
+                  {{'new_location_input_coordinates_error_please' | translate }}
+                </mat-error>
+                <mat-error *ngIf="locationForm.controls['coordinates'].hasError('pattern')">
+                  {{'new_location_input_coordinates_error_pattern' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- separator -->
+            <div class="card ">
+              <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+            </div>
+
+            <div class="card">
+              <div class="mapa">
+                <app-mapa-dashboard-home [selectedLocationsPoints]="locationMapPoint"></app-mapa-dashboard-home>
+              </div>
+            </div>
+
+            <!-- separator -->
+            <div class="card ">
+              <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+            </div>
+
+            <!-- buttons -->
+            <div class="card">
+              <div class="main__footer">
+                <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
+                <button *ngIf="!loading" class="ui-button" type="submit" [disabled]="!locationForm.valid">{{ idLocation
+                  == '' ? ('new_product_button_create' | translate) : ('edit_product_button_create' | translate)
+                  }}</button>
+                <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </section>
+  </div>
+</div>

@@ -451,7 +451,7 @@ export class StockerHomeComponent implements OnInit {
         } else {
           this.donationIDExists = false;
         }
-        this.stockForm.get('donation_id').updateValueAndValidity();
+        this.stockForm.get('donation_id').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
       }
     );
   }

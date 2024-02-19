@@ -6,7 +6,10 @@
         <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
       </div>
       <div>
-        <button type="button" class="ui-button" routerLink="/table/product">{{'view_product_button_products' | translate }}</button>
+        <button type="button" class="ui-button" [routerLink]="['/edit/product',idProduct]">{{'table_products_row_button_edit' |
+          translate }}</button>
+        <button id="tableButton" type="button" class="ui-button" routerLink="/table/product">{{'view_product_button_products' |
+          translate }}</button>
       </div>
     </section>
     <section class="main">

@@ -1,5 +1,6 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { LocationMap } from 'src/app/models/map/location-map';
 import { mapStyle } from 'src/app/models/map/map-styles';
 import { GoogleMapService } from 'src/app/services/map/google-map.service';
 
@@ -16,11 +17,13 @@ export class MapaDashboardHomeComponent implements OnInit {
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow | undefined;
 
   @Input() selectedLocationsId: string[] = [];
+  @Input() selectedLocationsPoints: LocationMap = { center: { lat: 0, lng: 0 }, locations: [] };
   @Input() locationsEnabled: boolean;
+  @Input() fullLocationsMap: boolean = false;
 
   mapStyle = mapStyle;
   mapOptions: google.maps.MapOptions = {
-    center: {lat: 34.84875916361835, lng: -117.36738960238455},
+    center: { lat: 34.84875916361835, lng: -117.36738960238455 },
     zoom: 6,
     mapTypeControl: false,
     streetViewControl: false,
@@ -44,8 +47,20 @@ export class MapaDashboardHomeComponent implements OnInit {
     private googleMapService: GoogleMapService
   ) { }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedLocationsId']) {
+      this.getLocationsMap();
+    } else {
+      if (changes['selectedLocationsPoints']) {
+        this.getLocationsMapPoints();
+      }
+    }
+  }
+
   ngOnInit(): void {
-    this.getLocationsMap();
+    if (this.fullLocationsMap) {
+      this.getLocationsMap();
+    }
   }
 
   ngAfterViewInit() {
@@ -63,6 +78,18 @@ export class MapaDashboardHomeComponent implements OnInit {
     this.infoContent = label;
     if (this.infoWindow != undefined) {
       this.infoWindow.open(marker);
+    }
+  }
+
+  private getLocationsMapPoints() {
+    if (this.selectedLocationsPoints.locations.length > 0) {  // Si ya se tienen las coordenadas
+      this.markerPositions = this.selectedLocationsPoints.locations;
+      this.mapOptions = {
+        ...this.mapOptions,
+        center: this.selectedLocationsPoints.center
+      };
+    } else {
+      this.markerPositions = [];
     }
   }
 
@@ -86,4 +113,5 @@ export class MapaDashboardHomeComponent implements OnInit {
       }
     });
   }
+
 }

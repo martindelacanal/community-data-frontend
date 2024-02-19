@@ -6,11 +6,13 @@
         <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
       </div>
       <div>
-        <button *ngIf="viewUser.role_name !== 'client' && viewUser.role_name !== 'beneficiary'" type="button"
+        <button type="button" class="ui-button" [routerLink]="['/edit/user',idUser]">{{'table_users_row_button_edit' |
+          translate }}</button>
+        <button id="tableButton" *ngIf="viewUser.role_name !== 'client' && viewUser.role_name !== 'beneficiary'" type="button"
           class="ui-button" routerLink="/table/user">{{'view_user_button_users' | translate }}</button>
-        <button *ngIf="viewUser.role_name === 'beneficiary'" type="button" class="ui-button"
+        <button id="tableButton" *ngIf="viewUser.role_name === 'beneficiary'" type="button" class="ui-button"
           [routerLink]="['/table/user', 'beneficiary']">{{'view_user_button_beneficiaries' | translate }}</button>
-        <button *ngIf="viewUser.role_name === 'client'" type="button" class="ui-button"
+        <button id="tableButton" *ngIf="viewUser.role_name === 'client'" type="button" class="ui-button"
           [routerLink]="['/table/user', 'client']">{{'view_user_button_clients' | translate }}</button>
       </div>
     </section>

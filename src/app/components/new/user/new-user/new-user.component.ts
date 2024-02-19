@@ -283,11 +283,12 @@ export class NewUserComponent implements OnInit {
     this.newService.getClients().subscribe({
       next: (res) => {
         this.clients = res;
-        this.loadingGetClients = false;
-        this.checkLoadingGet();
       },
       error: (error) => {
         console.error(error);
+        this.openSnackBar(this.translate.instant('new_user_input_client_error_get'));
+      },
+      complete: () => {
         this.loadingGetClients = false;
         this.checkLoadingGet();
       }
@@ -313,7 +314,7 @@ export class NewUserComponent implements OnInit {
   private updateUserNameExists(nombre: string) {
     if (this.idUser && this.userGetted.username === nombre) {
       this.userNameExists = false;
-      this.userForm.get('username').updateValueAndValidity();
+      this.userForm.get('username').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.authService.getUserNameExists(nombre).subscribe(
         (res) => {
@@ -322,7 +323,7 @@ export class NewUserComponent implements OnInit {
           } else {
             this.userNameExists = false;
           }
-          this.userForm.get('username').updateValueAndValidity();
+          this.userForm.get('username').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
         }
       );
     }
@@ -331,7 +332,7 @@ export class NewUserComponent implements OnInit {
   private updateEmailExists(nombre: string) {
     if (this.idUser && this.userGetted.email === nombre) {
       this.emailExists = false;
-      this.userForm.get('email').updateValueAndValidity();
+      this.userForm.get('email').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.authService.getEmailExists(nombre).subscribe(
         (res) => {
@@ -340,7 +341,7 @@ export class NewUserComponent implements OnInit {
           } else {
             this.emailExists = false;
           }
-          this.userForm.get('email').updateValueAndValidity();
+          this.userForm.get('email').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
         }
       );
     }
@@ -349,7 +350,7 @@ export class NewUserComponent implements OnInit {
   private updatePhoneExists(nombre: string) {
     if (this.idUser && this.userGetted.phone === nombre) {
       this.phoneExists = false;
-      this.userForm.get('phone').updateValueAndValidity();
+      this.userForm.get('phone').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.authService.getPhoneExists(nombre).subscribe(
         (res) => {
@@ -358,7 +359,7 @@ export class NewUserComponent implements OnInit {
           } else {
             this.phoneExists = false;
           }
-          this.userForm.get('phone').updateValueAndValidity();
+          this.userForm.get('phone').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
         }
       );
     }
