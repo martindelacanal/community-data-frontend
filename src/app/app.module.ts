@@ -90,6 +90,9 @@ import { NewProductTypeComponent } from './components/new/product-type/new-produ
 import { TableClientComponent } from './components/tables/client/table-client/table-client.component';
 import { TableProductTypeComponent } from './components/tables/product-type/table-product-type/table-product-type.component';
 import { TableProviderComponent } from './components/tables/provider/table-provider/table-provider.component';
+import { ViewProviderComponent } from './components/view/view-provider/view-provider.component';
+import { ViewProductTypeComponent } from './components/view/view-product-type/view-product-type.component';
+import { ViewClientComponent } from './components/view/view-client/view-client.component';
 
 @NgModule({
   declarations: [
@@ -141,7 +144,10 @@ import { TableProviderComponent } from './components/tables/provider/table-provi
    NewProductTypeComponent,
    TableClientComponent,
    TableProductTypeComponent,
-   TableProviderComponent
+   TableProviderComponent,
+   ViewProviderComponent,
+   ViewProductTypeComponent,
+   ViewClientComponent
 
   ],
   imports: [

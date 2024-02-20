@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TableProviderComponent } from './table-provider.component';
+import { ViewProviderComponent } from './view-provider.component';
 
-describe('TableProviderComponent', () => {
-  let component: TableProviderComponent;
-  let fixture: ComponentFixture<TableProviderComponent>;
+describe('ViewProviderComponent', () => {
+  let component: ViewProviderComponent;
+  let fixture: ComponentFixture<ViewProviderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TableProviderComponent ]
+      declarations: [ ViewProviderComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TableProviderComponent);
+    fixture = TestBed.createComponent(ViewProviderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

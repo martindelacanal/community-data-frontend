@@ -34,8 +34,14 @@ import { NewProductTypeComponent } from './components/new/product-type/new-produ
 import { TableProviderComponent } from './components/tables/provider/table-provider/table-provider.component';
 import { TableProductTypeComponent } from './components/tables/product-type/table-product-type/table-product-type.component';
 import { TableClientComponent } from './components/tables/client/table-client/table-client.component';
+import { ViewProductTypeComponent } from './components/view/view-product-type/view-product-type.component';
+import { ViewProviderComponent } from './components/view/view-provider/view-provider.component';
+import { ViewClientComponent } from './components/view/view-client/view-client.component';
 
 const routes: Routes = [
+  { path: 'view/product-type/:id', component: ViewProductTypeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'view/provider/:id', component: ViewProviderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'view/client/:id', component: ViewClientComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/delivered/:id', component: ViewDeliveredComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/location/:id', component: ViewLocationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/notification/:id', component: ViewNotificationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },

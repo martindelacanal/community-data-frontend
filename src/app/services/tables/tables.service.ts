@@ -1,9 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { clientTable } from 'src/app/models/tables/client-table';
 import { deliveredTable } from 'src/app/models/tables/delivered-table';
 import { locationTable } from 'src/app/models/tables/location-table';
 import { notificationTable } from 'src/app/models/tables/notification-table';
 import { productTable } from 'src/app/models/tables/product-table';
+import { productTypeTable } from 'src/app/models/tables/product-type-table';
+import { providerTable } from 'src/app/models/tables/provider-table';
 import { ticketTable } from 'src/app/models/tables/ticket-table';
 import { userTable } from 'src/app/models/tables/user-table';
 import { environment } from 'src/environments/environment';
@@ -31,6 +34,18 @@ export class TablesService {
 
   getDataProductTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
     return this.http.get<productTable>(`${environment.url_api}/table/product?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
+  }
+
+  getDataProductTypeTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
+    return this.http.get<productTypeTable>(`${environment.url_api}/table/product-type?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
+  }
+
+  getDataProviderTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
+    return this.http.get<providerTable>(`${environment.url_api}/table/provider?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
+  }
+
+  getDataClientTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
+    return this.http.get<clientTable>(`${environment.url_api}/table/client?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
   }
 
   getDataNotificationTable(page: number, columna: string, ordenarTipo: string, buscar: string){

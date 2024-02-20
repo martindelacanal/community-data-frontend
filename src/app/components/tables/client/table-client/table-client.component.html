@@ -1,1 +1,93 @@
-<p>table-client works!</p>
+<div class="container">
+  <section class="header">
+    <div class="header__title">
+      <h1 class="title">{{'table_client_title' | translate }}</h1>
+      <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+    </div>
+  </section>
+  <section class="main">
+
+    <div class="inputs">
+      <input matInput type="search" class="ui-input" [formControl]="buscar"
+        placeholder="{{'table_input_search' | translate }}">
+      <div>
+        <button [routerLink]="['/new/client']" class="ui-button">{{'table_client_button_add_product' | translate }}</button>
+      </div>
+    </div>
+    <br>
+
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('id')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'id', 'desc': ordenarTipo === 'desc' && columna === 'id'}">
+          <strong>ID</strong><span></span>
+        </th>
+        <tr>
+          <td mat-cell *matCellDef="let element">{{element.id}}</td>
+        </tr>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('name')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'name', 'desc': ordenarTipo === 'desc' && columna === 'name'}">
+          <strong>{{'table_client_header_name' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.name}}</td>
+      </ng-container>
+      <ng-container matColumnDef="short_name">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('short_name')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'short_name', 'desc': ordenarTipo === 'desc' && columna === 'short_name'}">
+          <strong>{{'table_client_header_short_name' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.short_name}}</td>
+      </ng-container>
+      <ng-container matColumnDef="creation_date">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('creation_date')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'creation_date', 'desc': ordenarTipo === 'desc' && columna === 'creation_date'}">
+          <strong>{{'table_client_header_creation_date' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.creation_date}}</td>
+      </ng-container>
+      <ng-container matColumnDef="modification_date">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('modification_date')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'modification_date', 'desc': ordenarTipo === 'desc' && columna === 'modification_date'}">
+          <strong>{{'table_client_header_modification_date' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.modification_date}}</td>
+      </ng-container>
+      <ng-container matColumnDef=" ">
+        <th mat-header-cell *matHeaderCellDef><strong></strong></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" class="menu-tabla">
+            <!-- [routerLink]="['/ver/usuario',element.id]" -->
+            <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/view/client',element.id]">
+              <mat-icon>visibility</mat-icon>
+              <span>{{'table_client_row_button_view' | translate }}</span>
+            </button>
+            <!-- [routerLink]="['/usuario/editar',element.id]" -->
+            <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/client',element.id]">
+              <mat-icon>edit</mat-icon>
+              <span>{{'table_client_row_button_edit' | translate }}</span>
+            </button>
+            <!-- (click)="openDialog(element.id,'eliminar')" -->
+            <button mat-menu-item class="boton-usuario-desplegado">
+              <mat-icon>delete</mat-icon>
+              <span>{{'table_client_row_button_delete' | translate }}</span>
+            </button>
+
+          </mat-menu>
+        </td>
+      </ng-container>
+      <tr mat-header-row class="table-header-row" *matHeaderRowDef="columns">
+      </tr>
+      <tr mat-row class="hover-effect" *matRowDef="let row; columns: columns;"></tr>
+
+    </table>
+
+    <mat-paginator class="paginador" #paginator [length]="totalItems" [pageIndex]="pagina" [pageSize]="10"
+      [pageSizeOptions]="[10]" (page)="updatePage($event)" aria-label="Seleccione una página">
+    </mat-paginator>
+  </section>
+</div>
