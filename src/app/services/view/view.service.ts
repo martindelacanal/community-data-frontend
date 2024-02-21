@@ -1,9 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ViewClient } from 'src/app/models/view/view-client';
 import { ViewDelivered } from 'src/app/models/view/view-delivered';
 import { ViewLocation } from 'src/app/models/view/view-location';
 import { ViewNotification } from 'src/app/models/view/view-notification';
 import { ViewProduct } from 'src/app/models/view/view-product';
+import { ViewProductType } from 'src/app/models/view/view-product-type';
+import { ViewProvider } from 'src/app/models/view/view-provider';
 import { ViewTicket } from 'src/app/models/view/view-ticket';
 import { ViewTicketImage } from 'src/app/models/view/view-ticket-image';
 import { ViewUser } from 'src/app/models/view/view-user';
@@ -34,8 +37,20 @@ export class ViewService {
     return this.http.get<ViewDelivered>(`${environment.url_api}/view/delivered/${idDelivered}`)
   }
 
+  getViewClient(idClient: string){
+    return this.http.get<ViewClient>(`${environment.url_api}/view/client/${idClient}`)
+  }
+
+  getViewProvider(idProvider: string){
+    return this.http.get<ViewProvider>(`${environment.url_api}/view/provider/${idProvider}`)
+  }
+
   getViewProduct(idProduct: string){
     return this.http.get<ViewProduct>(`${environment.url_api}/view/product/${idProduct}`)
+  }
+
+  getViewProductType(idProductType: string){
+    return this.http.get<ViewProductType>(`${environment.url_api}/view/product-type/${idProductType}`)
   }
 
   getViewTicket(idTicket: string){
