@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { NewClient } from 'src/app/models/new/new-client';
 import { NewLocation } from 'src/app/models/new/new-location';
 import { NewProduct } from 'src/app/models/new/new-product';
+import { NewProductType } from 'src/app/models/new/new-product-type';
+import { NewProvider } from 'src/app/models/new/new-provider';
 import { NewUser } from 'src/app/models/new/new-user';
 import { Client } from 'src/app/models/user/client';
 import { Role } from 'src/app/models/user/role';
@@ -16,12 +19,12 @@ export class NewService {
     private http: HttpClient
   ) { }
 
-  newLocation(usuario: NewLocation) {
-    return this.http.post<any>(`${environment.url_api}/new/location`, usuario)
+  newLocation(location: NewLocation) {
+    return this.http.post<any>(`${environment.url_api}/new/location`, location)
   }
 
-  updateLocation(id: string, usuario: NewLocation) {
-    return this.http.put<any>(`${environment.url_api}/new/location/${id}`, usuario)
+  updateLocation(id: string, location: NewLocation) {
+    return this.http.put<any>(`${environment.url_api}/new/location/${id}`, location)
   }
 
   getLocation(id: string) {
@@ -32,20 +35,78 @@ export class NewService {
     return this.http.get<any>(`${environment.url_api}/location/exists/search?community_city=${community_city}`);
   }
 
-  newProduct(usuario: NewProduct) {
-    return this.http.post<any>(`${environment.url_api}/new/product`, usuario)
+  newProduct(product: NewProduct) {
+    return this.http.post<any>(`${environment.url_api}/new/product`, product)
   }
 
-  updateProduct(id: string, usuario: NewProduct) {
-    return this.http.put<any>(`${environment.url_api}/new/product/${id}`, usuario)
+  updateProduct(id: string, product: NewProduct) {
+    return this.http.put<any>(`${environment.url_api}/new/product/${id}`, product)
   }
 
   getProduct(id: string) {
     return this.http.get<NewProduct>(`${environment.url_api}/new/product/${id}`)
   }
 
-  getProductExists(nombre: string) {
-    return this.http.get<any>(`${environment.url_api}/product/exists/search?product=${nombre}`);
+  getProductExists(name: string) {
+    return this.http.get<any>(`${environment.url_api}/product/exists/search?product=${name}`);
+  }
+
+  newProductType(productType: NewProductType) {
+    return this.http.post<any>(`${environment.url_api}/new/product-type`, productType)
+  }
+
+  updateProductType(id: string, productType: NewProductType) {
+    return this.http.put<any>(`${environment.url_api}/new/product-type/${id}`, productType)
+  }
+
+  getProductType(id: string) {
+    return this.http.get<NewProductType>(`${environment.url_api}/new/product-type/${id}`)
+  }
+
+  getProductTypeExists(name: string) {
+    return this.http.get<any>(`${environment.url_api}/product-type/exists/search?name=${name}`);
+  }
+
+  newProvider(provider: NewProvider) {
+    return this.http.post<any>(`${environment.url_api}/new/provider`, provider)
+  }
+
+  updateProvider(id: string, provider: NewProvider) {
+    return this.http.put<any>(`${environment.url_api}/new/provider/${id}`, provider)
+  }
+
+  getProvider(id: string) {
+    return this.http.get<NewProvider>(`${environment.url_api}/new/provider/${id}`)
+  }
+
+  getProviderExists(name: string) {
+    return this.http.get<any>(`${environment.url_api}/provider/exists/search?name=${name}`);
+  }
+
+  newClient(client: NewClient) {
+    return this.http.post<any>(`${environment.url_api}/new/client`, client)
+  }
+
+  updateClient(id: string, client: NewClient) {
+    return this.http.put<any>(`${environment.url_api}/new/client/${id}`, client)
+  }
+
+  getClient(id: string) {
+    return this.http.get<NewClient>(`${environment.url_api}/new/client/${id}`)
+  }
+
+  getClientExists(name: string, short_name: string) {
+    let url = `${environment.url_api}/client/exists/search?`;
+    if (name) {
+      url += `name=${name}`;
+    }
+    if (short_name) {
+      if (name) {
+        url += '&';
+      }
+      url += `short_name=${short_name}`;
+    }
+    return this.http.get<any>(url);
   }
 
   newUser(usuario: NewUser) {

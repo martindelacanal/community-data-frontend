@@ -1,1 +1,104 @@
-<p>new-client works!</p>
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div class="header__title">
+        <h1 class="title" *ngIf="!this.idClient">{{'new_client_title' | translate }}</h1>
+        <h1 class="title" *ngIf="this.idClient">{{'edit_client_title' | translate }} {{this.idClient}}</h1>
+        <mat-spinner *ngIf="loadingGet" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+      </div>
+      <div>
+        <button type="button" class="ui-button" routerLink="/table/client">{{'view_client_button_clients' | translate
+          }}</button>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <form [formGroup]="clientForm" novalidate (ngSubmit)="onSubmit()">
+          <div class="main_formulario">
+            <!-- name -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_client_input_name' | translate }}</mat-label>
+                <input matInput formControlName="name" required>
+                <mat-error *ngIf="clientForm.controls['name'].hasError('invalidName')">
+                  {{'new_client_input_name_error_exists' | translate }}
+                </mat-error>
+                <mat-error *ngIf="clientForm.controls['name'].hasError('required')">
+                  {{'new_client_input_name_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- short_name -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_client_input_short_name' | translate }}</mat-label>
+                <input matInput formControlName="short_name" required>
+                <mat-error *ngIf="clientForm.controls['short_name'].hasError('invalidShortName')">
+                  {{'new_client_input_short_name_error_exists' | translate }}
+                </mat-error>
+                <mat-error *ngIf="clientForm.controls['short_name'].hasError('required')">
+                  {{'new_client_input_short_name_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- email -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'view_client_email' | translate }}</mat-label>
+                <input matInput formControlName="email">
+                <mat-error *ngIf="clientForm.controls['email'].hasError('required')">
+                  {{'new_client_input_email_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- phone -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'view_client_phone' | translate }}</mat-label>
+                <input matInput formControlName="phone" matNumberInput maxlength="10" onlyNumber>
+                <mat-error *ngIf="clientForm.controls['phone'].hasError('required')">
+                  {{'new_client_input_phone_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- address -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'view_client_address' | translate }}</mat-label>
+                <input matInput formControlName="address">
+                <mat-error *ngIf="clientForm.controls['address'].hasError('required')">
+                  {{'new_client_input_address_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+             <!-- webpage -->
+             <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'view_client_webpage' | translate }}</mat-label>
+                <input matInput formControlName="webpage">
+                <mat-error *ngIf="clientForm.controls['webpage'].hasError('required')">
+                  {{'new_client_input_webpage_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- separator -->
+            <div class="card ">
+              <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+            </div>
+            <!-- buttons -->
+            <div class="card">
+              <div class="main__footer">
+                <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
+                <button *ngIf="!loading" class="ui-button" type="submit" [disabled]="!clientForm.valid">{{ idClient ==
+                  '' ? ('new_client_button_create' | translate) : ('edit_client_button_create' | translate) }}</button>
+                <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </section>
+  </div>
+</div>
