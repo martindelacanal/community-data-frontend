@@ -449,6 +449,7 @@
   "view_client_phone": "Phone",
   "view_client_address": "Address",
   "view_client_webpage": "Webpage",
+  "view_client_locations": "Locations",
   "view_client_button_clients": "Clients",
   "view_client_table_title": "Client locations",
 
@@ -638,6 +639,8 @@
   "new_client_input_phone_error_please": "Please enter a phone",
   "new_client_input_address_error_please": "Please enter an address",
   "new_client_input_webpage_error_please": "Please enter a webpage",
+  "new_client_input_location_ids_error_please": "Please enter a location",
+  "new_client_input_location_ids_error_get": "Error getting locations",
   "new_client_button_create": "Create",
   "new_client_snack_created": "Client created successfully",
   "new_client_snack_error": "Error creating client",

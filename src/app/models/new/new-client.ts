@@ -5,4 +5,5 @@ export interface NewClient {
   phone: string;
   address: string;
   webpage: string;
+  location_ids: number[];
 }

@@ -5,8 +5,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
+import { Location } from 'src/app/models/map/location';
 import { NewClient } from 'src/app/models/new/new-client';
 import { NewService } from 'src/app/services/new/new.service';
+import { StockerService } from 'src/app/services/stock/stocker.service';
 
 @Component({
   selector: 'app-new-client',
@@ -20,10 +22,12 @@ export class NewClientComponent implements OnInit {
   public loading: boolean = false;
   public loadingGet: boolean = false;
   public loadingGetForm: boolean = false;
+  public loadingGetLocations: boolean = false;
   public clientForm: FormGroup;
   public nameExists: boolean = false;
   public short_nameExists: boolean = false;
   public idClient: string = '';
+  public locations: Location[] = [];
   private clientGetted: NewClient;
 
   constructor(
@@ -33,6 +37,7 @@ export class NewClientComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private newService: NewService,
+    private stockerService: StockerService,
     public translate: TranslateService
   ) {
     this.clientGetted = {
@@ -41,7 +46,8 @@ export class NewClientComponent implements OnInit {
       email: null,
       phone: null,
       address: null,
-      webpage: null
+      webpage: null,
+      location_ids: null
     }
     this.buildNewForm();
     // get language from local storage
@@ -60,6 +66,8 @@ export class NewClientComponent implements OnInit {
     ]).subscribe(result => {
       this.isTablet = result.matches;
     });
+
+    this.getLocations();
 
     this.activatedRoute.params.subscribe((params: Params) => {
       if (params['id']) {
@@ -146,7 +154,8 @@ export class NewClientComponent implements OnInit {
           email: res.email,
           phone: res.phone,
           address: res.address,
-          webpage: res.webpage
+          webpage: res.webpage,
+          location_ids: res.location_ids
         }
 
         this.clientForm.patchValue({
@@ -155,7 +164,8 @@ export class NewClientComponent implements OnInit {
           email: res.email,
           phone: res.phone,
           address: res.address,
-          webpage: res.webpage
+          webpage: res.webpage,
+          location_ids: res.location_ids
         });
 
         // Actualizar la validez de los campos de formulario
@@ -169,6 +179,23 @@ export class NewClientComponent implements OnInit {
       },
       complete: () => {
         this.loadingGetForm = false;
+        this.checkLoadingGet();
+      }
+    });
+  }
+
+  private getLocations() {
+    this.loadingGetLocations = true;
+    this.stockerService.getLocations().subscribe({
+      next: (res) => {
+        this.locations = res;
+      },
+      error: (error) => {
+        console.error(error);
+        this.openSnackBar(this.translate.instant('new_client_input_location_ids_error_get'));
+      },
+      complete: () => {
+        this.loadingGetLocations = false;
         this.checkLoadingGet();
       }
     });
@@ -210,7 +237,7 @@ export class NewClientComponent implements OnInit {
   }
 
   private checkLoadingGet() {
-    if (!this.loadingGetForm) {
+    if (!this.loadingGetForm && !this.loadingGetLocations) {
       this.loadingGet = false;
     }
   }
@@ -222,7 +249,8 @@ export class NewClientComponent implements OnInit {
       email: [null],
       phone: [null],
       address: [null],
-      webpage: [null]
+      webpage: [null],
+      location_ids: [null]
     });
   }
 
