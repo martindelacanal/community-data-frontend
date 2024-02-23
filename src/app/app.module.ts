@@ -93,6 +93,12 @@ import { TableProviderComponent } from './components/tables/provider/table-provi
 import { ViewProviderComponent } from './components/view/view-provider/view-provider.component';
 import { ViewProductTypeComponent } from './components/view/view-product-type/view-product-type.component';
 import { ViewClientComponent } from './components/view/view-client/view-client.component';
+import { TableGenderComponent } from './components/tables/table-gender/table-gender.component';
+import { TableEthnicityComponent } from './components/tables/table-ethnicity/table-ethnicity.component';
+import { ViewGenderComponent } from './components/view/view-gender/view-gender.component';
+import { ViewEthnicityComponent } from './components/view/view-ethnicity/view-ethnicity.component';
+import { NewEthnicityComponent } from './components/new/new-ethnicity/new-ethnicity.component';
+import { NewGenderComponent } from './components/new/new-gender/new-gender.component';
 
 @NgModule({
   declarations: [
@@ -147,7 +153,13 @@ import { ViewClientComponent } from './components/view/view-client/view-client.c
    TableProviderComponent,
    ViewProviderComponent,
    ViewProductTypeComponent,
-   ViewClientComponent
+   ViewClientComponent,
+   TableGenderComponent,
+   TableEthnicityComponent,
+   ViewGenderComponent,
+   ViewEthnicityComponent,
+   NewEthnicityComponent,
+   NewGenderComponent
 
   ],
   imports: [

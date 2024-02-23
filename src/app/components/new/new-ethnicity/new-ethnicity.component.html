@@ -1,0 +1,60 @@
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div class="header__title">
+        <h1 class="title" *ngIf="!this.idEthnicity" >{{'new_ethnicity_title' | translate }}</h1>
+        <h1 class="title" *ngIf="this.idEthnicity" >{{'edit_ethnicity_title' | translate }} {{this.idEthnicity}}</h1>
+        <mat-spinner *ngIf="loadingGet" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+      </div>
+      <div>
+        <button type="button" class="ui-button" routerLink="/table/ethnicity">{{'view_ethnicity_button_ethnicities' | translate }}</button>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <form [formGroup]="ethnicityForm" novalidate (ngSubmit)="onSubmit()">
+          <div class="main_formulario">
+            <!-- name -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_ethnicity_input_name' | translate }}</mat-label>
+                <input matInput formControlName="name" required>
+                <mat-error *ngIf="ethnicityForm.controls['name'].hasError('invalidName')">
+                  {{'new_ethnicity_input_name_error_exists' | translate }}
+                </mat-error>
+                <mat-error *ngIf="ethnicityForm.controls['name'].hasError('required')">
+                  {{'new_ethnicity_input_name_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- name_es -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_ethnicity_input_name_es' | translate }}</mat-label>
+                <input matInput formControlName="name_es" required>
+                <mat-error *ngIf="ethnicityForm.controls['name_es'].hasError('required')">
+                  {{'new_ethnicity_input_name_es_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- separator -->
+            <div class="card ">
+              <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+            </div>
+            <!-- buttons -->
+            <div class="card">
+              <div class="main__footer">
+                <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
+                <button *ngIf="!loading" class="ui-button" type="submit"
+                  [disabled]="!ethnicityForm.valid">{{ idEthnicity == '' ? ('new_ethnicity_button_create' | translate) : ('edit_ethnicity_button_create' | translate) }}</button>
+                <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </section>
+  </div>
+</div>

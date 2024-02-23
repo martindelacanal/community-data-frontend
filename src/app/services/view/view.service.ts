@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ViewClient } from 'src/app/models/view/view-client';
 import { ViewDelivered } from 'src/app/models/view/view-delivered';
+import { ViewEthnicity } from 'src/app/models/view/view-ethnicity';
+import { ViewGender } from 'src/app/models/view/view-gender';
 import { ViewLocation } from 'src/app/models/view/view-location';
 import { ViewNotification } from 'src/app/models/view/view-notification';
 import { ViewProduct } from 'src/app/models/view/view-product';
@@ -51,6 +53,14 @@ export class ViewService {
 
   getViewProductType(idProductType: string){
     return this.http.get<ViewProductType>(`${environment.url_api}/view/product-type/${idProductType}`)
+  }
+
+  getViewGender(idGender: string){
+    return this.http.get<ViewGender>(`${environment.url_api}/view/gender/${idGender}`)
+  }
+
+  getViewEthnicity(idEthnicity: string){
+    return this.http.get<ViewEthnicity>(`${environment.url_api}/view/ethnicity/${idEthnicity}`)
   }
 
   getViewTicket(idTicket: string){

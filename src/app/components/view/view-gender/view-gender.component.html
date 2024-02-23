@@ -1,0 +1,77 @@
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div class="header__title">
+        <h1 class="title">{{'view_gender_title' | translate }} {{idGender}}</h1>
+        <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+      </div>
+      <div>
+        <button type="button" class="ui-button" [routerLink]="['/edit/gender',idGender]">{{'table_genders_row_button_edit' |
+          translate }}</button>
+        <button id="tableButton" type="button" class="ui-button" routerLink="/table/gender">{{'view_gender_button_genders' |
+          translate }}</button>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <div class="main_formulario">
+          <!-- name -->
+          <div class="card">
+            <mat-label><strong>{{'view_gender_name' | translate }}:</strong> {{viewGender.name}}</mat-label>
+          </div>
+          <!-- name_es -->
+          <div class="card">
+            <mat-label><strong>{{'view_gender_name_es' | translate }}:</strong> {{viewGender.name_es}}</mat-label>
+          </div>
+          <!-- creation_date -->
+          <div class="card">
+            <mat-label><strong>{{'table_genders_header_creation_date' | translate }}:</strong>
+              {{viewGender.creation_date}}</mat-label>
+          </div>
+          <!-- modification_date -->
+          <div class="card">
+            <mat-label><strong>{{'table_genders_header_modification_date' | translate }}:</strong>
+              {{viewGender.modification_date}}</mat-label>
+          </div>
+          <!-- separator -->
+          <div class="card ">
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+
+          <div class="card">
+            <h2>{{'view_gender_table_title' | translate}}</h2>
+            <br>
+            <table>
+              <thead>
+                <tr>
+                  <th>{{'table_users_header_username' | translate}}</th>
+                  <th>{{'table_users_header_creation_date' | translate}}</th>
+                  <th>{{'view_user_title' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let beneficiary of viewGender.beneficiaries">
+                  <td>{{beneficiary.username}}</td>
+                  <td>{{beneficiary.creation_date}}</td>
+                  <td><a class="ui-link" [routerLink]="['/view/user', beneficiary.beneficiary_id]"><mat-icon>visibility</mat-icon></a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- separator -->
+          <div class="card ">
+            <!-- <div class="ui-separator-horizontal"></div> -->
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+          <!-- buttons -->
+          <div class="card">
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>

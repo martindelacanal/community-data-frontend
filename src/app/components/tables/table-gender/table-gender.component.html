@@ -1,7 +1,7 @@
 <div class="container">
   <section class="header">
     <div class="header__title">
-      <h1 class="title">{{'table_product_types_title' | translate }}</h1>
+      <h1 class="title">{{'table_genders_title' | translate }}</h1>
       <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
     </div>
   </section>
@@ -11,7 +11,7 @@
       <input matInput type="search" class="ui-input" [formControl]="buscar"
         placeholder="{{'table_input_search' | translate }}">
       <div>
-        <button [routerLink]="['/new/product-type']" class="ui-button">{{'table_product_types_button_add_product_type' | translate }}</button>
+        <button [routerLink]="['/new/gender']" class="ui-button">{{'table_genders_button_add_gender' | translate }}</button>
       </div>
     </div>
     <br>
@@ -29,21 +29,21 @@
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef (click)="updateOrder('name')"
           [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'name', 'desc': ordenarTipo === 'desc' && columna === 'name'}">
-          <strong>{{'table_product_types_header_name' | translate }}</strong><span></span>
+          <strong>{{'table_genders_header_name' | translate }}</strong><span></span>
         </th>
         <td mat-cell *matCellDef="let element">{{element.name}}</td>
       </ng-container>
       <ng-container matColumnDef="creation_date">
         <th mat-header-cell *matHeaderCellDef (click)="updateOrder('creation_date')"
           [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'creation_date', 'desc': ordenarTipo === 'desc' && columna === 'creation_date'}">
-          <strong>{{'table_product_types_header_creation_date' | translate }}</strong><span></span>
+          <strong>{{'table_genders_header_creation_date' | translate }}</strong><span></span>
         </th>
         <td mat-cell *matCellDef="let element">{{element.creation_date}}</td>
       </ng-container>
       <ng-container matColumnDef="modification_date">
         <th mat-header-cell *matHeaderCellDef (click)="updateOrder('modification_date')"
           [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'modification_date', 'desc': ordenarTipo === 'desc' && columna === 'modification_date'}">
-          <strong>{{'table_product_types_header_modification_date' | translate }}</strong><span></span>
+          <strong>{{'table_genders_header_modification_date' | translate }}</strong><span></span>
         </th>
         <td mat-cell *matCellDef="let element">{{element.modification_date}}</td>
       </ng-container>
@@ -55,19 +55,19 @@
           </button>
           <mat-menu #menu="matMenu" class="menu-tabla">
             <!-- [routerLink]="['/ver/usuario',element.id]" -->
-            <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/view/product-type',element.id]">
+            <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/view/gender',element.id]">
               <mat-icon>visibility</mat-icon>
-              <span>{{'table_product_types_row_button_view' | translate }}</span>
+              <span>{{'table_genders_row_button_view' | translate }}</span>
             </button>
             <!-- [routerLink]="['/usuario/editar',element.id]" -->
-            <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/product-type',element.id]">
+            <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/gender',element.id]">
               <mat-icon>edit</mat-icon>
-              <span>{{'table_product_types_row_button_edit' | translate }}</span>
+              <span>{{'table_genders_row_button_edit' | translate }}</span>
             </button>
             <!-- (click)="openDialog(element.id,'eliminar')" -->
             <button mat-menu-item class="boton-usuario-desplegado">
               <mat-icon>delete</mat-icon>
-              <span>{{'table_product_types_row_button_delete' | translate }}</span>
+              <span>{{'table_genders_row_button_delete' | translate }}</span>
             </button>
 
           </mat-menu>

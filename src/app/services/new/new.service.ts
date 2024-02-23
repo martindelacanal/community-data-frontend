@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NewClient } from 'src/app/models/new/new-client';
+import { NewEthnicity } from 'src/app/models/new/new-ethnicity';
+import { NewGender } from 'src/app/models/new/new-gender';
 import { NewLocation } from 'src/app/models/new/new-location';
 import { NewProduct } from 'src/app/models/new/new-product';
 import { NewProductType } from 'src/app/models/new/new-product-type';
@@ -65,6 +67,38 @@ export class NewService {
 
   getProductTypeExists(name: string) {
     return this.http.get<any>(`${environment.url_api}/product-type/exists/search?name=${name}`);
+  }
+
+  newGender(gender: NewGender) {
+    return this.http.post<any>(`${environment.url_api}/new/gender`, gender)
+  }
+
+  updateGender(id: string, gender: NewGender) {
+    return this.http.put<any>(`${environment.url_api}/new/gender/${id}`, gender)
+  }
+
+  getGender(id: string) {
+    return this.http.get<NewGender>(`${environment.url_api}/new/gender/${id}`)
+  }
+
+  getGenderExists(name: string) {
+    return this.http.get<any>(`${environment.url_api}/gender/exists/search?name=${name}`);
+  }
+
+  newEthnicity(ethnicity: NewEthnicity) {
+    return this.http.post<any>(`${environment.url_api}/new/ethnicity`, ethnicity)
+  }
+
+  updateEthnicity(id: string, ethnicity: NewEthnicity) {
+    return this.http.put<any>(`${environment.url_api}/new/ethnicity/${id}`, ethnicity)
+  }
+
+  getEthnicity(id: string) {
+    return this.http.get<NewEthnicity>(`${environment.url_api}/new/ethnicity/${id}`)
+  }
+
+  getEthnicityExists(name: string) {
+    return this.http.get<any>(`${environment.url_api}/ethnicity/exists/search?name=${name}`);
   }
 
   newProvider(provider: NewProvider) {

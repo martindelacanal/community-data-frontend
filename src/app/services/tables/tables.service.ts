@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { clientTable } from 'src/app/models/tables/client-table';
 import { deliveredTable } from 'src/app/models/tables/delivered-table';
+import { ethnicityTable } from 'src/app/models/tables/ethnicity-table';
+import { genderTable } from 'src/app/models/tables/gender-table';
 import { locationTable } from 'src/app/models/tables/location-table';
 import { notificationTable } from 'src/app/models/tables/notification-table';
 import { productTable } from 'src/app/models/tables/product-table';
@@ -38,6 +40,14 @@ export class TablesService {
 
   getDataProductTypeTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
     return this.http.get<productTypeTable>(`${environment.url_api}/table/product-type?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
+  }
+
+  getDataGenderTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
+    return this.http.get<genderTable>(`${environment.url_api}/table/gender?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
+  }
+
+  getDataEthnicityTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
+    return this.http.get<ethnicityTable>(`${environment.url_api}/table/ethnicity?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
   }
 
   getDataProviderTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
