@@ -25,6 +25,7 @@ export class NewLocationComponent implements OnInit {
   public loadingGetClients: boolean = false;
   public locationForm: FormGroup;
   public communityCityExists: boolean = false;
+  public loadingCommunityCityExists: boolean = false;
   public clients: Client[] = [];
   public idLocation: string = '';
   public locationMapPoint: LocationMap = { center: { lat: 0, lng: 0 }, locations: [] };
@@ -215,16 +216,23 @@ export class NewLocationComponent implements OnInit {
       this.communityCityExists = false;
       this.locationForm.get('community_city').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
-      this.newService.getLocationExists(community_city).subscribe(
-        (res) => {
+      this.loadingCommunityCityExists = true;
+      this.newService.getLocationExists(community_city).subscribe({
+        next: (res) => {
           if (res) {
             this.communityCityExists = true;
           } else {
             this.communityCityExists = false;
           }
           this.locationForm.get('community_city').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => {
+          this.loadingCommunityCityExists = false;
         }
-      );
+    });
     }
   }
 

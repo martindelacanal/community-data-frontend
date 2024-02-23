@@ -22,6 +22,7 @@ export class NewEthnicityComponent implements OnInit {
   public loadingGetForm: boolean = false;
   public ethnicityForm: FormGroup;
   public nameExists: boolean = false;
+  public loadingNameExists: boolean = false;
   public idEthnicity: string = '';
   private ethnicityGetted: NewEthnicity;
 
@@ -158,16 +159,23 @@ export class NewEthnicityComponent implements OnInit {
       this.nameExists = false;
       this.ethnicityForm.get('name').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
-      this.newService.getEthnicityExists(nombre).subscribe(
-        (res) => {
+      this.loadingNameExists = true;
+      this.newService.getEthnicityExists(nombre).subscribe({
+        next: (res) => {
           if (res) {
             this.nameExists = true;
           } else {
             this.nameExists = false;
           }
           this.ethnicityForm.get('name').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => {
+          this.loadingNameExists = false;
         }
-      );
+    });
     }
   }
 

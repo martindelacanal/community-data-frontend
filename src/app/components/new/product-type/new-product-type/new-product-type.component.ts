@@ -22,6 +22,7 @@ export class NewProductTypeComponent implements OnInit {
   public loadingGetForm: boolean = false;
   public productTypeForm: FormGroup;
   public nameExists: boolean = false;
+  public loadingNameExists: boolean = false;
   public idProductType: string = '';
   private productTypeGetted: NewProductType;
 
@@ -158,16 +159,23 @@ export class NewProductTypeComponent implements OnInit {
       this.nameExists = false;
       this.productTypeForm.get('name').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
-      this.newService.getProductTypeExists(nombre).subscribe(
-        (res) => {
+      this.loadingNameExists = true;
+      this.newService.getProductTypeExists(nombre).subscribe({
+        next: (res) => {
           if (res) {
             this.nameExists = true;
           } else {
             this.nameExists = false;
           }
           this.productTypeForm.get('name').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => {
+          this.loadingNameExists = false;
         }
-      );
+    });
     }
   }
 

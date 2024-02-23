@@ -47,7 +47,7 @@
               <div class="main__footer">
                 <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
                 <button *ngIf="!loading" class="ui-button" type="submit"
-                  [disabled]="!ethnicityForm.valid">{{ idEthnicity == '' ? ('new_ethnicity_button_create' | translate) : ('edit_ethnicity_button_create' | translate) }}</button>
+                  [disabled]="!ethnicityForm.valid || loadingNameExists">{{ idEthnicity == '' ? ('new_ethnicity_button_create' | translate) : ('edit_ethnicity_button_create' | translate) }}</button>
                 <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
               </div>
             </div>

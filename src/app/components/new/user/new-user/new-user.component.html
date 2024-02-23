@@ -155,7 +155,7 @@
             <div class="card">
               <div class="main__footer">
                 <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
-                <button *ngIf="!loading" class="ui-button" type="submit" [disabled]="!userForm.valid">{{ idUser == '' ?
+                <button *ngIf="!loading" class="ui-button" type="submit" [disabled]="!userForm.valid || loadingUserNameExists || loadingEmailExists || loadingPhoneExists">{{ idUser == '' ?
                   ('new_user_button_create' | translate) : ('edit_user_button_create' | translate) }}</button>
                 <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
               </div>

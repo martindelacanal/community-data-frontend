@@ -22,6 +22,7 @@ export class NewProviderComponent implements OnInit {
   public loadingGetForm: boolean = false;
   public providerForm: FormGroup;
   public nameExists: boolean = false;
+  public loadingNameExists: boolean = false;
   public idProvider: string = '';
   private providerGetted: NewProvider;
 
@@ -153,16 +154,23 @@ export class NewProviderComponent implements OnInit {
       this.nameExists = false;
       this.providerForm.get('name').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
-      this.newService.getProviderExists(nombre).subscribe(
-        (res) => {
+      this.loadingNameExists = true;
+      this.newService.getProviderExists(nombre).subscribe({
+        next: (res) => {
           if (res) {
             this.nameExists = true;
           } else {
             this.nameExists = false;
           }
           this.providerForm.get('name').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => {
+          this.loadingNameExists = false;
         }
-      );
+    });
     }
   }
 

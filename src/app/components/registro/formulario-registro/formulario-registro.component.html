@@ -154,7 +154,7 @@
                 </div>
                 <div class="botones-stepper">
                   <button class="ui-button next" matStepperNext
-                    [disabled]="!firstFormGroup.valid">{{'register_first_tab_button_next' | translate }}</button>
+                    [disabled]="!firstFormGroup.valid || loadingUserNameExists || loadingPhoneExists || loadingEmailExists">{{'register_first_tab_button_next' | translate }}</button>
                 </div>
               </form>
             </mat-step>

@@ -26,6 +26,7 @@ export class NewClientComponent implements OnInit {
   public clientForm: FormGroup;
   public nameExists: boolean = false;
   public short_nameExists: boolean = false;
+  public loadingNameShortNameExists: boolean = false;
   public idClient: string = '';
   public locations: Location[] = [];
   private clientGetted: NewClient;
@@ -209,16 +210,23 @@ export class NewClientComponent implements OnInit {
       this[fieldToCheck + 'Exists'] = false;
       this.clientForm.get(fieldToCheck).updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
-      this.newService.getClientExists(name, short_name).subscribe(
-        (res) => {
+      this.loadingNameShortNameExists = true;
+      this.newService.getClientExists(name, short_name).subscribe({
+        next: (res) => {
           if (res[fieldToCheck]) {
             this[fieldToCheck + 'Exists'] = true;
           } else {
             this[fieldToCheck + 'Exists'] = false;
           }
           this.clientForm.get(fieldToCheck).updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => {
+          this.loadingNameShortNameExists = false;
         }
-      );
+    });
     }
   }
 

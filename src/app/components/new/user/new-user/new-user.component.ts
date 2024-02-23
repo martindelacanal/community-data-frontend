@@ -29,8 +29,11 @@ export class NewUserComponent implements OnInit {
   public loadingGetGender: boolean = false;
   public userForm: FormGroup;
   public userNameExists: boolean = false;
+  public loadingUserNameExists: boolean = false;
   public emailExists: boolean = false;
+  public loadingEmailExists: boolean = false;
   public phoneExists: boolean = false;
+  public loadingPhoneExists: boolean = false;
   public roles: Role[] = [];
   public clients: Client[] = [];
   public genders: Gender[] = [];
@@ -316,16 +319,23 @@ export class NewUserComponent implements OnInit {
       this.userNameExists = false;
       this.userForm.get('username').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
-      this.authService.getUserNameExists(nombre).subscribe(
-        (res) => {
+      this.loadingUserNameExists = true;
+      this.authService.getUserNameExists(nombre).subscribe({
+        next: (res) => {
           if (res) {
             this.userNameExists = true;
           } else {
             this.userNameExists = false;
           }
           this.userForm.get('username').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => {
+          this.loadingUserNameExists = false;
         }
-      );
+    });
     }
   }
 
@@ -334,16 +344,23 @@ export class NewUserComponent implements OnInit {
       this.emailExists = false;
       this.userForm.get('email').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
-      this.authService.getEmailExists(nombre).subscribe(
-        (res) => {
+      this.loadingEmailExists = true;
+      this.authService.getEmailExists(nombre).subscribe({
+        next: (res) => {
           if (res) {
             this.emailExists = true;
           } else {
             this.emailExists = false;
           }
           this.userForm.get('email').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => {
+          this.loadingEmailExists = false;
         }
-      );
+    });
     }
   }
 
@@ -352,16 +369,23 @@ export class NewUserComponent implements OnInit {
       this.phoneExists = false;
       this.userForm.get('phone').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
-      this.authService.getPhoneExists(nombre).subscribe(
-        (res) => {
+      this.loadingPhoneExists = true;
+      this.authService.getPhoneExists(nombre).subscribe({
+        next: (res) => {
           if (res) {
             this.phoneExists = true;
           } else {
             this.phoneExists = false;
           }
           this.userForm.get('phone').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => {
+          this.loadingPhoneExists = false;
         }
-      );
+    });
     }
   }
 

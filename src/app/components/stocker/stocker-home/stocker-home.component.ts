@@ -49,6 +49,7 @@ export class StockerHomeComponent implements OnInit {
   inputIndexModified: number;
   numberOfFields: number;
   donationIDExists: boolean = false;
+  loadingDonationIDExists: boolean = false;
 
   constructor(
     private router: Router,
@@ -444,16 +445,23 @@ export class StockerHomeComponent implements OnInit {
   }
 
   private updateDonationIDExists(nombre: string) {
-    this.stockerService.getDonationIDExists(nombre).subscribe(
-      (res) => {
+    this.loadingDonationIDExists = true;
+    this.stockerService.getDonationIDExists(nombre).subscribe({
+      next: (res) => {
         if (res) {
           this.donationIDExists = true;
         } else {
           this.donationIDExists = false;
         }
         this.stockForm.get('donation_id').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+      },
+      error: (error) => {
+        console.error(error);
+      },
+      complete: () => {
+        this.loadingDonationIDExists = false;
       }
-    );
+  });
   }
 
   private validateDonationID(): ValidationErrors | null {

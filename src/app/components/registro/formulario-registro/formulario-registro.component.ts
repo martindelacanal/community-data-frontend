@@ -46,8 +46,11 @@ export class FormularioRegistroComponent implements OnInit {
   public selectedLanguage: string;
   locations: Location[] = [];
   userNameExists: boolean = false;
+  loadingUserNameExists: boolean = false;
   phoneExists: boolean = false;
+  loadingPhoneExists: boolean = false;
   emailExists: boolean = false;
+  loadingEmailExists: boolean = false;
 
   isLinear = true;
   genders: Gender[];
@@ -301,42 +304,63 @@ export class FormularioRegistroComponent implements OnInit {
   }
 
   private updateUserNameExists(nombre: string) {
-    this.authService.getUserNameExists(nombre).subscribe(
-      (res) => {
+    this.loadingUserNameExists = true;
+    this.authService.getUserNameExists(nombre).subscribe({
+      next: (res) => {
         if (res) {
           this.userNameExists = true;
         } else {
           this.userNameExists = false;
         }
         this.firstFormGroup.get('username').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+      },
+      error: (error) => {
+        console.error(error);
+      },
+      complete: () => {
+        this.loadingUserNameExists = false;
       }
-    );
+    });
   }
 
   private updatePhoneExists(nombre: string) {
-    this.authService.getPhoneExists(nombre).subscribe(
-      (res) => {
+    this.loadingPhoneExists = true;
+    this.authService.getPhoneExists(nombre).subscribe({
+      next: (res) => {
         if (res) {
           this.phoneExists = true;
         } else {
           this.phoneExists = false;
         }
         this.firstFormGroup.get('phone').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+      },
+      error: (error) => {
+        console.error(error);
+      },
+      complete: () => {
+        this.loadingPhoneExists = false;
       }
-    );
+  });
   }
 
   private updateEmailExists(nombre: string) {
-    this.authService.getEmailExists(nombre).subscribe(
-      (res) => {
+    this.loadingEmailExists = true;
+    this.authService.getEmailExists(nombre).subscribe({
+      next: (res) => {
         if (res) {
           this.emailExists = true;
         } else {
           this.emailExists = false;
         }
         this.firstFormGroup.get('email').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+      },
+      error: (error) => {
+        console.error(error);
+      },
+      complete: () => {
+        this.loadingEmailExists = false;
       }
-    );
+  });
   }
 
   private openSnackBar(message: string) {
