@@ -129,7 +129,6 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
         try {
           this.loading = true;
           this.objeto = JSON.parse(result);
-          console.log("this.deliveryForm.value.client_id: ", this.deliveryForm.value.client_id);
           this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
             next: (res) => {
               if (res.error && res.error === 'receiving_location') {
@@ -230,6 +229,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
   onCancel() {
     this.infoValid = false;
     this.scanActive = false;
+    this.isBeneficiaryLocationError = false;
     if (this.qrScannerComponent) {
       this.qrScannerComponent.stopScanning();
       this.qrScannerComponent.capturedQr.unsubscribe();
@@ -275,7 +275,6 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
         } else {
           this.onBoarded = false;
         }
-        console.log("this.userStatus: ", this.userStatus);
         this.deliveryForm.patchValue({
           client_id: res.client_id
         });

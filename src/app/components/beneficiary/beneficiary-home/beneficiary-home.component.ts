@@ -88,7 +88,6 @@ export class BeneficiaryHomeComponent implements OnInit {
 
   onBoard() {
     this.loading = true;
-    console.log("this.beneficiaryForm.value.destination: ", this.beneficiaryForm.value.destination);
     if (!this.onBoarded) {
       this.onBoarded = true;
       this.deliveryService.onBoard(true, this.beneficiaryForm.value.destination).subscribe({
