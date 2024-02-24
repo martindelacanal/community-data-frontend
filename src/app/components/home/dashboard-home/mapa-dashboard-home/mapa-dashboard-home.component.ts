@@ -20,10 +20,11 @@ export class MapaDashboardHomeComponent implements OnInit {
   @Input() selectedLocationsPoints: LocationMap = { center: { lat: 0, lng: 0 }, locations: [] };
   @Input() locationsEnabled: boolean;
   @Input() fullLocationsMap: boolean = false;
+  @Input() disableButtonsLocations: boolean = false;
 
   mapStyle = mapStyle;
   mapOptions: google.maps.MapOptions = {
-    center: { lat: 34.84875916361835, lng: -117.36738960238455 },
+    center: { lat: 34.11390359586909, lng: -117.29533790728009 },
     zoom: 6,
     mapTypeControl: false,
     streetViewControl: false,
@@ -79,6 +80,16 @@ export class MapaDashboardHomeComponent implements OnInit {
     if (this.infoWindow != undefined) {
       this.infoWindow.open(marker);
     }
+  }
+
+  getEnabledLocations() {
+    this.locationsEnabled = true;
+    this.getLocationsMap();
+  }
+
+  getTotalLocations() {
+    this.locationsEnabled = undefined;
+    this.getLocationsMap();
   }
 
   private getLocationsMapPoints() {

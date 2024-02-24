@@ -4,5 +4,5 @@
   </map-marker>
   <map-info-window>{{ infoContent }}</map-info-window>
 </google-map>
-<button class="ui-button-map" #misionesDisponiblesButton>{{'map_button_enabled_locations' | translate }}</button>
-<button class="ui-button-map" #misionesActivasButton>{{'map_button_total_locations' | translate }}</button>
+<button *ngIf="!disableButtonsLocations" class="ui-button-map" (click)="getEnabledLocations()" #misionesDisponiblesButton>{{'map_button_enabled_locations' | translate }}</button>
+<button *ngIf="!disableButtonsLocations" class="ui-button-map" (click)="getTotalLocations()" #misionesActivasButton>{{'map_button_total_locations' | translate }}</button>
