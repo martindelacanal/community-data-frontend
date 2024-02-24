@@ -99,6 +99,7 @@ import { ViewGenderComponent } from './components/view/view-gender/view-gender.c
 import { ViewEthnicityComponent } from './components/view/view-ethnicity/view-ethnicity.component';
 import { NewEthnicityComponent } from './components/new/new-ethnicity/new-ethnicity.component';
 import { NewGenderComponent } from './components/new/new-gender/new-gender.component';
+import { DisclaimerEnableDisableElementComponent } from './components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
 
 @NgModule({
   declarations: [
@@ -159,7 +160,8 @@ import { NewGenderComponent } from './components/new/new-gender/new-gender.compo
    ViewGenderComponent,
    ViewEthnicityComponent,
    NewEthnicityComponent,
-   NewGenderComponent
+   NewGenderComponent,
+   DisclaimerEnableDisableElementComponent
 
   ],
   imports: [

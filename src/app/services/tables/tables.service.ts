@@ -81,4 +81,8 @@ export class TablesService {
   resetPassword(id: string){
     return this.http.delete<any>(`${environment.url_api}/user/reset-password/${id}`);
   }
+
+  enableDisableElement(id: string, table: string, enabled: string){
+    return this.http.put<any>(`${environment.url_api}/enable-disable/${id}`, { table: table, enabled: enabled });
+  }
 }

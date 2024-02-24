@@ -86,22 +86,24 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu" class="menu-tabla">
-            <!-- [routerLink]="['/ver/usuario',element.id]" -->
             <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/view/user',element.id]">
               <mat-icon>visibility</mat-icon>
               <span>{{'table_users_row_button_view' | translate }}</span>
             </button>
-            <!-- [routerLink]="['/usuario/editar',element.id]" -->
             <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/user',element.id]">
               <mat-icon>edit</mat-icon>
               <span>{{'table_users_row_button_edit' | translate }}</span>
             </button>
-            <!-- (click)="openDialog(element.id,'reiniciar')" -->
             <button mat-menu-item class="boton-usuario-desplegado" (click)="openDialogResetPassword(element.id)">
               <mat-icon>lock_reset</mat-icon>
               <span>{{'table_users_row_button_reset_password' | translate }}</span>
             </button>
-            <!-- (click)="openDialog(element.id,'eliminar')" -->
+            <button mat-menu-item class="boton-usuario-desplegado" (click)="openDialogEnableDisableElement(element.id, element.enabled)">
+              <mat-icon *ngIf="element.enabled === 'N'">toggle_off</mat-icon>
+              <mat-icon *ngIf="element.enabled === 'Y'">toggle_on</mat-icon>
+              <span *ngIf="element.enabled === 'N'">{{'table_users_row_button_enable' | translate }}</span>
+              <span *ngIf="element.enabled === 'Y'">{{'table_users_row_button_disable' | translate }}</span>
+            </button>
             <button mat-menu-item class="boton-usuario-desplegado">
               <mat-icon>delete</mat-icon>
               <span>{{'table_users_row_button_delete' | translate }}</span>

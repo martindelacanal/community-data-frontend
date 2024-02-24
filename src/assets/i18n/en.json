@@ -276,7 +276,9 @@
   "metrics_filters_title_maximum_age": "Select maximum age",
   "metrics_filters_input_maximum_age": "Maximum age",
 
-  "disclaimer_text_reset_password": "Are you sure you want to reset your password?",
+  "disclaimer_text_reset_password": "Are you sure you want to reset the password?",
+  "disclaimer_text_enable": "Are you sure you want to change the status to enabled?",
+  "disclaimer_text_disable": "Are you sure you want to change the status to disabled?",
   "disclaimer_text": "In-take Voluntary Forms, we don't sell or share your information to third parties.",
   "disclaimer_button_cancel": "Cancel",
   "disclaimer_button_agree": "Agree",
@@ -284,6 +286,8 @@
   "disclaimer_register_location_text": "Are you picking up at this location?",
 
   "table_input_search": "Search",
+  "table_snack_enable_disable": "Status changed successfully",
+  "table_snack_enable_disable_error": "Error changing status",
 
   "table_notifications_title": "Notifications",
   "table_notifications_snack_error_get": "Error getting notifications",
@@ -308,6 +312,8 @@
   "table_users_row_button_edit": "Edit",
   "table_users_row_button_delete": "Delete",
   "table_users_row_button_reset_password": "Reset password",
+  "table_users_row_button_enable": "Enable",
+  "table_users_row_button_disable": "Disable",
   "table_users_button_add_user": "Add user",
 
   "table_tickets_title": "Tickets",
@@ -400,6 +406,7 @@
   "table_clients_snack_error_get": "Error getting clients",
   "table_clients_header_name": "Name",
   "table_clients_header_short_name": "Short name",
+  "table_clients_header_enabled": "Enabled",
   "table_clients_header_creation_date": "Creation date",
   "table_clients_header_modification_date": "Modification date",
   "table_clients_row_button_view": "View",

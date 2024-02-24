@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
+import { DisclaimerEnableDisableElementComponent } from 'src/app/components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
 import { DisclaimerResetPasswordComponent } from 'src/app/components/dialog/disclaimer-reset-password/disclaimer-reset-password/disclaimer-reset-password.component';
 import { userTable } from 'src/app/models/tables/user-table';
 import { TablesService } from 'src/app/services/tables/tables.service';
@@ -158,6 +159,34 @@ export class TableUserComponent implements OnInit, AfterViewInit {
             this.openSnackBar(this.translate.instant('login_snack_your_new_password') + res.password);
           }
         );
+      }
+    });
+  }
+
+  openDialogEnableDisableElement(id: string, enabled: string): void {
+    const dialogRef = this.dialog.open(DisclaimerEnableDisableElementComponent, {
+      width: '370px',
+      data: enabled
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      let enable = 'Y';
+      if (enabled === 'Y') {
+        enable = 'N';
+      }
+      if (result.status) {
+        this.tablesService.enableDisableElement(id, 'user', enable).subscribe({
+          next: (res) => {
+            this.openSnackBar(this.translate.instant('table_snack_enable_disable'));
+          },
+          error: (error) => {
+            console.log(error);
+            this.openSnackBar(this.translate.instant('table_snack_enable_disable_error'));
+          },
+          complete: () => {
+            this.getDataUserTable();
+          }
+        });
       }
     });
   }

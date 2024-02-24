@@ -38,6 +38,7 @@ export class ViewClientComponent implements OnInit {
       phone: '',
       address: '',
       webpage: '',
+      enabled: '',
       creation_date: '',
       modification_date: '',
       locations: []

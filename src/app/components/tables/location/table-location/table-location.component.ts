@@ -1,11 +1,13 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
+import { DisclaimerEnableDisableElementComponent } from 'src/app/components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
 import { locationTable } from 'src/app/models/tables/location-table';
 import { TablesService } from 'src/app/services/tables/tables.service';
 
@@ -52,6 +54,7 @@ export class TableLocationComponent implements OnInit, AfterViewInit {
     private tablesService: TablesService,
     public translate: TranslateService,
     private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {
     this.columna = 'id'
   }
@@ -126,6 +129,34 @@ export class TableLocationComponent implements OnInit, AfterViewInit {
 
   openSnackBar(message: string) {
     this.snackBar.open(message, this.translate.instant('snackbar_close'));
+  }
+
+  openDialogEnableDisableElement(id: string, enabled: string): void {
+    const dialogRef = this.dialog.open(DisclaimerEnableDisableElementComponent, {
+      width: '370px',
+      data: enabled
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      let enable = 'Y';
+      if (enabled === 'Y') {
+        enable = 'N';
+      }
+      if (result.status) {
+        this.tablesService.enableDisableElement(id, 'location', enable).subscribe({
+          next: (res) => {
+            this.openSnackBar(this.translate.instant('table_snack_enable_disable'));
+          },
+          error: (error) => {
+            console.log(error);
+            this.openSnackBar(this.translate.instant('table_snack_enable_disable_error'));
+          },
+          complete: () => {
+            this.getDataLocationTable();
+          }
+        });
+      }
+    });
   }
 
   private getDataLocationTable() {

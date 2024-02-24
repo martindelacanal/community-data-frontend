@@ -277,6 +277,8 @@
   "metrics_filters_input_maximum_age": "Edad máxima",
 
   "disclaimer_text_reset_password": "¿Está seguro que desea reiniciar la contraseña?",
+  "disclaimer_text_enable": "¿Está seguro que desea cambiar el estado a habilitado?",
+  "disclaimer_text_disable": "¿Está seguro que desea cambiar el estado a deshabilitado?",
   "disclaimer_text": "Formulario voluntario, no vendemos ni compartimos su información con otras entidades.",
   "disclaimer_button_cancel": "Cancelar",
   "disclaimer_button_agree": "Aceptar",
@@ -284,6 +286,8 @@
   "disclaimer_register_location_text": "¿Vas a retirar en esta ubicación?",
 
   "table_input_search": "Buscar",
+  "table_snack_enable_disable": "Estado cambiado con éxito",
+  "table_snack_enable_disable_error": "Error al cambiar el estado",
 
   "table_notifications_title": "Notificaciones",
   "table_notifications_snack_error_get": "Error al obtener las notificaciones",
@@ -308,6 +312,8 @@
   "table_users_row_button_edit": "Editar",
   "table_users_row_button_delete": "Eliminar",
   "table_users_row_button_reset_password": "Reiniciar contraseña",
+  "table_users_row_button_enable": "Habilitar",
+  "table_users_row_button_disable": "Deshabilitar",
   "table_users_button_add_user": "Agregar usuario",
 
   "table_tickets_title": "Tickets",
@@ -400,6 +406,7 @@
   "table_clients_snack_error_get": "Error al obtener los clientes",
   "table_clients_header_name": "Nombre",
   "table_clients_header_short_name": "Nombre corto",
+  "table_clients_header_enabled": "Habilitado",
   "table_clients_header_creation_date": "Fecha de creación",
   "table_clients_header_modification_date": " Fecha de modificación",
   "table_clients_row_button_view": "Ver",
