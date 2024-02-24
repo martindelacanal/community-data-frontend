@@ -24,14 +24,28 @@
                 {{'delivery_input_destination_error_please' | translate }}
               </mat-error>
             </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label *ngIf="deliveryForm.controls['destination'].value">{{'delivery_input_client' | translate }}</mat-label>
+              <mat-label *ngIf="!deliveryForm.controls['destination'].value">{{'delivery_input_client_select_destination' | translate }}</mat-label>
+              <mat-select formControlName="client_id">
+                <mat-option *ngFor="let client of clientsFiltered" [value]="client.id">
+                  {{client.short_name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="deliveryForm.controls['client_id'].hasError('required')">
+                {{'delivery_input_client_error_please' | translate }}
+              </mat-error>
+            </mat-form-field>
           </div>
           <ng-template #scanner>
             <div *ngIf="!loading">
-              <button *ngIf="!this.scanActive && !this.infoValid" class="qr-button" type="button" (click)="scanQR()">
+              <button *ngIf="!this.scanActive && !this.infoValid && !isBeneficiaryLocationError" class="qr-button" type="button" (click)="scanQR()">
                 <mat-icon>qr_code_scanner</mat-icon></button>
-              <p *ngIf="!this.scanActive && this.infoValid" class="ui-text ui-text--ui-secundario">
+              <p *ngIf="!this.scanActive && this.infoValid && !isBeneficiaryLocationError" class="ui-text ui-text--ui-secundario">
                 {{'delivery_text_beneficiary_authorized' | translate }}<br>
                 {{'delivery_text_beneficiary_authorized_press_approved' | translate }}</p>
+                <p *ngIf="!this.scanActive && !this.infoValid && isBeneficiaryLocationError" class="ui-text ui-text--ui-secundario">
+                  {{'delivery_text_beneficiary_error_location' | translate }}</p>
               <div *ngIf="this.scanActive">
                 <qr-scanner facing="environment" [canvasWidth]="720" [canvasHeight]="720" [stopAfterScan]="true"
                   [updateTime]="500">

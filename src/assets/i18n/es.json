@@ -121,6 +121,10 @@
   "delivery_title": "Escanear QR",
   "delivery_input_destination": "Destino",
   "delivery_input_destination_error_please": "Por favor ingrese el destino",
+  "delivery_input_client": "Cliente",
+  "delivery_input_client_select_destination": "Cliente (seleccione el destino primero)",
+  "delivery_input_client_error_please": "Por favor ingrese el cliente",
+  "delivery_text_beneficiary_error_location": "Error: El beneficiario eligió una locación diferente, por favor corrigelo.",
   "delivery_text_beneficiary_authorized": "Beneficiario autorizado para recibir una bolsa",
   "delivery_text_beneficiary_authorized_press_approved": "Presione aprobado si está de acuerdo",
   "delivery_text_organization": "Organización",
@@ -177,6 +181,12 @@
   "stocker_button_submit_files_error": "Por favor suba los archivos correctamente.",
   "stocker_button_submit_sum_quantity_error": "La suma de las cantidades debe ser igual al peso total.",
   "stocker_button_submit_product_null_error": "Por favor ingrese el producto y la cantidad, o elimine el campo.",
+
+  "stocker_title_edit": "Editar ticket",
+  "stocker_button_edit": "Guardar",
+  "stocker_edit_snack_get_error": "Error al obtener el ticket",
+  "stocker_edit_snack_ticket_updated": "Ticket actualizado con éxito",
+  "stocker_edit_snack_error_update": "Error al actualizar el ticket",
 
   "dashboard_admin_pounds_delivered": "Libras entregadas",
   "dashboard_admin_total_locations": "Total de locaciones",

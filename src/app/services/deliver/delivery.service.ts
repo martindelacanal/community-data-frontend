@@ -14,8 +14,8 @@ export class DeliveryService {
     private http: HttpClient
   ) { }
 
-  uploadTicket(beneficiaryQR: beneficiaryQR, location_id: number){
-    return this.http.post<any>(`${environment.url_api}/upload/beneficiaryQR/${location_id}`, beneficiaryQR);
+  uploadTicket(beneficiaryQR: beneficiaryQR, location_id: number, client_id: number){
+    return this.http.post<any>(`${environment.url_api}/upload/beneficiaryQR/${location_id}/${client_id}`, beneficiaryQR);
   }
 
   getLocations(){
@@ -30,8 +30,8 @@ export class DeliveryService {
     return this.http.get<Location>(`${environment.url_api}/user/location`);
   }
 
-  onBoard(value: boolean, location_id: number){
-    return this.http.post(`${environment.url_api}/onBoard`, {value: value, location_id: location_id});
+  onBoard(value: boolean, location_id: number, client_id?: number){
+    return this.http.post(`${environment.url_api}/onBoard`, {value: value, location_id: location_id, client_id: client_id});
   }
 
 }

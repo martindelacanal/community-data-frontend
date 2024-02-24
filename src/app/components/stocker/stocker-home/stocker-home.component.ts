@@ -1,11 +1,12 @@
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { BreakpointObserver, } from '@angular/cdk/layout';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, debounceTime, map, of, startWith } from 'rxjs';
 import { Location } from 'src/app/models/map/location';
+import { NewTicket } from 'src/app/models/new/new-ticket';
 import { Product } from 'src/app/models/stocker/product';
 import { ProductType } from 'src/app/models/stocker/product-type';
 import { Provider } from 'src/app/models/stocker/provider';
@@ -22,6 +23,8 @@ export class StockerHomeComponent implements OnInit {
   isTablet: boolean;
 
   public loading: boolean = true;
+  public loadingGet: boolean = false;
+  public loadingGetForm: boolean = false;
   private loadingLocations: boolean = false;
   private loadingProviders: boolean = false;
   private loadingProducts: boolean = false;
@@ -38,6 +41,8 @@ export class StockerHomeComponent implements OnInit {
   public locationAddressSelected: string = '';
 
   private file_ticket: any;
+  private ticketGetted: NewTicket;
+  public idTicket: string = '';
   locations: Location[] = [];
   products: Product[] = [];
   product_types: ProductType[] = [];
@@ -53,6 +58,7 @@ export class StockerHomeComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private breakpointObserver: BreakpointObserver,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -79,6 +85,14 @@ export class StockerHomeComponent implements OnInit {
       '(min-width: 901px) and (max-width: 1200px)'
     ]).subscribe(result => {
       this.isTablet = result.matches;
+    });
+
+    this.activatedRoute.params.subscribe((params: Params) => {
+      if (params['id']) {
+        this.idTicket = params['id'];
+        this.loadingGet = true;
+        this.getTicket();
+      }
     });
 
     this.stockForm.get('donation_id').valueChanges
@@ -119,7 +133,6 @@ export class StockerHomeComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    console.log("form: ", this.stockForm.value);
     if (this.imageTicketUploaded === true) {
       this.isValidFiles = true;
     } else {
@@ -181,32 +194,57 @@ export class StockerHomeComponent implements OnInit {
         body.append('ticket[]', null); // Agregar un valor nulo al FormData si no hay archivos
       }
       body.append('form', JSON.stringify(this.stockForm.value));
-      console.log("Form enviado: ", this.stockForm.value);
-      console.log("Body enviado: ", body);
-      this.stockerService.uploadTicket(body).subscribe({
-        next: (res) => {
-          this.loading = false;
-          this.openSnackBar(this.translate.instant('stocker_snack_ticket_uploaded'));
-          this.resetearFormulario();
-        },
-        error: (error) => {
-          console.log(error);
-          // volver a colocar el provider y el product en el formulario, ya que se cambió a id, ahora se cambia a texto
-          this.stockForm.get('provider').setValue(this.providers.find(p => p.id === this.stockForm.get('provider').value).name);
-          for (let i = 0; i < this.productsForm.controls.length; i++) {
-            const control = this.productsForm.controls[i];
-            const productName = control.get('product').value;
-            const product = this.products.find(p => p.id === productName);
-            if (product) {
-              control.get('product').setValue(product.name);
+      if (this.idTicket) {
+        //TO-DO
+        this.stockerService.updateTicket(this.idTicket, body).subscribe({
+          next: (res) => {
+            this.loading = false;
+            this.openSnackBar(this.translate.instant('stocker_edit_snack_ticket_updated'));
+            this.router.navigate(['/view/ticket/' + this.idTicket]);
+          },
+          error: (error) => {
+            console.log(error);
+            // volver a colocar el provider y el product en el formulario, ya que se cambió a id, ahora se cambia a texto
+            this.stockForm.get('provider').setValue(this.providers.find(p => p.id === this.stockForm.get('provider').value).name);
+            for (let i = 0; i < this.productsForm.controls.length; i++) {
+              const control = this.productsForm.controls[i];
+              const productName = control.get('product').value;
+              const product = this.products.find(p => p.id === productName);
+              if (product) {
+                control.get('product').setValue(product.name);
+              }
             }
+            this.loading = false;
+            // show error message in alert
+            this.openSnackBar(this.translate.instant('stocker_edit_snack_error_update'));
           }
-          this.loading = false;
-          // show error message in alert
-          alert(`Please send to administrator: ${error.message} - ${error.error}`);
-          this.openSnackBar(this.translate.instant('stocker_snack_ticket_uploaded_error'));
-        }
-      });
+        });
+
+      } else {
+        this.stockerService.uploadTicket(body).subscribe({
+          next: (res) => {
+            this.loading = false;
+            this.openSnackBar(this.translate.instant('stocker_snack_ticket_uploaded'));
+            this.resetearFormulario();
+          },
+          error: (error) => {
+            console.log(error);
+            // volver a colocar el provider y el product en el formulario, ya que se cambió a id, ahora se cambia a texto
+            this.stockForm.get('provider').setValue(this.providers.find(p => p.id === this.stockForm.get('provider').value).name);
+            for (let i = 0; i < this.productsForm.controls.length; i++) {
+              const control = this.productsForm.controls[i];
+              const productName = control.get('product').value;
+              const product = this.products.find(p => p.id === productName);
+              if (product) {
+                control.get('product').setValue(product.name);
+              }
+            }
+            this.loading = false;
+            // show error message in alert
+            this.openSnackBar(this.translate.instant('stocker_snack_ticket_uploaded_error'));
+          }
+        });
+      }
     } else {
       this.loading = false;
       if (!this.stockForm.valid) {
@@ -341,8 +379,73 @@ export class StockerHomeComponent implements OnInit {
     event.target.value = formattedInput;
   }
 
+  private getTicket() {
+    //TO-DO
+    this.loadingGetForm = true;
+    this.stockerService.getTicket(this.idTicket).subscribe({
+      next: (res) => {
+        this.ticketGetted = {
+          donation_id: res.donation_id,
+          total_weight: res.total_weight,
+          provider: res.provider,
+          destination: res.destination,
+          date: res.date,
+          delivered_by: res.delivered_by,
+          products: res.products
+        }
+
+        this.stockForm.patchValue({
+          donation_id: res.donation_id,
+          total_weight: res.total_weight,
+          provider: res.provider,
+          destination: res.destination,
+          date: res.date,
+          delivered_by: res.delivered_by,
+          products: res.products
+        });
+
+        // Actualizar la validez de los campos de formulario
+        this.stockForm.get('donation_id').updateValueAndValidity();
+        this.stockForm.get('total_weight').updateValueAndValidity();
+        this.stockForm.get('provider').updateValueAndValidity();
+        this.stockForm.get('destination').updateValueAndValidity();
+        this.stockForm.get('date').updateValueAndValidity();
+        this.stockForm.get('delivered_by').updateValueAndValidity();
+        this.stockForm.get('products').updateValueAndValidity();
+
+      },
+      error: (error) => {
+        console.error(error);
+        this.openSnackBar(this.translate.instant('stocker_edit_snack_get_error'));
+      },
+      complete: () => {
+        this.loadingGetForm = false;
+        this.checkLoading();
+      }
+    });
+  }
+
   private resetearFormulario() {
-    this.router.navigate(['stocker/home']);
+    // this.router.navigate(['stocker/home']);
+    this.stockForm.reset();
+    this.stockForm.get('donation_id').setErrors(null);
+    this.stockForm.get('total_weight').setErrors(null);
+    this.stockForm.get('provider').setErrors(null);
+    this.stockForm.get('destination').setErrors(null);
+    this.stockForm.get('date').setErrors(null);
+    this.stockForm.get('delivered_by').setErrors(null);
+    this.stockForm.get('products').setErrors(null);
+    this.file_ticket = [];
+    this.imageTicketUploaded = false;
+    this.numberOfFields = 0;
+    this.productsForm.clear();
+    this.showMessageStockFormInvalid = false;
+    this.showMessageFilesInvalid = false;
+    this.showMessageQuantityInvalid = false;
+    this.showMessageProductNull = false;
+    this.locationOrganizationSelected = '';
+    this.locationAddressSelected = '';
+    this.donationIDExists = false;
   }
 
   private filterProviders(value: any): string[] {
@@ -461,7 +564,7 @@ export class StockerHomeComponent implements OnInit {
       complete: () => {
         this.loadingDonationIDExists = false;
       }
-  });
+    });
   }
 
   private validateDonationID(): ValidationErrors | null {
@@ -473,7 +576,13 @@ export class StockerHomeComponent implements OnInit {
 
   private checkLoading() {
     if (!this.loadingLocations && !this.loadingProviders && !this.loadingProducts && !this.loadingProductTypes) {
-      this.loading = false;
+      if (this.idTicket) {
+        if (!this.loadingGetForm) {
+          this.loading = false;
+        }
+      } else {
+        this.loading = false;
+      }
     }
   }
 

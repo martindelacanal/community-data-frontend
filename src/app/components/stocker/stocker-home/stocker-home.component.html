@@ -2,8 +2,9 @@
   <div class="container">
     <section class="header">
       <div class="header__title">
-        <h1 class="title">{{'stocker_title' | translate }}</h1>
-        <mat-spinner *ngIf="loading" class="loading-inputs" mode="indeterminate" [diameter]="30"></mat-spinner>
+        <h1 class="title" *ngIf="!this.idTicket">{{'stocker_title' | translate }}</h1>
+        <h1 class="title" *ngIf="this.idTicket">{{'stocker_title_edit' | translate }} {{this.idTicket}}</h1>
+        <mat-spinner *ngIf="loading || loadingGet" class="loading-inputs" mode="indeterminate" [diameter]="30"></mat-spinner>
       </div>
       <div>
         <button *ngIf="this.decodificadorService.getRol() == 'admin'" type="button" class="ui-button" routerLink="/table/ticket">{{'view_ticket_button_tickets' | translate }}</button>
@@ -211,7 +212,7 @@
               <div class="main__footer">
                 <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
                 <button *ngIf="!loading" class="ui-button" type="submit"
-                  [disabled]="!stockForm.valid || loadingDonationIDExists">{{'stocker_button_submit' | translate }}</button>
+                  [disabled]="!stockForm.valid || loadingDonationIDExists">{{ idTicket == '' ? ('stocker_button_edit' | translate) : ('stocker_button_submit' | translate) }}</button>
                 <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
                 <mat-error *ngIf="showMessageStockFormInvalid">
                   {{'stocker_button_submit_stock_form_error' | translate }}

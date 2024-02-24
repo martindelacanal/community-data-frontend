@@ -5,8 +5,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { QrScannerComponent } from 'angular2-qrscanner';
 import { beneficiaryQR } from 'src/app/models/beneficiary/beneficiary-qr.model';
 import { Location } from 'src/app/models/map/location';
+import { Client } from 'src/app/models/user/client';
 import { UserStatus } from 'src/app/models/user/user-status';
 import { DeliveryService } from 'src/app/services/deliver/delivery.service';
+import { NewService } from 'src/app/services/new/new.service';
 
 
 @Component({
@@ -23,8 +25,11 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
   scanActive: boolean = false;
   infoValid: boolean = false;
   onBoarded: boolean = false;
+  isBeneficiaryLocationError: boolean = false;
   objeto: beneficiaryQR;
   locations: Location[] = [];
+  clients: Client[] = [];
+  clientsFiltered: Client[] = [];
   userStatus: UserStatus;
   userLocation: Location;
   public locationOrganizationSelected: string = '';
@@ -34,6 +39,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
     private deliveryService: DeliveryService,
     private snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
+    private newService: NewService,
     public translate: TranslateService
   ) {
     this.buildDeliveryForm();
@@ -42,6 +48,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
   ngOnInit(): void {
     console.log(this.userLocation);
     this.getLocations();
+    this.getClients();
     this.getUserStatus();
     this.getUserLocation();
 
@@ -52,11 +59,12 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
         if (location) {
           this.locationOrganizationSelected = location.organization;
           this.locationAddressSelected = location.address;
+          this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(res));
         } else {
           this.locationOrganizationSelected = '';
           this.locationAddressSelected = '';
+          this.clientsFiltered = [];
         }
-
       }
     );
   }
@@ -121,12 +129,18 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
         try {
           this.loading = true;
           this.objeto = JSON.parse(result);
-          this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination).subscribe({
+          console.log("this.deliveryForm.value.client_id: ", this.deliveryForm.value.client_id);
+          this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
             next: (res) => {
-              if (res.could_approve === 'Y') {
-                this.infoValid = true;
-              } else {
+              if (res.error && res.error === 'receiving_location') {
+                this.isBeneficiaryLocationError = true; // beneficiario eligio mal la locacion
                 this.infoValid = false;
+              } else {
+                if (res.could_approve === 'Y') {
+                  this.infoValid = true;
+                } else {
+                  this.infoValid = false;
+                }
               }
               this.loading = false;
             },
@@ -149,38 +163,43 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
   onBoard() {
     this.loading = true;
     if (!this.onBoarded) {
-      this.onBoarded = true;
-      this.deliveryService.onBoard(true, this.deliveryForm.value.destination).subscribe(
-        (res: any) => {
+      this.deliveryService.onBoard(true, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
+        next: (res) => {
           console.log(res);
           this.userLocation = this.locations.find(location => location.id === this.deliveryForm.value.destination);
+          this.onBoarded = true;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded'));
         },
-        (err: any) => {
-          console.log(err);
+        error: (error) => {
+          console.log(error);
           this.onBoarded = false;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded_error'));
+        },
+        complete: () => {
+          this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(this.deliveryForm.value.destination));
         }
-      );
+      });
     } else {
-      this.onBoarded = false;
-      this.deliveryService.onBoard(false, this.deliveryForm.value.destination).subscribe(
-        (res: any) => {
+      this.deliveryService.onBoard(false, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
+        next: (res) => {
           console.log(res);
           this.userLocation = null;
+          this.onBoarded = false;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_off_boarded'));
         },
-        (err: any) => {
-          console.log(err);
+        error: (error) => {
+          console.log(error);
           this.onBoarded = true;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_off_boarded_error'));
+        },
+        complete: () => {
+          this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(this.deliveryForm.value.destination));
         }
-      );
-
+      });
     }
   }
 
@@ -189,7 +208,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
       this.loading = true;
       // cambiar el approved del objeto
       this.objeto.approved = 'Y';
-      this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination).subscribe({
+      this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
         next: (res) => {
           console.log(res);
           this.loading = false;
@@ -209,7 +228,6 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
   }
 
   onCancel() {
-    console.log('Formulario cancelado');
     this.infoValid = false;
     this.scanActive = false;
     if (this.qrScannerComponent) {
@@ -220,6 +238,23 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
 
   openSnackBar(message: string) {
     this.snackBar.open(message, this.translate.instant('snackbar_close'));
+  }
+
+  private getClients() {
+    // this.loadingGetClients = true;
+    this.newService.getClients().subscribe({
+      next: (res) => {
+        this.clients = res;
+      },
+      error: (error) => {
+        console.error(error);
+        this.openSnackBar(this.translate.instant('new_user_input_client_error_get'));
+      },
+      complete: () => {
+        // this.loadingGetClients = false;
+        // this.checkLoadingGet();
+      }
+    });
   }
 
   private getLocations() {
@@ -240,6 +275,10 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
         } else {
           this.onBoarded = false;
         }
+        console.log("this.userStatus: ", this.userStatus);
+        this.deliveryForm.patchValue({
+          client_id: res.client_id
+        });
         this.loading = false;
       }
     );
@@ -261,7 +300,8 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
 
   private buildDeliveryForm(): void {
     this.deliveryForm = this.formBuilder.group({
-      destination: [null, Validators.required]
+      destination: [null, Validators.required],
+      client_id: [null]
     });
   }
 }

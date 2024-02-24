@@ -45,6 +45,7 @@ export class BeneficiaryHomeComponent implements OnInit {
       id: this.decodificadorService.getId(),
       role: this.decodificadorService.getRol(),
       date: new Date().toLocaleString(),
+      location_id: 0,
       approved: 'N'
     };
     this.value = JSON.stringify(this.objeto);
@@ -78,6 +79,7 @@ export class BeneficiaryHomeComponent implements OnInit {
       id: this.decodificadorService.getId(),
       role: this.decodificadorService.getRol(),
       date: new Date().toLocaleString(),
+      location_id: this.beneficiaryForm.value.destination,
       approved: 'N'
     };
     this.value = JSON.stringify(this.objeto);
@@ -89,36 +91,42 @@ export class BeneficiaryHomeComponent implements OnInit {
     console.log("this.beneficiaryForm.value.destination: ", this.beneficiaryForm.value.destination);
     if (!this.onBoarded) {
       this.onBoarded = true;
-      this.deliveryService.onBoard(true, this.beneficiaryForm.value.destination).subscribe(
-        (res: any) => {
+      this.deliveryService.onBoard(true, this.beneficiaryForm.value.destination).subscribe({
+        next: (res) => {
           console.log(res);
           this.userLocation = this.locations.find(location => location.id === this.beneficiaryForm.value.destination);
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded'));
         },
-        (err: any) => {
-          console.log(err);
+        error: (error) => {
+          console.log(error);
           this.onBoarded = false;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded_error'));
+        },
+        complete: () => {
+          this.newQR();
         }
-      );
+      });
     } else {
       this.onBoarded = false;
-      this.deliveryService.onBoard(false, this.beneficiaryForm.value.destination).subscribe(
-        (res: any) => {
+      this.deliveryService.onBoard(false, this.beneficiaryForm.value.destination).subscribe({
+        next: (res) => {
           console.log(res);
           this.userLocation = null;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_off_boarded'));
         },
-        (err: any) => {
-          console.log(err);
+        error: (error) => {
+          console.log(error);
           this.onBoarded = true;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_off_boarded_error'));
+        },
+        complete: () => {
+          this.newQR();
         }
-      );
+      });
     }
   }
 
@@ -179,6 +187,7 @@ export class BeneficiaryHomeComponent implements OnInit {
         this.locationOrganizationSelected = '';
         this.locationAddressSelected = '';
       }
+      this.newQR();
     });
   }
 

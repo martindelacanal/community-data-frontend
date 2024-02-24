@@ -121,6 +121,10 @@
   "delivery_title": "Scan QR",
   "delivery_input_destination": "Destination",
   "delivery_input_destination_error_please": "Please select a destination",
+  "delivery_input_client": "Client",
+  "delivery_input_client_select_destination": "Client (select a destination first)",
+  "delivery_input_client_error_please": "Please select a client",
+  "delivery_text_beneficiary_error_location": "Error: The beneficiary chose a different location, please correct this.",
   "delivery_text_beneficiary_authorized": "Beneficiary authorized to receive a bag.",
   "delivery_text_beneficiary_authorized_press_approved": "Press approved if you agree.",
   "delivery_text_organization": "Organization",
@@ -177,6 +181,12 @@
   "stocker_button_submit_files_error": "Please upload the ticket files.",
   "stocker_button_submit_sum_quantity_error": "The sum of the quantities must be equal to the total weight.",
   "stocker_button_submit_product_null_error": "Please fill the product and quantity fields, or delete the row.",
+
+  "stocker_title_edit": "Edit ticket",
+  "stocker_button_edit": "Save",
+  "stocker_edit_snack_get_error": "Error getting ticket",
+  "stocker_edit_snack_ticket_updated": "Ticket updated successfully",
+  "stocker_edit_snack_error_update": "Error updating ticket",
 
   "dashboard_admin_pounds_delivered": "Pounds delivered",
   "dashboard_admin_total_locations": "Total locations",

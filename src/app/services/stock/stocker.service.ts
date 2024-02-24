@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Location } from 'src/app/models/map/location';
+import { NewTicket } from 'src/app/models/new/new-ticket';
 import { Product } from 'src/app/models/stocker/product';
 import { ProductType } from 'src/app/models/stocker/product-type';
 import { Provider } from 'src/app/models/stocker/provider';
@@ -17,6 +18,15 @@ export class StockerService {
 
   uploadTicket(ticket: FormData){
     return this.http.post(`${environment.url_api}/upload/ticket`, ticket);
+  }
+
+  //TO-DO
+  updateTicket(id: string, ticket: FormData) {
+    return this.http.put<any>(`${environment.url_api}/upload/ticket/${id}`, ticket)
+  }
+  //TO-DO
+  getTicket(id: string) {
+    return this.http.get<NewTicket>(`${environment.url_api}/upload/ticket/${id}`)
   }
 
   getLocations(){
