@@ -12,7 +12,8 @@
         <!-- donation id -->
         <div class="card" [ngClass]="{'camara-qr': this.scanActive}" [formGroup]="deliveryForm">
           <!-- check if field destination in deliveryForm has value -->
-          <div *ngIf="!loading && (!onBoarded || !deliveryForm.controls['destination'].value); else scanner" class="full-width">
+          <div *ngIf="!loading && (!onBoarded || !deliveryForm.controls['destination'].value); else scanner"
+            class="full-width">
             <mat-form-field appearance="outline">
               <mat-label>{{'delivery_input_destination' | translate }}</mat-label>
               <mat-select formControlName="destination">
@@ -25,8 +26,11 @@
               </mat-error>
             </mat-form-field>
             <mat-form-field appearance="outline">
-              <mat-label *ngIf="deliveryForm.controls['destination'].value">{{'delivery_input_client' | translate }}</mat-label>
-              <mat-label *ngIf="!deliveryForm.controls['destination'].value">{{'delivery_input_client_select_destination' | translate }}</mat-label>
+              <mat-label *ngIf="deliveryForm.controls['destination'].value">{{'delivery_input_client' | translate
+                }}</mat-label>
+              <mat-label
+                *ngIf="!deliveryForm.controls['destination'].value">{{'delivery_input_client_select_destination' |
+                translate }}</mat-label>
               <mat-select formControlName="client_id">
                 <mat-option *ngFor="let client of clientsFiltered" [value]="client.id">
                   {{client.short_name}}
@@ -39,13 +43,16 @@
           </div>
           <ng-template #scanner>
             <div *ngIf="!loading">
-              <button *ngIf="!this.scanActive && !this.infoValid && !isBeneficiaryLocationError" class="qr-button" type="button" (click)="scanQR()">
+              <button *ngIf="!this.scanActive && !this.infoValid && !isBeneficiaryLocationError" class="qr-button"
+                type="button" (click)="scanQR()">
                 <mat-icon>qr_code_scanner</mat-icon></button>
-              <p *ngIf="!this.scanActive && this.infoValid && !isBeneficiaryLocationError" class="ui-text ui-text--ui-secundario">
+              <p *ngIf="!this.scanActive && this.infoValid && !isBeneficiaryLocationError"
+                class="ui-text ui-text--ui-secundario">
                 {{'delivery_text_beneficiary_authorized' | translate }}<br>
                 {{'delivery_text_beneficiary_authorized_press_approved' | translate }}</p>
-                <p *ngIf="!this.scanActive && !this.infoValid && isBeneficiaryLocationError" class="ui-text ui-text--ui-secundario">
-                  {{'delivery_text_beneficiary_error_location' | translate }}</p>
+              <p *ngIf="!this.scanActive && !this.infoValid && isBeneficiaryLocationError"
+                class="ui-text ui-text--ui-secundario">
+                {{'delivery_text_beneficiary_error_location' | translate }}</p>
               <div *ngIf="this.scanActive">
                 <qr-scanner facing="environment" [canvasWidth]="720" [canvasHeight]="720" [stopAfterScan]="true"
                   [updateTime]="500">
@@ -65,24 +72,29 @@
         <div class="card">
           <div class="main__footer">
             <span class="main__footer__span">
-              <div *ngIf="!(this.userLocation && this.userLocation.id) && locationOrganizationSelected && locationAddressSelected">{{'delivery_text_organization' | translate }}:
+              <div
+                *ngIf="!(this.userLocation && this.userLocation.id) && locationOrganizationSelected && locationAddressSelected">
+                {{'delivery_text_organization' | translate }}:
                 {{locationOrganizationSelected}} - {{'delivery_text_address' | translate }}:
                 {{locationAddressSelected}}</div>
               <div *ngIf="this.userLocation && this.userLocation.id">{{'delivery_text_organization' | translate }}:
                 {{this.userLocation.organization}} - {{'delivery_text_address' | translate }}:
                 {{this.userLocation.address}}</div>
             </span>
-            <button *ngIf="!loading && (this.scanActive || this.infoValid || this.isBeneficiaryLocationError)" class="ui-button" type="button"
-              (click)="onCancel()">{{'delivery_button_cancel' | translate }}</button>
-            <button *ngIf="!loading && onBoarded && !this.scanActive && !this.infoValid && !this.isBeneficiaryLocationError"
+            <button *ngIf="!loading && (this.scanActive || this.infoValid || this.isBeneficiaryLocationError)"
+              class="ui-button" type="button" (click)="onCancel()">{{'delivery_button_cancel' | translate }}</button>
+            <button
+              *ngIf="!loading && onBoarded && !this.scanActive && !this.infoValid && !this.isBeneficiaryLocationError"
               class="ui-button" type="button" (click)="onBoard()">{{'delivery_button_off_board'
               | translate }}</button>
-            <button *ngIf="!loading && onBoarded && !this.scanActive" class="ui-button ui-button--ui-secundario" type="button"
-              (click)="onSubmit()" [disabled]="this.scanActive || !this.infoValid">{{'delivery_button_approved' |
+            <button *ngIf="!loading && onBoarded && !this.scanActive" class="ui-button ui-button--ui-secundario"
+              type="button" (click)="onSubmit()"
+              [disabled]="this.scanActive || !this.infoValid">{{'delivery_button_approved' |
               translate }}</button>
-            <button *ngIf="!loading && !onBoarded" class="ui-button ui-button--ui-secundario" type="button" (click)="onBoard()"
-              [disabled]="deliveryForm.controls['destination'].hasError('required')">{{'delivery_button_on_board' |
-              translate }}</button>
+            <button *ngIf="!loading && !onBoarded" class="ui-button ui-button--ui-secundario" type="button"
+              (click)="onBoard()" [disabled]="!deliveryForm.valid">
+              {{'delivery_button_on_board' | translate }}
+            </button>
             <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
           </div>
         </div>

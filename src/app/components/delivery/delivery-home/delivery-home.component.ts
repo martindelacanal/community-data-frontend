@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewEncapsulation, OnInit, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewChecked } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,7 +16,7 @@ import { NewService } from 'src/app/services/new/new.service';
   templateUrl: './delivery-home.component.html',
   styleUrls: ['./delivery-home.component.scss'],
 })
-export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
 
   @ViewChild(QrScannerComponent) qrScannerComponent: QrScannerComponent;
 
@@ -60,17 +60,24 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
           this.locationOrganizationSelected = location.organization;
           this.locationAddressSelected = location.address;
           this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(res));
+          if (this.clientsFiltered.length > 0) {
+            this.deliveryForm.get('client_id').setValidators([Validators.required]);
+          } else {
+            this.deliveryForm.get('client_id').setValidators([]);
+          }
+          this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
+          this.deliveryForm.get('client_id').markAsTouched();
+          this.deliveryForm.get('client_id').updateValueAndValidity();
         } else {
           this.locationOrganizationSelected = '';
           this.locationAddressSelected = '';
           this.clientsFiltered = [];
+          this.deliveryForm.get('client_id').setValidators([]);
+          this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
+          this.deliveryForm.get('client_id').updateValueAndValidity();
         }
       }
     );
-  }
-
-  ngAfterViewInit(): void {
-
   }
 
   ngAfterViewChecked(): void {
@@ -295,7 +302,6 @@ export class DeliveryHomeComponent implements OnInit, AfterViewInit, AfterViewCh
       }
     );
   }
-
 
   private buildDeliveryForm(): void {
     this.deliveryForm = this.formBuilder.group({
