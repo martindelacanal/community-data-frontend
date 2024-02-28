@@ -15,7 +15,7 @@
       <input matInput type="search" class="ui-input" [formControl]="buscar"
         placeholder="{{'table_input_search' | translate }}">
       <div>
-        <button [routerLink]="['/new/user']" class="ui-button">{{'table_users_button_add_user' | translate }}</button>
+        <button *ngIf="usuario.role === 'admin'" [routerLink]="['/new/user']" class="ui-button">{{'table_users_button_add_user' | translate }}</button>
       </div>
     </div>
     <br>
@@ -90,21 +90,21 @@
               <mat-icon>visibility</mat-icon>
               <span>{{'table_users_row_button_view' | translate }}</span>
             </button>
-            <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/user',element.id]">
+            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/user',element.id]">
               <mat-icon>edit</mat-icon>
               <span>{{'table_users_row_button_edit' | translate }}</span>
             </button>
-            <button mat-menu-item class="boton-usuario-desplegado" (click)="openDialogResetPassword(element.id)">
+            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado" (click)="openDialogResetPassword(element.id)">
               <mat-icon>lock_reset</mat-icon>
               <span>{{'table_users_row_button_reset_password' | translate }}</span>
             </button>
-            <button mat-menu-item class="boton-usuario-desplegado" (click)="openDialogEnableDisableElement(element.id, element.enabled)">
+            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado" (click)="openDialogEnableDisableElement(element.id, element.enabled)">
               <mat-icon *ngIf="element.enabled === 'N'">toggle_off</mat-icon>
               <mat-icon *ngIf="element.enabled === 'Y'">toggle_on</mat-icon>
               <span *ngIf="element.enabled === 'N'">{{'table_users_row_button_enable' | translate }}</span>
               <span *ngIf="element.enabled === 'Y'">{{'table_users_row_button_disable' | translate }}</span>
             </button>
-            <button mat-menu-item class="boton-usuario-desplegado">
+            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado">
               <mat-icon>delete</mat-icon>
               <span>{{'table_users_row_button_delete' | translate }}</span>
             </button>

@@ -9,7 +9,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { DownloadDeliveredCsvComponent } from 'src/app/components/dialog/download-delivered-csv/download-delivered-csv/download-delivered-csv.component';
 import { SelectionDeliveredCsvComponent } from 'src/app/components/dialog/selection-delivered-csv/selection-delivered-csv/selection-delivered-csv.component';
+import { Usuario } from 'src/app/models/login/usuario';
 import { deliveredTable } from 'src/app/models/tables/delivered-table';
+import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { TablesService } from 'src/app/services/tables/tables.service';
 
 const spanishRangeLabel = (page: number, pageSize: number, length: number) => {
@@ -32,6 +34,9 @@ const englishRangeLabel = (page: number, pageSize: number, length: number) => {
   styleUrls: ['./table-delivered.component.scss']
 })
 export class TableDeliveredComponent {
+
+  usuario: Usuario;
+
   dataDeliveredTable: deliveredTable;
   dataSource: any;
   columns = [' ', 'id', 'delivering_user_id', 'delivery_username', 'receiving_user_id', 'beneficiary_username', 'location_id', 'community_city', 'approved', 'creation_date'];
@@ -56,8 +61,10 @@ export class TableDeliveredComponent {
     public translate: TranslateService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private decodificadorService: DecodificadorService
   ) {
-    this.columna = 'id'
+    this.columna = 'id';
+    this.usuario = this.decodificadorService.getUsuario();
   }
 
 

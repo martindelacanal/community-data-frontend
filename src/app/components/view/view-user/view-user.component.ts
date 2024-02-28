@@ -1,9 +1,10 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ViewUser } from 'src/app/models/view/view-user';
+import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { ViewService } from 'src/app/services/view/view.service';
 
 @Component({
@@ -21,11 +22,13 @@ export class ViewUserComponent implements OnInit {
   viewUser: ViewUser;
 
   constructor(
+    private route: Router,
     private activatedRoute: ActivatedRoute,
     private viewService: ViewService,
     private snackBar: MatSnackBar,
     private translate: TranslateService,
     private breakpointObserver: BreakpointObserver,
+    private decodificadorService: DecodificadorService
   ) {
     this.idUser = '';
     this.isMobile = false;
@@ -87,6 +90,12 @@ export class ViewUserComponent implements OnInit {
     this.viewService.getViewUser(idUser, language).subscribe({
       next: (res) => {
         if (res) {
+          if (this.decodificadorService.getRol() === 'client') {
+            if (res.role_name !== 'beneficiary' && res.role_name !== 'client') {
+              this.loading = false;
+              this.route.navigate(['/home']);
+            }
+          }
           this.viewUser = res;
         }
         this.loading = false;

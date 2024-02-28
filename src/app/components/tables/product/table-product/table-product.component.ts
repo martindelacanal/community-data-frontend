@@ -6,7 +6,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
+import { Usuario } from 'src/app/models/login/usuario';
 import { productTable } from 'src/app/models/tables/product-table';
+import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { TablesService } from 'src/app/services/tables/tables.service';
 
 const spanishRangeLabel = (page: number, pageSize: number, length: number) => {
@@ -30,6 +32,8 @@ const englishRangeLabel = (page: number, pageSize: number, length: number) => {
 })
 export class TableProductComponent implements OnInit, AfterViewInit {
 
+  usuario: Usuario;
+
   dataProductTable: productTable;
   dataSource: any;
   columns = [' ', 'id', 'name', 'product_type', 'total_quantity', 'value_usd', 'creation_date'];
@@ -52,8 +56,10 @@ export class TableProductComponent implements OnInit, AfterViewInit {
     private tablesService: TablesService,
     public translate: TranslateService,
     private snackBar: MatSnackBar,
+    private decodificadorService: DecodificadorService
   ) {
-    this.columna = 'id'
+    this.columna = 'id';
+    this.usuario = this.decodificadorService.getUsuario();
   }
 
 

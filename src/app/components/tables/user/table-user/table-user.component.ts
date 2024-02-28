@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { DisclaimerEnableDisableElementComponent } from 'src/app/components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
 import { DisclaimerResetPasswordComponent } from 'src/app/components/dialog/disclaimer-reset-password/disclaimer-reset-password/disclaimer-reset-password.component';
+import { Usuario } from 'src/app/models/login/usuario';
 import { userTable } from 'src/app/models/tables/user-table';
 import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { TablesService } from 'src/app/services/tables/tables.service';
@@ -34,6 +35,8 @@ const englishRangeLabel = (page: number, pageSize: number, length: number) => {
 })
 
 export class TableUserComponent implements OnInit, AfterViewInit {
+
+  usuario: Usuario;
 
   dataUserTable: userTable;
   dataSource: any;
@@ -62,7 +65,8 @@ export class TableUserComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private decodificadorService: DecodificadorService
   ) {
-    this.columna = 'id'
+    this.columna = 'id';
+    this.usuario = this.decodificadorService.getUsuario();
   }
 
   ngOnInit() {

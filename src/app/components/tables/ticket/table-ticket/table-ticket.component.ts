@@ -8,7 +8,9 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { DownloadTicketCsvComponent } from 'src/app/components/dialog/download-ticket-csv/download-ticket-csv/download-ticket-csv.component';
+import { Usuario } from 'src/app/models/login/usuario';
 import { ticketTable } from 'src/app/models/tables/ticket-table';
+import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { TablesService } from 'src/app/services/tables/tables.service';
 
 const spanishRangeLabel = (page: number, pageSize: number, length: number) => {
@@ -31,6 +33,8 @@ const englishRangeLabel = (page: number, pageSize: number, length: number) => {
   styleUrls: ['./table-ticket.component.scss']
 })
 export class TableTicketComponent implements OnInit, AfterViewInit {
+
+  usuario: Usuario;
 
   dataTicketTable: ticketTable;
   dataSource: any;
@@ -56,8 +60,10 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
     public translate: TranslateService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private decodificadorService: DecodificadorService
   ) {
-    this.columna = 'id'
+    this.columna = 'id';
+    this.usuario = this.decodificadorService.getUsuario();
   }
 
 

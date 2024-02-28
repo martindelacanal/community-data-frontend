@@ -192,7 +192,6 @@ export class InicioSesionComponent implements OnInit {
   }
 
   setForgetPassword(login: boolean, password: boolean, firstpage: boolean) {
-    console.log("setForgetPassword")
     if (!firstpage) {
       this.loginSectionChoice = 'firstpage';
       this.firstPageSection = firstpage;
@@ -207,7 +206,6 @@ export class InicioSesionComponent implements OnInit {
   }
 
   animationDone(event: AnimationEvent, componente: string) {
-    console.log("animationDone")
     if (event.toState === 'void') {
       if (componente === 'login') {
         this.loginSection = true;

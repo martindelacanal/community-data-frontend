@@ -14,7 +14,7 @@
         <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
         <button *ngIf="!loadingCSV"  class="ui-button" type="button"
           (click)="dialogDownloadCsv()">{{'table_tickets_button_download_csv' | translate }}</button>
-        <button id="addButton" [routerLink]="['/stocker/home']" class="ui-button">{{'table_tickets_button_add_ticket' | translate }}</button>
+        <button *ngIf="usuario.role === 'admin'" id="addButton" [routerLink]="['/stocker/home']" class="ui-button">{{'table_tickets_button_add_ticket' | translate }}</button>
       </div>
     </div>
     <br>
@@ -96,13 +96,11 @@
               <mat-icon>visibility</mat-icon>
               <span>{{'table_tickets_row_button_view' | translate }}</span>
             </button>
-            <!-- [routerLink]="['/usuario/editar',element.id]" -->
-            <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/ticket',element.id]">
+            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/ticket',element.id]">
               <mat-icon>edit</mat-icon>
               <span>{{'table_tickets_row_button_edit' | translate }}</span>
             </button>
-            <!-- (click)="openDialog(element.id,'eliminar')" -->
-            <button mat-menu-item class="boton-usuario-desplegado">
+            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado">
               <mat-icon>delete</mat-icon>
               <span>{{'table_tickets_row_button_delete' | translate }}</span>
             </button>

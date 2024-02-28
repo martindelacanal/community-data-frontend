@@ -233,9 +233,10 @@ export class NewUserComponent implements OnInit {
         // Si role_id es 2, entonces client_id debe tener validators.required
         if (res.role_id === 2 && res.client_id === null) {
           this.userForm.get('client_id').setValidators([Validators.required]);
-        } else {
-          this.userForm.get('client_id').disable();
         }
+        // else {
+        //   this.userForm.get('client_id').disable();
+        // }
         // Actualizar la validez de los campos de formulario
         this.userForm.get('username').updateValueAndValidity();
         this.userForm.get('email').updateValueAndValidity();
@@ -246,12 +247,8 @@ export class NewUserComponent implements OnInit {
         this.userForm.get('client_id').updateValueAndValidity();
         this.userForm.get('date_of_birth').updateValueAndValidity();
 
-        console.log("this.userForm.get('date_of_birth').errors", this.userForm.get('date_of_birth').errors);
-
         this.userForm.get('password').disable();
         this.userForm.get('role_id').disable();
-
-        console.log("!userForm.valid", !this.userForm.valid);
 
       },
       error: (error) => {

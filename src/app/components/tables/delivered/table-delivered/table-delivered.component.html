@@ -14,7 +14,7 @@
         <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
         <button *ngIf="!loadingCSV"  class="ui-button" type="button"
           (click)="dialogDownloadCsv()">{{'table_delivered_button_download_csv' | translate }}</button>
-        <button id="addButton" class="ui-button">{{'table_delivered_button_add_delivered' | translate }}</button>
+        <button *ngIf="usuario.role === 'admin'" id="addButton" class="ui-button">{{'table_delivered_button_add_delivered' | translate }}</button>
       </div>
     </div>
     <br>
@@ -97,12 +97,12 @@
               <span>{{'table_delivered_row_button_view' | translate }}</span>
             </button>
             <!-- [routerLink]="['/usuario/editar',element.id]" -->
-            <button mat-menu-item class="boton-usuario-desplegado">
+            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado">
               <mat-icon>edit</mat-icon>
               <span>{{'table_delivered_row_button_edit' | translate }}</span>
             </button>
             <!-- (click)="openDialog(element.id,'eliminar')" -->
-            <button mat-menu-item class="boton-usuario-desplegado">
+            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado">
               <mat-icon>delete</mat-icon>
               <span>{{'table_delivered_row_button_delete' | translate }}</span>
             </button>

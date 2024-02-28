@@ -8,7 +8,9 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { DisclaimerEnableDisableElementComponent } from 'src/app/components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
+import { Usuario } from 'src/app/models/login/usuario';
 import { locationTable } from 'src/app/models/tables/location-table';
+import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { TablesService } from 'src/app/services/tables/tables.service';
 
 const spanishRangeLabel = (page: number, pageSize: number, length: number) => {
@@ -32,6 +34,8 @@ const englishRangeLabel = (page: number, pageSize: number, length: number) => {
 })
 export class TableLocationComponent implements OnInit, AfterViewInit {
 
+  usuario: Usuario;
+
   dataLocationTable: locationTable;
   dataSource: any;
   columns = [' ', 'id', 'organization', 'community_city', 'partner', 'address', 'enabled', 'creation_date'];
@@ -54,9 +58,11 @@ export class TableLocationComponent implements OnInit, AfterViewInit {
     private tablesService: TablesService,
     public translate: TranslateService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private decodificadorService: DecodificadorService
   ) {
-    this.columna = 'id'
+    this.columna = 'id';
+    this.usuario = this.decodificadorService.getUsuario();
   }
 
 
