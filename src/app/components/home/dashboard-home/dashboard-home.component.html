@@ -206,7 +206,8 @@
           <div class="ui-separator-horizontal"
             [ngClass]="{'graficos__separator--activado': selectedTab === 'beneficiaries'}"></div>
           <div class="graficos__boton-header__contenedor">
-            <div class="graficos__tab-nombre">{{'dashboard_admin_tab_title_beneficiaries_registered' | translate }}</div>
+            <div class="graficos__tab-nombre" *ngIf="usuario.role === 'admin'">{{'dashboard_admin_tab_title_beneficiaries_registered' | translate }}</div>
+            <div class="graficos__tab-nombre" *ngIf="usuario.role === 'client'">{{'dashboard_admin_tab_title_beneficiaries_registered_client' | translate }}</div>
             <!-- <div class="graficos__tab-numero">{{formattedChartDataComercios[0].series[0].value}}</div> -->
             <!-- <div class="graficos__tab-numero-chico" [ngClass]="comerciosPositivo ? 'positivo' : 'negativo'">-8</div> -->
           </div>
@@ -249,7 +250,8 @@
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_enabled_users' | translate }}</div>
             <div class="misiones-activas__derecha">
-              <a class="ui-link" routerLink="/table/user/">{{'dashboard_admin_tables_enabled_users_view' | translate }}</a>
+              <a class="ui-link" routerLink="/table/user/" *ngIf="usuario.role === 'admin'">{{'dashboard_admin_tables_enabled_users_view' | translate }}</a>
+              <a class="ui-link" [routerLink]="['/table/user', 'client']" *ngIf="usuario.role === 'client'">{{'dashboard_admin_tables_enabled_users_view' | translate }}</a>
             </div>
           </div>
         </div>

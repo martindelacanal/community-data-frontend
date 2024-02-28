@@ -10,6 +10,7 @@ import { debounceTime } from 'rxjs';
 import { DisclaimerEnableDisableElementComponent } from 'src/app/components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
 import { DisclaimerResetPasswordComponent } from 'src/app/components/dialog/disclaimer-reset-password/disclaimer-reset-password/disclaimer-reset-password.component';
 import { userTable } from 'src/app/models/tables/user-table';
+import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { TablesService } from 'src/app/services/tables/tables.service';
 
 const spanishRangeLabel = (page: number, pageSize: number, length: number) => {
@@ -59,17 +60,22 @@ export class TableUserComponent implements OnInit, AfterViewInit {
     public translate: TranslateService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
+    private decodificadorService: DecodificadorService
   ) {
     this.columna = 'id'
   }
 
   ngOnInit() {
-
-
     this.activatedRoute.params.subscribe((params: Params) => {
       const search = params['search'];
       if (search) {
         // this.buscar.setValue(search);
+        if (this.decodificadorService.getRol() == 'client') {
+          // si es client solo puede ver client y beneficiary, sino mandarlo al home
+          if (search != 'client' && search != 'beneficiary') {
+            this.route.navigate(['/home']);
+          }
+        }
         this.tableRole = search;
       }
       this.getDataUserTable();

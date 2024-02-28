@@ -78,12 +78,14 @@ export class DashboardHomeComponent implements OnInit {
     this.getTotalBeneficiariesRegisteredToday();
     this.getTotalBeneficiariesRecurringToday();
     this.getTotalBeneficiariesQualified();
-    this.getTotalClients();
-    this.getTotalEnabledUsers();
     this.getTotalTicketsUploaded();
     this.getTotalLocationsEnabled();
     this.getTotalProductsUploaded();
     this.getTotalDelivered();
+    if (this.usuario.role === 'admin') {
+      this.getTotalClients();
+      this.getTotalEnabledUsers();
+    }
   }
 
   selectTab(tab: string) {

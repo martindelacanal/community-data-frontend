@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -363,6 +363,13 @@ export class FormularioRegistroComponent implements OnInit {
   });
   }
 
+  private noNumbersValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const hasNumber = /\d/.test(control.value);
+      return hasNumber ? { 'hasNumber': true } : null;
+    };
+  }
+
   private openSnackBar(message: string) {
     this.snackBar.open(message, this.translate.instant('snackbar_close'));
   }
@@ -379,8 +386,8 @@ export class FormularioRegistroComponent implements OnInit {
     this.firstFormGroup = this.formBuilder.group({
       username: [null, [Validators.required, () => this.validateUserName()]],
       password: [null, Validators.required],
-      firstName: [null, Validators.required],
-      lastName: [null, Validators.required],
+      firstName: [null, [Validators.required, this.noNumbersValidator()]],
+      lastName: [null, [Validators.required, this.noNumbersValidator()]],
       dateOfBirth: [null, [Validators.required, this.validateAge]],
       email: [null, [() => this.validateEmail()]],
       phone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), () => this.validatePhone()]],

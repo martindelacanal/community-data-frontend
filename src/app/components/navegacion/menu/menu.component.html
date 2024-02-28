@@ -64,7 +64,7 @@
   <section class="opciones-tables">
     <div class="ui-tarjeta" *ngIf="showCardTables" #cardTables>
       <ul>
-        <li routerLink="/table/user/">
+        <li routerLink="/table/user/" *ngIf="usuario.role === 'admin'">
           <a>
             {{'menu_button_system_user_table' | translate }}
           </a>
@@ -79,7 +79,7 @@
             {{'menu_button_client_user_table' | translate }}
           </a>
         </li>
-        <li routerLink="/table/client">
+        <li routerLink="/table/client" *ngIf="usuario.role === 'admin'">
           <a>
             {{'menu_button_client_table' | translate }}
           </a>
@@ -89,12 +89,12 @@
             {{'menu_button_delivered_table' | translate }}
           </a>
         </li>
-        <li routerLink="/table/ethnicity">
+        <li routerLink="/table/ethnicity" *ngIf="usuario.role === 'admin'">
           <a>
             {{'menu_button_ethnicity_table' | translate }}
           </a>
         </li>
-        <li routerLink="/table/gender">
+        <li routerLink="/table/gender" *ngIf="usuario.role === 'admin'">
           <a>
             {{'menu_button_gender_table' | translate }}
           </a>
@@ -109,7 +109,7 @@
             {{'menu_button_product_table' | translate }}
           </a>
         </li>
-        <li routerLink="/table/product-type">
+        <li routerLink="/table/product-type" *ngIf="usuario.role === 'admin'">
           <a>
             {{'menu_button_product_type_table' | translate }}
           </a>
@@ -145,7 +145,7 @@
                 <span [class.hidden]="!menuExpanded">{{'menu_button_metrics' | translate }}</span>
               </a>
             </li>
-            <li *ngIf="usuario.role === 'admin'"
+            <li *ngIf="usuario.role === 'admin' || usuario.role === 'client'"
               [class.active-link]="currentRoute.includes('/table')" [class.li-collapsed]="!menuExpanded">
               <a (click)="toggleCardTables()" #tablesButton>
                 <img class="ui-tarjeta__icono" src="../../../../assets/icons/tablas.svg" alt="Tables icon">

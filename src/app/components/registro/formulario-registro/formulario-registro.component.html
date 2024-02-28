@@ -47,12 +47,18 @@
                     <mat-error *ngIf="firstFormGroup.controls['firstName'].hasError('required')">
                       {{'register_first_tab_input_first_name_error_please' | translate }}
                     </mat-error>
+                    <mat-error *ngIf="firstFormGroup.controls['firstName'].hasError('hasNumber')">
+                      {{'register_first_tab_input_first_name_error_numbers' | translate }}
+                    </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline">
                     <mat-label>{{'register_first_tab_input_last_name' | translate }}</mat-label>
                     <input matInput formControlName="lastName" required>
                     <mat-error *ngIf="firstFormGroup.controls['lastName'].hasError('required')">
                       {{'register_first_tab_input_last_name_error_please' | translate }}
+                    </mat-error>
+                    <mat-error *ngIf="firstFormGroup.controls['lastName'].hasError('hasNumber')">
+                      {{'register_first_tab_input_last_name_error_numbers' | translate }}
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline" class="full-width">
