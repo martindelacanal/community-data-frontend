@@ -93,6 +93,7 @@ export class BeneficiaryHomeComponent implements OnInit {
       this.deliveryService.onBoard(true, this.beneficiaryForm.value.destination).subscribe({
         next: (res) => {
           console.log(res);
+          localStorage.setItem('token', res.token);
           this.userLocation = this.locations.find(location => location.id === this.beneficiaryForm.value.destination);
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded'));
@@ -159,11 +160,13 @@ export class BeneficiaryHomeComponent implements OnInit {
     this.deliveryService.getUserLocation().subscribe(
       (res) => {
         this.userLocation = res;
+        console.log("res", res)
         if (res.id !== null) {
           this.remoteLocation = true;
           this.beneficiaryForm.patchValue({
             destination: res.id
           });
+          this.newQR();
         }
       }
     );

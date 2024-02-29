@@ -127,6 +127,7 @@
   "delivery_input_client_select_destination": "Cliente (seleccione el destino primero)",
   "delivery_input_client_error_please": "Por favor ingrese el cliente",
   "delivery_text_beneficiary_error_location": "Error: El participante eligió una locación diferente, por favor corrigelo.",
+  "delivery_text_beneficiary_error_id": "Error: No se pudo leer el ID del participante, por favor escanea nuevamente.",
   "delivery_text_beneficiary_authorized": "Participante autorizado para recibir una bolsa",
   "delivery_text_beneficiary_authorized_press_approved": "Presione aprobado si está de acuerdo",
   "delivery_text_organization": "Organización",

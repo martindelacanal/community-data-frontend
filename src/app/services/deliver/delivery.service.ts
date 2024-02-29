@@ -31,7 +31,7 @@ export class DeliveryService {
   }
 
   onBoard(value: boolean, location_id: number, client_id?: number){
-    return this.http.post(`${environment.url_api}/onBoard`, {value: value, location_id: location_id, client_id: client_id});
+    return this.http.post<any>(`${environment.url_api}/onBoard`, {value: value, location_id: location_id, client_id: client_id});
   }
 
 }

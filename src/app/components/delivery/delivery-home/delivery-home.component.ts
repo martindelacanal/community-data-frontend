@@ -26,6 +26,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
   infoValid: boolean = false;
   onBoarded: boolean = false;
   isBeneficiaryLocationError: boolean = false;
+  isReceivingUserError: boolean = false;
   objeto: beneficiaryQR;
   locations: Location[] = [];
   clients: Client[] = [];
@@ -138,8 +139,19 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
           this.objeto = JSON.parse(result);
           this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
             next: (res) => {
-              if (res.error && res.error === 'receiving_location') {
-                this.isBeneficiaryLocationError = true; // beneficiario eligio mal la locacion
+              if (res.error) {
+                switch (res.error) {
+                  case 'receiving_location':
+                    this.isBeneficiaryLocationError = true; // beneficiario eligio mal la locacion
+                    break;
+                  case 'receiving_user':
+                    this.isReceivingUserError = true; // no se pudo leer id de beneficiario
+                    break;
+                  default:
+                    this.openSnackBar(this.translate.instant('delivery_snack_upload_qr_error'));
+                    break;
+                }
+
                 this.infoValid = false;
               } else {
                 if (res.could_approve === 'Y') {
@@ -172,6 +184,8 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
       this.deliveryService.onBoard(true, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
         next: (res) => {
           console.log(res);
+          // actualizar token con res.token en el local storage
+          localStorage.setItem('token', res.token);
           this.userLocation = this.locations.find(location => location.id === this.deliveryForm.value.destination);
           this.onBoarded = true;
           this.loading = false;
@@ -237,6 +251,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
     this.infoValid = false;
     this.scanActive = false;
     this.isBeneficiaryLocationError = false;
+    this.isReceivingUserError = false;
     if (this.qrScannerComponent) {
       this.qrScannerComponent.stopScanning();
       this.qrScannerComponent.capturedQr.unsubscribe();

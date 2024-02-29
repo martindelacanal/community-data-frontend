@@ -43,16 +43,19 @@
           </div>
           <ng-template #scanner>
             <div *ngIf="!loading">
-              <button *ngIf="!this.scanActive && !this.infoValid && !isBeneficiaryLocationError" class="qr-button"
+              <button *ngIf="!this.scanActive && !this.infoValid && !isBeneficiaryLocationError && !isReceivingUserError" class="qr-button"
                 type="button" (click)="scanQR()">
                 <mat-icon>qr_code_scanner</mat-icon></button>
-              <p *ngIf="!this.scanActive && this.infoValid && !isBeneficiaryLocationError"
+              <p *ngIf="!this.scanActive && this.infoValid && !isBeneficiaryLocationError && !isReceivingUserError"
                 class="ui-text ui-text--ui-secundario">
                 {{'delivery_text_beneficiary_authorized' | translate }}<br>
                 {{'delivery_text_beneficiary_authorized_press_approved' | translate }}</p>
               <p *ngIf="!this.scanActive && !this.infoValid && isBeneficiaryLocationError"
                 class="ui-text ui-text--ui-secundario">
                 {{'delivery_text_beneficiary_error_location' | translate }}</p>
+              <p *ngIf="!this.scanActive && !this.infoValid && isReceivingUserError"
+                class="ui-text ui-text--ui-secundario">
+                {{'delivery_text_beneficiary_error_id' | translate }}</p>
               <div *ngIf="this.scanActive">
                 <qr-scanner facing="environment" [canvasWidth]="720" [canvasHeight]="720" [stopAfterScan]="true"
                   [updateTime]="500">
@@ -81,10 +84,10 @@
                 {{this.userLocation.organization}} - {{'delivery_text_address' | translate }}:
                 {{this.userLocation.address}}</div>
             </span>
-            <button *ngIf="!loading && (this.scanActive || this.infoValid || this.isBeneficiaryLocationError)"
+            <button *ngIf="!loading && (this.scanActive || this.infoValid || this.isBeneficiaryLocationError || this.isReceivingUserError)"
               class="ui-button" type="button" (click)="onCancel()">{{'delivery_button_cancel' | translate }}</button>
             <button
-              *ngIf="!loading && onBoarded && !this.scanActive && !this.infoValid && !this.isBeneficiaryLocationError"
+              *ngIf="!loading && onBoarded && !this.scanActive && !this.infoValid && !this.isBeneficiaryLocationError && !this.isReceivingUserError"
               class="ui-button" type="button" (click)="onBoard()">{{'delivery_button_off_board'
               | translate }}</button>
             <button *ngIf="!loading && onBoarded && !this.scanActive" class="ui-button ui-button--ui-secundario"
