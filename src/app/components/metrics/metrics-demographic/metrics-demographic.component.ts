@@ -94,10 +94,18 @@ export class MetricsDemographicComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.getGenderMetrics(this.translate.currentLang);
-    this.getEthnicityMetrics(this.translate.currentLang);
-    this.getHouseholdMetrics(this.translate.currentLang);
-    this.getAgeMetrics(this.translate.currentLang);
+    // Intenta recuperar el valor de 'filters' del localStorage
+    const filters = JSON.parse(localStorage.getItem('filters'));
+
+    // Si existe, asigna el valor al formulario
+    if (filters) {
+      this.filterForm.patchValue(filters);
+    }
+
+    this.getGenderMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getEthnicityMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getHouseholdMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getAgeMetrics(this.translate.currentLang, this.filterForm.value);
   }
 
   private getGenderMetrics(language: string, filters?: any) {
@@ -464,7 +472,7 @@ export class MetricsDemographicComponent implements OnInit{
   dialogDownloadCsv(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: this.filterForm,
+      data: '',
       disableClose: true
     });
 
@@ -516,7 +524,7 @@ export class MetricsDemographicComponent implements OnInit{
   dialogFilters(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: this.filterForm,
+      data: '',
       disableClose: false
     });
 

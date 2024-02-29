@@ -77,7 +77,15 @@ export class MetricsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getQuestions(this.translate.currentLang);
+    // Intenta recuperar el valor de 'filters' del localStorage
+    const filters = JSON.parse(localStorage.getItem('filters'));
+
+    // Si existe, asigna el valor al formulario
+    if (filters) {
+      this.filterForm.patchValue(filters);
+    }
+
+    this.getQuestions(this.translate.currentLang, this.filterForm.value);
   }
 
   private getQuestions(language: string, filters?: any) {
@@ -252,7 +260,7 @@ export class MetricsComponent implements OnInit {
   dialogDownloadCsv(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: this.filterForm,
+      data: '',
       disableClose: true
     });
 
@@ -297,6 +305,9 @@ export class MetricsComponent implements OnInit {
             this.loadingCSV = false;
           }
         });
+
+        // Recargar los graficos con los filtros aplicados
+        this.getQuestions(this.translate.currentLang, this.filterForm.value);
       }
     });
   }
@@ -304,7 +315,7 @@ export class MetricsComponent implements OnInit {
   dialogFilters(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: this.filterForm,
+      data: '',
       disableClose: false
     });
 

@@ -115,10 +115,18 @@ export class MetricsProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getReachMetrics(this.translate.currentLang);
-    this.getKindOfProductMetrics(this.translate.currentLang);
-    this.getPoundsPerLocationMetrics(this.translate.currentLang);
-    this.getPoundsPerProductMetrics(this.translate.currentLang);
+    // Intenta recuperar el valor de 'filters' del localStorage
+    const filters = JSON.parse(localStorage.getItem('filters'));
+
+    // Si existe, asigna el valor al formulario
+    if (filters) {
+      this.filterForm.patchValue(filters);
+    }
+
+    this.getReachMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getKindOfProductMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getPoundsPerLocationMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getPoundsPerProductMetrics(this.translate.currentLang, this.filterForm.value);
 
     this.translate.onLangChange.subscribe(
       (res) => {
@@ -413,7 +421,7 @@ export class MetricsProductComponent implements OnInit {
   dialogDownloadCsv(): void {
     const dialogRef = this.dialog.open(MetricsFiltersProductComponent, {
       width: '370px',
-      data: this.filterForm,
+      data: '',
       disableClose: true
     });
 
@@ -462,7 +470,7 @@ export class MetricsProductComponent implements OnInit {
   dialogFilters(): void {
     const dialogRef = this.dialog.open(MetricsFiltersProductComponent, {
       width: '370px',
-      data: this.filterForm,
+      data: '',
       disableClose: false
     });
 

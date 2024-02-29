@@ -26,6 +26,7 @@ export class MetricsFiltersProductComponent implements OnInit{
     private stockerService: StockerService,
     public translate: TranslateService,
   ) {
+    // Inicializa el formulario aquí, pero no lo llenes con datos todavía
     this.filterForm = this.formBuilder.group({
       from_date: [null],
       to_date: [null],
@@ -33,13 +34,28 @@ export class MetricsFiltersProductComponent implements OnInit{
       providers: [null],
       product_types: [null],
     });
-
-    if (this.message) {
-      this.filterForm.patchValue(this.message.value);
-    }
   }
 
   ngOnInit(): void {
+    // Intenta recuperar el valor de 'filters' del localStorage
+    const filters = JSON.parse(localStorage.getItem('filters'));
+
+    // Si existe, asigna el valor al formulario, si no, guarda el formulario vacío en el localStorage
+    if (filters) {
+      this.filterForm.patchValue(filters);
+    } else {
+      const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
+      const updatedFilters = { ...currentFilters, ...this.filterForm.value };
+      localStorage.setItem('filters', JSON.stringify(updatedFilters));
+    }
+
+    // Suscríbete a los cambios del formulario y actualiza el valor en el localStorage cada vez que haya un cambio
+    this.filterForm.valueChanges.subscribe(val => {
+      const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
+      const updatedFilters = { ...currentFilters, ...val };
+      localStorage.setItem('filters', JSON.stringify(updatedFilters));
+    });
+
     this.getLocations();
     this.getProviders();
     this.getProductTypes(this.translate.currentLang);

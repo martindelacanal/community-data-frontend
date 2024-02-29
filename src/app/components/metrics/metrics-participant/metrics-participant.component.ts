@@ -27,7 +27,7 @@ export type ChartOptionsYESNO = {
   templateUrl: './metrics-participant.component.html',
   styleUrls: ['./metrics-participant.component.scss']
 })
-export class MetricsParticipantComponent implements OnInit{
+export class MetricsParticipantComponent implements OnInit {
 
   @ViewChild("chartYESNO") chartYESNO: ChartComponent;
   public chartOptionsEmail: Partial<ChartOptionsYESNO>;
@@ -71,9 +71,17 @@ export class MetricsParticipantComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.getRegisterMetrics(this.translate.currentLang);
-    this.getEmailMetrics(this.translate.currentLang);
-    this.getPhoneMetrics(this.translate.currentLang);
+    // Intenta recuperar el valor de 'filters' del localStorage
+    const filters = JSON.parse(localStorage.getItem('filters'));
+
+    // Si existe, asigna el valor al formulario
+    if (filters) {
+      this.filterForm.patchValue(filters);
+    }
+
+    this.getRegisterMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getEmailMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getPhoneMetrics(this.translate.currentLang, this.filterForm.value);
   }
 
   private getRegisterMetrics(language: string, filters?: any) {
@@ -326,7 +334,7 @@ export class MetricsParticipantComponent implements OnInit{
   dialogDownloadCsv(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: this.filterForm,
+      data: '',
       disableClose: true
     });
 
@@ -371,6 +379,11 @@ export class MetricsParticipantComponent implements OnInit{
             this.loadingCSV = false;
           }
         });
+
+        // Recargar los graficos con los filtros aplicados
+        this.getRegisterMetrics(this.translate.currentLang, this.filterForm.value);
+        this.getEmailMetrics(this.translate.currentLang, this.filterForm.value);
+        this.getPhoneMetrics(this.translate.currentLang, this.filterForm.value);
       }
     });
   }
@@ -378,7 +391,7 @@ export class MetricsParticipantComponent implements OnInit{
   dialogFilters(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: this.filterForm,
+      data: '',
       disableClose: false
     });
 

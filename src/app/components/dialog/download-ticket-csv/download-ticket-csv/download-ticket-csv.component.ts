@@ -15,12 +15,31 @@ export class DownloadTicketCsvComponent implements OnInit {
     public dialogRef: MatDialogRef<DownloadTicketCsvComponent>,
     @Inject(MAT_DIALOG_DATA) public message: string,
     private formBuilder: FormBuilder,
-  ) { }
-
-  ngOnInit(): void {
+  ) {
     this.dateForm = this.formBuilder.group({
       from_date: [null, Validators.required],
       to_date: [null, Validators.required],
+    });
+  }
+
+  ngOnInit(): void {
+    // Intenta recuperar el valor de 'filters' del localStorage
+    const filters = JSON.parse(localStorage.getItem('filters'));
+
+    // Si existe, asigna el valor al formulario, si no, guarda el formulario vacío en el localStorage
+    if (filters) {
+      this.dateForm.patchValue(filters);
+    } else {
+      const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
+      const updatedFilters = { ...currentFilters, ...this.dateForm.value };
+      localStorage.setItem('filters', JSON.stringify(updatedFilters));
+    }
+
+    // Suscríbete a los cambios del formulario y actualiza el valor en el localStorage cada vez que haya un cambio
+    this.dateForm.valueChanges.subscribe(val => {
+      const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
+      const updatedFilters = { ...currentFilters, ...val };
+      localStorage.setItem('filters', JSON.stringify(updatedFilters));
     });
   }
 
