@@ -352,13 +352,13 @@ export class MetricsParticipantComponent implements OnInit{
         this.filterForm.get('max_age').setValue(result.data.max_age);
         this.filterForm.get('zipcode').setValue(result.data.zipcode);
 
-        this.metricsService.getDemographicFileCSV(result.data).subscribe({
+        this.metricsService.getParticipantFileCSV(result.data).subscribe({
           next: (res) => {
             const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'demographic-metrics.csv';
+            a.download = 'participants-metrics.csv';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

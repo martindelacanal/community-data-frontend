@@ -3,8 +3,8 @@
     <h1 class="title">{{'metrics_participant_title' | translate }}</h1>
     <div class="buttons">
       <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
-      <!-- <button *ngIf="!loadingCSV" class="ui-button" type="button"
-        (click)="dialogDownloadCsv()">{{'metrics_button_download_csv' | translate }}</button> -->
+      <button *ngIf="!loadingCSV" class="ui-button" type="button"
+        (click)="dialogDownloadCsv()">{{'metrics_button_download_csv' | translate }}</button>
       <button id="filtersButton" class="ui-button" type="button" (click)="dialogFilters()">{{'metrics_filters_button' |
         translate }}</button>
     </div>
