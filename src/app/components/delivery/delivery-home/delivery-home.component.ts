@@ -26,7 +26,8 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
   infoValid: boolean = false;
   onBoarded: boolean = false;
   isBeneficiaryLocationError: boolean = false;
-  isReceivingUserError: boolean = false;
+  isReceivingUserErrorNull: boolean = false;
+  isReceivingLocationErrorNull: boolean = false;
   objeto: beneficiaryQR;
   locations: Location[] = [];
   clients: Client[] = [];
@@ -135,40 +136,45 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
         console.log(result);
         this.scanActive = false;
         try {
-          this.loading = true;
-          this.objeto = JSON.parse(result);
-          this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
-            next: (res) => {
-              if (res.error) {
-                switch (res.error) {
-                  case 'receiving_location':
-                    this.isBeneficiaryLocationError = true; // beneficiario eligio mal la locacion
-                    break;
-                  case 'receiving_user':
-                    this.isReceivingUserError = true; // no se pudo leer id de beneficiario
-                    break;
-                  default:
-                    this.openSnackBar(this.translate.instant('delivery_snack_upload_qr_error'));
-                    break;
-                }
+          if (!this.loading) {
+            this.loading = true;
+            this.objeto = JSON.parse(result);
+            this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
+              next: (res) => {
+                if (res.error) {
+                  switch (res.error) {
+                    case 'receiving_location':
+                      this.isBeneficiaryLocationError = true; // beneficiario eligio mal la locacion
+                      break;
+                    case 'receiving_user_null':
+                      this.isReceivingUserErrorNull = true; // no se pudo leer id de beneficiario
+                      break;
+                    case 'receiving_location_null':
+                      this.isReceivingLocationErrorNull = true; // no se pudo leer id de la locacion del beneficiario
+                      break;
+                    default:
+                      this.openSnackBar(this.translate.instant('delivery_snack_upload_qr_error'));
+                      break;
+                  }
 
-                this.infoValid = false;
-              } else {
-                if (res.could_approve === 'Y') {
-                  this.infoValid = true;
-                } else {
                   this.infoValid = false;
+                } else {
+                  if (res.could_approve === 'Y') {
+                    this.infoValid = true;
+                  } else {
+                    this.infoValid = false;
+                  }
                 }
+                this.loading = false;
+              },
+              error: (error) => {
+                console.log(error);
+                this.openSnackBar(this.translate.instant('delivery_snack_upload_qr_error'));
+                this.infoValid = false;
+                this.loading = false;
               }
-              this.loading = false;
-            },
-            error: (error) => {
-              console.log(error);
-              this.openSnackBar(this.translate.instant('delivery_snack_upload_qr_error'));
-              this.infoValid = false;
-              this.loading = false;
-            }
-          });
+            });
+          }
         } catch (error) {
           console.error(error);
           this.infoValid = false;
@@ -251,7 +257,8 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
     this.infoValid = false;
     this.scanActive = false;
     this.isBeneficiaryLocationError = false;
-    this.isReceivingUserError = false;
+    this.isReceivingUserErrorNull = false;
+    this.isReceivingLocationErrorNull = false;
     if (this.qrScannerComponent) {
       this.qrScannerComponent.stopScanning();
       this.qrScannerComponent.capturedQr.unsubscribe();

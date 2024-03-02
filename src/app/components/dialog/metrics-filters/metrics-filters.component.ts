@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/services/login/auth.service';
   templateUrl: './metrics-filters.component.html',
   styleUrls: ['./metrics-filters.component.scss']
 })
-export class MetricsFiltersComponent implements OnInit{
+export class MetricsFiltersComponent implements OnInit {
   filterForm: FormGroup;
   locations: Location[] = [];
   genders: Gender[];
@@ -46,6 +46,16 @@ export class MetricsFiltersComponent implements OnInit{
 
     // Si existe, asigna el valor al formulario, si no, guarda el formulario vacío en el localStorage
     if (filters) {
+      // Convierte las fechas a objetos Date y luego las formatea en el formato deseado
+      if (filters.from_date) {
+        const date = new Date(filters.from_date + 'T00:00');
+        filters.from_date = date;
+      }
+      if (filters.to_date) {
+        const date2 = new Date(filters.to_date + 'T00:00');
+        filters.to_date = date2;
+      }
+
       this.filterForm.patchValue(filters);
     } else {
       const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
@@ -69,24 +79,24 @@ export class MetricsFiltersComponent implements OnInit{
 
     // Si hay elemento en from_date
     if (this.filterForm.value.from_date) {
-    console.log(this.filterForm.value.from_date);
-    // Obtener la fecha del formulario
-    const date = new Date(this.filterForm.value.from_date);
-    // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
-    const dateString = date.toISOString().slice(0, 10);
-    // Asignar la fecha al campo de fecha en el formulario
-    this.filterForm.get('from_date').setValue(dateString);
-    console.log(this.filterForm.value.from_date);
+      console.log(this.filterForm.value.from_date);
+      // Obtener la fecha del formulario
+      const date = new Date(this.filterForm.value.from_date);
+      // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
+      const dateString = date.toISOString().slice(0, 10);
+      // Asignar la fecha al campo de fecha en el formulario
+      this.filterForm.get('from_date').setValue(dateString);
+      console.log(this.filterForm.value.from_date);
     }
 
     // Si hay elemento en to_date
-    if(this.filterForm.value.to_date) {
-    // Obtener la fecha del formulario
-    const date2 = new Date(this.filterForm.value.to_date);
-    // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
-    const dateString2 = date2.toISOString().slice(0, 10);
-    // Asignar la fecha al campo de fecha en el formulario
-    this.filterForm.get('to_date').setValue(dateString2);
+    if (this.filterForm.value.to_date) {
+      // Obtener la fecha del formulario
+      const date2 = new Date(this.filterForm.value.to_date);
+      // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
+      const dateString2 = date2.toISOString().slice(0, 10);
+      // Asignar la fecha al campo de fecha en el formulario
+      this.filterForm.get('to_date').setValue(dateString2);
     }
 
     this.dialogRef.close({ status: true, data: this.filterForm.value });

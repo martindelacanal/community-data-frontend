@@ -27,6 +27,16 @@ export class DownloadDeliveredCsvComponent {
 
     // Si existe, asigna el valor al formulario, si no, guarda el formulario vacío en el localStorage
     if (filters) {
+      // Convierte las fechas a objetos Date y luego las formatea en el formato deseado
+      if (filters.from_date) {
+        const date = new Date(filters.from_date + 'T00:00');
+        filters.from_date = date;
+      }
+      if (filters.to_date) {
+        const date2 = new Date(filters.to_date + 'T00:00');
+        filters.to_date = date2;
+      }
+
       this.dateForm.patchValue(filters);
     } else {
       const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
