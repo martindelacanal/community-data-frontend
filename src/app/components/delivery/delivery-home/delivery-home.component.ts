@@ -1,4 +1,5 @@
 import { Component, ViewChild, OnInit, AfterViewChecked } from '@angular/core';
+import { Observable, forkJoin } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
@@ -48,11 +49,10 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    console.log(this.userLocation);
-    this.getLocations();
-    this.getClients();
-    this.getUserStatus();
-    this.getUserLocation();
+    forkJoin([this.getLocations(), this.getClients(), this.getUserStatus()])
+      .subscribe(() => {
+        this.getUserLocation();
+      });
 
     // set locationOrganizationSelected and locationAddressSelected when location changes
     this.deliveryForm.get('destination').valueChanges.subscribe(
@@ -66,8 +66,8 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
             this.deliveryForm.get('client_id').setValidators([Validators.required]);
           } else {
             this.deliveryForm.get('client_id').setValidators([]);
+            this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
           }
-          this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
           this.deliveryForm.get('client_id').markAsTouched();
           this.deliveryForm.get('client_id').updateValueAndValidity();
         } else {
@@ -211,6 +211,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
       this.deliveryService.onBoard(false, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
         next: (res) => {
           console.log(res);
+          this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
           this.userLocation = null;
           this.onBoarded = false;
           this.loading = false;
@@ -269,60 +270,77 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
     this.snackBar.open(message, this.translate.instant('snackbar_close'));
   }
 
-  private getClients() {
-    // this.loadingGetClients = true;
-    this.newService.getClients().subscribe({
-      next: (res) => {
-        this.clients = res;
-      },
-      error: (error) => {
-        console.error(error);
-        this.openSnackBar(this.translate.instant('new_user_input_client_error_get'));
-      },
-      complete: () => {
-        // this.loadingGetClients = false;
-        // this.checkLoadingGet();
-      }
+  private getClients(): Observable<any> {
+    return new Observable(observer => {
+      this.newService.getClients().subscribe({
+        next: (res) => {
+          this.clients = res;
+          observer.next(res);
+          observer.complete();
+        },
+        error: (error) => {
+          console.error(error);
+          this.openSnackBar(this.translate.instant('new_user_input_client_error_get'));
+          observer.error(error);
+        }
+      });
     });
   }
 
-  private getLocations() {
-    this.deliveryService.getLocations().subscribe(
-      (res) => {
-        this.locations = res;
-      }
-    );
+  private getLocations(): Observable<any> {
+    return new Observable(observer => {
+      this.deliveryService.getLocations().subscribe({
+        next: (res) => {
+          this.locations = res;
+          observer.next(res);
+          observer.complete();
+        },
+        error: (error) => {
+          console.error(error);
+          observer.error(error);
+        }
+      });
+    });
   }
 
-  private getUserStatus() {
-    this.loading = true;
-    this.deliveryService.getUserStatus().subscribe(
-      (res) => {
-        this.userStatus = res;
-        if (this.userStatus.id === 3) {
-          this.onBoarded = true;
-        } else {
-          this.onBoarded = false;
+  private getUserStatus(): Observable<any> {
+    return new Observable(observer => {
+      this.deliveryService.getUserStatus().subscribe({
+        next: (res) => {
+          this.userStatus = res;
+          if (this.userStatus.id === 3) {
+            this.onBoarded = true;
+          } else {
+            this.onBoarded = false;
+          }
+          this.deliveryForm.patchValue({
+            client_id: res.client_id
+          });
+          observer.next(res);
+          observer.complete();
+        },
+        error: (error) => {
+          console.error(error);
+          observer.error(error);
         }
-        this.deliveryForm.patchValue({
-          client_id: res.client_id
-        });
-        this.loading = false;
-      }
-    );
+      });
+    });
   }
 
   private getUserLocation() {
-    this.deliveryService.getUserLocation().subscribe(
-      (res) => {
+    this.deliveryService.getUserLocation().subscribe({
+      next: (res) => {
         this.userLocation = res;
         if (res.id !== null) {
           this.deliveryForm.patchValue({
             destination: res.id
           });
         }
+      },
+      error: (error) => {
+        console.error(error);
       }
-    );
+    });
   }
 
   private buildDeliveryForm(): void {
