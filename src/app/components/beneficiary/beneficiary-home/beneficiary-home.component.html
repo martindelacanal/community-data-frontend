@@ -43,19 +43,16 @@
         <div class="card">
           <div class="main__footer">
             <span class="main__footer__span">
-              <div *ngIf="!(this.userLocation && this.userLocation.id) && locationOrganizationSelected && locationAddressSelected">{{'delivery_text_organization' | translate }}:
+              <div *ngIf="locationOrganizationSelected && locationAddressSelected">{{'delivery_text_organization' | translate }}:
                 {{locationOrganizationSelected}} - {{'delivery_text_address' | translate }}:
                 {{locationAddressSelected}}</div>
-              <div *ngIf="this.userLocation && this.userLocation.id">{{'delivery_text_organization' | translate }}:
-                {{this.userLocation.organization}} - {{'delivery_text_address' | translate }}:
-                {{this.userLocation.address}}</div>
             </span>
             <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
             <button *ngIf="!loading && onBoarded" class="ui-button" type="button"
               (click)="onBoard()">{{'beneficiary_button_change_location' | translate }}</button>
             <button *ngIf="!loading && onBoarded" class="ui-button ui-button--ui-secundario" type="button"
               (click)="newQR()">{{'beneficiary_button_new_qr' | translate}}</button>
-            <button *ngIf="!loading && !onBoarded" class="ui-button ui-button--ui-secundario" type="button"
+            <button *ngIf="!loading && !onBoarded" class="ui-button ui-button--ui-secundario" type="button" [disabled]="!beneficiaryForm.valid"
               (click)="onBoard()">{{'beneficiary_button_generate_qr' | translate}}</button>
           </div>
         </div>
