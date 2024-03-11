@@ -9,6 +9,17 @@
         translate }}</button>
     </div>
   </section>
+<mat-chip-set class="chip-grid">
+  <ng-container *ngFor="let filterChip of filtersChip; let i = index">
+    <mat-chip *ngIf="filterChip.code !== 'product_types' && filterChip.code !== 'providers'"
+      (removed)="removeFilterChip(filterChip)">
+      {{filterChip.name}}: {{filterChip.value}}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+  </ng-container>
+</mat-chip-set>
   <mat-spinner *ngIf="loadingMetrics" class="loading-questions" mode="indeterminate" [diameter]="30"></mat-spinner>
   <section class="main_tarjetas">
     <div class="ui-tarjeta">
@@ -17,10 +28,9 @@
       </div>
       <div id="chartYESNO" *ngIf="chartOptionsGender">
         <apx-chart [series]="chartOptionsGender.series" [chart]="chartOptionsGender.chart"
-          [labels]="chartOptionsGender.labels" [legend]="chartOptionsGender.legend"
-          [colors]="chartOptionsGender.colors" [responsive]="chartOptionsGender.responsive"
-          [theme]="chartOptionsGender.theme" [dataLabels]="chartOptionsGender.dataLabels"
-          [tooltip]="chartOptionsGender.tooltip"></apx-chart>
+          [labels]="chartOptionsGender.labels" [legend]="chartOptionsGender.legend" [colors]="chartOptionsGender.colors"
+          [responsive]="chartOptionsGender.responsive" [theme]="chartOptionsGender.theme"
+          [dataLabels]="chartOptionsGender.dataLabels" [tooltip]="chartOptionsGender.tooltip"></apx-chart>
       </div>
     </div>
     <div class="ui-tarjeta">

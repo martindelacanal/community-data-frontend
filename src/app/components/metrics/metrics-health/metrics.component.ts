@@ -16,10 +16,11 @@ import {
 } from "ng-apexcharts";
 import { QuestionMetrics } from "src/app/models/metrics/question-metrics";
 import { MetricsService } from "src/app/services/metrics/metrics.service";
-import { DownloadMetricsCsvComponent } from "../../dialog/download-metrics-csv/download-metrics-csv/download-metrics-csv.component";
 import { MatDialog } from "@angular/material/dialog";
 import { MetricsFiltersComponent } from "../../dialog/metrics-filters/metrics-filters.component";
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { FilterChip } from "src/app/models/metrics/filter-chip";
+import { forkJoin, tap } from "rxjs";
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -55,6 +56,8 @@ export class MetricsComponent implements OnInit {
   filterForm: FormGroup;
   loadingCSV: boolean = false;
 
+  filtersChip: FilterChip[];
+
   constructor(
     private metricsService: MetricsService,
     private snackBar: MatSnackBar,
@@ -62,7 +65,6 @@ export class MetricsComponent implements OnInit {
     private dialog: MatDialog,
     private formBuilder: FormBuilder
   ) {
-
     this.filterForm = this.formBuilder.group({
       from_date: [null],
       to_date: [null],
@@ -73,12 +75,30 @@ export class MetricsComponent implements OnInit {
       max_age: [null],
       zipcode: [null]
     });
-
+    this.filtersChip = [];
   }
 
   ngOnInit() {
     // Intenta recuperar el valor de 'filters' del localStorage
     const filters = JSON.parse(localStorage.getItem('filters'));
+    const filters_chip = JSON.parse(localStorage.getItem('filters_chip'));
+
+    // Si existe, corregir el idioma en el campo name del array filters_chip
+    if (filters_chip) {
+      this.filtersChip = filters_chip;
+      const translateRequests = this.filtersChip.map((element) => {
+        return this.translate.get('metrics_filters_input_' + element.code).pipe(
+          tap((translatedValue) => {
+            element.name = translatedValue;
+          })
+        );
+      });
+
+      forkJoin(translateRequests).subscribe(() => {
+        // guardar en el localStorage
+        localStorage.setItem('filters_chip', JSON.stringify(this.filtersChip));
+      });
+    }
 
     // Si existe, asigna el valor al formulario
     if (filters) {
@@ -95,6 +115,22 @@ export class MetricsComponent implements OnInit {
       this.filterForm.patchValue(filters);
     }
 
+    this.getQuestions(this.translate.currentLang, this.filterForm.value);
+  }
+
+  removeFilterChip(filterChip: FilterChip): void {
+    this.filtersChip = this.filtersChip.filter(f => f.code !== filterChip.code);
+    localStorage.setItem('filters_chip', JSON.stringify(this.filtersChip));
+    // colocar en null o [] el campo de filters en localStorage
+    const filters = JSON.parse(localStorage.getItem('filters'));
+    if (filterChip.code === 'genders' || filterChip.code === 'ethnicities' || filterChip.code === 'locations' || filterChip.code === 'product_types' || filterChip.code === 'providers') {
+      filters[filterChip.code] = [];
+    } else {
+      filters[filterChip.code] = null;
+    }
+    localStorage.setItem('filters', JSON.stringify(filters));
+    // eliminar el filtro del formulario
+    this.filterForm.get(filterChip.code).setValue(null);
     this.getQuestions(this.translate.currentLang, this.filterForm.value);
   }
 
@@ -296,6 +332,9 @@ export class MetricsComponent implements OnInit {
         this.filterForm.get('max_age').setValue(result.data.max_age);
         this.filterForm.get('zipcode').setValue(result.data.zipcode);
 
+        // recuperar filter-chip del localStorage
+        this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
+
         this.metricsService.getHealthFileCSV(result.data).subscribe({
           next: (res) => {
             const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
@@ -348,6 +387,9 @@ export class MetricsComponent implements OnInit {
         this.filterForm.get('min_age').setValue(result.data.min_age);
         this.filterForm.get('max_age').setValue(result.data.max_age);
         this.filterForm.get('zipcode').setValue(result.data.zipcode);
+
+        // recuperar filter-chip del localStorage
+        this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
         this.getQuestions(this.translate.currentLang, result.data);
       }

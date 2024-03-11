@@ -98,6 +98,21 @@ export class InicioSesionComponent implements OnInit {
           if (res != null) {
             localStorage.setItem('token', res.token);
             localStorage.setItem('reset_password', res.reset_password);
+            let filters = {
+              ethnicities: [],
+              from_date: null,
+              genders: [],
+              locations: [],
+              max_age: null,
+              min_age: null,
+              product_types: [],
+              providers: [],
+              to_date: null,
+              zipcode: null
+            }
+            localStorage.setItem('filters', JSON.stringify(filters));
+            let filters_chip = [];
+            localStorage.setItem('filters_chip', JSON.stringify(filters_chip));
 
             this.redireccionar();
           } else {

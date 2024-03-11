@@ -6,13 +6,15 @@ import { StockerService } from 'src/app/services/stock/stocker.service';
 import { Provider } from 'src/app/models/stocker/provider';
 import { ProductType } from 'src/app/models/stocker/product-type';
 import { Location } from 'src/app/models/map/location';
+import { catchError, forkJoin, of, tap } from 'rxjs';
+import { FilterChip } from 'src/app/models/metrics/filter-chip';
 
 @Component({
   selector: 'app-metrics-filters-product',
   templateUrl: './metrics-filters-product.component.html',
   styleUrls: ['./metrics-filters-product.component.scss']
 })
-export class MetricsFiltersProductComponent implements OnInit{
+export class MetricsFiltersProductComponent implements OnInit {
 
   filterForm: FormGroup;
   locations: Location[] = [];
@@ -59,40 +61,80 @@ export class MetricsFiltersProductComponent implements OnInit{
       localStorage.setItem('filters', JSON.stringify(updatedFilters));
     }
 
-    // Suscríbete a los cambios del formulario y actualiza el valor en el localStorage cada vez que haya un cambio
-    this.filterForm.valueChanges.subscribe(val => {
-      const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
-      const updatedFilters = { ...currentFilters, ...val };
-      localStorage.setItem('filters', JSON.stringify(updatedFilters));
+    forkJoin([
+      this.getLocations(),
+      this.getProviders(),
+      this.getProductTypes(this.translate.currentLang)
+    ]).subscribe(() => {
+      // Suscríbete a los cambios del formulario y actualiza el valor en el localStorage cada vez que haya un cambio
+      this.filterForm.valueChanges.subscribe(val => {
+        const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
+        const updatedFilters = { ...currentFilters, ...val };
+        localStorage.setItem('filters', JSON.stringify(updatedFilters));
+
+        // actualizar filters_chip, es un array con code, name y value
+        let filters_chip: FilterChip[] = JSON.parse(localStorage.getItem('filters_chip')) || [];
+        for (let key in val) {
+          //borrar el filtro si ya existe
+          filters_chip = filters_chip.filter(f => f.code !== key);
+          if (val[key] && (!Array.isArray(val[key]) || val[key].length) && val[key] !== '') {
+            // si es un array de id, recorrerlo y guardar los nombres separados por coma utilizando las variables locations, providers y product_types
+            if (key === 'locations' || key === 'providers' || key === 'product_types') {
+              let names = [];
+              val[key].forEach(id => {
+                if (key === 'locations') {
+                  names.push(this.locations.find(l => l.id === id).community_city);
+                } else if (key === 'providers') {
+                  names.push(this.providers.find(g => g.id === id).name);
+                } else if (key === 'product_types') {
+                  names.push(this.product_types.find(e => e.id === id).name);
+                }
+              }
+              );
+              filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: names.join(', ') });
+            } else if (key === 'from_date' || key === 'to_date') {
+              let date = new Date(val[key] + 'T00:00');
+              let formattedDate = date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+              });
+              filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: formattedDate });
+            } else {
+              filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: val[key] });
+            }
+          }
+        }
+        localStorage.setItem('filters_chip', JSON.stringify(filters_chip));
+
+      });
     });
 
-    this.getLocations();
-    this.getProviders();
-    this.getProductTypes(this.translate.currentLang);
+
   }
 
   onClickAceptar() {
 
     // Si hay elemento en from_date
     if (this.filterForm.value.from_date) {
-    console.log(this.filterForm.value.from_date);
-    // Obtener la fecha del formulario
-    const date = new Date(this.filterForm.value.from_date);
-    // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
-    const dateString = date.toISOString().slice(0, 10);
-    // Asignar la fecha al campo de fecha en el formulario
-    this.filterForm.get('from_date').setValue(dateString);
-    console.log(this.filterForm.value.from_date);
+      console.log(this.filterForm.value.from_date);
+      // Obtener la fecha del formulario
+      const date = new Date(this.filterForm.value.from_date);
+      // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
+      const dateString = date.toISOString().slice(0, 10);
+      // Asignar la fecha al campo de fecha en el formulario
+      this.filterForm.get('from_date').setValue(dateString);
+      console.log(this.filterForm.value.from_date);
     }
 
     // Si hay elemento en to_date
-    if(this.filterForm.value.to_date) {
-    // Obtener la fecha del formulario
-    const date2 = new Date(this.filterForm.value.to_date);
-    // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
-    const dateString2 = date2.toISOString().slice(0, 10);
-    // Asignar la fecha al campo de fecha en el formulario
-    this.filterForm.get('to_date').setValue(dateString2);
+    if (this.filterForm.value.to_date) {
+      // Obtener la fecha del formulario
+      const date2 = new Date(this.filterForm.value.to_date);
+      // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
+      const dateString2 = date2.toISOString().slice(0, 10);
+      // Asignar la fecha al campo de fecha en el formulario
+      this.filterForm.get('to_date').setValue(dateString2);
     }
 
     this.dialogRef.close({ status: true, data: this.filterForm.value });
@@ -118,33 +160,39 @@ export class MetricsFiltersProductComponent implements OnInit{
   }
 
   private getLocations() {
-    this.stockerService.getLocations().subscribe(
-      (res) => {
+    return this.stockerService.getLocations().pipe(
+      tap((res) => {
         this.locations = res;
-      }
+      }),
+      catchError((error) => {
+        console.error(error);
+        return of(null);
+      })
     );
   }
 
   private getProviders() {
-    this.stockerService.getProviders().subscribe({
-      next: (res) => {
+    return this.stockerService.getProviders().pipe(
+       tap((res) => {
         this.providers = res;
-      },
-      error: (error) => {
+      }),
+      catchError((error) => {
         console.error(error);
-      }
-    });
+        return of(null);
+      })
+    );
   }
 
   private getProductTypes(language: string, id?: number) {
-    this.stockerService.getProductTypes(language, id).subscribe({
-      next: (res) => {
+    return this.stockerService.getProductTypes(language, id).pipe(
+       tap((res) => {
         this.product_types = res;
-      },
-      error: (error) => {
+      }),
+      catchError((error) => {
         console.error(error);
-      }
-    });
+        return of(null);
+      })
+    );
   }
 
 }

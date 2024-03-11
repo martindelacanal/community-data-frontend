@@ -2,7 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { catchError, forkJoin, of, tap } from 'rxjs';
 import { Location } from 'src/app/models/map/location';
+import { FilterChip } from 'src/app/models/metrics/filter-chip';
 import { Ethnicity } from 'src/app/models/user/ethnicity';
 import { Gender } from 'src/app/models/user/gender';
 import { DeliveryService } from 'src/app/services/deliver/delivery.service';
@@ -63,20 +65,57 @@ export class MetricsFiltersComponent implements OnInit {
       localStorage.setItem('filters', JSON.stringify(updatedFilters));
     }
 
-    // Suscríbete a los cambios del formulario y actualiza el valor en el localStorage cada vez que haya un cambio
-    this.filterForm.valueChanges.subscribe(val => {
-      const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
-      const updatedFilters = { ...currentFilters, ...val };
-      localStorage.setItem('filters', JSON.stringify(updatedFilters));
+    forkJoin([
+      this.getLocations(),
+      this.getGender(this.translate.currentLang),
+      this.getEthnicity(this.translate.currentLang)
+    ]).subscribe(() => {
+      // Suscríbete a los cambios del formulario y actualiza el valor en el localStorage cada vez que haya un cambio
+      this.filterForm.valueChanges.subscribe(val => {
+        const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
+        const updatedFilters = { ...currentFilters, ...val };
+        localStorage.setItem('filters', JSON.stringify(updatedFilters));
+
+        // actualizar filters_chip, es un array con code, name y value
+        let filters_chip: FilterChip[] = JSON.parse(localStorage.getItem('filters_chip')) || [];
+        for (let key in val) {
+          //borrar el filtro si ya existe
+          filters_chip = filters_chip.filter(f => f.code !== key);
+          if (val[key] && (!Array.isArray(val[key]) || val[key].length) && val[key] !== '') {
+            // si es un array de id, recorrerlo y guardar los nombres separados por coma utilizando las variables locations, genders y ethnicities
+            if (key === 'locations' || key === 'genders' || key === 'ethnicities') {
+              let names = [];
+              val[key].forEach(id => {
+                if (key === 'locations') {
+                  names.push(this.locations.find(l => l.id === id).community_city);
+                } else if (key === 'genders') {
+                  names.push(this.genders.find(g => g.id === id).name);
+                } else if (key === 'ethnicities') {
+                  names.push(this.ethnicities.find(e => e.id === id).name);
+                }
+              }
+              );
+              filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: names.join(', ') });
+            } else if (key === 'from_date' || key === 'to_date') {
+              let date = new Date(val[key] + 'T00:00');
+              let formattedDate = date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+              });
+              filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: formattedDate });
+            } else {
+              filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: val[key] });
+            }
+          }
+        }
+        localStorage.setItem('filters_chip', JSON.stringify(filters_chip));
+      });
     });
 
-    this.getLocations();
-    this.getGender(this.translate.currentLang);
-    this.getEthnicity(this.translate.currentLang);
   }
 
   onClickAceptar() {
-
     // Si hay elemento en from_date
     if (this.filterForm.value.from_date) {
       console.log(this.filterForm.value.from_date);
@@ -122,33 +161,39 @@ export class MetricsFiltersComponent implements OnInit {
   }
 
   private getLocations() {
-    this.deliveryService.getLocations().subscribe(
-      (res) => {
+    return this.deliveryService.getLocations().pipe(
+      tap((res) => {
         this.locations = res;
-      }
+      }),
+      catchError((error) => {
+        console.error(error);
+        return of(null);
+      })
     );
   }
 
   private getGender(language: string, id?: number) {
-    this.authService.getGender(language, id).subscribe({
-      next: (res) => {
+    return this.authService.getGender(language, id).pipe(
+      tap((res) => {
         this.genders = res;
-      },
-      error: (error) => {
+      }),
+      catchError((error) => {
         console.error(error);
-      }
-    });
+        return of(null);
+      })
+    );
   }
 
   private getEthnicity(language: string, id?: number) {
-    this.authService.getEthnicity(language, id).subscribe({
-      next: (res) => {
+    return this.authService.getEthnicity(language, id).pipe(
+      tap((res) => {
         this.ethnicities = res;
-      },
-      error: (error) => {
+      }),
+      catchError((error) => {
         console.error(error);
-      }
-    });
+        return of(null);
+      })
+    );
   }
 
 }

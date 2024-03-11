@@ -64,7 +64,6 @@ import { DisclaimerResetPasswordComponent } from './components/dialog/disclaimer
 import { ViewTicketComponent } from './components/view/view-ticket/view-ticket.component';
 import { NewUserComponent } from './components/new/user/new-user/new-user.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-import { DownloadMetricsCsvComponent } from './components/dialog/download-metrics-csv/download-metrics-csv/download-metrics-csv.component';
 import { TableDeliveredComponent } from './components/tables/delivered/table-delivered/table-delivered.component';
 import { DownloadDeliveredCsvComponent } from './components/dialog/download-delivered-csv/download-delivered-csv/download-delivered-csv.component';
 import { OnlyNumberDirective } from './directives/only-number.directive';
@@ -100,6 +99,7 @@ import { ViewEthnicityComponent } from './components/view/view-ethnicity/view-et
 import { NewEthnicityComponent } from './components/new/new-ethnicity/new-ethnicity.component';
 import { NewGenderComponent } from './components/new/new-gender/new-gender.component';
 import { DisclaimerEnableDisableElementComponent } from './components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -127,7 +127,6 @@ import { DisclaimerEnableDisableElementComponent } from './components/dialog/dis
    DisclaimerResetPasswordComponent,
    ViewTicketComponent,
    NewUserComponent,
-   DownloadMetricsCsvComponent,
    TableDeliveredComponent,
    DownloadDeliveredCsvComponent,
    OnlyNumberDirective,
@@ -201,6 +200,7 @@ import { DisclaimerEnableDisableElementComponent } from './components/dialog/dis
     MatDialogModule,
     MatButtonToggleModule,
     NgImageSliderModule,
+    MatChipsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -9,7 +9,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
+}
+
+.chip-grid {
+  display: flex;
+  align-self: flex-end;
 }
 
 .main_tarjetas {
@@ -22,6 +27,7 @@
   row-gap: 24px;
   column-gap: 24px;
   align-items: start;
+  margin-top: 8px;
 }
 
 .ui-tarjeta {

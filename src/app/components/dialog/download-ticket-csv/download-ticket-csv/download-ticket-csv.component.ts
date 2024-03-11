@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { FilterChip } from 'src/app/models/metrics/filter-chip';
 
 @Component({
   selector: 'app-download-ticket-csv',
@@ -15,6 +17,7 @@ export class DownloadTicketCsvComponent implements OnInit {
     public dialogRef: MatDialogRef<DownloadTicketCsvComponent>,
     @Inject(MAT_DIALOG_DATA) public message: string,
     private formBuilder: FormBuilder,
+    public translate: TranslateService,
   ) {
     this.dateForm = this.formBuilder.group({
       from_date: [null, Validators.required],
@@ -50,6 +53,41 @@ export class DownloadTicketCsvComponent implements OnInit {
       const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
       const updatedFilters = { ...currentFilters, ...val };
       localStorage.setItem('filters', JSON.stringify(updatedFilters));
+
+      // actualizar filters_chip, es un array con code, name y value
+      let filters_chip: FilterChip[] = JSON.parse(localStorage.getItem('filters_chip')) || [];
+      for (let key in val) {
+        //borrar el filtro si ya existe
+        filters_chip = filters_chip.filter(f => f.code !== key);
+        if (val[key] && (!Array.isArray(val[key]) || val[key].length) && val[key] !== '') {
+          // si es un array de id, recorrerlo y guardar los nombres separados por coma utilizando las variables locations, genders y ethnicities
+          if (key === 'locations' || key === 'genders' || key === 'ethnicities') {
+            // let names = [];
+            // val[key].forEach(id => {
+            //   if (key === 'locations') {
+            //     names.push(this.locations.find(l => l.id === id).community_city);
+            //   } else if (key === 'genders') {
+            //     names.push(this.genders.find(g => g.id === id).name);
+            //   } else if (key === 'ethnicities') {
+            //     names.push(this.ethnicities.find(e => e.id === id).name);
+            //   }
+            // }
+            // );
+            // filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: names.join(', ') });
+          } else if (key === 'from_date' || key === 'to_date') {
+            let date = new Date(val[key] + 'T00:00');
+            let formattedDate = date.toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit'
+            });
+            filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: formattedDate });
+          } else {
+            filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: val[key] });
+          }
+        }
+      }
+      localStorage.setItem('filters_chip', JSON.stringify(filters_chip));
     });
   }
 
