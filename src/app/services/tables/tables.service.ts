@@ -78,6 +78,18 @@ export class TablesService {
     return this.http.get(`${environment.url_api}/table/delivered/beneficiary-summary/download-csv?from_date=${from_date}&to_date=${to_date}`, { responseType: 'text' });
   }
 
+  getSystemUserFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/user/system-user/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getClientFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/user/client/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getParticipantFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/user/beneficiary/download-csv`, filters, { responseType: 'text' });
+  }
+
   resetPassword(id: string){
     return this.http.delete<any>(`${environment.url_api}/user/reset-password/${id}`);
   }

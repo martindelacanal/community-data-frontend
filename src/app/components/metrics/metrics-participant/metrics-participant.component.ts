@@ -382,66 +382,6 @@ export class MetricsParticipantComponent implements OnInit {
     });
   }
 
-  dialogDownloadCsv(): void {
-    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
-      width: '370px',
-      data: '',
-      disableClose: true
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.status) {
-        this.loadingCSV = true;
-
-        // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
-        if (result.data.from_date) {
-          const date = new Date(result.data.from_date + 'T00:00');
-          this.filterForm.get('from_date').setValue(date);
-        }
-        if (result.data.to_date) {
-          const date2 = new Date(result.data.to_date + 'T00:00');
-          this.filterForm.get('to_date').setValue(date2);
-        }
-
-        // set values into filterForm
-        this.filterForm.get('locations').setValue(result.data.locations);
-        this.filterForm.get('genders').setValue(result.data.genders);
-        this.filterForm.get('ethnicities').setValue(result.data.ethnicities);
-        this.filterForm.get('min_age').setValue(result.data.min_age);
-        this.filterForm.get('max_age').setValue(result.data.max_age);
-        this.filterForm.get('zipcode').setValue(result.data.zipcode);
-
-        // recuperar filter-chip del localStorage
-        this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
-
-        this.metricsService.getParticipantFileCSV(result.data).subscribe({
-          next: (res) => {
-            const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'participants-metrics.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-            this.loadingCSV = false;
-          },
-          error: (error) => {
-            console.log(error);
-            this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
-            this.loadingCSV = false;
-          }
-        });
-
-        // Recargar los graficos con los filtros aplicados
-        this.getRegisterMetrics(this.translate.currentLang, this.filterForm.value);
-        this.getEmailMetrics(this.translate.currentLang, this.filterForm.value);
-        this.getPhoneMetrics(this.translate.currentLang, this.filterForm.value);
-      }
-    });
-  }
-
   dialogFilters(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',

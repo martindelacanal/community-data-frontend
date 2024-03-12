@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { DisclaimerEnableDisableElementComponent } from 'src/app/components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
 import { DisclaimerResetPasswordComponent } from 'src/app/components/dialog/disclaimer-reset-password/disclaimer-reset-password/disclaimer-reset-password.component';
+import { MetricsFiltersComponent } from 'src/app/components/dialog/metrics-filters/metrics-filters.component';
 import { Usuario } from 'src/app/models/login/usuario';
 import { userTable } from 'src/app/models/tables/user-table';
 import { DecodificadorService } from 'src/app/services/login/decodificador.service';
@@ -46,6 +47,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
   totalItems: number = 0;
   numOfPages: number = 0;
   loading: boolean = false;
+  loadingCSV: boolean = false;
   buscar = new FormControl();
   buscarValor: string = '';
   pagina: number = 0;
@@ -199,6 +201,101 @@ export class TableUserComponent implements OnInit, AfterViewInit {
         });
       }
     });
+  }
+
+  dialogDownloadCsv(role: string): void {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
+      width: '370px',
+      data: '',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.status) {
+        this.loadingCSV = true;
+
+        switch (role) {
+          case 'all': this.downloadAllCSV(result);
+            break;
+          case 'client': this.downloadClientCSV(result);
+            break;
+          case 'beneficiary': this.downloadBeneficiaryCSV(result);
+            break;
+        }
+      }
+    });
+  }
+
+  private downloadAllCSV(result: any) {
+
+    this.tablesService.getSystemUserFileCSV(result.data).subscribe({
+      next: (res) => {
+        const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'system-users-table.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        this.loadingCSV = false;
+      },
+      error: (error) => {
+        console.log(error);
+        this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
+        this.loadingCSV = false;
+      }
+    });
+
+  }
+
+  private downloadClientCSV(result: any) {
+
+    this.tablesService.getClientFileCSV(result.data).subscribe({
+      next: (res) => {
+        const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'clients-table.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        this.loadingCSV = false;
+      },
+      error: (error) => {
+        console.log(error);
+        this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
+        this.loadingCSV = false;
+      }
+    });
+
+  }
+
+  private downloadBeneficiaryCSV(result: any) {
+
+    this.tablesService.getParticipantFileCSV(result.data).subscribe({
+      next: (res) => {
+        const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'participants-table.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        this.loadingCSV = false;
+      },
+      error: (error) => {
+        console.log(error);
+        this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
+        this.loadingCSV = false;
+      }
+    });
+
   }
 
   private getDataUserTable() {

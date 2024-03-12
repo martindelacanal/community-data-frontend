@@ -29,9 +29,6 @@ export class MetricsService {
   getDemographicFileCSV(filters: any) {
     return this.http.post(`${environment.url_api}/metrics/demographic/download-csv`, filters, { responseType: 'text' });
   }
-  getParticipantFileCSV(filters: any) {
-    return this.http.post(`${environment.url_api}/metrics/participant/download-csv`, filters, { responseType: 'text' });
-  }
 
   getQuestions(language: string, filters: any) {
     const httpOptions = {

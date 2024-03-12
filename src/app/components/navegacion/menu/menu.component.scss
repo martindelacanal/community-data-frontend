@@ -255,6 +255,8 @@ li:hover {
   list-style: none;
   margin: 0;
   padding: 0;
+  max-height: 256px;  // Limita la altura máxima
+  overflow-y: auto;   // Habilita el desplazamiento vertical cuando el contenido excede la altura máxima
 }
 
 .opciones-tables .ui-tarjeta li {
