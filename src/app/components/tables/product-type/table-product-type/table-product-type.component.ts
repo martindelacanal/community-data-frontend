@@ -1,11 +1,13 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
+import { MetricsFiltersProductComponent } from 'src/app/components/dialog/metrics-filters-product/metrics-filters-product.component';
 import { productTypeTable } from 'src/app/models/tables/product-type-table';
 import { TablesService } from 'src/app/services/tables/tables.service';
 
@@ -38,6 +40,7 @@ export class TableProductTypeComponent implements OnInit, AfterViewInit {
   totalItems: number = 0;
   numOfPages: number = 0;
   loading: boolean = false;
+  loadingCSV: boolean = false;
   buscar = new FormControl();
   buscarValor: string = '';
   pagina: number = 0;
@@ -52,6 +55,7 @@ export class TableProductTypeComponent implements OnInit, AfterViewInit {
     private tablesService: TablesService,
     public translate: TranslateService,
     private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {
     this.columna = 'id'
   }
@@ -126,6 +130,42 @@ export class TableProductTypeComponent implements OnInit, AfterViewInit {
 
   openSnackBar(message: string) {
     this.snackBar.open(message, this.translate.instant('snackbar_close'));
+  }
+
+  dialogDownloadCsv(): void {
+    const dialogRef = this.dialog.open(MetricsFiltersProductComponent, {
+      width: '370px',
+      data: {
+        origin: 'table-product-type'
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.status) {
+        this.loadingCSV = true;
+
+        this.tablesService.getProductTypeFileCSV(result.data).subscribe({
+          next: (res) => {
+            const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'food-types-table.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            this.loadingCSV = false;
+          },
+          error: (error) => {
+            console.log(error);
+            this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
+            this.loadingCSV = false;
+          }
+        });
+      }
+    });
   }
 
   private getDataProductTypeTable() {

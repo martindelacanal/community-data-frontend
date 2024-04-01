@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { DisclaimerEnableDisableElementComponent } from 'src/app/components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
+import { MetricsFiltersComponent } from 'src/app/components/dialog/metrics-filters/metrics-filters.component';
 import { clientTable } from 'src/app/models/tables/client-table';
 import { TablesService } from 'src/app/services/tables/tables.service';
 
@@ -41,6 +42,7 @@ export class TableClientComponent implements OnInit, AfterViewInit {
   totalItems: number = 0;
   numOfPages: number = 0;
   loading: boolean = false;
+  loadingCSV: boolean = false;
   buscar = new FormControl();
   buscarValor: string = '';
   pagina: number = 0;
@@ -72,25 +74,25 @@ export class TableClientComponent implements OnInit, AfterViewInit {
         }
       );
 
-      this.translate.onLangChange.subscribe(
-        (res) => {
-          if (res.lang == 'es') {
-            this.paginator._intl.itemsPerPageLabel = 'Items por página:';
-            this.paginator._intl.nextPageLabel = 'Siguiente';
-            this.paginator._intl.previousPageLabel = 'Anterior';
-            this.paginator._intl.firstPageLabel = 'Primera página';
-            this.paginator._intl.lastPageLabel = 'Última página';
-            this.paginator._intl.getRangeLabel = spanishRangeLabel;
-          } else {
-            this.paginator._intl.itemsPerPageLabel = 'Items per page:';
-            this.paginator._intl.nextPageLabel = 'Next';
-            this.paginator._intl.previousPageLabel = 'Previous';
-            this.paginator._intl.firstPageLabel = 'First page';
-            this.paginator._intl.lastPageLabel = 'Last page';
-            this.paginator._intl.getRangeLabel = englishRangeLabel;
-          }
+    this.translate.onLangChange.subscribe(
+      (res) => {
+        if (res.lang == 'es') {
+          this.paginator._intl.itemsPerPageLabel = 'Items por página:';
+          this.paginator._intl.nextPageLabel = 'Siguiente';
+          this.paginator._intl.previousPageLabel = 'Anterior';
+          this.paginator._intl.firstPageLabel = 'Primera página';
+          this.paginator._intl.lastPageLabel = 'Última página';
+          this.paginator._intl.getRangeLabel = spanishRangeLabel;
+        } else {
+          this.paginator._intl.itemsPerPageLabel = 'Items per page:';
+          this.paginator._intl.nextPageLabel = 'Next';
+          this.paginator._intl.previousPageLabel = 'Previous';
+          this.paginator._intl.firstPageLabel = 'First page';
+          this.paginator._intl.lastPageLabel = 'Last page';
+          this.paginator._intl.getRangeLabel = englishRangeLabel;
         }
-      )
+      }
+    )
   }
 
   ngAfterViewInit() {
@@ -153,6 +155,42 @@ export class TableClientComponent implements OnInit, AfterViewInit {
           },
           complete: () => {
             this.getDataClientTable();
+          }
+        });
+      }
+    });
+  }
+
+  dialogDownloadCsv(): void {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
+      width: '370px',
+      data: {
+        origin: 'table-client'
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.status) {
+        this.loadingCSV = true;
+
+        this.tablesService.getClientFileCSV(result.data).subscribe({
+          next: (res) => {
+            const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'clients-table.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            this.loadingCSV = false;
+          },
+          error: (error) => {
+            console.log(error);
+            this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
+            this.loadingCSV = false;
           }
         });
       }

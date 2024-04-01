@@ -217,7 +217,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
         switch (role) {
           case 'all': this.downloadAllCSV(result);
             break;
-          case 'client': this.downloadClientCSV(result);
+          case 'client': this.downloadClientUserCSV(result);
             break;
           case 'beneficiary': this.downloadBeneficiaryCSV(result);
             break;
@@ -250,15 +250,15 @@ export class TableUserComponent implements OnInit, AfterViewInit {
 
   }
 
-  private downloadClientCSV(result: any) {
+  private downloadClientUserCSV(result: any) {
 
-    this.tablesService.getClientFileCSV(result.data).subscribe({
+    this.tablesService.getClientUserFileCSV(result.data).subscribe({
       next: (res) => {
         const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'clients-table.csv';
+        a.download = 'client-users-table.csv';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

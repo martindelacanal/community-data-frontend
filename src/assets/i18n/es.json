@@ -450,6 +450,7 @@
   "dialog_download_ticket_csv_input_to_date": "Hasta",
   "dialog_download_ticket_csv_input_date_error": "Por favor ingrese una fecha",
   "dialog_download_ticket_csv_button_cancel": "Cancelar",
+  "dialog_download_ticket_csv_button_apply": "Aplicar",
   "dialog_download_ticket_csv_button_download": "Descargar",
 
   "dialog_selection_delivered_csv_beneficiary_summary": "Resumen del participante",

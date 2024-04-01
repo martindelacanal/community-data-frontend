@@ -20,10 +20,11 @@ export class MetricsFiltersComponent implements OnInit {
   locations: Location[] = [];
   genders: Gender[];
   ethnicities: Ethnicity[];
+  origin: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<MetricsFiltersComponent>,
-    @Inject(MAT_DIALOG_DATA) public message: FormGroup,
+    @Inject(MAT_DIALOG_DATA) public message: any,
     private formBuilder: FormBuilder,
     private deliveryService: DeliveryService,
     public translate: TranslateService,
@@ -40,6 +41,10 @@ export class MetricsFiltersComponent implements OnInit {
       max_age: [null],
       zipcode: [null]
     });
+
+    if(this.message.origin){
+      this.origin = this.message.origin;
+    }
   }
 
   ngOnInit(): void {

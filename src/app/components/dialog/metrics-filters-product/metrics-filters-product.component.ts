@@ -20,10 +20,11 @@ export class MetricsFiltersProductComponent implements OnInit {
   locations: Location[] = [];
   providers: Provider[] = [];
   product_types: ProductType[] = [];
+  origin: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<MetricsFiltersProductComponent>,
-    @Inject(MAT_DIALOG_DATA) public message: FormGroup,
+    @Inject(MAT_DIALOG_DATA) public message: any,
     private formBuilder: FormBuilder,
     private stockerService: StockerService,
     public translate: TranslateService,
@@ -36,6 +37,10 @@ export class MetricsFiltersProductComponent implements OnInit {
       providers: [null],
       product_types: [null],
     });
+
+    if(this.message.origin){
+      this.origin = this.message.origin;
+    }
   }
 
   ngOnInit(): void {

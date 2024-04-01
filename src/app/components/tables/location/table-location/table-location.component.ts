@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { DisclaimerEnableDisableElementComponent } from 'src/app/components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
+import { MetricsFiltersComponent } from 'src/app/components/dialog/metrics-filters/metrics-filters.component';
 import { Usuario } from 'src/app/models/login/usuario';
 import { locationTable } from 'src/app/models/tables/location-table';
 import { DecodificadorService } from 'src/app/services/login/decodificador.service';
@@ -44,6 +45,7 @@ export class TableLocationComponent implements OnInit, AfterViewInit {
   totalItems: number = 0;
   numOfPages: number = 0;
   loading: boolean = false;
+  loadingCSV: boolean = false;
   buscar = new FormControl();
   buscarValor: string = '';
   pagina: number = 0;
@@ -117,7 +119,6 @@ export class TableLocationComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   updatePage(event: PageEvent): void {
     this.pagina = event.pageIndex;
     this.getDataLocationTable();
@@ -159,6 +160,42 @@ export class TableLocationComponent implements OnInit, AfterViewInit {
           },
           complete: () => {
             this.getDataLocationTable();
+          }
+        });
+      }
+    });
+  }
+
+  dialogDownloadCsv(): void {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
+      width: '370px',
+      data: {
+        origin: 'table-location'
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.status) {
+        this.loadingCSV = true;
+
+        this.tablesService.getLocationFileCSV(result.data).subscribe({
+          next: (res) => {
+            const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'locations-table.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            this.loadingCSV = false;
+          },
+          error: (error) => {
+            console.log(error);
+            this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
+            this.loadingCSV = false;
           }
         });
       }

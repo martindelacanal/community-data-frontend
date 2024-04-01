@@ -8,6 +8,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { ethnicityTable } from 'src/app/models/tables/ethnicity-table';
 import { TablesService } from 'src/app/services/tables/tables.service';
+import { MetricsFiltersComponent } from '../../dialog/metrics-filters/metrics-filters.component';
+import { DisclaimerEnableDisableElementComponent } from '../../dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
+import { MatDialog } from '@angular/material/dialog';
 
 const spanishRangeLabel = (page: number, pageSize: number, length: number) => {
   const amountPages = Math.ceil(length / pageSize);
@@ -38,6 +41,7 @@ export class TableEthnicityComponent implements OnInit, AfterViewInit {
   totalItems: number = 0;
   numOfPages: number = 0;
   loading: boolean = false;
+  loadingCSV: boolean = false;
   buscar = new FormControl();
   buscarValor: string = '';
   pagina: number = 0;
@@ -52,6 +56,7 @@ export class TableEthnicityComponent implements OnInit, AfterViewInit {
     private tablesService: TablesService,
     public translate: TranslateService,
     private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {
     this.columna = 'id'
   }
@@ -108,7 +113,6 @@ export class TableEthnicityComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   updatePage(event: PageEvent): void {
     this.pagina = event.pageIndex;
     this.getDataEthnicityTable();
@@ -126,6 +130,70 @@ export class TableEthnicityComponent implements OnInit, AfterViewInit {
 
   openSnackBar(message: string) {
     this.snackBar.open(message, this.translate.instant('snackbar_close'));
+  }
+
+  openDialogEnableDisableElement(id: string, enabled: string): void {
+    const dialogRef = this.dialog.open(DisclaimerEnableDisableElementComponent, {
+      width: '370px',
+      data: enabled
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      let enable = 'Y';
+      if (enabled === 'Y') {
+        enable = 'N';
+      }
+      if (result.status) {
+        this.tablesService.enableDisableElement(id, 'ethnicity', enable).subscribe({
+          next: (res) => {
+            this.openSnackBar(this.translate.instant('table_snack_enable_disable'));
+          },
+          error: (error) => {
+            console.log(error);
+            this.openSnackBar(this.translate.instant('table_snack_enable_disable_error'));
+          },
+          complete: () => {
+            this.getDataEthnicityTable();
+          }
+        });
+      }
+    });
+  }
+
+  dialogDownloadCsv(): void {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
+      width: '370px',
+      data: {
+        origin: 'table-ethnicity'
+      },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.status) {
+        this.loadingCSV = true;
+
+        this.tablesService.getEthnicityFileCSV(result.data).subscribe({
+          next: (res) => {
+            const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ethnicities-table.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            this.loadingCSV = false;
+          },
+          error: (error) => {
+            console.log(error);
+            this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
+            this.loadingCSV = false;
+          }
+        });
+      }
+    });
   }
 
   private getDataEthnicityTable() {

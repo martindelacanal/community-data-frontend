@@ -82,12 +82,40 @@ export class TablesService {
     return this.http.post(`${environment.url_api}/table/user/system-user/download-csv`, filters, { responseType: 'text' });
   }
 
-  getClientFileCSV(filters: any) {
+  getClientUserFileCSV(filters: any) {
     return this.http.post(`${environment.url_api}/table/user/client/download-csv`, filters, { responseType: 'text' });
   }
 
   getParticipantFileCSV(filters: any) {
     return this.http.post(`${environment.url_api}/table/user/beneficiary/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getClientFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/client/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getEthnicityFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/ethnicity/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getGenderFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/gender/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getLocationFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/location/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getProductFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/product/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getProductTypeFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/product-type/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getProviderFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/provider/download-csv`, filters, { responseType: 'text' });
   }
 
   resetPassword(id: string){

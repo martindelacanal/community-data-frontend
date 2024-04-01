@@ -11,7 +11,9 @@
       <input matInput type="search" class="ui-input" [formControl]="buscar"
         placeholder="{{'table_input_search' | translate }}">
       <div>
-        <button [routerLink]="['/new/gender']" class="ui-button">{{'table_genders_button_add_gender' | translate }}</button>
+        <button *ngIf="!loadingCSV" class="ui-button" type="button"
+        (click)="dialogDownloadCsv()">{{'metrics_button_download_csv' | translate }}</button>
+        <button id="addButton" [routerLink]="['/new/gender']" class="ui-button">{{'table_genders_button_add_gender' | translate }}</button>
       </div>
     </div>
     <br>

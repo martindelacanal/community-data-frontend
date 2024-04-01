@@ -15,7 +15,7 @@ export class DownloadTicketCsvComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<DownloadTicketCsvComponent>,
-    @Inject(MAT_DIALOG_DATA) public message: string,
+    @Inject(MAT_DIALOG_DATA) public message: any,
     private formBuilder: FormBuilder,
     public translate: TranslateService,
   ) {

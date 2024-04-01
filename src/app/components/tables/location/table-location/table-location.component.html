@@ -11,7 +11,9 @@
       <input matInput type="search" class="ui-input" [formControl]="buscar"
         placeholder="{{'table_input_search' | translate }}">
       <div>
-        <button *ngIf="usuario.role === 'admin'" [routerLink]="['/new/location']" class="ui-button">{{'table_locations_button_add_location' | translate }}</button>
+        <button *ngIf="!loadingCSV" class="ui-button" type="button"
+        (click)="dialogDownloadCsv()">{{'metrics_button_download_csv' | translate }}</button>
+        <button id="addButton" *ngIf="usuario.role === 'admin'" [routerLink]="['/new/location']" class="ui-button">{{'table_locations_button_add_location' | translate }}</button>
       </div>
     </div>
     <br>
