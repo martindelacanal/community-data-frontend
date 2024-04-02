@@ -14,7 +14,8 @@
     <div class="inputs">
       <input matInput type="search" class="ui-input" [formControl]="buscar"
         placeholder="{{'table_input_search' | translate }}">
-      <div>
+      <div class="buttons">
+        <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
         <button *ngIf="!loadingCSV" class="ui-button" type="button"
         (click)="dialogDownloadCsv(tableRole)">{{'metrics_button_download_csv' | translate }}</button>
         <button id="addButton" *ngIf="usuario.role === 'admin'" [routerLink]="['/new/user']" class="ui-button">{{'table_users_button_add_user' | translate }}</button>

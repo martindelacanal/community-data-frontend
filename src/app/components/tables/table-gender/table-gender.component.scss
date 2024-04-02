@@ -21,6 +21,12 @@
   margin-left: 16px;
 }
 
+.main .inputs .buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+}
+
 table {
   width: 100%;
   border-collapse: separate;
