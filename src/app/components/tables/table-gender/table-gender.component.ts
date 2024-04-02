@@ -34,7 +34,7 @@ export class TableGenderComponent implements OnInit, AfterViewInit {
 
   dataGenderTable: genderTable;
   dataSource: any;
-  columns = [' ', 'id', 'name', 'creation_date', 'modification_date'];
+  columns = [' ', 'id', 'name', 'enabled', 'creation_date', 'modification_date'];
 
   tabIndex = 0;
   totalItems: number = 0;

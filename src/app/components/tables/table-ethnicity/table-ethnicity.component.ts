@@ -35,7 +35,7 @@ export class TableEthnicityComponent implements OnInit, AfterViewInit {
 
   dataEthnicityTable: ethnicityTable;
   dataSource: any;
-  columns = [' ', 'id', 'name', 'creation_date', 'modification_date'];
+  columns = [' ', 'id', 'name', 'enabled', 'creation_date', 'modification_date'];
 
   tabIndex = 0;
   totalItems: number = 0;
