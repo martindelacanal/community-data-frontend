@@ -38,24 +38,24 @@
   <section class="opciones-metrics">
     <div class="ui-tarjeta" *ngIf="showCardMetrics" #cardMetrics>
       <ul>
-        <li routerLink="/metrics/health">
-          <a>
-            {{'menu_button_health_metrics' | translate }}
-          </a>
-        </li>
         <li routerLink="/metrics/demographic">
           <a>
             {{'menu_button_demographic_metrics' | translate }}
           </a>
         </li>
-        <li routerLink="/metrics/participant">
-          <a>
-            {{'menu_button_participant_metrics' | translate }}
-          </a>
-        </li>
         <li routerLink="/metrics/product">
           <a>
             {{'menu_button_product_metrics' | translate }}
+          </a>
+        </li>
+        <li routerLink="/metrics/health">
+          <a>
+            {{'menu_button_health_metrics' | translate }}
+          </a>
+        </li>
+        <li routerLink="/metrics/participant">
+          <a>
+            {{'menu_button_participant_metrics' | translate }}
           </a>
         </li>
       </ul>
@@ -64,24 +64,14 @@
   <section class="opciones-tables">
     <div class="ui-tarjeta" *ngIf="showCardTables" #cardTables>
       <ul>
-        <li routerLink="/table/user/" *ngIf="usuario.role === 'admin'">
+        <li routerLink="/table/client" *ngIf="usuario.role === 'admin'">
           <a>
-            {{'menu_button_system_user_table' | translate }}
-          </a>
-        </li>
-        <li [routerLink]="['/table/user', 'beneficiary']">
-          <a>
-            {{'menu_button_beneficiary_table' | translate }}
+            {{'menu_button_client_table' | translate }}
           </a>
         </li>
         <li [routerLink]="['/table/user', 'client']">
           <a>
             {{'menu_button_client_user_table' | translate }}
-          </a>
-        </li>
-        <li routerLink="/table/client" *ngIf="usuario.role === 'admin'">
-          <a>
-            {{'menu_button_client_table' | translate }}
           </a>
         </li>
         <li routerLink="/table/delivered">
@@ -94,16 +84,6 @@
             {{'menu_button_ethnicity_table' | translate }}
           </a>
         </li>
-        <li routerLink="/table/gender" *ngIf="usuario.role === 'admin'">
-          <a>
-            {{'menu_button_gender_table' | translate }}
-          </a>
-        </li>
-        <li routerLink="/table/location">
-          <a>
-            {{'menu_button_location_table' | translate }}
-          </a>
-        </li>
         <li routerLink="/table/product">
           <a>
             {{'menu_button_product_table' | translate }}
@@ -114,9 +94,29 @@
             {{'menu_button_product_type_table' | translate }}
           </a>
         </li>
+        <li routerLink="/table/gender" *ngIf="usuario.role === 'admin'">
+          <a>
+            {{'menu_button_gender_table' | translate }}
+          </a>
+        </li>
+        <li routerLink="/table/location">
+          <a>
+            {{'menu_button_location_table' | translate }}
+          </a>
+        </li>
+        <li [routerLink]="['/table/user', 'beneficiary']">
+          <a>
+            {{'menu_button_beneficiary_table' | translate }}
+          </a>
+        </li>
         <li routerLink="/table/provider">
           <a>
             {{'menu_button_provider_table' | translate }}
+          </a>
+        </li>
+        <li routerLink="/table/user/" *ngIf="usuario.role === 'admin'">
+          <a>
+            {{'menu_button_system_user_table' | translate }}
           </a>
         </li>
         <li routerLink="/table/ticket">
