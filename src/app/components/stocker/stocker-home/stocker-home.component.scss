@@ -208,6 +208,10 @@
   display: none;
 }
 
+.subir-archivo__button--secundario{
+  padding: 0 32px;
+}
+
 .required {
   color: var(--estado-error);
   font-weight: 600;

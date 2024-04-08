@@ -4,10 +4,11 @@
       <div class="header__title">
         <h1 class="title" *ngIf="!this.idTicket">{{'stocker_title' | translate }}</h1>
         <h1 class="title" *ngIf="this.idTicket">{{'stocker_title_edit' | translate }} {{this.idTicket}}</h1>
-        <mat-spinner *ngIf="loading || loadingGet" class="loading-inputs" mode="indeterminate" [diameter]="30"></mat-spinner>
+        <mat-spinner *ngIf="loading" class="loading-inputs" mode="indeterminate" [diameter]="30"></mat-spinner>
       </div>
       <div>
-        <button *ngIf="this.decodificadorService.getRol() == 'admin'" type="button" class="ui-button" routerLink="/table/ticket">{{'view_ticket_button_tickets' | translate }}</button>
+        <button *ngIf="this.decodificadorService.getRol() == 'admin'" type="button" class="ui-button"
+          routerLink="/table/ticket">{{'view_ticket_button_tickets' | translate }}</button>
       </div>
     </section>
     <section class="main">
@@ -104,13 +105,21 @@
                   {{'stocker_text_max_ticket' | translate }} <span
                     [ngClass]="{'required': !imageTicketUploaded}">*</span>
                 </span>
-                <label for="ticket-files"
-                  class="ui-button--ui-secundario subir-archivo__input--label">{{'stocker_button_upload_ticket' |
-                  translate }}</label>
-                <input type="file" class="subir-archivo__input--new" accept="image/png, image/jpeg" name="image_ticket"
-                  multiple (change)="uploadFile($event)" id="ticket-files" style="display:none;">
-                <input type="file" class="subir-archivo__input" accept="image/png, image/jpeg" name="image_ticket"
-                  multiple (change)="uploadFile($event)" />
+                <div *ngIf="!loading && (!this.idTicket || this.deletedFilesFromEdit)">
+                  <label for="ticket-files"
+                    class="ui-button--ui-secundario subir-archivo__input--label">{{'stocker_button_upload_ticket' |
+                    translate }}</label>
+                  <input type="file" class="subir-archivo__input--new" accept="image/png, image/jpeg"
+                    name="image_ticket" multiple (change)="uploadFile($event)" id="ticket-files" style="display:none;">
+                  <input type="file" class="subir-archivo__input" accept="image/png, image/jpeg" name="image_ticket"
+                    multiple (change)="uploadFile($event)" />
+                </div>
+                <div *ngIf="!loading && this.idTicket && !this.deletedFilesFromEdit">
+                  <button class="ui-button--ui-secundario subir-archivo__button--secundario" type="button" (click)="deleteFiles()">
+                    {{'stocker_button_delete_files_delete' | translate }}
+                    {{this.ticketGetted.image_count === 1 ? (' 1 ' + ('stocker_button_delete_files_file' | translate)) : (' ' + this.ticketGetted.image_count + ' ' + ('stocker_button_delete_files_files' | translate))}}
+                  </button>
+                </div>
               </div>
             </div>
             <!-- separator -->
@@ -160,7 +169,8 @@
                     <div class="card__product">
                       <mat-form-field appearance="outline" class="full-width">
                         <mat-label>{{'stocker_input_product' | translate }}</mat-label>
-                        <input matInput formControlName="product" [matAutocomplete]="auto" (focus)="onInputFocus(i)" (blur)="setProductTypeFromProduct(i)" required>
+                        <input matInput formControlName="product" [matAutocomplete]="auto" (focus)="onInputFocus(i)"
+                          (blur)="setProductTypeFromProduct(i)" required>
                         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setProductTypeFromProduct(i)">
                           <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                             {{ option }}
@@ -212,7 +222,8 @@
               <div class="main__footer">
                 <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
                 <button *ngIf="!loading" class="ui-button" type="submit"
-                  [disabled]="!stockForm.valid || loadingDonationIDExists">{{ idTicket == '' ? ('stocker_button_edit' | translate) : ('stocker_button_submit' | translate) }}</button>
+                  [disabled]="!stockForm.valid || loadingDonationIDExists">{{ idTicket == '' ? ('stocker_button_edit' |
+                  translate) : ('stocker_button_submit' | translate) }}</button>
                 <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
                 <mat-error *ngIf="showMessageStockFormInvalid">
                   {{'stocker_button_submit_stock_form_error' | translate }}

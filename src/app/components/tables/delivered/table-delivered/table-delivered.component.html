@@ -97,10 +97,10 @@
               <span>{{'table_delivered_row_button_view' | translate }}</span>
             </button>
             <!-- [routerLink]="['/usuario/editar',element.id]" -->
-            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado">
+            <!-- <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado">
               <mat-icon>edit</mat-icon>
               <span>{{'table_delivered_row_button_edit' | translate }}</span>
-            </button>
+            </button> -->
             <!-- (click)="openDialog(element.id,'eliminar')" -->
             <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado">
               <mat-icon>delete</mat-icon>

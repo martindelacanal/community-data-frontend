@@ -24,7 +24,7 @@ export class StockerService {
   updateTicket(id: string, ticket: FormData) {
     return this.http.put<any>(`${environment.url_api}/upload/ticket/${id}`, ticket)
   }
-  //TO-DO
+
   getTicket(id: string) {
     return this.http.get<NewTicket>(`${environment.url_api}/upload/ticket/${id}`)
   }

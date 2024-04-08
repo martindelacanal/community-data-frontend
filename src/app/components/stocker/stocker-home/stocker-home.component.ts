@@ -23,7 +23,6 @@ export class StockerHomeComponent implements OnInit {
   isTablet: boolean;
 
   public loading: boolean = true;
-  public loadingGet: boolean = false;
   public loadingGetForm: boolean = false;
   private loadingLocations: boolean = false;
   private loadingProviders: boolean = false;
@@ -41,7 +40,6 @@ export class StockerHomeComponent implements OnInit {
   public locationAddressSelected: string = '';
 
   private file_ticket: any;
-  private ticketGetted: NewTicket;
   public idTicket: string = '';
   locations: Location[] = [];
   products: Product[] = [];
@@ -55,6 +53,8 @@ export class StockerHomeComponent implements OnInit {
   numberOfFields: number;
   donationIDExists: boolean = false;
   loadingDonationIDExists: boolean = false;
+  deletedFilesFromEdit: boolean = false;
+  ticketGetted: NewTicket;
 
   constructor(
     private router: Router,
@@ -85,14 +85,6 @@ export class StockerHomeComponent implements OnInit {
       '(min-width: 901px) and (max-width: 1200px)'
     ]).subscribe(result => {
       this.isTablet = result.matches;
-    });
-
-    this.activatedRoute.params.subscribe((params: Params) => {
-      if (params['id']) {
-        this.idTicket = params['id'];
-        this.loadingGet = true;
-        this.getTicket();
-      }
     });
 
     this.stockForm.get('donation_id').valueChanges
@@ -129,6 +121,13 @@ export class StockerHomeComponent implements OnInit {
         }
       }
     );
+
+    this.activatedRoute.params.subscribe((params: Params) => {
+      if (params['id']) {
+        this.idTicket = params['id'];
+        this.getTicket();
+      }
+    });
   }
 
   onSubmit() {
@@ -286,6 +285,7 @@ export class StockerHomeComponent implements OnInit {
       return;
     }
     if (files.length > 2) {
+      this.imageTicketUploaded = false;
       alert(this.translate.instant('stocker_alert_max_files_error'));
       return;
     }
@@ -302,6 +302,13 @@ export class StockerHomeComponent implements OnInit {
       }
     }
   }
+
+  deleteFiles(){
+    this.file_ticket = [];
+    this.imageTicketUploaded = false;
+    this.deletedFilesFromEdit = true;
+  }
+
   setProductTypeFromProduct(index: number): void {
     setTimeout(() => {
       const control = this.productsForm.controls[index];
@@ -323,7 +330,6 @@ export class StockerHomeComponent implements OnInit {
   }
 
   onNumberOfFieldsChange() {
-    console.log('El nuevo número de campos es:', this.numberOfFields);
     if (Number.isInteger(this.numberOfFields) && this.numberOfFields >= 0) {
       // quitar campos hasta que el número de campos sea igual al número de campos en el formulario
       while (this.productsForm.length > this.numberOfFields) {
@@ -380,17 +386,19 @@ export class StockerHomeComponent implements OnInit {
   }
 
   private getTicket() {
-    //TO-DO
+
     this.loadingGetForm = true;
     this.stockerService.getTicket(this.idTicket).subscribe({
       next: (res) => {
+
         this.ticketGetted = {
           donation_id: res.donation_id,
           total_weight: res.total_weight,
           provider: res.provider,
           destination: res.destination,
-          date: res.date,
+          date: new Date(res.date).toISOString(),
           delivered_by: res.delivered_by,
+          image_count: res.image_count,
           products: res.products
         }
 
@@ -399,10 +407,22 @@ export class StockerHomeComponent implements OnInit {
           total_weight: res.total_weight,
           provider: res.provider,
           destination: res.destination,
-          date: res.date,
-          delivered_by: res.delivered_by,
-          products: res.products
+          date: new Date(res.date),
+          delivered_by: res.delivered_by
         });
+        // agregar campos de productos
+        for (let i = 0; i < res.products.length; i++) {
+          this.agregarCampo(true);
+          const control = this.productsForm.controls[i];
+          control.get('product').setValue(res.products[i].product);
+          control.get('product_type').setValue(res.products[i].product_type);
+          control.get('quantity').setValue(res.products[i].quantity);
+        }
+        this.file_ticket = [];
+        if (this.ticketGetted.image_count > 0) {
+          this.imageTicketUploaded = true;
+        }
+        this.numberOfFields = res.products.length;
 
         // Actualizar la validez de los campos de formulario
         this.stockForm.get('donation_id').updateValueAndValidity();
@@ -412,6 +432,12 @@ export class StockerHomeComponent implements OnInit {
         this.stockForm.get('date').updateValueAndValidity();
         this.stockForm.get('delivered_by').updateValueAndValidity();
         this.stockForm.get('products').updateValueAndValidity();
+
+        // Mark each form control as touched
+        Object.keys(this.stockForm.controls).forEach(field => {
+          const control = this.stockForm.get(field);
+          control.markAsTouched({ onlySelf: true });
+        });
 
       },
       error: (error) => {
@@ -548,23 +574,28 @@ export class StockerHomeComponent implements OnInit {
   }
 
   private updateDonationIDExists(nombre: string) {
-    this.loadingDonationIDExists = true;
-    this.stockerService.getDonationIDExists(nombre).subscribe({
-      next: (res) => {
-        if (res) {
-          this.donationIDExists = true;
-        } else {
-          this.donationIDExists = false;
+    if (this.idTicket && this.ticketGetted.donation_id === nombre) {
+      this.donationIDExists = false;
+      this.stockForm.get('donation_id').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+    } else {
+      this.loadingDonationIDExists = true;
+      this.stockerService.getDonationIDExists(nombre).subscribe({
+        next: (res) => {
+          if (res) {
+            this.donationIDExists = true;
+          } else {
+            this.donationIDExists = false;
+          }
+          this.stockForm.get('donation_id').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+        },
+        error: (error) => {
+          console.error(error);
+        },
+        complete: () => {
+          this.loadingDonationIDExists = false;
         }
-        this.stockForm.get('donation_id').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
-      },
-      error: (error) => {
-        console.error(error);
-      },
-      complete: () => {
-        this.loadingDonationIDExists = false;
-      }
-    });
+      });
+    }
   }
 
   private validateDonationID(): ValidationErrors | null {

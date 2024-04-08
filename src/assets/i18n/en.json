@@ -188,6 +188,9 @@
 
   "stocker_title_edit": "Edit ticket",
   "stocker_button_edit": "Save",
+  "stocker_button_delete_files_delete": "Delete",
+  "stocker_button_delete_files_file": "file",
+  "stocker_button_delete_files_files": "files",
   "stocker_edit_snack_get_error": "Error getting ticket",
   "stocker_edit_snack_ticket_updated": "Ticket updated successfully",
   "stocker_edit_snack_error_update": "Error updating ticket",

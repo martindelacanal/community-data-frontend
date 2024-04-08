@@ -188,6 +188,9 @@
 
   "stocker_title_edit": "Editar ticket",
   "stocker_button_edit": "Guardar",
+  "stocker_button_delete_files_delete": "Eliminar",
+  "stocker_button_delete_files_file": "archivo",
+  "stocker_button_delete_files_files": "archivos",
   "stocker_edit_snack_get_error": "Error al obtener el ticket",
   "stocker_edit_snack_ticket_updated": "Ticket actualizado con éxito",
   "stocker_edit_snack_error_update": "Error al actualizar el ticket",
