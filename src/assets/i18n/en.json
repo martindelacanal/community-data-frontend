@@ -277,6 +277,8 @@
   "metrics_product_pounds_per_location_title_x_axis": "Pounds",
 
   "metrics_filters_button": "Filters",
+  "metrics_filters_button_select_all": "Select all",
+  "metrics_filters_button_clear_all": "Clear all",
   "metrics_filters_title_registration_dates": "Select registration dates",
   "metrics_filters_input_from_date": "From",
   "metrics_filters_input_to_date": "To",

@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatOption } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, forkJoin, of, tap } from 'rxjs';
 import { Location } from 'src/app/models/map/location';
@@ -21,6 +23,12 @@ export class MetricsFiltersComponent implements OnInit {
   genders: Gender[];
   ethnicities: Ethnicity[];
   origin: string = '';
+  selectAllTextLocations = 'Select all';
+  selectAllTextGenders = 'Select all';
+  selectAllTextEthnicities = 'Select all';
+
+  filtersAnterior: string = '';
+  filtersChipAnterior: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<MetricsFiltersComponent>,
@@ -42,12 +50,21 @@ export class MetricsFiltersComponent implements OnInit {
       zipcode: [null]
     });
 
-    if(this.message.origin){
+    if (this.message.origin) {
       this.origin = this.message.origin;
     }
   }
 
   ngOnInit(): void {
+    // Guardo filters y filters_chip en variables para comparar si han cambiado
+    this.filtersAnterior = localStorage.getItem('filters');
+    this.filtersChipAnterior = localStorage.getItem('filters_chip');
+
+    // Traduce el texto de los botones de selección
+    this.selectAllTextLocations = this.translate.instant('metrics_filters_button_select_all');
+    this.selectAllTextGenders = this.translate.instant('metrics_filters_button_select_all');
+    this.selectAllTextEthnicities = this.translate.instant('metrics_filters_button_select_all');
+
     // Intenta recuperar el valor de 'filters' del localStorage
     const filters = JSON.parse(localStorage.getItem('filters'));
 
@@ -92,11 +109,20 @@ export class MetricsFiltersComponent implements OnInit {
               let names = [];
               val[key].forEach(id => {
                 if (key === 'locations') {
-                  names.push(this.locations.find(l => l.id === id).community_city);
+                  let location = this.locations.find(l => l.id === id);
+                  if (location) {
+                    names.push(location.community_city);
+                  }
                 } else if (key === 'genders') {
-                  names.push(this.genders.find(g => g.id === id).name);
+                  let gender = this.genders.find(g => g.id === id);
+                  if (gender) {
+                    names.push(gender.name);
+                  }
                 } else if (key === 'ethnicities') {
-                  names.push(this.ethnicities.find(e => e.id === id).name);
+                  let ethnicity = this.ethnicities.find(e => e.id === id);
+                  if (ethnicity) {
+                    names.push(ethnicity.name);
+                  }
                 }
               }
               );
@@ -147,6 +173,10 @@ export class MetricsFiltersComponent implements OnInit {
   }
 
   onClickCancelar() {
+    // Guardar los filtros que estaban en filtersAnterior y filtersChipAnterior
+    localStorage.setItem('filters', this.filtersAnterior);
+    localStorage.setItem('filters_chip', this.filtersChipAnterior);
+
     this.dialogRef.close({ status: false, data: this.filterForm.value });
   }
 
@@ -163,6 +193,38 @@ export class MetricsFiltersComponent implements OnInit {
     }
 
     event.target.value = formattedInput;
+  }
+
+  toggleAllSelection(matSelect: MatSelect, selectType: string) {
+    const isSelected: boolean = matSelect.options
+      // The "Select All" item has the value 0, so find that one
+      .filter((item: MatOption) => item.value === 0)
+      // Get the value of the property 'selected' (this tells us whether "Select All" is selected or not)
+      .map((item: MatOption) => item.selected)
+    // Get the first element (there should only be 1 option with the value 0 in the select)
+    [0];
+
+    if (isSelected) {
+      matSelect.options.forEach((item: MatOption) => item.select());
+      this.setSelectAllText(selectType, this.translate.instant('metrics_filters_button_clear_all'));
+    } else {
+      matSelect.options.forEach((item: MatOption) => item.deselect());
+      this.setSelectAllText(selectType, this.translate.instant('metrics_filters_button_select_all'));
+    }
+  }
+
+  setSelectAllText(selectType: string, text: string) {
+    switch (selectType) {
+      case 'locations':
+        this.selectAllTextLocations = text;
+        break;
+      case 'genders':
+        this.selectAllTextGenders = text;
+        break;
+      case 'ethnicities':
+        this.selectAllTextEthnicities = text;
+        break;
+    }
   }
 
   private getLocations() {

@@ -8,6 +8,8 @@ import { ProductType } from 'src/app/models/stocker/product-type';
 import { Location } from 'src/app/models/map/location';
 import { catchError, forkJoin, of, tap } from 'rxjs';
 import { FilterChip } from 'src/app/models/metrics/filter-chip';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/core';
 
 @Component({
   selector: 'app-metrics-filters-product',
@@ -21,6 +23,12 @@ export class MetricsFiltersProductComponent implements OnInit {
   providers: Provider[] = [];
   product_types: ProductType[] = [];
   origin: string = '';
+  selectAllTextLocations = 'Select all';
+  selectAllTextProviders = 'Select all';
+  selectAllTextProductTypes = 'Select all';
+
+  filtersAnterior: string = '';
+  filtersChipAnterior: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<MetricsFiltersProductComponent>,
@@ -38,12 +46,21 @@ export class MetricsFiltersProductComponent implements OnInit {
       product_types: [null],
     });
 
-    if(this.message.origin){
+    if (this.message.origin) {
       this.origin = this.message.origin;
     }
   }
 
   ngOnInit(): void {
+    // Guardo filters y filters_chip en variables para comparar si han cambiado
+    this.filtersAnterior = localStorage.getItem('filters');
+    this.filtersChipAnterior = localStorage.getItem('filters_chip');
+
+    // Traduce el texto de los botones de selección
+    this.selectAllTextLocations = this.translate.instant('metrics_filters_button_select_all');
+    this.selectAllTextProviders = this.translate.instant('metrics_filters_button_select_all');
+    this.selectAllTextProductTypes = this.translate.instant('metrics_filters_button_select_all');
+
     // Intenta recuperar el valor de 'filters' del localStorage
     const filters = JSON.parse(localStorage.getItem('filters'));
 
@@ -88,11 +105,20 @@ export class MetricsFiltersProductComponent implements OnInit {
               let names = [];
               val[key].forEach(id => {
                 if (key === 'locations') {
-                  names.push(this.locations.find(l => l.id === id).community_city);
+                  let location = this.locations.find(l => l.id === id);
+                  if (location) {
+                    names.push(location.community_city);
+                  }
                 } else if (key === 'providers') {
-                  names.push(this.providers.find(g => g.id === id).name);
+                  let provider = this.providers.find(p => p.id === id);
+                  if (provider) {
+                    names.push(provider.name);
+                  }
                 } else if (key === 'product_types') {
-                  names.push(this.product_types.find(e => e.id === id).name);
+                  let product_type = this.product_types.find(p => p.id === id);
+                  if (product_type) {
+                    names.push(product_type.name);
+                  }
                 }
               }
               );
@@ -146,6 +172,10 @@ export class MetricsFiltersProductComponent implements OnInit {
   }
 
   onClickCancelar() {
+    // Guardar los filtros que estaban en filtersAnterior y filtersChipAnterior
+    localStorage.setItem('filters', this.filtersAnterior);
+    localStorage.setItem('filters_chip', this.filtersChipAnterior);
+
     this.dialogRef.close({ status: false, data: this.filterForm.value });
   }
 
@@ -164,6 +194,38 @@ export class MetricsFiltersProductComponent implements OnInit {
     event.target.value = formattedInput;
   }
 
+  toggleAllSelection(matSelect: MatSelect, selectType: string) {
+    const isSelected: boolean = matSelect.options
+      // The "Select All" item has the value 0, so find that one
+      .filter((item: MatOption) => item.value === 0)
+      // Get the value of the property 'selected' (this tells us whether "Select All" is selected or not)
+      .map((item: MatOption) => item.selected)
+    // Get the first element (there should only be 1 option with the value 0 in the select)
+    [0];
+
+    if (isSelected) {
+      matSelect.options.forEach((item: MatOption) => item.select());
+      this.setSelectAllText(selectType, this.translate.instant('metrics_filters_button_clear_all'));
+    } else {
+      matSelect.options.forEach((item: MatOption) => item.deselect());
+      this.setSelectAllText(selectType, this.translate.instant('metrics_filters_button_select_all'));
+    }
+  }
+
+  setSelectAllText(selectType: string, text: string) {
+    switch (selectType) {
+      case 'locations':
+        this.selectAllTextLocations = text;
+        break;
+      case 'providers':
+        this.selectAllTextProviders = text;
+        break;
+      case 'product_types':
+        this.selectAllTextProductTypes = text;
+        break;
+    }
+  }
+
   private getLocations() {
     return this.stockerService.getLocations().pipe(
       tap((res) => {
@@ -178,7 +240,7 @@ export class MetricsFiltersProductComponent implements OnInit {
 
   private getProviders() {
     return this.stockerService.getProviders().pipe(
-       tap((res) => {
+      tap((res) => {
         this.providers = res;
       }),
       catchError((error) => {
@@ -190,7 +252,7 @@ export class MetricsFiltersProductComponent implements OnInit {
 
   private getProductTypes(language: string, id?: number) {
     return this.stockerService.getProductTypes(language, id).pipe(
-       tap((res) => {
+      tap((res) => {
         this.product_types = res;
       }),
       catchError((error) => {
