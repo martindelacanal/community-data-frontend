@@ -30,7 +30,7 @@
           </div>
           <!-- total weight -->
           <div class="card">
-            <mat-label><strong>{{'stocker_input_total_weight' | translate }}:</strong> {{viewTicket.total_weight}}</mat-label>
+            <mat-label><strong>{{'stocker_input_total_weight' | translate }}:</strong> {{viewTicket.total_weight | number}}</mat-label>
           </div>
           <!-- provider -->
           <div class="card">
@@ -75,7 +75,7 @@
               <tbody>
                 <tr *ngFor="let product of viewTicket.products">
                   <td>{{product.product}}</td>
-                  <td>{{product.quantity}}</td>
+                  <td>{{product.quantity | number}}</td>
                   <td><a class="ui-link" [routerLink]="['/view/product', product.product_id]"><mat-icon>visibility</mat-icon></a></td>
                 </tr>
               </tbody>

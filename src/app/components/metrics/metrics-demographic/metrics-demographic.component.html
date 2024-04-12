@@ -50,9 +50,9 @@
         <h2>{{'metrics_demographic_household_title' | translate }}</h2>
       </div>
       <br>
-      <p>{{'metrics_demographic_average' | translate }}: {{ this.householdMetricsAverage}}</p>
+      <p>{{'metrics_demographic_average' | translate }}: {{ this.householdMetricsAverage | number}}</p>
       <br>
-      <p>{{'metrics_demographic_median' | translate }}: {{this.householdMetricsMedian}}</p>
+      <p>{{'metrics_demographic_median' | translate }}: {{this.householdMetricsMedian | number}}</p>
       <br>
       <div class="chart-container">
         <div id="chart" *ngIf="chartOptionsHousehold">
@@ -67,9 +67,9 @@
         <h2>{{'metrics_demographic_age_title' | translate }}</h2>
       </div>
       <br>
-      <p>{{'metrics_demographic_average' | translate }}: {{ this.ageMetricsAverage}}</p>
+      <p>{{'metrics_demographic_average' | translate }}: {{ this.ageMetricsAverage | number}}</p>
       <br>
-      <p>{{'metrics_demographic_median' | translate }}: {{this.ageMetricsMedian}}</p>
+      <p>{{'metrics_demographic_median' | translate }}: {{this.ageMetricsMedian | number}}</p>
       <br>
       <div class="chart-container">
         <div id="chart" *ngIf="chartOptionsAge">

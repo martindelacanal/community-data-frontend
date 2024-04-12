@@ -54,7 +54,7 @@
               <tbody>
                 <tr *ngFor="let product of viewProductType.products">
                   <td>{{product.name}}</td>
-                  <td>{{product.total_quantity}}</td>
+                  <td>{{product.total_quantity | number}}</td>
                   <td>{{product.creation_date}}</td>
                   <td><a class="ui-link" [routerLink]="['/view/product', product.product_id]"><mat-icon>visibility</mat-icon></a></td>
                 </tr>

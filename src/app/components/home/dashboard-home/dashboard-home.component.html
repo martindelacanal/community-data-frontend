@@ -8,7 +8,7 @@
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/campanias-activas.svg" alt="Icono de campañas activas">
-          <span>{{poundsDelivered}}</span>
+          <span>{{poundsDelivered | number}}</span>
         </div>
       </div>
     </article>
@@ -19,7 +19,7 @@
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/misiones-disponibles.svg" alt="Icono de misiones disponibles">
-          <span>{{totalLocations}}</span>
+          <span>{{totalLocations | number}}</span>
         </div>
       </div>
     </article>
@@ -30,7 +30,7 @@
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/revisar-misiones.svg" alt="Icono de revisar misiones">
-          <span>{{totalDaysOperation}}</span>
+          <span>{{totalDaysOperation | number}}</span>
         </div>
       </div>
     </article>
@@ -44,7 +44,7 @@
           <!-- <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
           <span>{{totalStockers}}</span> -->
           <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
-          <span>{{totalBeneficiaries}}</span>
+          <span>{{totalBeneficiaries | number}}</span>
         </div>
       </div>
     </article>
@@ -69,7 +69,7 @@
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
-          <span>{{totalBeneficiariesRegisteredToday}}</span>
+          <span>{{totalBeneficiariesRegisteredToday | number}}</span>
         </div>
       </div>
     </article>
@@ -80,7 +80,7 @@
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
-          <span>{{totalBeneficiariesRecurringToday}}</span>
+          <span>{{totalBeneficiariesRecurringToday | number}}</span>
         </div>
       </div>
     </article>
@@ -93,7 +93,7 @@
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/campanias-activas.svg" alt="Icono de campañas activas">
-          <span>{{poundsDelivered}}</span>
+          <span>{{poundsDelivered | number}}</span>
         </div>
       </section>
       <div class="ui-separator-vertical"></div>
@@ -103,7 +103,7 @@
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/misiones-disponibles.svg" alt="Icono de misiones disponibles">
-          <span>{{totalLocations}}</span>
+          <span>{{totalLocations | number}}</span>
         </div>
       </section>
       <div class="ui-separator-vertical"></div>
@@ -113,7 +113,7 @@
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/revisar-misiones.svg" alt="Icono de revisar misiones">
-          <span>{{totalDaysOperation}}</span>
+          <span>{{totalDaysOperation | number}}</span>
         </div>
       </section>
       <div class="ui-separator-vertical"></div>
@@ -126,7 +126,7 @@
           <!-- <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
           <span>{{totalStockers}}</span> -->
           <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
-        <span>{{totalBeneficiaries}}</span>
+        <span>{{totalBeneficiaries | number}}</span>
         </div>
       </section>
     </div>
@@ -157,7 +157,7 @@
       </div>
       <div class="ui-tarjeta__footer">
         <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
-        <span>{{totalBeneficiariesRegisteredToday}}</span>
+        <span>{{totalBeneficiariesRegisteredToday | number}}</span>
       </div>
     </div>
   </div>
@@ -168,7 +168,7 @@
       </div>
       <div class="ui-tarjeta__footer">
         <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
-        <span>{{totalBeneficiariesRecurringToday}}</span>
+        <span>{{totalBeneficiariesRecurringToday | number}}</span>
       </div>
     </div>
   </div>
@@ -246,7 +246,7 @@
       <header>{{'dashboard_admin_tables_title' | translate }}</header>
       <main>
         <div class="misiones-activas__fila">
-          <div class="misiones-activas__fila__header">{{totalEnabledUsers}}</div>
+          <div class="misiones-activas__fila__header">{{totalEnabledUsers | number}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_enabled_users' | translate }}</div>
             <div class="misiones-activas__derecha">
@@ -256,7 +256,7 @@
           </div>
         </div>
         <div class="misiones-activas__fila">
-          <div class="misiones-activas__fila__header">{{totalBeneficiariesQualified}}</div>
+          <div class="misiones-activas__fila__header">{{totalBeneficiariesQualified | number}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_qualified_beneficiaries' | translate }}</div>
             <div class="misiones-activas__derecha">
@@ -265,7 +265,7 @@
           </div>
         </div>
         <div class="misiones-activas__fila"  *ngIf="usuario.role === 'admin'">
-          <div class="misiones-activas__fila__header">{{totalClients}}</div>
+          <div class="misiones-activas__fila__header">{{totalClients | number}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_clients' | translate }}</div>
             <div class="misiones-activas__derecha">
@@ -274,7 +274,7 @@
           </div>
         </div>
         <div class="misiones-activas__fila" *ngIf="seeMore || usuario.role === 'client'">
-          <div class="misiones-activas__fila__header">{{totalTicketsUploaded}}</div>
+          <div class="misiones-activas__fila__header">{{totalTicketsUploaded | number}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_tickets_uploaded' | translate }}</div>
             <div class="misiones-activas__derecha">
@@ -283,7 +283,7 @@
           </div>
         </div>
         <div class="misiones-activas__fila" *ngIf="seeMore">
-          <div class="misiones-activas__fila__header">{{totalLocationsEnabled}}</div>
+          <div class="misiones-activas__fila__header">{{totalLocationsEnabled | number}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_locations' | translate }}</div>
             <div class="misiones-activas__derecha">
@@ -292,7 +292,7 @@
           </div>
         </div>
         <div class="misiones-activas__fila" *ngIf="seeMore">
-          <div class="misiones-activas__fila__header">{{totalProductsUploaded}}</div>
+          <div class="misiones-activas__fila__header">{{totalProductsUploaded | number}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_products' | translate }}</div>
             <div class="misiones-activas__derecha">
@@ -301,7 +301,7 @@
           </div>
         </div>
         <div class="misiones-activas__fila" *ngIf="seeMore">
-          <div class="misiones-activas__fila__header">{{totalDelivered}}</div>
+          <div class="misiones-activas__fila__header">{{totalDelivered | number}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_delivered' | translate }}</div>
             <div class="misiones-activas__derecha">

@@ -25,13 +25,13 @@
         <h2>{{'metrics_participant_registers_title' | translate }}</h2>
       </div>
       <br>
-      <p>{{'metrics_participant_registers_new' | translate }}: {{this.registerMetrics.new}}</p>
+      <p>{{'metrics_participant_registers_new' | translate }}: {{this.registerMetrics.new | number}}</p>
       <br>
-      <p>{{'metrics_participant_registers_recurring' | translate }}: {{this.registerMetrics.recurring}}</p>
+      <p>{{'metrics_participant_registers_recurring' | translate }}: {{this.registerMetrics.recurring | number}}</p>
       <br>
-      <p>{{'metrics_participant_registers_total_selected' | translate }}: {{this.registerMetrics.new+this.registerMetrics.recurring}}</p>
+      <p>{{'metrics_participant_registers_total_selected' | translate }}: {{(this.registerMetrics.new+this.registerMetrics.recurring) | number}}</p>
       <br>
-      <p>{{'metrics_participant_registers_total' | translate }}: {{ this.registerMetrics.total}}</p>
+      <p>{{'metrics_participant_registers_total' | translate }}: {{ this.registerMetrics.total | number}}</p>
       <br>
     </div>
     <div class="ui-tarjeta">

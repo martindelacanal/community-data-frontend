@@ -28,7 +28,7 @@
           <!-- quantity -->
           <div class="card">
             <mat-label><strong>{{'table_products_header_total_quantity' | translate }}:</strong>
-              {{viewProduct.total_quantity}}</mat-label>
+              {{viewProduct.total_quantity | number}}</mat-label>
           </div>
           <!-- value_usd -->
           <div class="card">
@@ -65,7 +65,7 @@
               <tbody>
                 <tr *ngFor="let ticket of viewProduct.tickets">
                   <td>{{ticket.donation_id}}</td>
-                  <td>{{ticket.quantity}}</td>
+                  <td>{{ticket.quantity | number}}</td>
                   <td>{{ticket.creation_date}}</td>
                   <td><a class="ui-link" [routerLink]="['/view/ticket', ticket.ticket_id]"><mat-icon>visibility</mat-icon></a></td>
                 </tr>

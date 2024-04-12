@@ -41,7 +41,7 @@
           [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'total_weight', 'desc': ordenarTipo === 'desc' && columna === 'total_weight'}">
           <strong>{{'table_tickets_header_total_weight' | translate }}</strong><span></span>
         </th>
-        <td mat-cell *matCellDef="let element">{{element.total_weight}}</td>
+        <td mat-cell *matCellDef="let element">{{element.total_weight | number}}</td>
       </ng-container>
       <ng-container matColumnDef="provider">
         <th mat-header-cell *matHeaderCellDef (click)="updateOrder('provider')"

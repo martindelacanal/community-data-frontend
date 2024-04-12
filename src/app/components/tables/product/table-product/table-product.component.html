@@ -48,7 +48,7 @@
           [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'total_quantity', 'desc': ordenarTipo === 'desc' && columna === 'total_quantity'}">
           <strong>{{'table_products_header_total_quantity' | translate }}</strong><span></span>
         </th>
-        <td mat-cell *matCellDef="let element">{{element.total_quantity}}</td>
+        <td mat-cell *matCellDef="let element">{{element.total_quantity | number}}</td>
       </ng-container>
       <ng-container matColumnDef="value_usd">
         <th mat-header-cell *matHeaderCellDef (click)="updateOrder('value_usd')"

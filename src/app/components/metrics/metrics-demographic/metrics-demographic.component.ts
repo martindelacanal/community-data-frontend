@@ -30,6 +30,7 @@ export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   dataLabels: ApexDataLabels;
+  tooltip: ApexTooltip;
   plotOptions: ApexPlotOptions;
   xaxis: ApexXAxis;
 };
@@ -205,7 +206,13 @@ export class MetricsDemographicComponent implements OnInit {
           //   }
           // },
           tooltip: {
-            theme: 'dark'
+            theme: 'dark',
+            y: {
+              formatter: function (val) {
+                // Convertir el valor a un número y luego a una cadena con formato de miles
+                return Number(val).toLocaleString('en-US');
+              }
+            }
           },
           responsive: [
             {
@@ -321,7 +328,13 @@ export class MetricsDemographicComponent implements OnInit {
           //   }
           // },
           tooltip: {
-            theme: 'dark'
+            theme: 'dark',
+            y: {
+              formatter: function (val) {
+                // Convertir el valor a un número y luego a una cadena con formato de miles
+                return Number(val).toLocaleString('en-US');
+              }
+            }
           },
           responsive: [
             {
@@ -429,7 +442,16 @@ export class MetricsDemographicComponent implements OnInit {
           dataLabels: {
             enabled: true,
             formatter: function (val) {
-              return val.toString(); // Mostrar el valor absoluto
+              // Convertir el valor a un número y luego a una cadena con formato de miles
+              return Number(val).toLocaleString('en-US');
+            }
+          },
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                // Convertir el valor a un número y luego a una cadena con formato de miles
+                return Number(val).toLocaleString('en-US');
+              }
             }
           },
           xaxis: {
@@ -443,6 +465,12 @@ export class MetricsDemographicComponent implements OnInit {
                 fontFamily: 'Roboto, sans-serif',
               }
             },
+            labels: {
+              formatter: function (val) {
+                // Convertir el valor a un número y luego a una cadena con formato de miles
+                return Number(val).toLocaleString('en-US');
+              }
+            }
           }
         };
 
@@ -491,7 +519,19 @@ export class MetricsDemographicComponent implements OnInit {
             }
           },
           dataLabels: {
-            enabled: true
+            enabled: true,
+            formatter: function (val) {
+              // Convertir el valor a un número y luego a una cadena con formato de miles
+              return Number(val).toLocaleString('en-US');
+            }
+          },
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                // Convertir el valor a un número y luego a una cadena con formato de miles
+                return Number(val).toLocaleString('en-US');
+              }
+            }
           },
           xaxis: {
             categories: categories,
@@ -506,7 +546,8 @@ export class MetricsDemographicComponent implements OnInit {
             },
             labels: {
               formatter: function (val) {
-                return parseInt(val).toString();
+                // Convertir el valor a un número y luego a una cadena con formato de miles
+                return Number(val).toLocaleString('en-US');
               }
             }
           }

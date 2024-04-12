@@ -28,9 +28,9 @@
         <h2>{{'metrics_product_reachs_title' | translate }}</h2>
       </div>
       <br>
-      <p>{{'metrics_product_reachs_reach' | translate }}: {{ this.reachMetrics.reach}}</p>
+      <p>{{'metrics_product_reachs_reach' | translate }}: {{ this.reachMetrics.reach | number}}</p>
       <br>
-      <p>{{'metrics_product_reachs_pounds_delivered' | translate }}: {{this.reachMetrics.poundsDelivered}}</p>
+      <p>{{'metrics_product_reachs_pounds_delivered' | translate }}: {{this.reachMetrics.poundsDelivered | number}}</p>
       <br>
     </div>
     <div class="ui-tarjeta">
@@ -50,9 +50,9 @@
         <h2>{{'metrics_product_with_pounds_per_location_title' | translate }}</h2>
       </div>
       <br>
-      <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerLocationAverage}}</p>
+      <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerLocationAverage | number}}</p>
       <br>
-      <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerLocationMedian}}</p>
+      <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerLocationMedian | number}}</p>
       <br>
       <div class="chart-container">
         <div id="chart" *ngIf="chartOptionsPoundsPerLocation">
@@ -68,9 +68,9 @@
         <h2>{{'metrics_product_with_pounds_per_product_title' | translate }}</h2>
       </div>
       <br>
-      <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerProductAverage}}</p>
+      <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerProductAverage | number}}</p>
       <br>
-      <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerProductMedian}}</p>
+      <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerProductMedian | number}}</p>
       <br>
       <div class="chart-container">
         <div id="chart" *ngIf="chartOptionsPoundsPerProduct">

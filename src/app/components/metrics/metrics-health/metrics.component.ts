@@ -26,6 +26,7 @@ export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   dataLabels: ApexDataLabels;
+  tooltip: ApexTooltip;
   plotOptions: ApexPlotOptions;
   xaxis: ApexXAxis;
 };
@@ -193,7 +194,13 @@ export class MetricsComponent implements OnInit {
               //   }
               // },
               tooltip: {
-                theme: 'dark'
+                theme: 'dark',
+                y: {
+                  formatter: function (val) {
+                    // Convertir el valor a un número y luego a una cadena con formato de miles
+                    return Number(val).toLocaleString('en-US');
+                  }
+                }
               },
               responsive: [
                 {
@@ -254,7 +261,7 @@ export class MetricsComponent implements OnInit {
               ]
             };
           } else {
-            this.chartOptions[i] ={
+            this.chartOptions[i] = {
               series: [
                 {
                   name: "value",
@@ -272,7 +279,19 @@ export class MetricsComponent implements OnInit {
                 }
               },
               dataLabels: {
-                enabled: true
+                enabled: true,
+                formatter: function (val) {
+                  // Convertir el valor a un número y luego a una cadena con formato de miles
+                  return Number(val).toLocaleString('en-US');
+                }
+              },
+              tooltip: {
+                y: {
+                  formatter: function (val) {
+                    // Convertir el valor a un número y luego a una cadena con formato de miles
+                    return Number(val).toLocaleString('en-US');
+                  }
+                }
               },
               xaxis: {
                 categories: categories,
@@ -288,7 +307,8 @@ export class MetricsComponent implements OnInit {
                 // tickAmount: Math.max(...data), // problema de muchos numeros en el eje X
                 labels: {
                   formatter: function (val) {
-                    return parseInt(val).toString();
+                    // Convertir el valor a un número y luego a una cadena con formato de miles
+                    return Number(val).toLocaleString('en-US');
                   }
                 }
               }
