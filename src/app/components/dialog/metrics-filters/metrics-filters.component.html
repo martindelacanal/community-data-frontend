@@ -4,7 +4,7 @@
     <form [formGroup]="filterForm">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>{{'dialog_download_ticket_csv_input_from_date' | translate }}</mat-label>
-        <input matInput [matDatepicker]="miPicker1" formControlName="from_date" (input)="formatDate($event)"
+        <input matInput [matDatepicker]="miPicker1" formControlName="from_date" (blur)="formatDateOnBlur($event, 'from_date')" (input)="formatDate($event, 'from_date')" (focus)="formatDateOnFocus($event)"
           maxlength="10" placeholder="01/31/2024">
         <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
@@ -15,7 +15,7 @@
       </mat-form-field>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>{{'dialog_download_ticket_csv_input_to_date' | translate }}</mat-label>
-        <input matInput [matDatepicker]="miPicker2" formControlName="to_date" (input)="formatDate($event)"
+        <input matInput [matDatepicker]="miPicker2" formControlName="to_date" (blur)="formatDateOnBlur($event, 'to_date')" (input)="formatDate($event, 'to_date')" (focus)="formatDateOnFocus($event)"
           maxlength="10" placeholder="01/31/2024">
         <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="miPicker2"></mat-datepicker-toggle>

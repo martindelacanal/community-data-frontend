@@ -30,6 +30,7 @@
   "login_recover_password_input_date_of_birth_format": "MM/DD/YYYY",
   "login_recover_password_input_date_of_birth_error_please": "Please enter your date of birth",
   "login_recover_password_input_date_of_birth_error_age": "You must be at least 18 years old",
+  "login_recover_password_input_date_of_birth_error_age_too_old": "Please enter a valid date of birth",
   "login_recover_password_button_reset": "Reset",
   "login_recover_password_button_reset_error": "Email / User name or date of birth incorrect",
   "login_recover_password_link_back": "Back to log in",

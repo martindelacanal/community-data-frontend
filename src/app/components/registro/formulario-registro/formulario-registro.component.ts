@@ -32,6 +32,8 @@ export class FormularioRegistroComponent implements OnInit {
 
   private usuario: Usuario;
   private firstExecuteComponent: boolean = true;
+  private previousInput: string;
+
   public loading: boolean = false;
   public loadingGender: boolean = false;
   public loadingEthnicity: boolean = false;
@@ -235,17 +237,60 @@ export class FormularioRegistroComponent implements OnInit {
 
   formatDate(event) {
     let input = event.target.value;
+    let cursorPosition = event.target.selectionStart; // Guarda la posición del cursor
+    let previousLength = this.previousInput ? this.previousInput.length : 0; // Guarda la longitud del input anterior
+
     input = input.replace(/[^0-9]/g, ''); // Elimina cualquier caracter que no sea un número
     let formattedInput = '';
+    let addedSlash = false;
 
     for (let i = 0; i < input.length; i++) {
       if (i == 2 || i == 4) {
         formattedInput += '/';
+        addedSlash = true;
       }
       formattedInput += input[i];
     }
 
     event.target.value = formattedInput;
+
+    // Si se ha agregado una barra, incrementa la posición del cursor
+    if (addedSlash && cursorPosition > 2) {
+      cursorPosition++;
+    }
+
+    // Si se ha eliminado un carácter y el cursor no está en la primera o segunda posición, disminuye la posición del cursor
+    if (formattedInput.length < previousLength && cursorPosition > 1) {
+      cursorPosition--;
+    }
+
+    // Restablece la posición del cursor
+    event.target.setSelectionRange(cursorPosition, cursorPosition);
+
+    // Guarda el input actual para la próxima vez
+    this.previousInput = formattedInput;
+  }
+
+  formatDateOnBlur(event) {
+    if (this.previousInput && new Date(this.previousInput).toString() !== 'Invalid Date') {
+      // Establece el valor del control de formulario a la fecha formateada
+      this.firstFormGroup.controls['dateOfBirth'].setValue(new Date(this.previousInput), { emitEvent: false });
+      // Actualiza el valor y la validez del control de formulario
+      this.firstFormGroup.controls['dateOfBirth'].updateValueAndValidity({ emitEvent: false });
+    }
+  }
+
+  formatDateOnFocus(event) {
+    let input = event.target.value;
+    let dateParts = input.split('/');
+
+    if (dateParts.length === 3) {
+      let month = dateParts[0].padStart(2, '0');
+      let day = dateParts[1].padStart(2, '0');
+      let year = dateParts[2];
+
+      event.target.value = `${month}/${day}/${year}`;
+    }
   }
 
   limitInputHouseholdSizeLength(event: any) {
@@ -340,7 +385,7 @@ export class FormularioRegistroComponent implements OnInit {
       complete: () => {
         this.loadingPhoneExists = false;
       }
-  });
+    });
   }
 
   private updateEmailExists(nombre: string) {
@@ -360,7 +405,7 @@ export class FormularioRegistroComponent implements OnInit {
       complete: () => {
         this.loadingEmailExists = false;
       }
-  });
+    });
   }
 
   private noNumbersValidator(): ValidatorFn {
@@ -505,6 +550,9 @@ export class FormularioRegistroComponent implements OnInit {
     const age = currentDate.getFullYear() - birthDate.getFullYear();
     if (age < 18) {
       return { 'invalidAge': true };
+    }
+    if (age > 120) {
+      return { 'tooOld': true };
     }
     return null;
   }

@@ -10,7 +10,10 @@ import { FilterChip } from 'src/app/models/metrics/filter-chip';
   styleUrls: ['./download-delivered-csv.component.scss']
 })
 export class DownloadDeliveredCsvComponent {
+
   dateForm: FormGroup;
+  private previousInputFromDate: string;
+  private previousInputToDate: string;
 
   constructor(
     public dialogRef: MatDialogRef<DownloadDeliveredCsvComponent>,
@@ -110,18 +113,92 @@ export class DownloadDeliveredCsvComponent {
     this.dialogRef.close({ status: false, date: this.dateForm.value });
   }
 
-  formatDate(event) {
+
+  formatDate(event, selectType: string) {
     let input = event.target.value;
+    let cursorPosition = event.target.selectionStart; // Guarda la posición del cursor
+    let previousLength = 0;
+
+    switch (selectType) {
+      case 'from_date':
+        previousLength = this.previousInputFromDate ? this.previousInputFromDate.length : 0; // Guarda la longitud del input anterior
+        break;
+      case 'to_date':
+        previousLength = this.previousInputToDate ? this.previousInputToDate.length : 0; // Guarda la longitud del input anterior
+        break;
+    }
+
     input = input.replace(/[^0-9]/g, ''); // Elimina cualquier caracter que no sea un número
     let formattedInput = '';
+    let addedSlash = false;
 
     for (let i = 0; i < input.length; i++) {
       if (i == 2 || i == 4) {
         formattedInput += '/';
+        addedSlash = true;
       }
       formattedInput += input[i];
     }
 
     event.target.value = formattedInput;
+
+    // Si se ha agregado una barra, incrementa la posición del cursor
+    if (addedSlash && cursorPosition > 2) {
+      cursorPosition++;
+    }
+
+    // Si se ha eliminado un carácter y el cursor no está en la primera o segunda posición, disminuye la posición del cursor
+    if (formattedInput.length < previousLength && cursorPosition > 1) {
+      cursorPosition--;
+    }
+
+    // Restablece la posición del cursor
+    event.target.setSelectionRange(cursorPosition, cursorPosition);
+
+    switch (selectType) {
+      case 'from_date':
+        // Guarda el input actual para la próxima vez
+        this.previousInputFromDate = formattedInput;
+        break;
+      case 'to_date':
+        // Guarda el input actual para la próxima vez
+        this.previousInputToDate = formattedInput;
+        break;
+    }
   }
+
+  formatDateOnBlur(event, dateType: string) {
+    switch (dateType) {
+      case 'from_date':
+        if (this.previousInputFromDate && new Date(this.previousInputFromDate).toString() !== 'Invalid Date') {
+          // Establece el valor del control de formulario a la fecha formateada
+          this.dateForm.controls['from_date'].setValue(new Date(this.previousInputFromDate), { emitEvent: false });
+          // Actualiza el valor y la validez del control de formulario
+          this.dateForm.controls['from_date'].updateValueAndValidity({ emitEvent: false });
+        }
+        break;
+      case 'to_date':
+        if (this.previousInputToDate && new Date(this.previousInputToDate).toString() !== 'Invalid Date') {
+          // Establece el valor del control de formulario a la fecha formateada
+          this.dateForm.controls['to_date'].setValue(new Date(this.previousInputToDate), { emitEvent: false });
+          // Actualiza el valor y la validez del control de formulario
+          this.dateForm.controls['to_date'].updateValueAndValidity({ emitEvent: false });
+        }
+        break;
+    }
+  }
+
+  formatDateOnFocus(event) {
+    let input = event.target.value;
+    let dateParts = input.split('/');
+
+    if (dateParts.length === 3) {
+      let month = dateParts[0].padStart(2, '0');
+      let day = dateParts[1].padStart(2, '0');
+      let year = dateParts[2];
+
+      event.target.value = `${month}/${day}/${year}`;
+    }
+  }
+
 }
