@@ -114,3 +114,24 @@ th strong {
     padding: 0 16px;
   }
 }
+
+@media only screen and (min-width: 701px) and (max-width: 1650px) {
+  // Agrega aquí tus estilos para tablets
+
+  .container {
+    margin: 0 16px;
+  }
+
+  .header {
+    margin-bottom: 8px;
+  }
+
+  .main_tarjetas {
+    row-gap: 16px;
+    column-gap: 16px;
+  }
+
+  .ui-tarjeta {
+    padding: 16px;
+  }
+}

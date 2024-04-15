@@ -401,6 +401,7 @@ export class MetricsProductComponent implements OnInit {
                 fontFamily: 'Roboto, sans-serif',
               }
             },
+            tickAmount: 2,
             labels: {
               formatter: function (val) {
                 // Convertir el valor a un número y luego a una cadena con formato de miles
@@ -484,6 +485,7 @@ export class MetricsProductComponent implements OnInit {
                 fontFamily: 'Roboto, sans-serif',
               }
             },
+            tickAmount: 2,
             labels: {
               formatter: function (val) {
                 // Convertir el valor a un número y luego a una cadena con formato de miles
