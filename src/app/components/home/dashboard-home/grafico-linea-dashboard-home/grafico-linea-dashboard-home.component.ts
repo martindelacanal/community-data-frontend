@@ -48,7 +48,6 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
 
   ngOnInit(): void {
     // switch value of selectedTab
-    console.log(this.selectedTab);
     this.getGraficoLinea(this.selectedTab, this.translate.currentLang);
     switch (this.selectedTab) {
       case 'pounds':
@@ -189,7 +188,6 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
   private getGraficoLinea(selectedTab: string, language: string) {
     this.dashboardGeneralService.getGraficoLinea(selectedTab, language).subscribe(
       (res) => {
-        console.log(res)
         if(res.series.length > 0){
           this.multi = [res];
         }else{

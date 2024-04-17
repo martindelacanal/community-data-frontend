@@ -196,7 +196,6 @@ export class StockerHomeComponent implements OnInit {
       }
       body.append('form', JSON.stringify(this.stockForm.value));
       if (this.idTicket) {
-        //TO-DO
         this.stockerService.updateTicket(this.idTicket, body).subscribe({
           next: (res) => {
             this.loading = false;

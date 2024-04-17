@@ -3,11 +3,11 @@
     <div class="header__logo">
       <div #menuIcon (click)="toggleMenu()" [@iconAnimation]="animationState">
         <ng-container *ngIf="!menuExpanded; else showCross">
-          <img class="header__logo__menu-icon" src="../../../../assets/icons/menu-hamburguesa.svg" alt="Icono de menú"
+          <img class="header__logo__menu-icon" [src]="hamburguesaIcon.src" alt="Icono de menú"
             id="menu-icon-hamburguesa">
         </ng-container>
         <ng-template #showCross>
-          <img class="header__logo__menu-icon" src="../../../../assets/icons/cerrar.svg" alt="Icono de cerrar"
+          <img class="header__logo__menu-icon" [src]="cerrarIcon.src" alt="Icono de cerrar"
             id="menu-icon-cerrar">
         </ng-template>
       </div>

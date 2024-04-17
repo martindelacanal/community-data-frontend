@@ -106,7 +106,6 @@ export class DashboardHomeComponent implements OnInit {
   private getPoundsDelivered() {
     this.dashboardGeneralService.getPoundsDelivered().subscribe(
       (res) => {
-        console.log(res)
         this.poundsDelivered = res;
       }
     );

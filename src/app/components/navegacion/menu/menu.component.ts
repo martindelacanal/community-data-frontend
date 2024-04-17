@@ -43,6 +43,9 @@ export class MenuComponent implements OnInit {
   @ViewChild('menuIcon') menuIcon: ElementRef;
   @ViewChild('menu') menu: ElementRef;
 
+  hamburguesaIcon = new Image();
+  cerrarIcon = new Image();
+
   usuario: Usuario;
   menuExpanded = false;
   showCard = false;
@@ -90,6 +93,10 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Precargar iconos
+    this.hamburguesaIcon.src = '../../../../assets/icons/menu-hamburguesa.svg';
+    this.cerrarIcon.src = '../../../../assets/icons/cerrar.svg';
+
     this.authService.getIsAuthenticated().subscribe(isAuthenticated => {
       if (isAuthenticated) {
         this.currentRoute = '/home';

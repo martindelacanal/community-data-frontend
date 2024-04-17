@@ -25,7 +25,6 @@ export class GoogleMapService {
         params = params.append('enabled', 'N');
       }
     }
-    console.log(params);
     return this.http.get<LocationMap>(`${environment.url_api}/map/locations`, { params });
   }
 

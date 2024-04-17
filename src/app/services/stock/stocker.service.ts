@@ -20,7 +20,6 @@ export class StockerService {
     return this.http.post(`${environment.url_api}/upload/ticket`, ticket);
   }
 
-  //TO-DO
   updateTicket(id: string, ticket: FormData) {
     return this.http.put<any>(`${environment.url_api}/upload/ticket/${id}`, ticket)
   }
