@@ -25,7 +25,7 @@
         </mat-error> -->
       </mat-form-field>
 
-      <div *ngIf="this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location'">
+      <div *ngIf="this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary' && this.origin !== 'table-ticket'">
         <br><br>
         <p>{{'metrics_filters_title_locations' | translate }}</p>
 
@@ -40,7 +40,7 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location'">
+      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered' && this.origin !== 'table-delivered-beneficiary-summary' && this.origin !== 'table-ticket'">
         <br>
         <p>{{'metrics_filters_title_genders' | translate }}</p>
 
@@ -55,7 +55,7 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location'">
+      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered' && this.origin !== 'table-delivered-beneficiary-summary' && this.origin !== 'table-ticket'">
         <br>
         <p>{{'metrics_filters_title_ethnicities' | translate }}</p>
 
@@ -70,7 +70,7 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location'">
+      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered' && this.origin !== 'table-delivered-beneficiary-summary' && this.origin !== 'table-ticket'">
         <br>
         <p>{{'metrics_filters_title_zipcode' | translate }}</p>
 
@@ -80,7 +80,7 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location'">
+      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered' && this.origin !== 'table-delivered-beneficiary-summary' && this.origin !== 'table-ticket'">
         <br>
         <p>{{'metrics_filters_title_min_age' | translate }}</p>
 
@@ -90,7 +90,7 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location'">
+      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered' && this.origin !== 'table-delivered-beneficiary-summary' && this.origin !== 'table-ticket'">
         <br>
         <p>{{'metrics_filters_title_max_age' | translate }}</p>
 

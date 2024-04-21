@@ -1,16 +1,17 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime } from 'rxjs';
+import { debounceTime, forkJoin, tap } from 'rxjs';
 import { DisclaimerEnableDisableElementComponent } from 'src/app/components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
 import { DisclaimerResetPasswordComponent } from 'src/app/components/dialog/disclaimer-reset-password/disclaimer-reset-password/disclaimer-reset-password.component';
 import { MetricsFiltersComponent } from 'src/app/components/dialog/metrics-filters/metrics-filters.component';
 import { Usuario } from 'src/app/models/login/usuario';
+import { FilterChip } from 'src/app/models/metrics/filter-chip';
 import { userTable } from 'src/app/models/tables/user-table';
 import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { TablesService } from 'src/app/services/tables/tables.service';
@@ -56,6 +57,8 @@ export class TableUserComponent implements OnInit, AfterViewInit {
   ordenCambiado: { columna: string, direccion: string };
   tableRole: string = 'all';
 
+  filterForm: FormGroup;
+  filtersChip: FilterChip[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(
@@ -65,13 +68,61 @@ export class TableUserComponent implements OnInit, AfterViewInit {
     public translate: TranslateService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private decodificadorService: DecodificadorService
+    private decodificadorService: DecodificadorService,
+    private formBuilder: FormBuilder
   ) {
     this.columna = 'id';
     this.usuario = this.decodificadorService.getUsuario();
+    this.filterForm = this.formBuilder.group({
+      from_date: [null],
+      to_date: [null],
+      locations: [null],
+      genders: [null],
+      ethnicities: [null],
+      min_age: [null],
+      max_age: [null],
+      zipcode: [null]
+    });
+    this.filtersChip = [];
   }
 
   ngOnInit() {
+    // Intenta recuperar el valor de 'filters' del localStorage
+    const filters = JSON.parse(localStorage.getItem('filters'));
+    const filters_chip = JSON.parse(localStorage.getItem('filters_chip'));
+
+    // Si existe, corregir el idioma en el campo name del array filters_chip
+    if (filters_chip) {
+      this.filtersChip = filters_chip;
+      const translateRequests = this.filtersChip.map((element) => {
+        return this.translate.get('metrics_filters_input_' + element.code).pipe(
+          tap((translatedValue) => {
+            element.name = translatedValue;
+          })
+        );
+      });
+
+      forkJoin(translateRequests).subscribe(() => {
+        // guardar en el localStorage
+        localStorage.setItem('filters_chip', JSON.stringify(this.filtersChip));
+      });
+    }
+
+    // Si existe, asigna el valor al formulario
+    if (filters) {
+      // Convierte las fechas a objetos Date y luego las formatea en el formato deseado
+      if (filters.from_date) {
+        const date = new Date(filters.from_date + 'T00:00');
+        filters.from_date = date;
+      }
+      if (filters.to_date) {
+        const date2 = new Date(filters.to_date + 'T00:00');
+        filters.to_date = date2;
+      }
+
+      this.filterForm.patchValue(filters);
+    }
+
     this.activatedRoute.params.subscribe((params: Params) => {
       const search = params['search'];
       if (search) {
@@ -84,7 +135,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
         }
         this.tableRole = search;
       }
-      this.getDataUserTable();
+      this.getDataUserTable(this.filterForm.value);
     });
 
     this.translate.onLangChange.subscribe(
@@ -112,7 +163,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
       .subscribe(
         (res) => {
           this.buscarValor = res;
-          this.getDataUserTable();
+          this.getDataUserTable(this.filterForm.value);
         }
       );
 
@@ -137,10 +188,25 @@ export class TableUserComponent implements OnInit, AfterViewInit {
     }
   }
 
+  removeFilterChip(filterChip: FilterChip): void {
+    this.filtersChip = this.filtersChip.filter(f => f.code !== filterChip.code);
+    localStorage.setItem('filters_chip', JSON.stringify(this.filtersChip));
+    // colocar en null o [] el campo de filters en localStorage
+    const filters = JSON.parse(localStorage.getItem('filters'));
+    if (filterChip.code === 'genders' || filterChip.code === 'ethnicities' || filterChip.code === 'locations' || filterChip.code === 'product_types' || filterChip.code === 'providers') {
+      filters[filterChip.code] = [];
+    } else {
+      filters[filterChip.code] = null;
+    }
+    localStorage.setItem('filters', JSON.stringify(filters));
+    // eliminar el filtro del formulario
+    this.filterForm.get(filterChip.code).setValue(null);
+    this.getDataUserTable(this.filterForm.value);
+  }
 
   updatePage(event: PageEvent): void {
     this.pagina = event.pageIndex;
-    this.getDataUserTable();
+    this.getDataUserTable(this.filterForm.value);
   }
 
   updateOrder(columna: string): void {
@@ -150,7 +216,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
     }
     this.columna = columna;
     this.ordenarTipo = direccion;
-    this.getDataUserTable();
+    this.getDataUserTable(this.filterForm.value);
   }
 
   openSnackBar(message: string) {
@@ -196,9 +262,46 @@ export class TableUserComponent implements OnInit, AfterViewInit {
             this.openSnackBar(this.translate.instant('table_snack_enable_disable_error'));
           },
           complete: () => {
-            this.getDataUserTable();
+            this.getDataUserTable(this.filterForm.value);
           }
         });
+      }
+    });
+  }
+
+  dialogFilters(): void {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
+      width: '370px',
+      data: {
+        origin: 'table-location'
+      },
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.status) {
+        // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
+        if (result.data.from_date) {
+          const date = new Date(result.data.from_date + 'T00:00');
+          this.filterForm.get('from_date').setValue(date);
+        }
+        if (result.data.to_date) {
+          const date2 = new Date(result.data.to_date + 'T00:00');
+          this.filterForm.get('to_date').setValue(date2);
+        }
+
+        // set values into filterForm
+        this.filterForm.get('locations').setValue(result.data.locations);
+        this.filterForm.get('genders').setValue(result.data.genders);
+        this.filterForm.get('ethnicities').setValue(result.data.ethnicities);
+        this.filterForm.get('min_age').setValue(result.data.min_age);
+        this.filterForm.get('max_age').setValue(result.data.max_age);
+        this.filterForm.get('zipcode').setValue(result.data.zipcode);
+
+        // recuperar filter-chip del localStorage
+        this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
+
+        this.getDataUserTable(this.filterForm.value);
       }
     });
   }
@@ -213,6 +316,27 @@ export class TableUserComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.status) {
         this.loadingCSV = true;
+
+        // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
+        if (result.data.from_date) {
+          const date = new Date(result.data.from_date + 'T00:00');
+          this.filterForm.get('from_date').setValue(date);
+        }
+        if (result.data.to_date) {
+          const date2 = new Date(result.data.to_date + 'T00:00');
+          this.filterForm.get('to_date').setValue(date2);
+        }
+
+        // set values into filterForm
+        this.filterForm.get('locations').setValue(result.data.locations);
+        this.filterForm.get('genders').setValue(result.data.genders);
+        this.filterForm.get('ethnicities').setValue(result.data.ethnicities);
+        this.filterForm.get('min_age').setValue(result.data.min_age);
+        this.filterForm.get('max_age').setValue(result.data.max_age);
+        this.filterForm.get('zipcode').setValue(result.data.zipcode);
+
+        // recuperar filter-chip del localStorage
+        this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
         switch (role) {
           case 'all': this.downloadAllCSV(result);
@@ -298,7 +422,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
 
   }
 
-  private getDataUserTable() {
+  private getDataUserTable(filters?: any) {
     this.loading = true;
     this.tablesService.getDataUserTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, this.tableRole).subscribe({
       next: (res) => {

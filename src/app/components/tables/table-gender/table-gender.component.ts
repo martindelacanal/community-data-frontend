@@ -1,15 +1,16 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime } from 'rxjs';
+import { debounceTime, forkJoin, tap } from 'rxjs';
 import { genderTable } from 'src/app/models/tables/gender-table';
 import { TablesService } from 'src/app/services/tables/tables.service';
 import { MetricsFiltersComponent } from '../../dialog/metrics-filters/metrics-filters.component';
 import { DisclaimerEnableDisableElementComponent } from '../../dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
 import { MatDialog } from '@angular/material/dialog';
+import { FilterChip } from 'src/app/models/metrics/filter-chip';
 
 const spanishRangeLabel = (page: number, pageSize: number, length: number) => {
   const amountPages = Math.ceil(length / pageSize);
@@ -48,27 +49,71 @@ export class TableGenderComponent implements OnInit, AfterViewInit {
   ordenarTipo: string = 'desc';
   ordenCambiado: { columna: string, direccion: string };
 
+  filterForm: FormGroup;
+  filtersChip: FilterChip[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(
     private tablesService: TablesService,
     public translate: TranslateService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder
   ) {
-    this.columna = 'id'
+    this.columna = 'id';
+    this.filterForm = this.formBuilder.group({
+      from_date: [null],
+      to_date: [null],
+    });
+    this.filtersChip = [];
   }
 
 
   ngOnInit() {
-    this.getDataGenderTable();
+    // Intenta recuperar el valor de 'filters' del localStorage
+    const filters = JSON.parse(localStorage.getItem('filters'));
+    const filters_chip = JSON.parse(localStorage.getItem('filters_chip'));
+
+    // Si existe, corregir el idioma en el campo name del array filters_chip
+    if (filters_chip) {
+      this.filtersChip = filters_chip;
+      const translateRequests = this.filtersChip.map((element) => {
+        return this.translate.get('metrics_filters_input_' + element.code).pipe(
+          tap((translatedValue) => {
+            element.name = translatedValue;
+          })
+        );
+      });
+
+      forkJoin(translateRequests).subscribe(() => {
+        // guardar en el localStorage
+        localStorage.setItem('filters_chip', JSON.stringify(this.filtersChip));
+      });
+    }
+
+    // Si existe, asigna el valor al formulario
+    if (filters) {
+      // Convierte las fechas a objetos Date y luego las formatea en el formato deseado
+      if (filters.from_date) {
+        const date = new Date(filters.from_date + 'T00:00');
+        filters.from_date = date;
+      }
+      if (filters.to_date) {
+        const date2 = new Date(filters.to_date + 'T00:00');
+        filters.to_date = date2;
+      }
+
+      this.filterForm.patchValue(filters);
+    }
+
+    this.getDataGenderTable(this.filterForm.value);
 
     this.buscar.valueChanges
       .pipe(debounceTime(300))
       .subscribe(
         (res) => {
           this.buscarValor = res;
-          this.getDataGenderTable();
+          this.getDataGenderTable(this.filterForm.value);
         }
       );
 
@@ -111,9 +156,25 @@ export class TableGenderComponent implements OnInit, AfterViewInit {
     }
   }
 
+  removeFilterChip(filterChip: FilterChip): void {
+    this.filtersChip = this.filtersChip.filter(f => f.code !== filterChip.code);
+    localStorage.setItem('filters_chip', JSON.stringify(this.filtersChip));
+    // colocar en null o [] el campo de filters en localStorage
+    const filters = JSON.parse(localStorage.getItem('filters'));
+    if (filterChip.code === 'genders' || filterChip.code === 'ethnicities' || filterChip.code === 'locations' || filterChip.code === 'product_types' || filterChip.code === 'providers') {
+      filters[filterChip.code] = [];
+    } else {
+      filters[filterChip.code] = null;
+    }
+    localStorage.setItem('filters', JSON.stringify(filters));
+    // eliminar el filtro del formulario
+    this.filterForm.get(filterChip.code).setValue(null);
+    this.getDataGenderTable(this.filterForm.value);
+  }
+
   updatePage(event: PageEvent): void {
     this.pagina = event.pageIndex;
-    this.getDataGenderTable();
+    this.getDataGenderTable(this.filterForm.value);
   }
 
   updateOrder(columna: string): void {
@@ -123,7 +184,7 @@ export class TableGenderComponent implements OnInit, AfterViewInit {
     }
     this.columna = columna;
     this.ordenarTipo = direccion;
-    this.getDataGenderTable();
+    this.getDataGenderTable(this.filterForm.value);
   }
 
   openSnackBar(message: string) {
@@ -151,9 +212,38 @@ export class TableGenderComponent implements OnInit, AfterViewInit {
             this.openSnackBar(this.translate.instant('table_snack_enable_disable_error'));
           },
           complete: () => {
-            this.getDataGenderTable();
+            this.getDataGenderTable(this.filterForm.value);
           }
         });
+      }
+    });
+  }
+
+  dialogFilters(): void {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
+      width: '370px',
+      data: {
+        origin: 'table-gender'
+      },
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.status) {
+        // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
+        if (result.data.from_date) {
+          const date = new Date(result.data.from_date + 'T00:00');
+          this.filterForm.get('from_date').setValue(date);
+        }
+        if (result.data.to_date) {
+          const date2 = new Date(result.data.to_date + 'T00:00');
+          this.filterForm.get('to_date').setValue(date2);
+        }
+
+        // recuperar filter-chip del localStorage
+        this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
+
+        this.getDataGenderTable(this.filterForm.value);
       }
     });
   }
@@ -170,6 +260,19 @@ export class TableGenderComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.status) {
         this.loadingCSV = true;
+
+        // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
+        if (result.data.from_date) {
+          const date = new Date(result.data.from_date + 'T00:00');
+          this.filterForm.get('from_date').setValue(date);
+        }
+        if (result.data.to_date) {
+          const date2 = new Date(result.data.to_date + 'T00:00');
+          this.filterForm.get('to_date').setValue(date2);
+        }
+
+        // recuperar filter-chip del localStorage
+        this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
         this.tablesService.getGenderFileCSV(result.data).subscribe({
           next: (res) => {
@@ -190,11 +293,13 @@ export class TableGenderComponent implements OnInit, AfterViewInit {
             this.loadingCSV = false;
           }
         });
+
+        this.getDataGenderTable(this.filterForm.value);
       }
     });
   }
 
-  private getDataGenderTable() {
+  private getDataGenderTable(filters?: any) {
     this.loading = true;
     this.tablesService.getDataGenderTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, this.translate.currentLang).subscribe({
       next: (res) => {

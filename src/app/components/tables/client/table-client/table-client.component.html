@@ -14,11 +14,28 @@
         <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
         <button *ngIf="!loadingCSV" class="ui-button" type="button"
         (click)="dialogDownloadCsv()">{{'metrics_button_download_csv' | translate }}</button>
+        <button id="filtersButton" class="ui-button" type="button" (click)="dialogFilters()">{{'metrics_filters_button' |
+          translate }}</button>
         <button id="addButton" [routerLink]="['/new/client']" class="ui-button">{{'table_clients_button_add_product' | translate }}</button>
       </div>
     </div>
-    <br>
-
+    <mat-chip-set class="chip-grid">
+      <ng-container *ngFor="let filterChip of filtersChip; let i = index">
+        <mat-chip *ngIf="filterChip.code !== 'ethnicities' &&
+                          filterChip.code !== 'genders' &&
+                          filterChip.code !== 'max_age' &&
+                          filterChip.code !== 'min_age' &&
+                          filterChip.code !== 'zipcode' &&
+                          filterChip.code !== 'product_types' &&
+                          filterChip.code !== 'providers'"
+          (removed)="removeFilterChip(filterChip)">
+          {{filterChip.name}}: {{filterChip.value}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </ng-container>
+    </mat-chip-set>
     <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef (click)="updateOrder('id')"

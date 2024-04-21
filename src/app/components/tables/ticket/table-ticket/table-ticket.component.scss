@@ -6,11 +6,38 @@
 }
 
 .main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   font-size: 1.2rem;
 }
 
 .title {
   margin-bottom: 16px;
+}
+
+.ui-button {
+  padding: 0 16px;
+}
+
+.chip-grid {
+  display: flex;
+  align-self: flex-end;
+  margin-bottom: 8px;
+}
+
+#addButton {
+  margin-left: 16px;
+}
+
+#filtersButton {
+  margin-left: 16px;
+}
+
+.main .inputs .buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
 }
 
 table {
@@ -78,20 +105,7 @@ th strong {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-}
-
-.ui-button {
-  padding: 0 16px;
-}
-
-#addButton {
-  margin-left: 16px;
-}
-
-.main .inputs .buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: end;
+  margin-bottom: 8px;
 }
 
 .header__title{
@@ -103,7 +117,27 @@ th strong {
   margin-left: 16px;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 500px) {
+  // Agrega aquí tus estilos para dispositivos móviles pequeños
+  .main .inputs .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+  }
+
+  #addButton {
+    margin-left: 0;
+    margin-top: 8px;
+  }
+
+  #filtersButton {
+    margin-left: 0;
+    margin-top: 8px;
+  }
+
+}
+
+@media only screen and (max-width: 800px) {
   // Agrega aquí tus estilos para dispositivos móviles
 
   .container {
@@ -128,7 +162,7 @@ th strong {
   }
 }
 
-@media only screen and (min-width: 701px) and (max-width: 1650px) {
+@media only screen and (min-width: 801px) and (max-width: 1650px) {
   // Agrega aquí tus estilos para tablets
 
   .container {

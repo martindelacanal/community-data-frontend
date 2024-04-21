@@ -59,13 +59,11 @@ import { TableTicketComponent } from './components/tables/ticket/table-ticket/ta
 import { TableLocationComponent } from './components/tables/location/table-location/table-location.component';
 import { TableProductComponent } from './components/tables/product/table-product/table-product.component';
 import { TableNotificationComponent } from './components/tables/notification/table-notification/table-notification.component';
-import { DownloadTicketCsvComponent } from './components/dialog/download-ticket-csv/download-ticket-csv/download-ticket-csv.component';
 import { DisclaimerResetPasswordComponent } from './components/dialog/disclaimer-reset-password/disclaimer-reset-password/disclaimer-reset-password.component';
 import { ViewTicketComponent } from './components/view/view-ticket/view-ticket.component';
 import { NewUserComponent } from './components/new/user/new-user/new-user.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { TableDeliveredComponent } from './components/tables/delivered/table-delivered/table-delivered.component';
-import { DownloadDeliveredCsvComponent } from './components/dialog/download-delivered-csv/download-delivered-csv/download-delivered-csv.component';
 import { OnlyNumberDirective } from './directives/only-number.directive';
 import { SelectionDeliveredCsvComponent } from './components/dialog/selection-delivered-csv/selection-delivered-csv/selection-delivered-csv.component';
 import { CarouselComponent } from './components/carousel/carousel.component';
@@ -123,12 +121,10 @@ import {MatChipsModule} from '@angular/material/chips';
    TableLocationComponent,
    TableProductComponent,
    TableNotificationComponent,
-   DownloadTicketCsvComponent,
    DisclaimerResetPasswordComponent,
    ViewTicketComponent,
    NewUserComponent,
    TableDeliveredComponent,
-   DownloadDeliveredCsvComponent,
    OnlyNumberDirective,
    SelectionDeliveredCsvComponent,
    CarouselComponent,
