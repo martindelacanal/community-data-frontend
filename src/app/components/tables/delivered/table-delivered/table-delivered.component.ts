@@ -273,7 +273,7 @@ export class TableDeliveredComponent {
 
             switch (resultSelection.option) {
               case 1: // Beneficiary summary
-                this.tablesService.getDeliveredBeneficiarySummaryFileCSV(result.date.from_date, result.date.to_date).subscribe({
+                this.tablesService.getDeliveredBeneficiarySummaryFileCSV(result.data).subscribe({
                   next: (res) => {
                     const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
                     const url = window.URL.createObjectURL(blob);
@@ -294,7 +294,7 @@ export class TableDeliveredComponent {
                 });
                 break;
               case 2: // Delivery summary
-                this.tablesService.getDeliveredFileCSV(result.date.from_date, result.date.to_date).subscribe({
+                this.tablesService.getDeliveredFileCSV(result.data).subscribe({
                   next: (res) => {
                     const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
                     const url = window.URL.createObjectURL(blob);
@@ -330,7 +330,7 @@ export class TableDeliveredComponent {
 
   private getDataDeliveredTable(filters?: any) {
     this.loading = true;
-    this.tablesService.getDataDeliveredTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor).subscribe({
+    this.tablesService.getDataDeliveredTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, filters).subscribe({
       next: (res) => {
 
         this.pagina = res.page;

@@ -293,7 +293,7 @@ export class TableProductComponent implements OnInit, AfterViewInit {
 
   private getDataProductTable(filters?: any) {
     this.loading = true;
-    this.tablesService.getDataProductTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, this.translate.currentLang).subscribe({
+    this.tablesService.getDataProductTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, this.translate.currentLang, filters).subscribe({
       next: (res) => {
 
         this.pagina = res.page;

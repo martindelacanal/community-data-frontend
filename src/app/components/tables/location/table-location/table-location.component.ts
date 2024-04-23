@@ -310,7 +310,7 @@ export class TableLocationComponent implements OnInit, AfterViewInit {
 
   private getDataLocationTable(filters?: any) {
     this.loading = true;
-    this.tablesService.getDataLocationTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor).subscribe({
+    this.tablesService.getDataLocationTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, filters).subscribe({
       next: (res) => {
 
         this.pagina = res.page;

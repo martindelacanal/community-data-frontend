@@ -124,25 +124,25 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
         }
       );
 
-      this.translate.onLangChange.subscribe(
-        (res) => {
-          if (res.lang == 'es') {
-            this.paginator._intl.itemsPerPageLabel = 'Items por página:';
-            this.paginator._intl.nextPageLabel = 'Siguiente';
-            this.paginator._intl.previousPageLabel = 'Anterior';
-            this.paginator._intl.firstPageLabel = 'Primera página';
-            this.paginator._intl.lastPageLabel = 'Última página';
-            this.paginator._intl.getRangeLabel = spanishRangeLabel;
-          } else {
-            this.paginator._intl.itemsPerPageLabel = 'Items per page:';
-            this.paginator._intl.nextPageLabel = 'Next';
-            this.paginator._intl.previousPageLabel = 'Previous';
-            this.paginator._intl.firstPageLabel = 'First page';
-            this.paginator._intl.lastPageLabel = 'Last page';
-            this.paginator._intl.getRangeLabel = englishRangeLabel;
-          }
+    this.translate.onLangChange.subscribe(
+      (res) => {
+        if (res.lang == 'es') {
+          this.paginator._intl.itemsPerPageLabel = 'Items por página:';
+          this.paginator._intl.nextPageLabel = 'Siguiente';
+          this.paginator._intl.previousPageLabel = 'Anterior';
+          this.paginator._intl.firstPageLabel = 'Primera página';
+          this.paginator._intl.lastPageLabel = 'Última página';
+          this.paginator._intl.getRangeLabel = spanishRangeLabel;
+        } else {
+          this.paginator._intl.itemsPerPageLabel = 'Items per page:';
+          this.paginator._intl.nextPageLabel = 'Next';
+          this.paginator._intl.previousPageLabel = 'Previous';
+          this.paginator._intl.firstPageLabel = 'First page';
+          this.paginator._intl.lastPageLabel = 'Last page';
+          this.paginator._intl.getRangeLabel = englishRangeLabel;
         }
-      )
+      }
+    )
   }
 
   ngAfterViewInit() {
@@ -195,7 +195,7 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
   }
 
   dialogFilters(): void {
-const dialogRef = this.dialog.open(MetricsFiltersComponent, {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
       data: {
         origin: 'table-ticket'
@@ -249,7 +249,7 @@ const dialogRef = this.dialog.open(MetricsFiltersComponent, {
         // recuperar filter-chip del localStorage
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
-        this.tablesService.getFileCSV(result.date.from_date, result.date.to_date).subscribe({
+        this.tablesService.getFileCSV(result.data).subscribe({
           next: (res) => {
             const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
             const url = window.URL.createObjectURL(blob);
@@ -280,7 +280,7 @@ const dialogRef = this.dialog.open(MetricsFiltersComponent, {
 
   private getDataTicketTable(filters?: any) {
     this.loading = true;
-    this.tablesService.getDataTicketTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor).subscribe({
+    this.tablesService.getDataTicketTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, filters).subscribe({
       next: (res) => {
 
         this.pagina = res.page;

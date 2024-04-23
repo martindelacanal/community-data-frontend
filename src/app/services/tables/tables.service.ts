@@ -22,60 +22,60 @@ export class TablesService {
     private http: HttpClient
   ) { }
 
-  getDataUserTable(page: number, columna: string, ordenarTipo: string, buscar: string, tableRole: string){
-    return this.http.get<userTable>(`${environment.url_api}/table/user?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&tableRole=${tableRole}`)
+  getDataUserTable(page: number, columna: string, ordenarTipo: string, buscar: string, tableRole: string, filters: any){
+    return this.http.post<userTable>(`${environment.url_api}/table/user?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&tableRole=${tableRole}`, filters)
   }
 
-  getDataTicketTable(page: number, columna: string, ordenarTipo: string, buscar: string){
-    return this.http.get<ticketTable>(`${environment.url_api}/table/ticket?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`)
+  getDataTicketTable(page: number, columna: string, ordenarTipo: string, buscar: string, filters: any){
+    return this.http.post<ticketTable>(`${environment.url_api}/table/ticket?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`, filters)
   }
 
-  getDataDeliveredTable(page: number, columna: string, ordenarTipo: string, buscar: string){
-    return this.http.get<deliveredTable>(`${environment.url_api}/table/delivered?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`)
+  getDataDeliveredTable(page: number, columna: string, ordenarTipo: string, buscar: string, filters: any){
+    return this.http.post<deliveredTable>(`${environment.url_api}/table/delivered?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`, filters)
   }
 
-  getDataProductTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
-    return this.http.get<productTable>(`${environment.url_api}/table/product?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
+  getDataProductTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
+    return this.http.post<productTable>(`${environment.url_api}/table/product?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
   }
 
-  getDataProductTypeTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
-    return this.http.get<productTypeTable>(`${environment.url_api}/table/product-type?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
+  getDataProductTypeTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
+    return this.http.post<productTypeTable>(`${environment.url_api}/table/product-type?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
   }
 
-  getDataGenderTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
-    return this.http.get<genderTable>(`${environment.url_api}/table/gender?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
+  getDataGenderTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
+    return this.http.post<genderTable>(`${environment.url_api}/table/gender?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
   }
 
-  getDataEthnicityTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
-    return this.http.get<ethnicityTable>(`${environment.url_api}/table/ethnicity?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
+  getDataEthnicityTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
+    return this.http.post<ethnicityTable>(`${environment.url_api}/table/ethnicity?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
   }
 
-  getDataProviderTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
-    return this.http.get<providerTable>(`${environment.url_api}/table/provider?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
+  getDataProviderTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
+    return this.http.post<providerTable>(`${environment.url_api}/table/provider?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
   }
 
-  getDataClientTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string){
-    return this.http.get<clientTable>(`${environment.url_api}/table/client?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`)
+  getDataClientTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
+    return this.http.post<clientTable>(`${environment.url_api}/table/client?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
   }
 
   getDataNotificationTable(page: number, columna: string, ordenarTipo: string, buscar: string){
     return this.http.get<notificationTable>(`${environment.url_api}/table/notification?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`)
   }
 
-  getDataLocationTable(page: number, columna: string, ordenarTipo: string, buscar: string){
-    return this.http.get<locationTable>(`${environment.url_api}/table/location?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`)
+  getDataLocationTable(page: number, columna: string, ordenarTipo: string, buscar: string, filters: any){
+    return this.http.post<locationTable>(`${environment.url_api}/table/location?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`, filters)
   }
 
-  getFileCSV(from_date: string, to_date: string) {
-    return this.http.get(`${environment.url_api}/table/ticket/download-csv?from_date=${from_date}&to_date=${to_date}`, { responseType: 'text' });
+  getFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/ticket/download-csv`, filters, { responseType: 'text' });
   }
 
-  getDeliveredFileCSV(from_date: string, to_date: string) {
-    return this.http.get(`${environment.url_api}/table/delivered/download-csv?from_date=${from_date}&to_date=${to_date}`, { responseType: 'text' });
+  getDeliveredFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/delivered/download-csv`, filters, { responseType: 'text' });
   }
 
-  getDeliveredBeneficiarySummaryFileCSV(from_date: string, to_date: string) {
-    return this.http.get(`${environment.url_api}/table/delivered/beneficiary-summary/download-csv?from_date=${from_date}&to_date=${to_date}`, { responseType: 'text' });
+  getDeliveredBeneficiarySummaryFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/delivered/beneficiary-summary/download-csv`, filters, { responseType: 'text' });
   }
 
   getSystemUserFileCSV(filters: any) {

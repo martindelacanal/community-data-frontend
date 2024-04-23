@@ -301,7 +301,7 @@ export class TableGenderComponent implements OnInit, AfterViewInit {
 
   private getDataGenderTable(filters?: any) {
     this.loading = true;
-    this.tablesService.getDataGenderTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, this.translate.currentLang).subscribe({
+    this.tablesService.getDataGenderTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, this.translate.currentLang, filters).subscribe({
       next: (res) => {
 
         this.pagina = res.page;

@@ -272,9 +272,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
   dialogFilters(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: {
-        origin: 'table-location'
-      },
+      data: '',
       disableClose: false
     });
 
@@ -346,6 +344,8 @@ export class TableUserComponent implements OnInit, AfterViewInit {
           case 'beneficiary': this.downloadBeneficiaryCSV(result);
             break;
         }
+
+        this.getDataUserTable(this.filterForm.value);
       }
     });
   }
@@ -424,7 +424,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
 
   private getDataUserTable(filters?: any) {
     this.loading = true;
-    this.tablesService.getDataUserTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, this.tableRole).subscribe({
+    this.tablesService.getDataUserTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, this.tableRole, filters).subscribe({
       next: (res) => {
 
         this.pagina = res.page;
