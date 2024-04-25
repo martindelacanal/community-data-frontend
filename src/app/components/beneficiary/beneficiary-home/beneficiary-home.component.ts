@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DisclaimerRegisterLocationComponent } from '../../dialog/disclaimer-register-location/disclaimer-register-location.component';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-beneficiary-home',
@@ -90,7 +91,11 @@ export class BeneficiaryHomeComponent implements OnInit {
     this.loading = true;
     if (!this.onBoarded) {
       this.onBoarded = true;
-      this.deliveryService.onBoard(true, this.beneficiaryForm.value.destination).subscribe({
+      this.deliveryService.onBoard(true, this.beneficiaryForm.value.destination).pipe(
+        finalize(() => {
+          this.newQR();
+        })
+      ).subscribe({
         next: (res) => {
           console.log(res);
           localStorage.setItem('token', res.token);
@@ -105,14 +110,15 @@ export class BeneficiaryHomeComponent implements OnInit {
           this.onBoarded = false;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded_error'));
-        },
-        complete: () => {
-          this.newQR();
         }
       });
     } else {
       this.onBoarded = false;
-      this.deliveryService.onBoard(false, this.beneficiaryForm.value.destination).subscribe({
+      this.deliveryService.onBoard(false, this.beneficiaryForm.value.destination).pipe(
+        finalize(() => {
+          this.newQR();
+        })
+      ).subscribe({
         next: (res) => {
           console.log(res);
           this.userLocation = null;
@@ -124,9 +130,6 @@ export class BeneficiaryHomeComponent implements OnInit {
           this.onBoarded = true;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_off_boarded_error'));
-        },
-        complete: () => {
-          this.newQR();
         }
       });
     }

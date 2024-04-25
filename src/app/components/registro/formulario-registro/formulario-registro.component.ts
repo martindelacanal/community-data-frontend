@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { StepperOrientation } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, debounceTime, map } from 'rxjs';
+import { Observable, debounceTime, finalize, map } from 'rxjs';
 import { RegisterAnswer } from 'src/app/models/login/register-answer';
 import { RegisterQuestion } from 'src/app/models/login/register-question';
 import { Usuario } from 'src/app/models/login/usuario';
@@ -301,7 +301,11 @@ export class FormularioRegistroComponent implements OnInit {
 
   private getRegisterQuestions(language: string, location_id: number) {
     this.loadingQuestions = true;
-    this.authService.getRegisterQuestions(language,location_id).subscribe({
+    this.authService.getRegisterQuestions(language, location_id).pipe(
+      finalize(() => {
+        this.loadingQuestions = false;
+      })
+    ).subscribe({
       next: (res) => {
         this.registerQuestions = res;
         this.buildSecondFormGroup();
@@ -309,9 +313,6 @@ export class FormularioRegistroComponent implements OnInit {
       },
       error: (error) => {
         console.error(error);
-      },
-      complete: () => {
-        this.loadingQuestions = false;
       }
     });
   }
@@ -353,7 +354,11 @@ export class FormularioRegistroComponent implements OnInit {
 
   private updateUserNameExists(nombre: string) {
     this.loadingUserNameExists = true;
-    this.authService.getUserNameExists(nombre).subscribe({
+    this.authService.getUserNameExists(nombre).pipe(
+      finalize(() => {
+        this.loadingUserNameExists = false;
+      })
+    ).subscribe({
       next: (res) => {
         if (res) {
           this.userNameExists = true;
@@ -364,16 +369,17 @@ export class FormularioRegistroComponent implements OnInit {
       },
       error: (error) => {
         console.error(error);
-      },
-      complete: () => {
-        this.loadingUserNameExists = false;
       }
     });
   }
 
   private updatePhoneExists(nombre: string) {
     this.loadingPhoneExists = true;
-    this.authService.getPhoneExists(nombre).subscribe({
+    this.authService.getPhoneExists(nombre).pipe(
+      finalize(() => {
+        this.loadingPhoneExists = false;
+      })
+    ).subscribe({
       next: (res) => {
         if (res) {
           this.phoneExists = true;
@@ -384,16 +390,17 @@ export class FormularioRegistroComponent implements OnInit {
       },
       error: (error) => {
         console.error(error);
-      },
-      complete: () => {
-        this.loadingPhoneExists = false;
       }
     });
   }
 
   private updateEmailExists(nombre: string) {
     this.loadingEmailExists = true;
-    this.authService.getEmailExists(nombre).subscribe({
+    this.authService.getEmailExists(nombre).pipe(
+      finalize(() => {
+        this.loadingEmailExists = false;
+      })
+    ).subscribe({
       next: (res) => {
         if (res) {
           this.emailExists = true;
@@ -404,9 +411,6 @@ export class FormularioRegistroComponent implements OnInit {
       },
       error: (error) => {
         console.error(error);
-      },
-      complete: () => {
-        this.loadingEmailExists = false;
       }
     });
   }

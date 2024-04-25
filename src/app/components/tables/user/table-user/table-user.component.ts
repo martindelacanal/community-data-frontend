@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime, forkJoin, tap } from 'rxjs';
+import { debounceTime, finalize, forkJoin, tap } from 'rxjs';
 import { DisclaimerEnableDisableElementComponent } from 'src/app/components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
 import { DisclaimerResetPasswordComponent } from 'src/app/components/dialog/disclaimer-reset-password/disclaimer-reset-password/disclaimer-reset-password.component';
 import { MetricsFiltersComponent } from 'src/app/components/dialog/metrics-filters/metrics-filters.component';
@@ -253,16 +253,17 @@ export class TableUserComponent implements OnInit, AfterViewInit {
         enable = 'N';
       }
       if (result.status) {
-        this.tablesService.enableDisableElement(id, 'user', enable).subscribe({
+        this.tablesService.enableDisableElement(id, 'user', enable).pipe(
+          finalize(() => {
+            this.getDataUserTable(this.filterForm.value);
+          })
+        ).subscribe({
           next: (res) => {
             this.openSnackBar(this.translate.instant('table_snack_enable_disable'));
           },
           error: (error) => {
             console.log(error);
             this.openSnackBar(this.translate.instant('table_snack_enable_disable_error'));
-          },
-          complete: () => {
-            this.getDataUserTable(this.filterForm.value);
           }
         });
       }

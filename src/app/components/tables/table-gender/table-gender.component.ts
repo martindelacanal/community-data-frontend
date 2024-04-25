@@ -4,7 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime, forkJoin, tap } from 'rxjs';
+import { debounceTime, finalize, forkJoin, tap } from 'rxjs';
 import { genderTable } from 'src/app/models/tables/gender-table';
 import { TablesService } from 'src/app/services/tables/tables.service';
 import { MetricsFiltersComponent } from '../../dialog/metrics-filters/metrics-filters.component';
@@ -117,25 +117,25 @@ export class TableGenderComponent implements OnInit, AfterViewInit {
         }
       );
 
-      this.translate.onLangChange.subscribe(
-        (res) => {
-          if (res.lang == 'es') {
-            this.paginator._intl.itemsPerPageLabel = 'Items por página:';
-            this.paginator._intl.nextPageLabel = 'Siguiente';
-            this.paginator._intl.previousPageLabel = 'Anterior';
-            this.paginator._intl.firstPageLabel = 'Primera página';
-            this.paginator._intl.lastPageLabel = 'Última página';
-            this.paginator._intl.getRangeLabel = spanishRangeLabel;
-          } else {
-            this.paginator._intl.itemsPerPageLabel = 'Items per page:';
-            this.paginator._intl.nextPageLabel = 'Next';
-            this.paginator._intl.previousPageLabel = 'Previous';
-            this.paginator._intl.firstPageLabel = 'First page';
-            this.paginator._intl.lastPageLabel = 'Last page';
-            this.paginator._intl.getRangeLabel = englishRangeLabel;
-          }
+    this.translate.onLangChange.subscribe(
+      (res) => {
+        if (res.lang == 'es') {
+          this.paginator._intl.itemsPerPageLabel = 'Items por página:';
+          this.paginator._intl.nextPageLabel = 'Siguiente';
+          this.paginator._intl.previousPageLabel = 'Anterior';
+          this.paginator._intl.firstPageLabel = 'Primera página';
+          this.paginator._intl.lastPageLabel = 'Última página';
+          this.paginator._intl.getRangeLabel = spanishRangeLabel;
+        } else {
+          this.paginator._intl.itemsPerPageLabel = 'Items per page:';
+          this.paginator._intl.nextPageLabel = 'Next';
+          this.paginator._intl.previousPageLabel = 'Previous';
+          this.paginator._intl.firstPageLabel = 'First page';
+          this.paginator._intl.lastPageLabel = 'Last page';
+          this.paginator._intl.getRangeLabel = englishRangeLabel;
         }
-      )
+      }
+    )
   }
 
   ngAfterViewInit() {
@@ -203,16 +203,17 @@ export class TableGenderComponent implements OnInit, AfterViewInit {
         enable = 'N';
       }
       if (result.status) {
-        this.tablesService.enableDisableElement(id, 'gender', enable).subscribe({
+        this.tablesService.enableDisableElement(id, 'gender', enable).pipe(
+          finalize(() => {
+            this.getDataGenderTable(this.filterForm.value);
+          })
+        ).subscribe({
           next: (res) => {
             this.openSnackBar(this.translate.instant('table_snack_enable_disable'));
           },
           error: (error) => {
             console.log(error);
             this.openSnackBar(this.translate.instant('table_snack_enable_disable_error'));
-          },
-          complete: () => {
-            this.getDataGenderTable(this.filterForm.value);
           }
         });
       }

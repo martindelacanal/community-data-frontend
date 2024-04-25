@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, AfterViewChecked } from '@angular/core';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, finalize, forkJoin } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
@@ -187,7 +187,11 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
   onBoard() {
     this.loading = true;
     if (!this.onBoarded) {
-      this.deliveryService.onBoard(true, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
+      this.deliveryService.onBoard(true, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).pipe(
+        finalize(() => {
+          this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(this.deliveryForm.value.destination));
+        })
+      ).subscribe({
         next: (res) => {
           console.log(res);
           // actualizar token con res.token en el local storage
@@ -202,13 +206,14 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
           this.onBoarded = false;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded_error'));
-        },
-        complete: () => {
-          this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(this.deliveryForm.value.destination));
         }
       });
     } else {
-      this.deliveryService.onBoard(false, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
+      this.deliveryService.onBoard(false, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).pipe(
+        finalize(() => {
+          this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(this.deliveryForm.value.destination));
+        })
+      ).subscribe({
         next: (res) => {
           console.log(res);
           this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
@@ -222,9 +227,6 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
           this.onBoarded = true;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_off_boarded_error'));
-        },
-        complete: () => {
-          this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(this.deliveryForm.value.destination));
         }
       });
     }

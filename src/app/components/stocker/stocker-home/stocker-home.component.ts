@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, debounceTime, map, of, startWith } from 'rxjs';
+import { Observable, debounceTime, finalize, map, of, startWith } from 'rxjs';
 import { Location } from 'src/app/models/map/location';
 import { NewTicket } from 'src/app/models/new/new-ticket';
 import { Product } from 'src/app/models/stocker/product';
@@ -304,7 +304,7 @@ export class StockerHomeComponent implements OnInit {
     }
   }
 
-  deleteFiles(){
+  deleteFiles() {
     this.file_ticket = [];
     this.imageTicketUploaded = false;
     this.deletedFilesFromEdit = true;
@@ -432,7 +432,12 @@ export class StockerHomeComponent implements OnInit {
   private getTicket() {
 
     this.loadingGetForm = true;
-    this.stockerService.getTicket(this.idTicket).subscribe({
+    this.stockerService.getTicket(this.idTicket).pipe(
+      finalize(() => {
+        this.loadingGetForm = false;
+        this.checkLoading();
+      })
+    ).subscribe({
       next: (res) => {
 
         this.ticketGetted = {
@@ -487,10 +492,6 @@ export class StockerHomeComponent implements OnInit {
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('stocker_edit_snack_get_error'));
-      },
-      complete: () => {
-        this.loadingGetForm = false;
-        this.checkLoading();
       }
     });
   }
@@ -543,24 +544,30 @@ export class StockerHomeComponent implements OnInit {
 
   private getLocations() {
     this.loadingLocations = true;
-    this.stockerService.getLocations().subscribe({
+    this.stockerService.getLocations().pipe(
+      finalize(() => {
+        this.loadingLocations = false;
+        this.checkLoading();
+      })
+    ).subscribe({
       next: (res) => {
         this.locations = res;
       },
       error: (error) => {
         console.log(error);
         this.openSnackBar(this.translate.instant('table_locations_snack_error_get'));
-      },
-      complete: () => {
-        this.loadingLocations = false;
-        this.checkLoading();
       }
     });
   }
 
   private getProviders() {
     this.loadingProviders = true;
-    this.stockerService.getProviders().subscribe({
+    this.stockerService.getProviders().pipe(
+      finalize(() => {
+        this.loadingProviders = false;
+        this.checkLoading();
+      })
+    ).subscribe({
       next: (res) => {
         this.providers = res;
         // iterate providers and push name into providerNames
@@ -571,17 +578,18 @@ export class StockerHomeComponent implements OnInit {
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('table_providers_snack_error_get'));
-      },
-      complete: () => {
-        this.loadingProviders = false;
-        this.checkLoading();
       }
     });
   }
 
   private getProducts() {
     this.loadingProducts = true;
-    this.stockerService.getProducts().subscribe({
+    this.stockerService.getProducts().pipe(
+      finalize(() => {
+        this.loadingProducts = false;
+        this.checkLoading();
+      })
+    ).subscribe({
       next: (res) => {
         this.products = res;
         // iterate products and push name into productNames
@@ -592,27 +600,24 @@ export class StockerHomeComponent implements OnInit {
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('table_products_snack_error_get'));
-      },
-      complete: () => {
-        this.loadingProducts = false;
-        this.checkLoading();
       }
     });
   }
 
   private getProductTypes(language: string, id?: number) {
     this.loadingProductTypes = true;
-    this.stockerService.getProductTypes(language, id).subscribe({
+    this.stockerService.getProductTypes(language, id).pipe(
+      finalize(() => {
+        this.loadingProductTypes = false;
+        this.checkLoading();
+      })
+    ).subscribe({
       next: (res) => {
         this.product_types = res;
       },
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('table_product_types_snack_error_get'));
-      },
-      complete: () => {
-        this.loadingProductTypes = false;
-        this.checkLoading();
       }
     });
   }
@@ -623,7 +628,11 @@ export class StockerHomeComponent implements OnInit {
       this.stockForm.get('donation_id').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.loadingDonationIDExists = true;
-      this.stockerService.getDonationIDExists(nombre).subscribe({
+      this.stockerService.getDonationIDExists(nombre).pipe(
+        finalize(() => {
+          this.loadingDonationIDExists = false;
+        })
+      ).subscribe({
         next: (res) => {
           if (res) {
             this.donationIDExists = true;
@@ -634,9 +643,6 @@ export class StockerHomeComponent implements OnInit {
         },
         error: (error) => {
           console.error(error);
-        },
-        complete: () => {
-          this.loadingDonationIDExists = false;
         }
       });
     }

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime } from 'rxjs';
+import { debounceTime, finalize } from 'rxjs';
 import { NewEthnicity } from 'src/app/models/new/new-ethnicity';
 import { NewService } from 'src/app/services/new/new.service';
 
@@ -126,7 +126,12 @@ export class NewEthnicityComponent implements OnInit {
 
   private getEthnicity() {
     this.loadingGetForm = true;
-    this.newService.getEthnicity(this.idEthnicity).subscribe({
+    this.newService.getEthnicity(this.idEthnicity).pipe(
+      finalize(() => {
+        this.loadingGetForm = false;
+        this.checkLoadingGet();
+      })
+    ).subscribe({
       next: (res) => {
         this.ethnicityGetted = {
           name: res.name,
@@ -146,10 +151,6 @@ export class NewEthnicityComponent implements OnInit {
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('edit_ethnicity_snack_get_error'));
-      },
-      complete: () => {
-        this.loadingGetForm = false;
-        this.checkLoadingGet();
       }
     });
   }
@@ -160,7 +161,11 @@ export class NewEthnicityComponent implements OnInit {
       this.ethnicityForm.get('name').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.loadingNameExists = true;
-      this.newService.getEthnicityExists(nombre).subscribe({
+      this.newService.getEthnicityExists(nombre).pipe(
+        finalize(() => {
+          this.loadingNameExists = false;
+        })
+      ).subscribe({
         next: (res) => {
           if (res) {
             this.nameExists = true;
@@ -171,11 +176,8 @@ export class NewEthnicityComponent implements OnInit {
         },
         error: (error) => {
           console.error(error);
-        },
-        complete: () => {
-          this.loadingNameExists = false;
         }
-    });
+      });
     }
   }
 

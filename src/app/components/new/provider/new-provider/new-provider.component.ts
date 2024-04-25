@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime } from 'rxjs';
+import { debounceTime, finalize } from 'rxjs';
 import { NewProvider } from 'src/app/models/new/new-provider';
 import { NewService } from 'src/app/services/new/new.service';
 
@@ -124,7 +124,12 @@ export class NewProviderComponent implements OnInit {
 
   private getProvider() {
     this.loadingGetForm = true;
-    this.newService.getProvider(this.idProvider).subscribe({
+    this.newService.getProvider(this.idProvider).pipe(
+      finalize(() => {
+        this.loadingGetForm = false;
+        this.checkLoadingGet();
+      })
+    ).subscribe({
       next: (res) => {
         this.providerGetted = {
           name: res.name
@@ -141,10 +146,6 @@ export class NewProviderComponent implements OnInit {
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('edit_provider_snack_get_error'));
-      },
-      complete: () => {
-        this.loadingGetForm = false;
-        this.checkLoadingGet();
       }
     });
   }
@@ -155,7 +156,11 @@ export class NewProviderComponent implements OnInit {
       this.providerForm.get('name').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.loadingNameExists = true;
-      this.newService.getProviderExists(nombre).subscribe({
+      this.newService.getProviderExists(nombre).pipe(
+        finalize(() => {
+          this.loadingNameExists = false;
+        })
+      ).subscribe({
         next: (res) => {
           if (res) {
             this.nameExists = true;
@@ -166,11 +171,8 @@ export class NewProviderComponent implements OnInit {
         },
         error: (error) => {
           console.error(error);
-        },
-        complete: () => {
-          this.loadingNameExists = false;
         }
-    });
+      });
     }
   }
 

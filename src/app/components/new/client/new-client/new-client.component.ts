@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime } from 'rxjs';
+import { debounceTime, finalize } from 'rxjs';
 import { Location } from 'src/app/models/map/location';
 import { NewClient } from 'src/app/models/new/new-client';
 import { NewService } from 'src/app/services/new/new.service';
@@ -147,7 +147,12 @@ export class NewClientComponent implements OnInit {
 
   private getClient() {
     this.loadingGetForm = true;
-    this.newService.getClient(this.idClient).subscribe({
+    this.newService.getClient(this.idClient).pipe(
+      finalize(() => {
+        this.loadingGetForm = false;
+        this.checkLoadingGet();
+      })
+    ).subscribe({
       next: (res) => {
         this.clientGetted = {
           name: res.name,
@@ -177,27 +182,24 @@ export class NewClientComponent implements OnInit {
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('edit_client_snack_get_error'));
-      },
-      complete: () => {
-        this.loadingGetForm = false;
-        this.checkLoadingGet();
       }
     });
   }
 
   private getLocations() {
     this.loadingGetLocations = true;
-    this.stockerService.getLocations().subscribe({
+    this.stockerService.getLocations().pipe(
+      finalize(() => {
+        this.loadingGetLocations = false;
+        this.checkLoadingGet();
+      })
+    ).subscribe({
       next: (res) => {
         this.locations = res;
       },
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('new_client_input_location_ids_error_get'));
-      },
-      complete: () => {
-        this.loadingGetLocations = false;
-        this.checkLoadingGet();
       }
     });
   }
@@ -211,7 +213,11 @@ export class NewClientComponent implements OnInit {
       this.clientForm.get(fieldToCheck).updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.loadingNameShortNameExists = true;
-      this.newService.getClientExists(name, short_name).subscribe({
+      this.newService.getClientExists(name, short_name).pipe(
+        finalize(() => {
+          this.loadingNameShortNameExists = false;
+        })
+      ).subscribe({
         next: (res) => {
           if (res[fieldToCheck]) {
             this[fieldToCheck + 'Exists'] = true;
@@ -222,11 +228,8 @@ export class NewClientComponent implements OnInit {
         },
         error: (error) => {
           console.error(error);
-        },
-        complete: () => {
-          this.loadingNameShortNameExists = false;
         }
-    });
+      });
     }
   }
 

@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime, forkJoin, tap } from 'rxjs';
+import { debounceTime, finalize, forkJoin, tap } from 'rxjs';
 import { ethnicityTable } from 'src/app/models/tables/ethnicity-table';
 import { TablesService } from 'src/app/services/tables/tables.service';
 import { MetricsFiltersComponent } from '../../dialog/metrics-filters/metrics-filters.component';
@@ -205,16 +205,17 @@ export class TableEthnicityComponent implements OnInit, AfterViewInit {
         enable = 'N';
       }
       if (result.status) {
-        this.tablesService.enableDisableElement(id, 'ethnicity', enable).subscribe({
+        this.tablesService.enableDisableElement(id, 'ethnicity', enable).pipe(
+          finalize(() => {
+            this.getDataEthnicityTable(this.filterForm.value);
+          })
+        ).subscribe({
           next: (res) => {
             this.openSnackBar(this.translate.instant('table_snack_enable_disable'));
           },
           error: (error) => {
             console.log(error);
             this.openSnackBar(this.translate.instant('table_snack_enable_disable_error'));
-          },
-          complete: () => {
-            this.getDataEthnicityTable(this.filterForm.value);
           }
         });
       }

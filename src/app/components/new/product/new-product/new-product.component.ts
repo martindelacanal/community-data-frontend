@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime } from 'rxjs';
+import { debounceTime, finalize } from 'rxjs';
 import { NewProduct } from 'src/app/models/new/new-product';
 import { ProductType } from 'src/app/models/stocker/product-type';
 import { NewService } from 'src/app/services/new/new.service';
@@ -133,7 +133,12 @@ export class NewProductComponent implements OnInit {
 
   private getProduct() {
     this.loadingGetForm = true;
-    this.newService.getProduct(this.idProduct).subscribe({
+    this.newService.getProduct(this.idProduct).pipe(
+      finalize(() => {
+        this.loadingGetForm = false;
+        this.checkLoadingGet();
+      })
+    ).subscribe({
       next: (res) => {
         this.productGetted = {
           name: res.name,
@@ -155,27 +160,24 @@ export class NewProductComponent implements OnInit {
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('edit_product_snack_get_error'));
-      },
-      complete: () => {
-        this.loadingGetForm = false;
-        this.checkLoadingGet();
       }
     });
   }
 
   private getProductTypes(language: string, id?: number) {
     this.loadingProductTypes = true;
-    this.stockerService.getProductTypes(language, id).subscribe({
+    this.stockerService.getProductTypes(language, id).pipe(
+      finalize(() => {
+        this.loadingProductTypes = false;
+        this.checkLoadingGet();
+      })
+    ).subscribe({
       next: (res) => {
         this.product_types = res;
       },
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('table_product_types_snack_error_get'));
-      },
-      complete: () => {
-        this.loadingProductTypes = false;
-        this.checkLoadingGet();
       }
     });
   }
@@ -186,7 +188,11 @@ export class NewProductComponent implements OnInit {
       this.productForm.get('name').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.loadingNameExists = true;
-      this.newService.getProductExists(nombre).subscribe({
+      this.newService.getProductExists(nombre).pipe(
+        finalize(() => {
+          this.loadingNameExists = false;
+        })
+      ).subscribe({
         next: (res) => {
           if (res) {
             this.nameExists = true;
@@ -197,11 +203,8 @@ export class NewProductComponent implements OnInit {
         },
         error: (error) => {
           console.error(error);
-        },
-        complete: () => {
-          this.loadingNameExists = false;
         }
-    });
+      });
     }
   }
 

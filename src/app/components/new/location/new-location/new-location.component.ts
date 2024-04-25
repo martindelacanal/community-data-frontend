@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime } from 'rxjs';
+import { debounceTime, finalize } from 'rxjs';
 import { LocationMap } from 'src/app/models/map/location-map';
 import { NewLocation } from 'src/app/models/new/new-location';
 import { Client } from 'src/app/models/user/client';
@@ -158,7 +158,12 @@ export class NewLocationComponent implements OnInit {
 
   private getLocation() {
     this.loadingGetForm = true;
-    this.newService.getLocation(this.idLocation).subscribe({
+    this.newService.getLocation(this.idLocation).pipe(
+      finalize(() => {
+        this.loadingGetForm = false;
+        this.checkLoadingGet();
+      })
+    ).subscribe({
       next: (res) => {
         this.locationGetted = {
           organization: res.organization,
@@ -186,27 +191,24 @@ export class NewLocationComponent implements OnInit {
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('edit_location_snack_get_error'));
-      },
-      complete: () => {
-        this.loadingGetForm = false;
-        this.checkLoadingGet();
       }
     });
   }
 
   private getClients() {
     this.loadingGetClients = true;
-    this.newService.getClients().subscribe({
+    this.newService.getClients().pipe(
+      finalize(() => {
+        this.loadingGetClients = false;
+        this.checkLoadingGet();
+      })
+    ).subscribe({
       next: (res) => {
         this.clients = res;
       },
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('new_user_input_client_error_get'));
-      },
-      complete: () => {
-        this.loadingGetClients = false;
-        this.checkLoadingGet();
       }
     });
   }
@@ -217,7 +219,11 @@ export class NewLocationComponent implements OnInit {
       this.locationForm.get('community_city').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.loadingCommunityCityExists = true;
-      this.newService.getLocationExists(community_city).subscribe({
+      this.newService.getLocationExists(community_city).pipe(
+        finalize(() => {
+          this.loadingCommunityCityExists = false;
+        })
+      ).subscribe({
         next: (res) => {
           if (res) {
             this.communityCityExists = true;
@@ -228,9 +234,6 @@ export class NewLocationComponent implements OnInit {
         },
         error: (error) => {
           console.error(error);
-        },
-        complete: () => {
-          this.loadingCommunityCityExists = false;
         }
     });
     }

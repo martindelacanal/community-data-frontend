@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime } from 'rxjs';
+import { debounceTime, finalize } from 'rxjs';
 import { NewGender } from 'src/app/models/new/new-gender';
 import { NewService } from 'src/app/services/new/new.service';
 
@@ -126,7 +126,12 @@ export class NewGenderComponent implements OnInit {
 
   private getGender() {
     this.loadingGetForm = true;
-    this.newService.getGender(this.idGender).subscribe({
+    this.newService.getGender(this.idGender).pipe(
+      finalize(() => {
+        this.loadingGetForm = false;
+        this.checkLoadingGet();
+      })
+    ).subscribe({
       next: (res) => {
         this.genderGetted = {
           name: res.name,
@@ -146,10 +151,6 @@ export class NewGenderComponent implements OnInit {
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('edit_gender_snack_get_error'));
-      },
-      complete: () => {
-        this.loadingGetForm = false;
-        this.checkLoadingGet();
       }
     });
   }
@@ -160,7 +161,11 @@ export class NewGenderComponent implements OnInit {
       this.genderForm.get('name').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.loadingNameExists = true;
-      this.newService.getGenderExists(nombre).subscribe({
+      this.newService.getGenderExists(nombre).pipe(
+        finalize(() => {
+          this.loadingNameExists = false;
+        })
+      ).subscribe({
         next: (res) => {
           if (res) {
             this.nameExists = true;
@@ -171,11 +176,8 @@ export class NewGenderComponent implements OnInit {
         },
         error: (error) => {
           console.error(error);
-        },
-        complete: () => {
-          this.loadingNameExists = false;
         }
-    });
+      });
     }
   }
 

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime } from 'rxjs';
+import { debounceTime, finalize } from 'rxjs';
 import { NewUser } from 'src/app/models/new/new-user';
 import { Client } from 'src/app/models/user/client';
 import { Gender } from 'src/app/models/user/gender';
@@ -197,7 +197,12 @@ export class NewUserComponent implements OnInit {
 
   private getUser() {
     this.loadingGetForm = true;
-    this.newService.getUser(this.idUser).subscribe({
+    this.newService.getUser(this.idUser).pipe(
+      finalize(() => {
+        this.loadingGetForm = false;
+        this.checkLoadingGet();
+      })
+    ).subscribe({
       next: (res) => {
         this.role_id_button_table = res.role_id;
 
@@ -254,10 +259,6 @@ export class NewUserComponent implements OnInit {
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('edit_user_snack_get_error'));
-      },
-      complete: () => {
-        this.loadingGetForm = false;
-        this.checkLoadingGet();
       }
     });
   }
@@ -280,17 +281,18 @@ export class NewUserComponent implements OnInit {
 
   private getClients() {
     this.loadingGetClients = true;
-    this.newService.getClients().subscribe({
+    this.newService.getClients().pipe(
+      finalize(() => {
+        this.loadingGetClients = false;
+        this.checkLoadingGet();
+      })
+    ).subscribe({
       next: (res) => {
         this.clients = res;
       },
       error: (error) => {
         console.error(error);
         this.openSnackBar(this.translate.instant('new_user_input_client_error_get'));
-      },
-      complete: () => {
-        this.loadingGetClients = false;
-        this.checkLoadingGet();
       }
     });
   }
@@ -317,7 +319,11 @@ export class NewUserComponent implements OnInit {
       this.userForm.get('username').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.loadingUserNameExists = true;
-      this.authService.getUserNameExists(nombre).subscribe({
+      this.authService.getUserNameExists(nombre).pipe(
+        finalize(() => {
+          this.loadingUserNameExists = false;
+        })
+      ).subscribe({
         next: (res) => {
           if (res) {
             this.userNameExists = true;
@@ -328,11 +334,8 @@ export class NewUserComponent implements OnInit {
         },
         error: (error) => {
           console.error(error);
-        },
-        complete: () => {
-          this.loadingUserNameExists = false;
         }
-    });
+      });
     }
   }
 
@@ -342,7 +345,11 @@ export class NewUserComponent implements OnInit {
       this.userForm.get('email').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.loadingEmailExists = true;
-      this.authService.getEmailExists(nombre).subscribe({
+      this.authService.getEmailExists(nombre).pipe(
+        finalize(() => {
+          this.loadingEmailExists = false;
+        })
+      ).subscribe({
         next: (res) => {
           if (res) {
             this.emailExists = true;
@@ -353,11 +360,8 @@ export class NewUserComponent implements OnInit {
         },
         error: (error) => {
           console.error(error);
-        },
-        complete: () => {
-          this.loadingEmailExists = false;
         }
-    });
+      });
     }
   }
 
@@ -367,7 +371,11 @@ export class NewUserComponent implements OnInit {
       this.userForm.get('phone').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     } else {
       this.loadingPhoneExists = true;
-      this.authService.getPhoneExists(nombre).subscribe({
+      this.authService.getPhoneExists(nombre).pipe(
+        finalize(() => {
+          this.loadingPhoneExists = false;
+        })
+      ).subscribe({
         next: (res) => {
           if (res) {
             this.phoneExists = true;
@@ -378,11 +386,8 @@ export class NewUserComponent implements OnInit {
         },
         error: (error) => {
           console.error(error);
-        },
-        complete: () => {
-          this.loadingPhoneExists = false;
         }
-    });
+      });
     }
   }
 

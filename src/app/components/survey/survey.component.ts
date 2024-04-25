@@ -153,15 +153,16 @@ export class SurveyComponent implements OnInit {
 
   private getSurveyQuestions(language: string) {
     this.loadingQuestions = true;
-    this.surveyService.getSurveyQuestions(language).subscribe({
+    this.surveyService.getSurveyQuestions(language).pipe(
+      finalize(() => {
+        this.loadingQuestions = false;
+      })
+    ).subscribe({
       next: (res) => {
         this.surveyQuestions = res;
       },
       error: (error) => {
         console.error(error);
-      },
-      complete: () => {
-        this.loadingQuestions = false;
       }
     });
   }

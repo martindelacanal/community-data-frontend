@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime, forkJoin, tap } from 'rxjs';
+import { debounceTime, finalize, forkJoin, tap } from 'rxjs';
 import { DisclaimerEnableDisableElementComponent } from 'src/app/components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
 import { MetricsFiltersComponent } from 'src/app/components/dialog/metrics-filters/metrics-filters.component';
 import { Usuario } from 'src/app/models/login/usuario';
@@ -212,16 +212,17 @@ export class TableLocationComponent implements OnInit, AfterViewInit {
         enable = 'N';
       }
       if (result.status) {
-        this.tablesService.enableDisableElement(id, 'location', enable).subscribe({
+        this.tablesService.enableDisableElement(id, 'location', enable).pipe(
+          finalize(() => {
+            this.getDataLocationTable(this.filterForm.value);
+          })
+        ).subscribe({
           next: (res) => {
             this.openSnackBar(this.translate.instant('table_snack_enable_disable'));
           },
           error: (error) => {
             console.log(error);
             this.openSnackBar(this.translate.instant('table_snack_enable_disable_error'));
-          },
-          complete: () => {
-            this.getDataLocationTable(this.filterForm.value);
           }
         });
       }
