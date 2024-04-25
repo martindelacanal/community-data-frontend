@@ -53,6 +53,7 @@ export class FormularioRegistroComponent implements OnInit {
   loadingPhoneExists: boolean = false;
   emailExists: boolean = false;
   loadingEmailExists: boolean = false;
+  loadingQuestions: boolean = false;
 
   isLinear = true;
   genders: Gender[];
@@ -133,7 +134,6 @@ export class FormularioRegistroComponent implements OnInit {
 
     this.getGender(this.translate.currentLang);
     this.getEthnicity(this.translate.currentLang);
-    this.getRegisterQuestions(this.translate.currentLang);
     this.getLocations();
 
     this.translate.onLangChange.subscribe(() => {
@@ -144,7 +144,6 @@ export class FormularioRegistroComponent implements OnInit {
         this.ethnicities = [];
         this.getGender(this.translate.currentLang);
         this.getEthnicity(this.translate.currentLang);
-        this.getRegisterQuestions(this.translate.currentLang);
       }
     });
 
@@ -300,8 +299,9 @@ export class FormularioRegistroComponent implements OnInit {
     }
   }
 
-  private getRegisterQuestions(language: string) {
-    this.authService.getRegisterQuestions(language).subscribe({
+  private getRegisterQuestions(language: string, location_id: number) {
+    this.loadingQuestions = true;
+    this.authService.getRegisterQuestions(language,location_id).subscribe({
       next: (res) => {
         this.registerQuestions = res;
         this.buildSecondFormGroup();
@@ -309,6 +309,9 @@ export class FormularioRegistroComponent implements OnInit {
       },
       error: (error) => {
         console.error(error);
+      },
+      complete: () => {
+        this.loadingQuestions = false;
       }
     });
   }
@@ -612,6 +615,9 @@ export class FormularioRegistroComponent implements OnInit {
       if (!result.status) {
         // reset destination
         this.firstFormGroup.get('destination').setValue(null);
+      } else {
+        // get questions from location
+        this.getRegisterQuestions(this.translate.currentLang, this.firstFormGroup.get('destination').value);
       }
     });
   }

@@ -162,7 +162,8 @@
                   </mat-form-field>
                 </div>
                 <div class="botones-stepper">
-                  <button class="ui-button next" matStepperNext
+                  <mat-spinner *ngIf="loadingQuestions" class="spinner" mode="indeterminate" [diameter]="30"></mat-spinner>
+                  <button *ngIf="!loadingQuestions" class="ui-button next" matStepperNext
                     [disabled]="!firstFormGroup.valid || loadingUserNameExists || loadingPhoneExists || loadingEmailExists">{{'register_first_tab_button_next' | translate }}</button>
                 </div>
               </form>
@@ -173,8 +174,7 @@
                 <ng-template matStepLabel>{{'register_second_tab_title' | translate }}</ng-template>
                 <div class="tarjeta__input">
                   <div *ngFor="let question of registerQuestions">
-                    <div
-                      *ngIf="shouldShowQuestion(question)">
+                    <div *ngIf="shouldShowQuestion(question)">
                       <div [ngSwitch]="question.answer_type_id">
 
                         <div *ngSwitchCase="1">
@@ -222,7 +222,7 @@
                   <button class="ui-button back" matStepperPrevious>{{'register_second_tab_button_back' | translate}}</button>
                   <button *ngIf="!loading" class="ui-button next" type="submit" (click)="onSubmit()"
                     [disabled]="!combinedFormGroup.valid">{{'register_second_tab_button_submit' | translate}}</button>
-                    <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+                    <mat-spinner *ngIf="loading" class="spinner" mode="indeterminate" [diameter]="30"></mat-spinner>
                 </div>
               </form>
             </mat-step>

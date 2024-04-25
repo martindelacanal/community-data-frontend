@@ -139,6 +139,10 @@ section {
   & .ui-button.back {
     margin-right: auto;
   }
+
+  & .spinner {
+    margin-left: auto;
+  }
 }
 
 .radio-button-group {
@@ -202,6 +206,10 @@ section {
     }
 
     & .ui-button.back {
+      margin: 16px;
+    }
+
+    & .spinner {
       margin: 16px;
     }
   }

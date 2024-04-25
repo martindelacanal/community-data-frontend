@@ -25,6 +25,7 @@
   "login_recover_password_subtitle_information": "Contacta con Soporte para resetear tu contraseña.",
   "login_recover_password_subtitle_phone": "Teléfono",
   "login_recover_password_subtitle_email": "Correo",
+  "login_recover_password_subtitle_address": "Dirección",
   "login_recover_password_subtitle_o": "O",
   "login_recover_password_input_date_of_birth": "Fecha de nacimiento",
   "login_recover_password_input_date_of_birth_format": "MM/DD/AAAA",
@@ -92,6 +93,7 @@
   "menu_button_help": "Ayuda",
   "menu_button_metrics": "Métricas",
   "menu_button_tables": "Tablas",
+  "menu_button_survey": "Encuesta",
   "menu_button_health_metrics": "Salud",
   "menu_button_demographic_metrics": "Demográficas",
   "menu_button_participant_metrics": "Participantes",
@@ -709,6 +711,22 @@
   "edit_location_snack_get_error": "Error al obtener la locación",
   "edit_location_snack_location_updated": "Locación actualizada con éxito",
   "edit_location_snack_error_update": "Error al actualizar la locación",
+
+  "survey_title": "Encuesta",
+  "survey_button_save": "Guardar",
+  "survey_field_question_id": "ID de la pregunta",
+  "survey_field_english": "Inglés",
+  "survey_field_spanish": "Español",
+  "survey_field_depends_on_question_ID": "Depende de la pregunta ID",
+  "survey_field_depends_on_answer_ID": "Depende de la respuesta ID",
+  "survey_field_answer_type": "Tipo de respuesta",
+  "survey_field_answers": "Respuestas",
+  "survey_field_locations": "Locaciones",
+  "survey_snack_message_answer": "Respuesta guardada con éxito",
+  "survey_snack_message_location": "Locación guardada con éxito",
+  "survey_snack_message_question": "Pregunta guardada con éxito",
+  "survey_snack_message_error": "Error al guardar",
+
 
   "ultimo": "ultimo"
 }

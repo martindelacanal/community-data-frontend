@@ -18,6 +18,15 @@
   width: 100%;
 }
 
+.header__title{
+  display: flex;
+  align-items: baseline;
+}
+
+.header__title .loading-inputs {
+  margin-left: 16px;
+}
+
 .ui-tarjeta {
   margin: 0 auto;
   padding: 48px;
@@ -26,38 +35,30 @@
 }
 
 .main_formulario {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(24px, 1fr));
-  grid-template-rows: repeat(2, auto);
-  row-gap: 16px;
-  column-gap: 48px;
-  align-items: center;
-}
-
-.card:nth-child(1) {
-  grid-column: 1 / -1;
-  grid-row: 1 / 2;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
 }
 
-.card:nth-child(2) {
-  grid-column: 1 / -1;
-  grid-row: 2 / 3;
-}
+.main_formulario .question {
+  margin-bottom: 24px;
 
-.card:nth-child(3) {
-  grid-column: 1 / -1;
-  grid-row: 3 / 4;
-}
+  & p {
+    margin-bottom: 16px;
+  }
 
-.card mat-form-field {
-  width: 100%;
+  & .expansion-answers {
+    margin-bottom: 16px;
+  }
+
+  & .expansion-locations {
+    margin-bottom: 16px;
+  }
+
 }
 
 .main_formulario .ui-separator-horizontal.ui-separator-horizontal--gris {
   background: var(--ui-secundario);
+  margin-bottom: 24px;
 }
 
 .main_formulario .main__footer {
@@ -81,29 +82,18 @@
 
 }
 
-.card mat-form-field {
-  width: 100%;
-  margin-top: 16px;
-  // max-width: 525px;
-}
-
-.texto-soporte {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--texto-primario);
-  margin-top: 16px;
-}
-
 .ui-button--ui-secundario {
   padding: 0 24px;
   margin: 0 auto;
 }
 
-.informacion label {
-  font-size: 1.4rem;
-  font-weight: 400;
-  color: var(--texto-primario);
-  // margin-bottom: 8px;
+.checkbox-spinner {
+  display: flex;
+  align-items: center;
+  // add space 8px between
+  & > * {
+    margin-right: 8px;
+  }
 }
 @media only screen and (max-width: 700px) {
   // Agrega aquí tus estilos para dispositivos móviles
@@ -135,4 +125,15 @@
     border-top: 4px solid var(--ui-primario);
     // background-image: linear-gradient(to bottom, var(--ui-primario) 0%, var(--ui-primario) 2%, transparent 2%, transparent 100%);
   }
+}
+
+@media only screen and (min-width: 701px) and (max-width: 1650px) {
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 8px;
+  }
+
 }

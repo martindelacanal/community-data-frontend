@@ -1,0 +1,91 @@
+<div class="container">
+  <section class="header">
+    <div class="header__title">
+      <h1 class="title">{{'survey_title' | translate }}</h1>
+      <mat-spinner *ngIf="loadingQuestions" class="loading-inputs" mode="indeterminate" [diameter]="30"></mat-spinner>
+    </div>
+  </section>
+  <section class="main">
+    <div class="ui-tarjeta">
+      <br>
+
+      <div class="main_formulario">
+
+        <div *ngFor="let question of surveyQuestions">
+          <div class="question">
+            <h2>{{'survey_field_question_id' | translate }}: {{question.id}}
+            </h2>
+
+            <div class="checkbox-spinner">
+              <mat-checkbox [checked]="question.enabled === 'Y'" (change)="toggleCheckbox($event, question)">
+                {{question.enabled === 'Y' ? 'Enabled' : 'Disabled'}}
+              </mat-checkbox>
+              <mat-spinner *ngIf="question.loading === 'Y'" mode="indeterminate" [diameter]="20"></mat-spinner>
+            </div>
+            <br>
+
+            <p><b>{{'survey_field_english' | translate }}: </b>
+              <span>{{question.name}}</span>
+            </p>
+            <p><b>{{'survey_field_spanish' | translate }}: </b>
+              <span>{{question.name_es}}</span>
+            </p>
+            <p *ngIf="question.depends_on_question_id"><b>{{'survey_field_depends_on_question_ID' | translate }}: </b>
+              <span>{{question.depends_on_question_id}}</span>
+            </p>
+            <p *ngIf="question.depends_on_answer_id"><b>{{'survey_field_depends_on_answer_ID' | translate }}: </b>
+              <span>{{question.depends_on_answer_id}}</span>
+            </p>
+            <p><b>{{'survey_field_answer_type' | translate }}: </b>
+              <span>{{question.answer_type}}</span>
+            </p>
+
+            <div class="expansion-answers" *ngIf="question.answer_type_id == 3 || question.answer_type_id == 4">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{'survey_field_answers' | translate }}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div *ngFor="let answer of question.answers">
+                  <div class="checkbox-spinner">
+                    <mat-checkbox [checked]="answer.enabled === 'Y'">{{answer.id}}. {{answer.name}} /
+                      {{answer.name_es}}</mat-checkbox>
+                    <mat-spinner *ngIf="answer.loading === 'Y'" mode="indeterminate" [diameter]="20"></mat-spinner>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </div>
+
+            <div class="expansion-locations">
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{'survey_field_locations' | translate }}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div *ngFor="let location of question.locations">
+                  <div class="checkbox-spinner">
+                    <mat-checkbox [checked]="location.enabled === 'Y'">{{location.name}}</mat-checkbox>
+                    <mat-spinner *ngIf="location.loading === 'Y'" mode="indeterminate" [diameter]="20"></mat-spinner>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </div>
+
+          </div>
+          <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+        </div>
+        <form [formGroup]="surveyForm" novalidate (ngSubmit)="onSubmit()">
+          <div class="main__footer">
+            <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
+            <button *ngIf="!loading" class="ui-button" type="submit"
+              [disabled]="!surveyForm.valid">{{'survey_button_save' |
+              translate }}</button>
+            <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>

@@ -98,6 +98,8 @@ import { NewEthnicityComponent } from './components/new/new-ethnicity/new-ethnic
 import { NewGenderComponent } from './components/new/new-gender/new-gender.component';
 import { DisclaimerEnableDisableElementComponent } from './components/dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
 import {MatChipsModule} from '@angular/material/chips';
+import { SurveyComponent } from './components/survey/survey.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -156,7 +158,8 @@ import {MatChipsModule} from '@angular/material/chips';
    ViewEthnicityComponent,
    NewEthnicityComponent,
    NewGenderComponent,
-   DisclaimerEnableDisableElementComponent
+   DisclaimerEnableDisableElementComponent,
+   SurveyComponent
 
   ],
   imports: [
@@ -197,6 +200,7 @@ import {MatChipsModule} from '@angular/material/chips';
     MatButtonToggleModule,
     NgImageSliderModule,
     MatChipsModule,
+    MatExpansionModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

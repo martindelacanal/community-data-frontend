@@ -2,7 +2,8 @@
   <header>
     <span><a routerLink="/login" alt="Logo principal" id="logo">Community Data</a></span>
     <span class="form-inline">
-      <mat-button-toggle-group [(ngModel)]="selectedLanguage" id="languageSelector" #selectedLang (change)="switchLang()">
+      <mat-button-toggle-group [(ngModel)]="selectedLanguage" id="languageSelector" #selectedLang
+        (change)="switchLang()">
         <mat-button-toggle *ngFor="let language of translate.getLangs()" [value]="language">
           {{ translate.instant('language_' + language) }}
         </mat-button-toggle>
@@ -27,9 +28,11 @@
 
         <div class="tarjeta__button firstpage">
           <img src="assets/imgs/bienestar_logo_white.png" alt="Logo principal">
-          <button class="ui-button firstpage" type="button" (click)="setForgetPassword(true,false,false)">{{'login_button_login' | translate }}</button>
+          <button class="ui-button firstpage" type="button"
+            (click)="setForgetPassword(true,false,false)">{{'login_button_login' | translate }}</button>
 
-          <button class="ui-button firstpage" type="button" (click)="signUp()">{{'login_button_register' | translate }}</button>
+          <button class="ui-button firstpage" type="button" (click)="signUp()">{{'login_button_register' | translate
+            }}</button>
         </div>
 
         <!-- <div class="ui-separator-horizontal firstpage-second"></div> -->
@@ -69,9 +72,11 @@
           </div>
         </form>
         <div class="ui-separator-horizontal"></div>
-        <a class="ui-link login" (click)="setForgetPassword(false,false,true)">{{'login_link_forgot_password' | translate }}</a>
+        <a class="ui-link login" (click)="setForgetPassword(false,false,true)">{{'login_link_forgot_password' |
+          translate }}</a>
         <!-- add margin -->
-        <a class="ui-link" (click)="setForgetPassword(false,true,false)">{{'login_link_back_firstpage' | translate }}</a>
+        <a class="ui-link" (click)="setForgetPassword(false,true,false)">{{'login_link_back_firstpage' | translate
+          }}</a>
         <!-- <a class="ui-link" style="margin-top: 8px;" (click)="signUp()">{{'login_link_create_account' | translate }}</a> -->
       </div>
     </section>
@@ -86,6 +91,8 @@
                 class="ui-link">{{'login_recover_password_not_available_message' | translate }}</a></p> -->
             <p class="texto-soporte">{{'login_recover_password_subtitle_email' | translate }}: <a
                 class="ui-link">community@bienestariswellbeing.org</a></p>
+            <p class="texto-soporte">{{'login_recover_password_subtitle_address' | translate }}: </p><label>P.O. Box 338 Rancho
+              Cucamonga, CA 91729</label>
             <div class="line-container">
               <hr>
               <span class="line-text">{{'login_recover_password_subtitle_o' | translate }}</span>
@@ -100,7 +107,9 @@
             </mat-form-field>
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>{{'login_recover_password_input_date_of_birth' | translate }}</mat-label>
-              <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth" (blur)="formatDateOnBlur($event)" (input)="formatDate($event)" (focus)="formatDateOnFocus($event)" maxlength="10" placeholder="01/31/1990">
+              <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth"
+                (blur)="formatDateOnBlur($event)" (input)="formatDate($event)" (focus)="formatDateOnFocus($event)"
+                maxlength="10" placeholder="01/31/1990">
               <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
               <!-- <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle> -->
               <mat-datepicker #miPicker1></mat-datepicker>
@@ -118,7 +127,8 @@
           </div>
         </form>
         <div class="ui-separator-horizontal"></div>
-        <a class="ui-link" (click)="setForgetPassword(true,false,false)">{{'login_recover_password_link_back' | translate
+        <a class="ui-link" (click)="setForgetPassword(true,false,false)">{{'login_recover_password_link_back' |
+          translate
           }}</a>
       </div>
     </section>

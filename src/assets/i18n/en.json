@@ -25,6 +25,7 @@
   "login_recover_password_subtitle_information": "Contact Support to reset your password.",
   "login_recover_password_subtitle_phone": "Phone",
   "login_recover_password_subtitle_email": "Email",
+  "login_recover_password_subtitle_address": "Address",
   "login_recover_password_subtitle_o": "OR",
   "login_recover_password_input_date_of_birth": "Date of birth",
   "login_recover_password_input_date_of_birth_format": "MM/DD/YYYY",
@@ -92,6 +93,7 @@
   "menu_button_help": "Help",
   "menu_button_metrics": "Metrics",
   "menu_button_tables": "Tables",
+  "menu_button_survey": "Survey",
   "menu_button_health_metrics": "Health",
   "menu_button_demographic_metrics": "Demographic",
   "menu_button_participant_metrics": "Participants",
@@ -709,6 +711,22 @@
   "edit_location_snack_get_error": "Error getting location",
   "edit_location_snack_location_updated": "Location updated successfully",
   "edit_location_snack_error_update": "Error updating location",
+
+  "survey_title": "Survey",
+  "survey_button_save": "Save",
+  "survey_field_question_id": "Question ID",
+  "survey_field_english": "English",
+  "survey_field_spanish": "Spanish",
+  "survey_field_depends_on_question_ID": "Depends on question ID",
+  "survey_field_depends_on_answer_ID": "Depends on answer ID",
+  "survey_field_answer_type": "Answer type",
+  "survey_field_answers": "Answers",
+  "survey_field_locations": "Locations",
+  "survey_snack_message_answer": "Answer saved successfully",
+  "survey_snack_message_location": "Location saved successfully",
+  "survey_snack_message_question": "Question saved successfully",
+  "survey_snack_message_error": "Error saving",
+
 
   "ultimo": "ultimo"
 }

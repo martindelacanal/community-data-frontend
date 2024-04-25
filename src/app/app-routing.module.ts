@@ -43,8 +43,10 @@ import { NewEthnicityComponent } from './components/new/new-ethnicity/new-ethnic
 import { NewGenderComponent } from './components/new/new-gender/new-gender.component';
 import { TableEthnicityComponent } from './components/tables/table-ethnicity/table-ethnicity.component';
 import { TableGenderComponent } from './components/tables/table-gender/table-gender.component';
+import { SurveyComponent } from './components/survey/survey.component';
 
 const routes: Routes = [
+  { path: 'survey', component: SurveyComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/product-type/:id', component: ViewProductTypeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/gender/:id', component: ViewGenderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/ethnicity/:id', component: ViewEthnicityComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },

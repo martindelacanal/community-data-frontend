@@ -94,8 +94,8 @@ export class AuthService {
     return this.http.get<any>(`${environment.url_api}/email/exists/search?email=${nombre}`);
   }
 
-  getRegisterQuestions(language: string) {
-    return this.http.get<RegisterQuestion[]>(`${environment.url_api}/register/questions?language=${language}`);
+  getRegisterQuestions(language: string, location_id: number) {
+    return this.http.get<RegisterQuestion[]>(`${environment.url_api}/register/questions?language=${language}&location_id=${location_id}`);
   }
 
   getGender(language: string, id?: number) {

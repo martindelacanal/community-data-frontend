@@ -152,6 +152,13 @@
                 <span [class.hidden]="!menuExpanded">{{'menu_button_tables' | translate }}</span>
               </a>
             </li>
+            <li *ngIf="usuario.role === 'admin'"
+              [class.active-link]="currentRoute.includes('/table')" [class.li-collapsed]="!menuExpanded">
+              <a routerLink="/survey">
+                <img class="ui-tarjeta__icono" src="../../../../assets/icons/encuesta.svg" alt="Tables icon">
+                <span [class.hidden]="!menuExpanded">{{'menu_button_survey' | translate }}</span>
+              </a>
+            </li>
             <li [class.active-link]="currentRoute.includes('/help')" [class.li-collapsed]="!menuExpanded">
               <a routerLink="/help">
                 <img class="ui-tarjeta__icono" src="../../../../assets/icons/ayuda.svg" alt="Icono de ayuda">
