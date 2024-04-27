@@ -5,6 +5,7 @@
   "connection_success": "Conexión exitosa",
   "connection_error": "Error de conexión, compruebe su conexión a internet",
   "connection_error_full": "Error de conexión, intente recargar la página",
+  "connection_session_expired": "Sesión expirada, por favor inicie sesión nuevamente",
 
   "login_title": "Iniciar sesión",
   "login_input_username": "Correo o nombre de usuario",

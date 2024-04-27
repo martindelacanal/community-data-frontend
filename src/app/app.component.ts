@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { IdleService } from './services/login/idle.service';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +26,7 @@ export class AppComponent {
     private http: HttpClient,
     public translate: TranslateService,
     private snackBar: MatSnackBar,
+    private idleService: IdleService,
   ) {
     translate.addLangs(['en', 'es']);
     translate.setDefaultLang('en');
@@ -52,19 +54,67 @@ export class AppComponent {
 
     interval(6000)
       .pipe(
-        switchMap(() => this.http.get(environment.url_api + '/ping').pipe(
-          retryWhen(errors => errors.pipe(
-            // Imprime el error en la consola
-            tap(() => this.conexionError()),
-            // Espera 6 segundos antes de reintentar
-            delay(6000)
-          ))
-        ))
+        switchMap(() => {
+          const token = localStorage.getItem('token');
+          if (token && !this.authService.isAuth()) {
+            this.openSnackBar(this.translate.instant('connection_session_expired'));
+            setTimeout(() => {
+              this.router.navigate(['/login']);
+            }, 3000); // retrasar la navegación 3 segundos
+          } else {
+            if (token && this.authService.isTokenNextToExpire()) {
+              // si esta proximo a vencer, pedir renovacion de token, sino redirigir a login
+              this.authService.refreshToken().subscribe(
+                (res: any) => {
+                  if (!res.token) { // error renovando token
+                    this.openSnackBar(this.translate.instant('connection_session_expired'));
+                    localStorage.removeItem('token');
+                    setTimeout(() => {
+                      this.router.navigate(['/login']);
+                    }, 3000); // retrasar la navegación 3 segundos
+                  } else {
+                    localStorage.setItem('token', res.token);
+                  }
+                },
+                (err) => {
+                  console.error(err);
+                  this.openSnackBar(this.translate.instant('connection_session_expired'));
+                  localStorage.removeItem('token');
+                  setTimeout(() => {
+                    this.router.navigate(['/login']);
+                  }, 3000); // retrasar la navegación 3 segundos
+                }
+              );
+            }
+          }
+          return this.http.get(environment.url_api + '/ping').pipe(
+            retryWhen(errors => errors.pipe(
+              // Imprime el error en la consola
+              tap(() => this.conexionError()),
+              // Espera 6 segundos antes de reintentar
+              delay(6000)
+            ))
+          );
+        })
       )
       .subscribe(
         () => this.conexionExitosa(),
         () => this.conexionErrorInesperado()
       );
+
+    // Detecta la inactividad del usuario (1 hora sin actividad)
+    this.idleService.onIdle.subscribe(() => {
+      const token = localStorage.getItem('token');
+      if (token && this.authService.isAuth()) {
+        this.openSnackBar(this.translate.instant('connection_session_expired'));
+        localStorage.removeItem('token');
+        setTimeout(() => {
+          this.router.navigate(['/login']); // redirigir a /login
+        }, 3000); // retrasar la navegación 3 segundos
+      }
+    });
+
+    this.idleService.startWatching();
   }
 
   conexionExitosa() {

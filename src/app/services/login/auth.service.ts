@@ -65,6 +65,35 @@ export class AuthService {
     }
   }
 
+  isTokenNextToExpire(): boolean {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return false;
+    }
+    try {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      if (!decodedToken || this.jwtHelper.isTokenExpired(token)) {
+        localStorage.removeItem('token');
+        return false;
+      }
+      // Obtén la fecha de expiración del token en milisegundos
+      const expiryDate = this.jwtHelper.getTokenExpirationDate(token).getTime();
+      // Obtén la fecha y hora actual en milisegundos
+      const now = new Date().getTime();
+      // Calcula la diferencia en minutos
+      const diff = (expiryDate - now) / (1000 * 60);
+      // Si la diferencia es menor o igual a 5 minutos, el token está a punto de expirar
+      return diff <= 5;
+    } catch (error) {
+      console.error(error);
+      localStorage.removeItem('token');
+      return false;
+    }
+  }
+
+  refreshToken() {
+    return this.http.get(`${environment.url_api}/refresh-token`);
+  }
 
   getIsAuthenticated(): Observable<boolean> {
     return this.isAuthenticated.asObservable();
@@ -106,7 +135,7 @@ export class AuthService {
     return this.http.get<Ethnicity[]>(`${environment.url_api}/ethnicity?${id ? 'id=' + id + '&' : ''}language=${language}`);
   }
 
-  getLocations(){
+  getLocations() {
     return this.http.get<Location[]>(`${environment.url_api}/register/locations`);
   }
 
