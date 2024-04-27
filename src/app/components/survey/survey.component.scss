@@ -5,6 +5,13 @@
   margin: 0 56px;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
 .main {
   font-size: 1.2rem;
 }
@@ -18,13 +25,10 @@
   width: 100%;
 }
 
-.header__title{
+.header .buttons {
   display: flex;
-  align-items: baseline;
-}
-
-.header__title .loading-inputs {
-  margin-left: 16px;
+  flex-direction: row;
+  align-items: end;
 }
 
 .ui-tarjeta {
@@ -64,6 +68,7 @@
 .main_formulario .main__footer {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 8px;
 }
 
 .ui-button {
@@ -74,14 +79,6 @@
   margin: 0 16px;
 }
 
-.full-width {
-  width: 100%;
-  max-width: 525px;
-  display: flex;
-  justify-content: center;
-
-}
-
 .ui-button--ui-secundario {
   padding: 0 24px;
   margin: 0 auto;
@@ -90,12 +87,50 @@
 .checkbox-spinner {
   display: flex;
   align-items: center;
+
   // add space 8px between
-  & > * {
+  &>* {
     margin-right: 8px;
   }
 }
-@media only screen and (max-width: 700px) {
+
+.add_answer_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.add_answer {
+  display: flex;
+  align-items: center;
+
+  // add space 8px between
+  & .add_answer--input_name,
+  & .add_answer--input_name_es {
+    flex-grow: 1; // Añadir esta línea
+    margin-right: 8px;
+    margin-left: 8px;
+  }
+}
+
+.full-width {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.form-locations {
+  margin-top: 16px;
+}
+
+.new_question_form {
+  margin-top: 16px;
+}
+
+.add_remove_question_form {
+  margin-bottom: 16px;
+}
+
+@media only screen and (max-width: 800px) {
   // Agrega aquí tus estilos para dispositivos móviles
 
   .container {
@@ -125,9 +160,24 @@
     border-top: 4px solid var(--ui-primario);
     // background-image: linear-gradient(to bottom, var(--ui-primario) 0%, var(--ui-primario) 2%, transparent 2%, transparent 100%);
   }
+
+  .add_answer {
+    display: flex;
+    align-items: normal;
+    flex-direction: column;
+
+    // add space 8px between
+    & .add_answer--input_name,
+    & .add_answer--input_name_es {
+      flex-grow: 1; // Añadir esta línea
+      margin-right: 8px;
+      margin-left: 8px;
+    }
+  }
+
 }
 
-@media only screen and (min-width: 701px) and (max-width: 1650px) {
+@media only screen and (min-width: 801px) and (max-width: 1650px) {
 
   .container {
     display: flex;

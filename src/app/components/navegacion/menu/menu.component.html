@@ -153,9 +153,9 @@
               </a>
             </li>
             <li *ngIf="usuario.role === 'admin'"
-              [class.active-link]="currentRoute.includes('/table')" [class.li-collapsed]="!menuExpanded">
+              [class.active-link]="currentRoute.includes('/survey')" [class.li-collapsed]="!menuExpanded">
               <a routerLink="/survey">
-                <img class="ui-tarjeta__icono" src="../../../../assets/icons/encuesta.svg" alt="Tables icon">
+                <img class="ui-tarjeta__icono" src="../../../../assets/icons/encuesta.svg" alt="Survey icon">
                 <span [class.hidden]="!menuExpanded">{{'menu_button_survey' | translate }}</span>
               </a>
             </li>

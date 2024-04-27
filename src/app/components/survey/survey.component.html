@@ -1,8 +1,11 @@
 <div class="container">
   <section class="header">
-    <div class="header__title">
-      <h1 class="title">{{'survey_title' | translate }}</h1>
+    <h1 class="title">{{'survey_title' | translate }}</h1>
+    <div class="buttons">
       <mat-spinner *ngIf="loadingQuestions" class="loading-inputs" mode="indeterminate" [diameter]="30"></mat-spinner>
+      <button class="ui-button" type="button" (click)="scrollAddQuestion()">
+        {{'survey_button_add_question' | translate }}
+      </button>
     </div>
   </section>
   <section class="main">
@@ -49,11 +52,57 @@
                 </mat-expansion-panel-header>
                 <div *ngFor="let answer of question.answers">
                   <div class="checkbox-spinner">
-                    <mat-checkbox [checked]="answer.enabled === 'Y'">{{answer.id}}. {{answer.name}} /
-                      {{answer.name_es}}</mat-checkbox>
+                    <mat-checkbox [checked]="answer.enabled === 'Y'"
+                      (change)="toggleCheckbox($event, question, answer)">
+                      {{answer.id}}. {{answer.name}} / {{answer.name_es}}</mat-checkbox>
                     <mat-spinner *ngIf="answer.loading === 'Y'" mode="indeterminate" [diameter]="20"></mat-spinner>
                   </div>
                 </div>
+                <div class="">
+                  <button class="" mat-icon-button type="button"
+                    matTooltip="{{'survey_tooltip_add_answer' | translate }}" matTooltipPosition="above"
+                    (click)="agregarCampoAnswer(question)">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                  <button class="" mat-icon-button type="button"
+                    matTooltip="{{'survey_tooltip_remove_answer' | translate }}" matTooltipPosition="above"
+                    [disabled]="answersForm.controls.length < 1" (click)="quitarCampoAnswer(question)">
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                </div>
+                <form *ngIf="this.surveyAnswerForm.get('question_id').value === question.id"
+                  [formGroup]="surveyAnswerForm" novalidate (ngSubmit)="onSubmitAnswer()">
+                  <div class="add_answer_container" formArrayName="answers"
+                    *ngFor="let answers of answersForm.controls; let i=index">
+                    <div class="add_answer" [formGroupName]="i">
+                      {{this.answersForm.controls[i].get('id').value}}.
+                      <!-- COMIENZO NAME-->
+                      <div class="add_answer--input_name">
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>{{'survey_input_answer_name_english' | translate }}</mat-label>
+                          <input matInput formControlName="name" required>
+                        </mat-form-field>
+                      </div>
+                      <!-- FIN NAME -->
+                      <!-- COMIENZO NAME_ES-->
+                      <div class="add_answer--input_name_es">
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>{{'survey_input_answer_name_spanish' | translate }}</mat-label>
+                          <input matInput formControlName="name_es" required>
+                        </mat-form-field>
+                      </div>
+                      <!-- FIN NAME_ES -->
+                    </div>
+                  </div>
+                  <div class="main__footer">
+                    <button *ngIf="!loadingSubmitAnswers" class="ui-button" type="submit"
+                      [disabled]="!surveyAnswerForm.valid">
+                      {{'survey_button_save' | translate }}
+                    </button>
+                    <mat-spinner *ngIf="loadingSubmitAnswers" class="login-button" mode="indeterminate" [diameter]="30">
+                    </mat-spinner>
+                  </div>
+                </form>
               </mat-expansion-panel>
             </div>
 
@@ -66,26 +115,188 @@
                 </mat-expansion-panel-header>
                 <div *ngFor="let location of question.locations">
                   <div class="checkbox-spinner">
-                    <mat-checkbox [checked]="location.enabled === 'Y'">{{location.name}}</mat-checkbox>
+                    <mat-checkbox [checked]="location.enabled === 'Y'"
+                      (change)="toggleCheckbox($event, question, null, location)">
+                      {{location.name}}</mat-checkbox>
                     <mat-spinner *ngIf="location.loading === 'Y'" mode="indeterminate" [diameter]="20"></mat-spinner>
                   </div>
                 </div>
+                <form *ngIf="!haveFullLocations(question) && canMyQuestionReserveAddLocation(question)" class="form-locations" [formGroup]="surveyLocationForm"
+                  novalidate (ngSubmit)="onSubmitLocation()">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{'survey_tooltip_add_location' | translate }}</mat-label>
+                    <mat-select #filterLocations formControlName="locations" multiple
+                      (openedChange)="modifyLocationsFiltered($event, question)">
+                      <mat-option [value]="0"
+                        (click)="toggleAllSelection(filterLocations, true, question)"><b>{{this.selectAllTextLocations}}</b></mat-option>
+                      <mat-option (click)="saveQuestionLocation(question)" *ngFor="let location of locationsFiltered"
+                        [value]="location.id">
+                        {{location.community_city}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="main__footer">
+                    <button *ngIf="!loadingSubmitLocations" class="ui-button" type="submit"
+                      [disabled]="!surveyLocationForm.valid">
+                      {{'survey_button_save' | translate }}
+                    </button>
+                    <mat-spinner *ngIf="loadingSubmitLocations" class="login-button" mode="indeterminate"
+                      [diameter]="30">
+                    </mat-spinner>
+                  </div>
+                </form>
               </mat-expansion-panel>
             </div>
 
           </div>
           <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
         </div>
-        <form [formGroup]="surveyForm" novalidate (ngSubmit)="onSubmit()">
+
+        <h2>{{'survey_field_new_question' | translate }}
+        </h2>
+        <form class="new_question_form" [formGroup]="surveyQuestionForm" novalidate (ngSubmit)="onSubmitQuestion()">
+
+          <!-- COMIENZO NAME Y NAME_ES -->
+          <div class="add_answer_container">
+            <div class="add_answer">
+              <div class="add_answer--input_name">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>{{'survey_input_question_name_english' | translate }}</mat-label>
+                  <input matInput formControlName="name" required>
+                </mat-form-field>
+              </div>
+
+              <div class="add_answer--input_name">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>{{'survey_input_question_name_spanish' | translate }}</mat-label>
+                  <input matInput formControlName="name_es" required>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- FIN NAME Y NAME_ES -->
+
+          <!-- COMIENZO DEPENDS ON QUESTION Y ANSWER -->
+          <div class="add_answer_container">
+            <div class="add_answer">
+              <div class="add_answer--input_name">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>{{'survey_input_question_depends_on_question' | translate }}</mat-label>
+                  <mat-select formControlName="depends_on_question_id">
+                    <ng-container *ngFor="let question of surveyQuestions; let i = index">
+                      <mat-option [value]="question.id"
+                                  (click)="saveAnswersFromQuestionDepends(question)"
+                                  *ngIf="question.answer_type_id === 3 || question.answer_type_id === 4">
+                        {{this.translate.currentLang === 'en' ? question.name : question.name_es}}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="add_answer--input_name">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>{{'survey_input_question_depends_on_answer' | translate }}</mat-label>
+                  <mat-select formControlName="depends_on_answer_id" [required]="answersFromQuestionDepends?.length > 0">
+                    <mat-option *ngFor="let answer of answersFromQuestionDepends" [value]="answer.id">
+                      {{this.translate.currentLang === 'en' ? answer.name : answer.name_es}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- FIN DEPENDS ON QUESTION Y ANSWER -->
+
+          <!-- COMIENZO ANSWER TYPE -->
+          <div class="add_answer_container">
+            <div class="add_answer">
+              <div class="add_answer--input_name">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>{{'survey_field_answer_type' | translate }}</mat-label>
+                  <mat-select formControlName="answer_type_id" (selectionChange)="onSelectionAnswerTypeQuestionFormChange($event.value)">
+                    <mat-option *ngFor="let answerType of answerTypes" [value]="answerType.id">
+                      {{this.translate.currentLang === 'en' ? answerType.name : answerType.name_es}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- FIN ANSWER TYPE -->
+
+          <!-- COMIENZO ANSWERS -->
+          <div *ngIf="this.surveyQuestionForm.get('answer_type_id').value === 3 || this.surveyQuestionForm.get('answer_type_id').value === 4">
+            <div class="add_remove_question_form">
+              <button class="" mat-icon-button type="button"
+                matTooltip="{{'survey_tooltip_add_answer' | translate }}" matTooltipPosition="above"
+                (click)="agregarCampoAnswerQuestionForm()">
+                <mat-icon>add</mat-icon>
+              </button>
+              <button class="" mat-icon-button type="button"
+                matTooltip="{{'survey_tooltip_remove_answer' | translate }}" matTooltipPosition="above"
+                [disabled]="answersQuestionForm.controls.length < 1" (click)="quitarCampoAnswerQuestionForm()">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+
+            <div class="add_answer_container" formArrayName="answers"
+              *ngFor="let answers of answersQuestionForm.controls; let i=index">
+              <div class="add_answer" [formGroupName]="i">
+                {{this.answersQuestionForm.controls[i].get('id').value}}.
+                <!-- COMIENZO NAME-->
+                <div class="add_answer--input_name">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{'survey_input_answer_name_english' | translate }}</mat-label>
+                    <input matInput formControlName="name" required>
+                  </mat-form-field>
+                </div>
+                <!-- FIN NAME -->
+                <!-- COMIENZO NAME_ES-->
+                <div class="add_answer--input_name_es">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{'survey_input_answer_name_spanish' | translate }}</mat-label>
+                    <input matInput formControlName="name_es" required>
+                  </mat-form-field>
+                </div>
+                <!-- FIN NAME_ES -->
+              </div>
+            </div>
+          </div>
+          <!-- FIN ANSWERS -->
+
+          <!-- COMIENZO LOCATIONS -->
+          <div class="add_answer_container">
+            <div class="add_answer">
+              <div class="add_answer--input_name">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>{{'survey_tooltip_add_location' | translate }}</mat-label>
+                  <mat-select #filterLocationsQuestionForm formControlName="locations" multiple>
+                    <mat-option [value]="0"
+                      (click)="toggleAllSelection(filterLocationsQuestionForm, false)"><b>{{this.selectAllTextLocations}}</b></mat-option>
+                    <mat-option *ngFor="let location of locations" [value]="location.id">
+                      {{location.community_city}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- FIN LOCATIONS -->
+
           <div class="main__footer">
-            <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
-            <button *ngIf="!loading" class="ui-button" type="submit"
-              [disabled]="!surveyForm.valid">{{'survey_button_save' |
-              translate }}</button>
-            <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+            <button *ngIf="!loadingSubmitQuestion" class="ui-button" type="submit"
+              [disabled]="!surveyQuestionForm.valid">
+              {{'survey_button_save' | translate }}
+            </button>
+            <mat-spinner *ngIf="loadingSubmitQuestion" class="login-button" mode="indeterminate" [diameter]="30">
+            </mat-spinner>
           </div>
         </form>
       </div>
     </div>
   </section>
 </div>
+<footer id="footer" #footer>
+  <!-- contenido del pie de página -->
+</footer>

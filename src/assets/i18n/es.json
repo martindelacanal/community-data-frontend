@@ -715,6 +715,7 @@
   "survey_title": "Encuesta",
   "survey_button_save": "Guardar",
   "survey_field_question_id": "ID de la pregunta",
+  "survey_field_new_question": "Nueva pregunta",
   "survey_field_english": "Inglés",
   "survey_field_spanish": "Español",
   "survey_field_depends_on_question_ID": "Depende de la pregunta ID",
@@ -722,11 +723,23 @@
   "survey_field_answer_type": "Tipo de respuesta",
   "survey_field_answers": "Respuestas",
   "survey_field_locations": "Locaciones",
+  "survey_button_add_question": "Agregar pregunta",
+  "survey_tooltip_add_answer": "Agregar respuesta",
+  "survey_tooltip_remove_answer": "Eliminar respuesta",
+  "survey_tooltip_add_location": "Agregar locación",
+  "survey_input_question_name_english": "Pregunta en inglés",
+  "survey_input_question_name_spanish": "Pregunta en español",
+  "survey_input_question_depends_on_question": "Depende de la pregunta",
+  "survey_input_question_depends_on_answer": "Depende de la respuesta",
+  "survey_input_answer_name_english": "Respuesta en inglés",
+  "survey_input_answer_name_spanish": "Respuesta en español",
   "survey_snack_message_answer": "Respuesta guardada con éxito",
   "survey_snack_message_location": "Locación guardada con éxito",
   "survey_snack_message_question": "Pregunta guardada con éxito",
   "survey_snack_message_error": "Error al guardar",
-
+  "survey_snack_message_error_question_depends_disabled": "Error al guardar, la pregunta depende de una respuesta deshabilitada",
+  "survey_snack_message_error_question_depends_answer_disabled": "Error al guardar, la pregunta depende de una respuesta deshabilitada",
+  "survey_snack_message_form_error": "Por favor llene el formulario correctamente",
 
   "ultimo": "ultimo"
 }

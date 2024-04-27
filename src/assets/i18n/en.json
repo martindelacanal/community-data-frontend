@@ -715,6 +715,7 @@
   "survey_title": "Survey",
   "survey_button_save": "Save",
   "survey_field_question_id": "Question ID",
+  "survey_field_new_question": "New question",
   "survey_field_english": "English",
   "survey_field_spanish": "Spanish",
   "survey_field_depends_on_question_ID": "Depends on question ID",
@@ -722,11 +723,23 @@
   "survey_field_answer_type": "Answer type",
   "survey_field_answers": "Answers",
   "survey_field_locations": "Locations",
+  "survey_button_add_question": "Add question",
+  "survey_tooltip_add_answer": "Add answer",
+  "survey_tooltip_remove_answer": "Remove answer",
+  "survey_tooltip_add_location": "Add location",
+  "survey_input_question_name_english": "Question in english",
+  "survey_input_question_name_spanish": "Question in spanish",
+  "survey_input_question_depends_on_question": "Depends on question",
+  "survey_input_question_depends_on_answer": "Depends on answer",
+  "survey_input_answer_name_english": "Answer in english",
+  "survey_input_answer_name_spanish": "Answer in spanish",
   "survey_snack_message_answer": "Answer saved successfully",
   "survey_snack_message_location": "Location saved successfully",
   "survey_snack_message_question": "Question saved successfully",
   "survey_snack_message_error": "Error saving",
-
+  "survey_snack_message_error_question_depends_disabled": "Error saving, the question depends on a disabled question",
+  "survey_snack_message_error_question_depends_answer_disabled": "Error saving, the question depends on a disabled answer",
+  "survey_snack_message_form_error": "Please fill the form correctly",
 
   "ultimo": "ultimo"
 }
