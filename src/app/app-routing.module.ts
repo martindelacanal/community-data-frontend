@@ -84,7 +84,7 @@ const routes: Routes = [
   { path: 'table/gender', component: TableGenderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/ethnicity', component: TableEthnicityComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/provider', component: TableProviderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
-  { path: 'table/ticket', component: TableTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
+  { path: 'table/ticket', component: TableTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/user', component: TableUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/user/:search', component: TableUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
   { path: 'metrics/product', component: MetricsProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },

@@ -119,7 +119,7 @@
             {{'menu_button_system_user_table' | translate }}
           </a>
         </li>
-        <li routerLink="/table/ticket">
+        <li routerLink="/table/ticket" *ngIf="usuario.role === 'admin'">
           <a>
             {{'menu_button_ticket_table' | translate }}
           </a>
