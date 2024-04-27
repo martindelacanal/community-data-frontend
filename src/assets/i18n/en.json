@@ -207,6 +207,7 @@
   "dashboard_admin_delivery_people": "Delivery people",
   "dashboard_admin_beneficiaries": "Total participants",
   "dashboard_admin_beneficiaries_served": "Scanned participants",
+  "dashboard_admin_without_health_insurance": "Participants without health insurance",
   "dashboard_admin_registered_beneficiaries_today": "Registered participants today",
   "dashboard_admin_recurring_beneficiaries_today": "Recurring participants today",
   "dashboard_admin_tab_title_pounds": "Pounds delivered",

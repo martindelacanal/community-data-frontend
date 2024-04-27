@@ -52,13 +52,13 @@
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
           <!-- {{'dashboard_admin_delivery_people' | translate }} -->
-          {{'dashboard_admin_beneficiaries_served' | translate }}
+          {{ (usuario.role === 'admin' ? 'dashboard_admin_beneficiaries_served' : 'dashboard_admin_without_health_insurance') | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <!-- <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
           <span>{{totalDeliveries}}</span> -->
           <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
-          <span>{{totalBeneficiariesServed}}%</span>
+          <span>{{usuario.role === 'admin' ? totalBeneficiariesServed : totalBeneficiariesWithoutHealthInsurance}}%</span>
         </div>
       </div>
     </article>
@@ -140,13 +140,13 @@
     <div class="ui-tarjeta">
       <div class="ui-tarjeta__header">
         <!-- {{'dashboard_admin_delivery_people' | translate }} -->
-        {{'dashboard_admin_beneficiaries_served' | translate }}
+        {{ (usuario.role === 'admin' ? 'dashboard_admin_beneficiaries_served' : 'dashboard_admin_without_health_insurance') | translate }}
       </div>
       <div class="ui-tarjeta__footer">
         <!-- <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
         <span>{{totalDeliveries}}</span> -->
         <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
-        <span>{{totalBeneficiariesServed}}%</span>
+        <span>{{usuario.role === 'admin' ? totalBeneficiariesServed : totalBeneficiariesWithoutHealthInsurance}}%</span>
       </div>
     </div>
   </div>

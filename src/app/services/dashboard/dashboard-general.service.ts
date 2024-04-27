@@ -48,6 +48,10 @@ export class DashboardGeneralService {
     return this.http.get<number>(`${environment.url_api}/total-beneficiaries-served`);
   }
 
+  getTotalBeneficiariesWithoutHealthInsurance() {
+    return this.http.get<number>(`${environment.url_api}/total-beneficiaries-without-health-insurance`);
+  }
+
   getTotalBeneficiariesRegisteredToday() {
     return this.http.get<number>(`${environment.url_api}/total-beneficiaries-registered-today`);
   }

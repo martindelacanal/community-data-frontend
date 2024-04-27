@@ -33,6 +33,7 @@ export class DashboardHomeComponent implements OnInit {
   totalDeliveries: number = 0;
   totalBeneficiaries: number = 0;
   totalBeneficiariesServed: number = 0;
+  totalBeneficiariesWithoutHealthInsurance: number = 0;
   totalBeneficiariesRegisteredToday: number = 0;
   totalBeneficiariesRecurringToday: number = 0;
   totalBeneficiariesQualified: number = 0;
@@ -71,11 +72,10 @@ export class DashboardHomeComponent implements OnInit {
 
     this.getPoundsDelivered();
     this.getTotalLocations();
-    this.getTotalDaysOperation();
     // this.getTotalStockers();
     // this.getTotalDeliveries();
     this.getTotalBeneficiaries();
-    this.getTotalBeneficiariesServed();
+
     this.getTotalBeneficiariesRegisteredToday();
     this.getTotalBeneficiariesRecurringToday();
     this.getTotalBeneficiariesQualified();
@@ -86,8 +86,11 @@ export class DashboardHomeComponent implements OnInit {
     if (this.usuario.role === 'admin') {
       this.getTotalClients();
       this.getTotalEnabledUsers();
+      this.getTotalDaysOperation();
+      this.getTotalBeneficiariesServed();
     } else {
       this.getHouseHoldSizeAverage();
+      this.getTotalBeneficiariesWithoutHealthInsurance();
     }
   }
 
@@ -166,6 +169,14 @@ export class DashboardHomeComponent implements OnInit {
     this.dashboardGeneralService.getTotalBeneficiariesServed().subscribe(
       (res) => {
         this.totalBeneficiariesServed = res;
+      }
+    );
+  }
+
+  private getTotalBeneficiariesWithoutHealthInsurance() {
+    this.dashboardGeneralService.getTotalBeneficiariesWithoutHealthInsurance().subscribe(
+      (res) => {
+        this.totalBeneficiariesWithoutHealthInsurance = res;
       }
     );
   }
