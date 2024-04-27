@@ -28,6 +28,7 @@ export class DashboardHomeComponent implements OnInit {
   poundsDelivered: number = 0;
   totalLocations: number = 0;
   totalDaysOperation: number = 0;
+  houseHoldSizeAverage: number = 0;
   totalStockers: number = 0;
   totalDeliveries: number = 0;
   totalBeneficiaries: number = 0;
@@ -85,6 +86,8 @@ export class DashboardHomeComponent implements OnInit {
     if (this.usuario.role === 'admin') {
       this.getTotalClients();
       this.getTotalEnabledUsers();
+    } else {
+      this.getHouseHoldSizeAverage();
     }
   }
 
@@ -123,6 +126,14 @@ export class DashboardHomeComponent implements OnInit {
     this.dashboardGeneralService.getTotalDaysOperation().subscribe(
       (res) => {
         this.totalDaysOperation = res;
+      }
+    );
+  }
+
+  private getHouseHoldSizeAverage() {
+    this.dashboardGeneralService.getHouseHoldSizeAverage().subscribe(
+      (res) => {
+        this.houseHoldSizeAverage = res;
       }
     );
   }

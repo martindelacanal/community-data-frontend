@@ -28,6 +28,10 @@ export class DashboardGeneralService {
     return this.http.get<number>(`${environment.url_api}/total-days-operation`);
   }
 
+  getHouseHoldSizeAverage() {
+    return this.http.get<number>(`${environment.url_api}/house-hold-size-average`);
+  }
+
   getTotalStockers() {
     return this.http.get<number>(`${environment.url_api}/total-from-role/stocker`);
   }

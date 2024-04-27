@@ -26,11 +26,11 @@
     <article class="tarjeta-slider">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
-          {{'dashboard_admin_days_operation' | translate }}
+          {{ (usuario.role === 'admin' ? 'dashboard_admin_days_operation' : 'dashboard_admin_household_size_average') | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/revisar-misiones.svg" alt="Icono de revisar misiones">
-          <span>{{totalDaysOperation | number}}</span>
+          <span>{{(usuario.role === 'admin' ? totalDaysOperation : houseHoldSizeAverage ) | number}}</span>
         </div>
       </div>
     </article>
@@ -109,11 +109,11 @@
       <div class="ui-separator-vertical"></div>
       <section>
         <div class="ui-tarjeta__header">
-          {{'dashboard_admin_days_operation' | translate }}
+          {{ (usuario.role === 'admin' ? 'dashboard_admin_days_operation' : 'dashboard_admin_household_size_average') | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/revisar-misiones.svg" alt="Icono de revisar misiones">
-          <span>{{totalDaysOperation | number}}</span>
+          <span>{{(usuario.role === 'admin' ? totalDaysOperation : houseHoldSizeAverage ) | number}}</span>
         </div>
       </section>
       <div class="ui-separator-vertical"></div>
