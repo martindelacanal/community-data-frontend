@@ -56,7 +56,7 @@
             <div class="card">
               <mat-form-field appearance="outline">
                 <mat-label>{{'view_client_phone' | translate }}</mat-label>
-                <input matInput formControlName="phone" matNumberInput maxlength="10" onlyNumber>
+                <input matInput formControlName="phone" matNumberInput onlyNumber>
                 <mat-error *ngIf="clientForm.controls['phone'].hasError('required')">
                   {{'new_client_input_phone_error_please' | translate }}
                 </mat-error>
