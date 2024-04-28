@@ -29,7 +29,7 @@
           {{ (usuario.role === 'admin' ? 'dashboard_admin_days_operation' : 'dashboard_admin_household_size_average') | translate }}
         </div>
         <div class="ui-tarjeta__footer">
-          <img src="../../../../assets/icons/revisar-misiones.svg" alt="Icono de revisar misiones">
+          <img [src]="usuario.role === 'admin' ? '../../../../assets/icons/revisar-misiones.svg' : '../../../../assets/icons/clientes.svg'" alt="Icono de revisar misiones">
           <span>{{(usuario.role === 'admin' ? totalDaysOperation : houseHoldSizeAverage ) | number}}</span>
         </div>
       </div>
@@ -43,7 +43,7 @@
         <div class="ui-tarjeta__footer">
           <!-- <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
           <span>{{totalStockers}}</span> -->
-          <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+          <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
           <span>{{totalBeneficiaries | number}}</span>
         </div>
       </div>
@@ -57,7 +57,7 @@
         <div class="ui-tarjeta__footer">
           <!-- <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
           <span>{{totalDeliveries}}</span> -->
-          <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+          <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
           <span>{{usuario.role === 'admin' ? totalBeneficiariesServed : totalBeneficiariesWithoutHealthInsurance}}%</span>
         </div>
       </div>
@@ -68,7 +68,7 @@
           {{'dashboard_admin_registered_beneficiaries_today' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
-          <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+          <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
           <span>{{totalBeneficiariesRegisteredToday | number}}</span>
         </div>
       </div>
@@ -79,7 +79,7 @@
           {{'dashboard_admin_recurring_beneficiaries_today' | translate }}
         </div>
         <div class="ui-tarjeta__footer">
-          <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+          <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
           <span>{{totalBeneficiariesRecurringToday | number}}</span>
         </div>
       </div>
@@ -112,7 +112,7 @@
           {{ (usuario.role === 'admin' ? 'dashboard_admin_days_operation' : 'dashboard_admin_household_size_average') | translate }}
         </div>
         <div class="ui-tarjeta__footer">
-          <img src="../../../../assets/icons/revisar-misiones.svg" alt="Icono de revisar misiones">
+          <img [src]="usuario.role === 'admin' ? '../../../../assets/icons/revisar-misiones.svg' : '../../../../assets/icons/clientes.svg'" alt="Icono de revisar misiones">
           <span>{{(usuario.role === 'admin' ? totalDaysOperation : houseHoldSizeAverage ) | number}}</span>
         </div>
       </section>
@@ -125,7 +125,7 @@
         <div class="ui-tarjeta__footer">
           <!-- <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
           <span>{{totalStockers}}</span> -->
-          <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+          <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
         <span>{{totalBeneficiaries | number}}</span>
         </div>
       </section>
@@ -145,7 +145,7 @@
       <div class="ui-tarjeta__footer">
         <!-- <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
         <span>{{totalDeliveries}}</span> -->
-        <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+        <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
         <span>{{usuario.role === 'admin' ? totalBeneficiariesServed : totalBeneficiariesWithoutHealthInsurance}}%</span>
       </div>
     </div>
@@ -156,7 +156,7 @@
         {{'dashboard_admin_registered_beneficiaries_today' | translate }}
       </div>
       <div class="ui-tarjeta__footer">
-        <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+        <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
         <span>{{totalBeneficiariesRegisteredToday | number}}</span>
       </div>
     </div>
@@ -167,7 +167,7 @@
         {{'dashboard_admin_recurring_beneficiaries_today' | translate }}
       </div>
       <div class="ui-tarjeta__footer">
-        <img src="../../../../assets/icons/clientes.svg" alt="Icono de clientes">
+        <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
         <span>{{totalBeneficiariesRecurringToday | number}}</span>
       </div>
     </div>
