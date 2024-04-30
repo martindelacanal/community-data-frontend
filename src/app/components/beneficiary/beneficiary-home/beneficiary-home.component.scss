@@ -90,6 +90,59 @@
   margin-left: 16px;
 }
 
+.tarjeta__input {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta__input .ui-input {
+  width: 100%;
+}
+
+.tarjeta__input mat-form-field {
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.tarjeta__input label {
+  margin-top: 16px;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--texto-primario);
+  margin-bottom: 8px;
+
+  &.radio-button-label {
+    margin-top: 0;
+  }
+}
+
+.radio-button-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.checkbox-options {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.required {
+  color: var(--estado-error);
+  font-weight: 600;
+}
+
+.card__title_form_new_questions {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+
 @media only screen and (max-width: 700px) {
   // Agrega aquí tus estilos para dispositivos móviles
 

@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { beneficiaryQR } from 'src/app/models/beneficiary/beneficiary-qr.model';
 import { Location } from 'src/app/models/map/location';
 import { UserStatus } from 'src/app/models/user/user-status';
+import { RegisterQuestion } from 'src/app/models/login/register-question';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +31,15 @@ export class DeliveryService {
     return this.http.get<Location>(`${environment.url_api}/user/location`);
   }
 
+  getQuestions(language: string, location_id: number) {
+    return this.http.get<RegisterQuestion[]>(`${environment.url_api}/onBoard/questions?language=${language}&location_id=${location_id}`);
+  }
+
   onBoard(value: boolean, location_id: number, client_id?: number){
     return this.http.post<any>(`${environment.url_api}/onBoard`, {value: value, location_id: location_id, client_id: client_id});
   }
 
+  postNewAnswers(form: any, location_id: number) {
+    return this.http.post(`${environment.url_api}/onBoard/answers?location_id=${location_id}`, form);
+  }
 }

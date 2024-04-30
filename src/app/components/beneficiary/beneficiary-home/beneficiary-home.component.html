@@ -34,6 +34,63 @@
           <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
         </div>
 
+        <div class="card" *ngIf="!this.loading && this.registerQuestions.length > 0">
+          <h2 class="card__title_form_new_questions">{{'survey_title_form_participant_onboard_need' | translate}}</h2>
+          <form [formGroup]="secondFormGroup">
+            <div class="tarjeta__input">
+              <div *ngFor="let question of registerQuestions">
+                <div *ngIf="shouldShowQuestion(question)">
+                  <div [ngSwitch]="question.answer_type_id">
+
+                    <div *ngSwitchCase="1">
+                      <mat-form-field appearance="outline">
+                        <mat-label>{{question.name}}</mat-label>
+                        <input matInput formControlName="{{question.id.toString()}}" required>
+                      </mat-form-field>
+                    </div>
+
+                    <div *ngSwitchCase="2">
+                      <mat-form-field appearance="outline">
+                        <mat-label>{{question.name}}</mat-label>
+                        <input matInput formControlName="{{question.id.toString()}}" required type="number" matNumberInput>
+                      </mat-form-field>
+                    </div>
+
+                    <div *ngSwitchCase="3">
+                      <label class="radio-button-label" id="radio-button-group-label">{{question.name}}
+                        <span
+                          [ngClass]="{'required': secondFormGroup.controls[question.id.toString()].invalid}">*</span></label>
+                      <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
+                        formControlName="{{question.id.toString()}}">
+                        <mat-radio-button class="radio-button"
+                          *ngFor="let answer of getAnswersForQuestion(question.id)" [value]="answer.id">
+                          {{ answer.name }}
+                        </mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+
+                    <div *ngSwitchCase="4">
+                      <label class="radio-button-label" id="radio-button-group-label">{{question.name}} <span
+                          [ngClass]="{'required': !secondFormGroup.controls[question.id.toString()].value || secondFormGroup.controls[question.id.toString()].value.length === 0 || secondFormGroup.controls[question.id.toString()].invalid}">*</span></label>
+                      <div class="checkbox-options" formArrayName="{{question.id.toString()}}">
+                        <mat-checkbox aria-labelledby="radio-button-group-label" class="checkbox-option"
+                          *ngFor="let answer of getAnswersForQuestion(question.id); let i = index"
+                          [value]="answer.id.toString()"
+                          (change)="onCheckboxChange($event, i, question.id)">{{answer.name}}</mat-checkbox>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="main__footer">
+              <button *ngIf="!loading" class="ui-button" type="submit" (click)="postNewAnswers()"
+                [disabled]="!secondFormGroup.valid">{{'register_second_tab_button_submit' | translate}}</button>
+                <mat-spinner *ngIf="loading" class="spinner" mode="indeterminate" [diameter]="30"></mat-spinner>
+            </div>
+          </form>
+
+        </div>
         <!-- separator -->
         <div class="card ">
           <!-- <div class="ui-separator-horizontal"></div> -->
@@ -48,11 +105,11 @@
                 {{locationAddressSelected}}</div>
             </span>
             <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
-            <button *ngIf="!loading && onBoarded" class="ui-button" type="button"
+            <button *ngIf="!loading && onBoarded && this.registerQuestions.length == 0" class="ui-button" type="button"
               (click)="onBoard()">{{'beneficiary_button_change_location' | translate }}</button>
-            <button *ngIf="!loading && onBoarded" class="ui-button ui-button--ui-secundario" type="button"
+            <button *ngIf="!loading && onBoarded && this.registerQuestions.length == 0" class="ui-button ui-button--ui-secundario" type="button"
               (click)="newQR()">{{'beneficiary_button_new_qr' | translate}}</button>
-            <button *ngIf="!loading && !onBoarded" class="ui-button ui-button--ui-secundario" type="button" [disabled]="!beneficiaryForm.valid"
+            <button *ngIf="!loading && !onBoarded && this.registerQuestions.length == 0" class="ui-button ui-button--ui-secundario" type="button" [disabled]="!beneficiaryForm.valid"
               (click)="onBoard()">{{'beneficiary_button_generate_qr' | translate}}</button>
           </div>
         </div>

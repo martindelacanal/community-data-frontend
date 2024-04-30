@@ -744,5 +744,8 @@
   "survey_snack_message_error_question_depends_answer_disabled": "Error al guardar, la pregunta depende de una respuesta deshabilitada",
   "survey_snack_message_form_error": "Por favor llene el formulario correctamente",
 
+  "survey_snack_message_form_participant_onboard": "Formulario enviado con éxito. Presiona 'Generar QR' para continuar",
+  "survey_title_form_participant_onboard_need": "Por favor llena el formulario para continuar:",
+
   "ultimo": "ultimo"
 }

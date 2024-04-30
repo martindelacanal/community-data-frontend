@@ -744,5 +744,8 @@
   "survey_snack_message_error_question_depends_answer_disabled": "Error saving, the question depends on a disabled answer",
   "survey_snack_message_form_error": "Please fill the form correctly",
 
+  "survey_snack_message_form_participant_onboard": "Form submitted successfully. Press 'Generate QR' to continue",
+  "survey_title_form_participant_onboard_need": "Please fill the form to continue:",
+
   "ultimo": "ultimo"
 }
