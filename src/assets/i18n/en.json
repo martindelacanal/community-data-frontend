@@ -77,6 +77,7 @@
   "register_snack_submitted": "Form submitted successfully.",
   "register_snack_submitted_error": "Error submitting form",
   "register_snack_submitted_incomplete_error": "Please fill out all required fields.",
+  "register_snack_location_without_questions": "No questions found for this location",
 
   "register_link_already_account": "Already have an account? Sign in",
 
@@ -706,7 +707,7 @@
   "new_location_input_coordinates_error_pattern": "Please enter valid coordinates",
   "new_location_input_coordinates_info": "Search in Google Maps, right click on the place and copy the coordinates",
   "new_location_button_create": "Create",
-  "new_location_snack_created": "Location created successfully",
+  "new_location_snack_created": "Location created successfully. Remember to add questions in the 'Survey' section.",
   "new_location_snack_error": "Error creating location",
 
   "edit_location_title": "Edit location",

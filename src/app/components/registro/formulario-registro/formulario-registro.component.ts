@@ -307,6 +307,9 @@ export class FormularioRegistroComponent implements OnInit {
       })
     ).subscribe({
       next: (res) => {
+        if (res.length === 0) {
+          this.openSnackBar(this.translate.instant('register_snack_location_without_questions'));
+        }
         this.registerQuestions = res;
         this.buildSecondFormGroup();
         this.buildCombinedFormGroup();
