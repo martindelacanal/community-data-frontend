@@ -74,7 +74,7 @@
             {{'menu_button_client_user_table' | translate }}
           </a>
         </li>
-        <li routerLink="/table/delivered">
+        <li routerLink="/table/delivered" *ngIf="usuario.role === 'admin'">
           <a>
             {{'menu_button_delivered_table' | translate }}
           </a>
@@ -109,7 +109,7 @@
             {{'menu_button_beneficiary_table' | translate }}
           </a>
         </li>
-        <li routerLink="/table/provider">
+        <li routerLink="/table/provider" *ngIf="usuario.role === 'admin'">
           <a>
             {{'menu_button_provider_table' | translate }}
           </a>
