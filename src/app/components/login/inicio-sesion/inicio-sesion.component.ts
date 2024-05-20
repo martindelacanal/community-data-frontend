@@ -8,6 +8,8 @@ import { AnimationEvent } from '@angular/animations';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ContenidoToken } from 'src/app/models/login/contenido-token';
+import decode from 'jwt-decode';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -98,25 +100,32 @@ export class InicioSesionComponent implements OnInit {
       this.authService.signin(this.loginForm.value).subscribe(
         (res: any) => {
           if (res != null) {
-            localStorage.setItem('token', res.token);
-            localStorage.setItem('reset_password', res.reset_password);
-            let filters = {
-              ethnicities: [],
-              from_date: null,
-              genders: [],
-              locations: [],
-              max_age: null,
-              min_age: null,
-              product_types: [],
-              providers: [],
-              to_date: null,
-              zipcode: null
-            }
-            localStorage.setItem('filters', JSON.stringify(filters));
-            let filters_chip = [];
-            localStorage.setItem('filters_chip', JSON.stringify(filters_chip));
+            const usuario: Usuario = JSON.parse((<ContenidoToken>decode(res.token)).data);
+            console.log("usuario", usuario)
+            if (usuario.role === 'thirdparty') {
+              this.loginValid = false;
+              alert(this.translate.instant('login_snack_role_disabled'));
+            } else {
+              localStorage.setItem('token', res.token);
+              localStorage.setItem('reset_password', res.reset_password);
+              let filters = {
+                ethnicities: [],
+                from_date: null,
+                genders: [],
+                locations: [],
+                max_age: null,
+                min_age: null,
+                product_types: [],
+                providers: [],
+                to_date: null,
+                zipcode: null
+              }
+              localStorage.setItem('filters', JSON.stringify(filters));
+              let filters_chip = [];
+              localStorage.setItem('filters_chip', JSON.stringify(filters_chip));
 
-            this.redireccionar();
+              this.redireccionar();
+            }
           } else {
             this.loginValid = false;
           }
@@ -316,3 +325,4 @@ export class InicioSesionComponent implements OnInit {
     return null;
   }
 }
+

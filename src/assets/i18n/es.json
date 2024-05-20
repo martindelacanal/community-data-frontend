@@ -21,6 +21,7 @@
   "login_button_submit": "Ingresar",
   "login_button_submit_error": "Correo / Nombre de usuario o contraseña incorrectos",
   "login_snack_your_new_password": "Tu nueva contraseña es: ",
+  "login_snack_role_disabled": "Tu rol está deshabilitado",
 
   "login_recover_password_title": "Recuperar contraseña",
   "login_recover_password_subtitle_information": "Contacta con Soporte para resetear tu contraseña.",
