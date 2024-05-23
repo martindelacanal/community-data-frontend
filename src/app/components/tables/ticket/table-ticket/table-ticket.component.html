@@ -16,7 +16,7 @@
           (click)="dialogDownloadCsv()">{{'table_tickets_button_download_csv' | translate }}</button>
           <button id="filtersButton" class="ui-button" type="button" (click)="dialogFilters()">{{'metrics_filters_button' |
             translate }}</button>
-        <button *ngIf="usuario.role === 'admin'" id="addButton" [routerLink]="['/stocker/home']" class="ui-button">{{'table_tickets_button_add_ticket' | translate }}</button>
+        <button *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager'" id="addButton" [routerLink]="['/stocker/home']" class="ui-button">{{'table_tickets_button_add_ticket' | translate }}</button>
       </div>
     </div>
     <mat-chip-set class="chip-grid">

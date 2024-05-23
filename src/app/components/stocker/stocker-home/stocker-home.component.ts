@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, debounceTime, finalize, map, of, startWith } from 'rxjs';
+import { Usuario } from 'src/app/models/login/usuario';
 import { Location } from 'src/app/models/map/location';
 import { NewTicket } from 'src/app/models/new/new-ticket';
 import { Product } from 'src/app/models/stocker/product';
@@ -58,6 +59,8 @@ export class StockerHomeComponent implements OnInit {
   deletedFilesFromEdit: boolean = false;
   ticketGetted: NewTicket;
 
+  usuario: Usuario;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -67,8 +70,8 @@ export class StockerHomeComponent implements OnInit {
     private stockerService: StockerService,
     public translate: TranslateService,
     public decodificadorService: DecodificadorService
-
   ) {
+    this.usuario = this.decodificadorService.getUsuario();
     this.numberOfFields = 0;
     this.file_ticket = [];
     this.buildStockForm();

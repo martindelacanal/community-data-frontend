@@ -85,6 +85,9 @@ export class MenuComponent implements OnInit {
         case 'beneficiary':
           this.route_role = '/beneficiary/home';
           break;
+        case 'opsmanager':
+          this.route_role = '/stocker/home';
+          break;
         default:
           this.route_role = '/login';
           break;

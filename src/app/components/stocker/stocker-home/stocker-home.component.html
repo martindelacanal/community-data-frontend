@@ -7,7 +7,7 @@
         <mat-spinner *ngIf="loading" class="loading-inputs" mode="indeterminate" [diameter]="30"></mat-spinner>
       </div>
       <div>
-        <button *ngIf="this.decodificadorService.getRol() == 'admin'" type="button" class="ui-button"
+        <button *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager'" type="button" class="ui-button"
           routerLink="/table/ticket">{{'view_ticket_button_tickets' | translate }}</button>
       </div>
     </section>

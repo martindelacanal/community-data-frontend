@@ -65,14 +65,16 @@ export class MapaDashboardHomeComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    // Obtener una referencia al objeto map
-    let map = this.map.googleMap;
-    // Obtener una referencia a los botones personalizados
-    let misionesDisponiblesButton = this.misionesDisponiblesButton.nativeElement;
-    let misionesActivasButton = this.misionesActivasButton.nativeElement;
-    // Agregar los botones personalizados al mapa como controles
-    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(misionesDisponiblesButton);
-    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(misionesActivasButton);
+    if (this.misionesDisponiblesButton && this.misionesActivasButton && !this.disableButtonsLocations) {
+      // Obtener una referencia al objeto map
+      let map = this.map.googleMap;
+      // Obtener una referencia a los botones personalizados
+      let misionesDisponiblesButton = this.misionesDisponiblesButton.nativeElement;
+      let misionesActivasButton = this.misionesActivasButton.nativeElement;
+      // Agregar los botones personalizados al mapa como controles
+      map.controls[google.maps.ControlPosition.RIGHT_TOP].push(misionesDisponiblesButton);
+      map.controls[google.maps.ControlPosition.RIGHT_TOP].push(misionesActivasButton);
+    }
   }
 
   openInfoWindow(marker: MapMarker, label: string) {

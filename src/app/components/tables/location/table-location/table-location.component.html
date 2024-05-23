@@ -17,7 +17,7 @@
         <button id="filtersButton" class="ui-button" type="button" (click)="dialogFilters()">{{'metrics_filters_button'
           |
           translate }}</button>
-        <button id="addButton" *ngIf="usuario.role === 'admin'" [routerLink]="['/new/location']"
+        <button id="addButton" *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager'" [routerLink]="['/new/location']"
           class="ui-button">{{'table_locations_button_add_location' | translate }}</button>
       </div>
     </div>
@@ -102,7 +102,7 @@
               <mat-icon>visibility</mat-icon>
               <span>{{'table_locations_row_button_view' | translate }}</span>
             </button>
-            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado"
+            <button *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager'" mat-menu-item class="boton-usuario-desplegado"
               [routerLink]="['/edit/location',element.id]">
               <mat-icon>edit</mat-icon>
               <span>{{'table_locations_row_button_edit' | translate }}</span>

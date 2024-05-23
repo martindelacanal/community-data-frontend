@@ -251,6 +251,9 @@ export class InicioSesionComponent implements OnInit {
       case 'thirdparty':
         this.router.navigate(['thirdparty/home']);
         break;
+      case 'opsmanager':
+        this.router.navigate(['stocker/home']);
+        break;
     }
   }
 

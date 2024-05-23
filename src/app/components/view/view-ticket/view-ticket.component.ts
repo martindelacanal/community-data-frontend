@@ -3,8 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Usuario } from 'src/app/models/login/usuario';
 import { ViewTicket } from 'src/app/models/view/view-ticket';
 import { ViewTicketImage } from 'src/app/models/view/view-ticket-image';
+import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { ViewService } from 'src/app/services/view/view.service';
 
 @Component({
@@ -23,13 +25,17 @@ export class ViewTicketComponent implements OnInit {
   viewTicket: ViewTicket;
   viewTicketImages: ViewTicketImage[] = [];
 
+  usuario: Usuario;
+
   constructor(
+    private decodificadorService: DecodificadorService,
     private activatedRoute: ActivatedRoute,
     private viewService: ViewService,
     private snackBar: MatSnackBar,
     private translate: TranslateService,
     private breakpointObserver: BreakpointObserver,
   ) {
+    this.usuario = this.decodificadorService.getUsuario();
     this.idTicket = '';
     this.isMobile = false;
     this.isTablet = false;
@@ -97,7 +103,6 @@ export class ViewTicketComponent implements OnInit {
     this.loadingImages = true;
     this.viewService.getImagesTicket(idTicket).subscribe({
       next: (res) => {
-        console.log(res)
         this.viewTicketImages = res;
         this.loadingImages = false;
       },

@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Usuario } from 'src/app/models/login/usuario';
 import { ViewProduct } from 'src/app/models/view/view-product';
+import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { ViewService } from 'src/app/services/view/view.service';
 
 @Component({
@@ -20,13 +22,17 @@ export class ViewProductComponent implements OnInit {
   loading: boolean = false;
   viewProduct: ViewProduct;
 
+  usuario: Usuario;
+
   constructor(
+    private decodificadorService: DecodificadorService,
     private activatedRoute: ActivatedRoute,
     private viewService: ViewService,
     private snackBar: MatSnackBar,
     private translate: TranslateService,
     private breakpointObserver: BreakpointObserver,
   ) {
+    this.usuario = this.decodificadorService.getUsuario();
     this.idProduct = '';
     this.isMobile = false;
     this.isTablet = false;
