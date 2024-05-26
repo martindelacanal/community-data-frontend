@@ -71,6 +71,8 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
     this.filterForm = this.formBuilder.group({
       from_date: [null],
       to_date: [null],
+      locations: [null],
+      providers: [null]
     });
     this.filtersChip = [];
   }
@@ -215,6 +217,10 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
           this.filterForm.get('to_date').setValue(date2);
         }
 
+        // set values into filterForm
+        this.filterForm.get('locations').setValue(result.data.locations);
+        this.filterForm.get('providers').setValue(result.data.providers);
+
         // recuperar filter-chip del localStorage
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
@@ -245,6 +251,10 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
           const date2 = new Date(result.data.to_date + 'T00:00');
           this.filterForm.get('to_date').setValue(date2);
         }
+
+        // set values into filterForm
+        this.filterForm.get('locations').setValue(result.data.locations);
+        this.filterForm.get('providers').setValue(result.data.providers);
 
         // recuperar filter-chip del localStorage
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));

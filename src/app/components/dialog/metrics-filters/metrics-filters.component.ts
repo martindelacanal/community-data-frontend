@@ -7,10 +7,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { catchError, forkJoin, of, tap } from 'rxjs';
 import { Location } from 'src/app/models/map/location';
 import { FilterChip } from 'src/app/models/metrics/filter-chip';
+import { ProductType } from 'src/app/models/stocker/product-type';
+import { Provider } from 'src/app/models/stocker/provider';
 import { Ethnicity } from 'src/app/models/user/ethnicity';
 import { Gender } from 'src/app/models/user/gender';
 import { DeliveryService } from 'src/app/services/deliver/delivery.service';
 import { AuthService } from 'src/app/services/login/auth.service';
+import { StockerService } from 'src/app/services/stock/stocker.service';
 
 @Component({
   selector: 'app-metrics-filters',
@@ -18,14 +21,19 @@ import { AuthService } from 'src/app/services/login/auth.service';
   styleUrls: ['./metrics-filters.component.scss']
 })
 export class MetricsFiltersComponent implements OnInit {
+
   filterForm: FormGroup;
   locations: Location[] = [];
+  providers: Provider[] = [];
+  product_types: ProductType[] = [];
   genders: Gender[];
   ethnicities: Ethnicity[];
   origin: string = '';
   selectAllTextLocations = 'Select all';
   selectAllTextGenders = 'Select all';
   selectAllTextEthnicities = 'Select all';
+  selectAllTextProviders = 'Select all';
+  selectAllTextProductTypes = 'Select all';
 
   filtersAnterior: string = '';
   filtersChipAnterior: string = '';
@@ -38,6 +46,7 @@ export class MetricsFiltersComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public message: any,
     private formBuilder: FormBuilder,
     private deliveryService: DeliveryService,
+    private stockerService: StockerService,
     public translate: TranslateService,
     private authService: AuthService,
   ) {
@@ -46,6 +55,8 @@ export class MetricsFiltersComponent implements OnInit {
       from_date: [null],
       to_date: [null],
       locations: [null],
+      providers: [null],
+      product_types: [null],
       genders: [null],
       ethnicities: [null],
       min_age: [null],
@@ -65,6 +76,8 @@ export class MetricsFiltersComponent implements OnInit {
 
     // Traduce el texto de los botones de selección
     this.selectAllTextLocations = this.translate.instant('metrics_filters_button_select_all');
+    this.selectAllTextProviders = this.translate.instant('metrics_filters_button_select_all');
+    this.selectAllTextProductTypes = this.translate.instant('metrics_filters_button_select_all');
     this.selectAllTextGenders = this.translate.instant('metrics_filters_button_select_all');
     this.selectAllTextEthnicities = this.translate.instant('metrics_filters_button_select_all');
 
@@ -90,11 +103,30 @@ export class MetricsFiltersComponent implements OnInit {
       localStorage.setItem('filters', JSON.stringify(updatedFilters));
     }
 
-    forkJoin([
-      this.getLocations(),
-      this.getGender(this.translate.currentLang),
-      this.getEthnicity(this.translate.currentLang)
-    ]).subscribe(() => {
+    let array_api = [];
+    let keys_available = [];
+    if (this.origin !== 'table-product-type' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary') {
+      array_api.push(this.getLocations());
+      keys_available.push('locations');
+    }
+    if (this.origin == 'table-product' || this.origin == 'metrics-product' || this.origin == 'table-ticket') {
+      array_api.push(this.getProviders());
+      keys_available.push('providers');
+    }
+    if (this.origin == 'table-product' || this.origin == 'metrics-product') {
+      array_api.push(this.getProductTypes(this.translate.currentLang));
+      keys_available.push('product_types');
+    }
+    if (this.origin == 'table-user') {
+      array_api.push(this.getGender(this.translate.currentLang));
+      array_api.push(this.getEthnicity(this.translate.currentLang));
+      keys_available.push('genders');
+      keys_available.push('ethnicities');
+    }
+
+    let observable$ = array_api.length > 0 ? forkJoin(array_api) : of([]);
+
+    observable$.subscribe(() => {
       // Suscríbete a los cambios del formulario y actualiza el valor en el localStorage cada vez que haya un cambio
       this.filterForm.valueChanges.subscribe(val => {
         const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
@@ -107,29 +139,46 @@ export class MetricsFiltersComponent implements OnInit {
           //borrar el filtro si ya existe
           filters_chip = filters_chip.filter(f => f.code !== key);
           if (val[key] && (!Array.isArray(val[key]) || val[key].length) && val[key] !== '') {
-            // si es un array de id, recorrerlo y guardar los nombres separados por coma utilizando las variables locations, genders y ethnicities
-            if (key === 'locations' || key === 'genders' || key === 'ethnicities') {
-              let names = [];
-              val[key].forEach(id => {
-                if (key === 'locations') {
-                  let location = this.locations.find(l => l.id === id);
-                  if (location) {
-                    names.push(location.community_city);
+            // si es un array de id, recorrerlo y guardar los nombres separados por coma utilizando las variables locations, providers, product_types, genders y ethnicities
+            if (key === 'locations' || key === 'providers' || key === 'product_types' || key === 'genders' || key === 'ethnicities') {
+              if (keys_available.includes(key)) {
+                let names = [];
+                val[key].forEach(id => {
+                  switch (key) {
+                    case 'locations':
+                      let location = this.locations.find(l => l.id === id);
+                      if (location) {
+                        names.push(location.community_city);
+                      }
+                      break;
+                    case 'providers':
+                      let provider = this.providers.find(p => p.id === id);
+                      if (provider) {
+                        names.push(provider.name);
+                      }
+                      break;
+                    case 'product_types':
+                      let product_type = this.product_types.find(p => p.id === id);
+                      if (product_type) {
+                        names.push(product_type.name);
+                      }
+                      break;
+                    case 'genders':
+                      let gender = this.genders.find(g => g.id === id);
+                      if (gender) {
+                        names.push(gender.name);
+                      }
+                      break;
+                    case 'ethnicities':
+                      let ethnicity = this.ethnicities.find(e => e.id === id);
+                      if (ethnicity) {
+                        names.push(ethnicity.name);
+                      }
+                      break;
                   }
-                } else if (key === 'genders') {
-                  let gender = this.genders.find(g => g.id === id);
-                  if (gender) {
-                    names.push(gender.name);
-                  }
-                } else if (key === 'ethnicities') {
-                  let ethnicity = this.ethnicities.find(e => e.id === id);
-                  if (ethnicity) {
-                    names.push(ethnicity.name);
-                  }
-                }
+                });
+                filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: names.join(', ') });
               }
-              );
-              filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: names.join(', ') });
             } else if (key === 'from_date' || key === 'to_date') {
               let date = new Date(val[key] + 'T00:00');
               let formattedDate = date.toLocaleDateString('en-US', {
@@ -295,6 +344,12 @@ export class MetricsFiltersComponent implements OnInit {
       case 'locations':
         this.selectAllTextLocations = text;
         break;
+      case 'providers':
+        this.selectAllTextProviders = text;
+        break;
+      case 'product_types':
+        this.selectAllTextProductTypes = text;
+        break;
       case 'genders':
         this.selectAllTextGenders = text;
         break;
@@ -308,6 +363,30 @@ export class MetricsFiltersComponent implements OnInit {
     return this.deliveryService.getLocations().pipe(
       tap((res) => {
         this.locations = res;
+      }),
+      catchError((error) => {
+        console.error(error);
+        return of(null);
+      })
+    );
+  }
+
+  private getProviders() {
+    return this.stockerService.getProviders().pipe(
+      tap((res) => {
+        this.providers = res;
+      }),
+      catchError((error) => {
+        console.error(error);
+        return of(null);
+      })
+    );
+  }
+
+  private getProductTypes(language: string, id?: number) {
+    return this.stockerService.getProductTypes(language, id).pipe(
+      tap((res) => {
+        this.product_types = res;
       }),
       catchError((error) => {
         console.error(error);

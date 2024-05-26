@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime, forkJoin, tap } from 'rxjs';
-import { MetricsFiltersProductComponent } from 'src/app/components/dialog/metrics-filters-product/metrics-filters-product.component';
+import { MetricsFiltersComponent } from 'src/app/components/dialog/metrics-filters/metrics-filters.component';
 import { Usuario } from 'src/app/models/login/usuario';
 import { FilterChip } from 'src/app/models/metrics/filter-chip';
 import { providerTable } from 'src/app/models/tables/provider-table';
@@ -200,7 +200,7 @@ export class TableProviderComponent implements OnInit, AfterViewInit {
   }
 
   dialogFilters(): void {
-    const dialogRef = this.dialog.open(MetricsFiltersProductComponent, {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
       data: {
         origin: 'table-provider'
@@ -232,7 +232,7 @@ export class TableProviderComponent implements OnInit, AfterViewInit {
   }
 
   dialogDownloadCsv(): void {
-    const dialogRef = this.dialog.open(MetricsFiltersProductComponent, {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
       data: {
         origin: 'table-provider'

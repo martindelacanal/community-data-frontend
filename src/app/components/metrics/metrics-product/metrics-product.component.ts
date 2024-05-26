@@ -21,10 +21,10 @@ import { PoundsPerLocationMetrics } from 'src/app/models/metrics/poundsPerLocati
 import { PoundsPerProductMetrics } from 'src/app/models/metrics/poundsPerProduct-metrics';
 import { ReachMetrics } from 'src/app/models/metrics/reach-metrics';
 import { MetricsService } from 'src/app/services/metrics/metrics.service';
-import { MetricsFiltersProductComponent } from '../../dialog/metrics-filters-product/metrics-filters-product.component';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FilterChip } from 'src/app/models/metrics/filter-chip';
 import { forkJoin, tap } from 'rxjs';
+import { MetricsFiltersComponent } from '../../dialog/metrics-filters/metrics-filters.component';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -510,9 +510,11 @@ export class MetricsProductComponent implements OnInit {
   }
 
   dialogDownloadCsv(): void {
-    const dialogRef = this.dialog.open(MetricsFiltersProductComponent, {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: '',
+      data: {
+        origin: 'metrics-product'
+      },
       disableClose: true
     });
 
@@ -562,9 +564,11 @@ export class MetricsProductComponent implements OnInit {
   }
 
   dialogFilters(): void {
-    const dialogRef = this.dialog.open(MetricsFiltersProductComponent, {
+    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: '',
+      data: {
+        origin: 'metrics-product'
+      },
       disableClose: false
     });
 

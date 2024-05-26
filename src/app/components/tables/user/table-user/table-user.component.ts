@@ -273,7 +273,9 @@ export class TableUserComponent implements OnInit, AfterViewInit {
   dialogFilters(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: '',
+      data: {
+        origin: 'table-user'
+      },
       disableClose: false
     });
 
@@ -308,7 +310,9 @@ export class TableUserComponent implements OnInit, AfterViewInit {
   dialogDownloadCsv(role: string): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: '',
+      data: {
+        origin: 'table-user'
+      },
       disableClose: true
     });
 

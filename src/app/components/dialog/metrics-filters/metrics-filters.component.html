@@ -25,8 +25,42 @@
         </mat-error> -->
       </mat-form-field>
 
-      <div *ngIf="this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary' && this.origin !== 'table-ticket'">
-        <br><br>
+      <div>
+        <br>
+      </div>
+      <!-- providers -->
+      <div *ngIf="this.origin == 'table-product' || this.origin == 'metrics-product' || this.origin == 'table-ticket'">
+        <br>
+        <p>{{'metrics_filters_title_providers' | translate }}</p>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{'metrics_filters_input_providers' | translate }}</mat-label>
+          <mat-select #filterProviders formControlName="providers" multiple>
+            <mat-option [value]="0" (click)="toggleAllSelection(filterProviders, 'providers')"><b>{{this.selectAllTextProviders}}</b></mat-option>
+            <mat-option *ngFor="let provider of providers" [value]="provider.id">
+              {{provider.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- product_types -->
+      <div *ngIf="this.origin == 'table-product' || this.origin == 'metrics-product'">
+        <br>
+        <p>{{'metrics_filters_title_product_types' | translate }}</p>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{'metrics_filters_input_product_types' | translate }}</mat-label>
+          <mat-select #filterProductTypes formControlName="product_types" multiple>
+            <mat-option [value]="0" (click)="toggleAllSelection(filterProductTypes, 'product_types')"><b>{{this.selectAllTextProductTypes}}</b></mat-option>
+            <mat-option *ngFor="let product_type of product_types" [value]="product_type.id">
+              {{product_type.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- locations -->
+      <div *ngIf="this.origin !== 'table-product-type' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary'">
+        <br>
         <p>{{'metrics_filters_title_locations' | translate }}</p>
 
         <mat-form-field appearance="outline" class="full-width">
@@ -39,8 +73,8 @@
           </mat-select>
         </mat-form-field>
       </div>
-
-      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered' && this.origin !== 'table-delivered-beneficiary-summary' && this.origin !== 'table-ticket'">
+      <!-- genders -->
+      <div *ngIf="this.origin == 'table-user'">
         <br>
         <p>{{'metrics_filters_title_genders' | translate }}</p>
 
@@ -54,8 +88,8 @@
           </mat-select>
         </mat-form-field>
       </div>
-
-      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered' && this.origin !== 'table-delivered-beneficiary-summary' && this.origin !== 'table-ticket'">
+      <!-- ethnicities -->
+      <div *ngIf="this.origin == 'table-user'">
         <br>
         <p>{{'metrics_filters_title_ethnicities' | translate }}</p>
 
@@ -69,8 +103,8 @@
           </mat-select>
         </mat-form-field>
       </div>
-
-      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered' && this.origin !== 'table-delivered-beneficiary-summary' && this.origin !== 'table-ticket'">
+      <!-- zipcode -->
+      <div *ngIf="this.origin == 'table-user'">
         <br>
         <p>{{'metrics_filters_title_zipcode' | translate }}</p>
 
@@ -79,8 +113,8 @@
           <input matInput type="number" formControlName="zipcode" matNumberInput>
         </mat-form-field>
       </div>
-
-      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered' && this.origin !== 'table-delivered-beneficiary-summary' && this.origin !== 'table-ticket'">
+      <!-- min_age -->
+      <div *ngIf="this.origin == 'table-user'">
         <br>
         <p>{{'metrics_filters_title_min_age' | translate }}</p>
 
@@ -89,8 +123,8 @@
           <input matInput type="number" formControlName="min_age" matNumberInput>
         </mat-form-field>
       </div>
-
-      <div *ngIf="this.origin !== 'table-client' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered' && this.origin !== 'table-delivered-beneficiary-summary' && this.origin !== 'table-ticket'">
+      <!-- max_age -->
+      <div *ngIf="this.origin == 'table-user'">
         <br>
         <p>{{'metrics_filters_title_max_age' | translate }}</p>
 
