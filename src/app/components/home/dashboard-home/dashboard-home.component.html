@@ -273,7 +273,7 @@
             </div>
           </div>
         </div>
-        <div class="misiones-activas__fila" *ngIf="seeMore || usuario.role === 'client'">
+        <div class="misiones-activas__fila" *ngIf="seeMore && usuario.role === 'admin'">
           <div class="misiones-activas__fila__header">{{totalTicketsUploaded | number}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_tickets_uploaded' | translate }}</div>
@@ -282,7 +282,7 @@
             </div>
           </div>
         </div>
-        <div class="misiones-activas__fila" *ngIf="seeMore">
+        <div class="misiones-activas__fila" *ngIf="seeMore || usuario.role === 'client'">
           <div class="misiones-activas__fila__header">{{totalLocationsEnabled | number}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_locations' | translate }}</div>
@@ -300,7 +300,7 @@
             </div>
           </div>
         </div>
-        <div class="misiones-activas__fila" *ngIf="seeMore">
+        <div class="misiones-activas__fila" *ngIf="seeMore && usuario.role === 'admin'">
           <div class="misiones-activas__fila__header">{{totalDelivered | number}}</div>
           <div class="misiones-activas__fila__footer">
             <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_delivered' | translate }}</div>

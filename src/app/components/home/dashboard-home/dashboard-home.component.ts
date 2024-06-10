@@ -83,9 +83,9 @@ export class DashboardHomeComponent implements OnInit {
     this.getTotalLocationsEnabled();
     this.getTotalProductsUploaded();
     this.getTotalDelivered();
+    this.getTotalEnabledUsers();
     if (this.usuario.role === 'admin') {
       this.getTotalClients();
-      this.getTotalEnabledUsers();
       this.getTotalDaysOperation();
       this.getTotalBeneficiariesServed();
     } else {
@@ -216,6 +216,7 @@ export class DashboardHomeComponent implements OnInit {
   private getTotalEnabledUsers() {
     this.dashboardGeneralService.getTotalEnabledUsers().subscribe(
       (res) => {
+        console.log("res", res)
         this.totalEnabledUsers = res;
       }
     );
