@@ -361,8 +361,8 @@
   "table_tickets_row_button_edit": "Edit",
   "table_tickets_row_button_delete": "Delete",
   "table_tickets_button_add_ticket": "Add ticket",
-  "table_tickets_button_download_csv": "Download CSV",
-  "table_tickets_button_download_csv_error": "Error downloading CSV",
+  "table_tickets_button_download_zip": "Download ZIP",
+  "table_tickets_button_download_zip_error": "Error downloading ZIP",
 
   "table_delivered_title": "Delivered",
   "table_delivered_snack_error_get": "Error getting delivered",

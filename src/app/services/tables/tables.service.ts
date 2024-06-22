@@ -67,7 +67,7 @@ export class TablesService {
   }
 
   getFileCSV(filters: any) {
-    return this.http.post(`${environment.url_api}/table/ticket/download-csv`, filters, { responseType: 'text' });
+    return this.http.post(`${environment.url_api}/table/ticket/download-csv`, filters, { responseType: 'blob' });
   }
 
   getDeliveredFileCSV(filters: any) {

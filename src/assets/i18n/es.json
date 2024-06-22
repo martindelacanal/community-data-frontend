@@ -361,8 +361,8 @@
   "table_tickets_row_button_edit": "Editar",
   "table_tickets_row_button_delete": "Eliminar",
   "table_tickets_button_add_ticket": "Agregar ticket",
-  "table_tickets_button_download_csv": "Descargar CSV",
-  "table_tickets_button_download_csv_error": "Error al descargar CSV",
+  "table_tickets_button_download_zip": "Descargar ZIP",
+  "table_tickets_button_download_zip_error": "Error al descargar ZIP",
 
   "table_delivered_title": "Entregas",
   "table_delivered_snack_error_get": "Error al obtener las entregas",

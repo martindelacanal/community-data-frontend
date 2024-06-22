@@ -261,21 +261,21 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
 
         this.tablesService.getFileCSV(result.data).subscribe({
           next: (res) => {
-            const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
+            const blob = new Blob([res as BlobPart], { type: 'application/zip' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'tickets-table.csv';
+            a.download = 'tickets-table.zip'; // Cambiado a .zip
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
-            this.loadingCSV = false;
+            this.loadingCSV = false; // Considera cambiar el nombre de esta variable a algo más genérico
           },
           error: (error) => {
             console.log(error);
-            this.openSnackBar(this.translate.instant('table_tickets_button_download_csv_error'));
-            this.loadingCSV = false;
+            this.openSnackBar(this.translate.instant('table_tickets_button_download_zip_error')); // Considera actualizar el mensaje de error
+            this.loadingCSV = false; // Considera cambiar el nombre de esta variable a algo más genérico
           }
         });
 
