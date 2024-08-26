@@ -37,11 +37,6 @@ import decode from 'jwt-decode';
 })
 export class InicioSesionComponent implements OnInit {
 
-  user_temporal = {
-    nombre_usuario: '',
-    password: '',
-    recordar: false
-  }
   // variable
   private usuario: Usuario;
   private previousInput: string;
@@ -101,7 +96,6 @@ export class InicioSesionComponent implements OnInit {
         (res: any) => {
           if (res != null) {
             const usuario: Usuario = JSON.parse((<ContenidoToken>decode(res.token)).data);
-            console.log("usuario", usuario)
             if (usuario.role === 'thirdparty') {
               this.loginValid = false;
               alert(this.translate.instant('login_snack_role_disabled'));
@@ -296,8 +290,6 @@ export class InicioSesionComponent implements OnInit {
   openSnackBar(message: string) {
     this.snackBar.open(message, this.translate.instant('snackbar_close'));
   }
-
-
 
   private resetearFormulario() {
     this.router.navigate(['/login']);

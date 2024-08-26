@@ -7,7 +7,6 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { MatDialog } from '@angular/material/dialog';
 import { ResetPasswordComponent } from '../../dialog/reset-password/reset-password.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { filter } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({

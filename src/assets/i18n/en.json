@@ -79,6 +79,7 @@
   "register_snack_submitted_error": "Error submitting form",
   "register_snack_submitted_incomplete_error": "Please fill out all required fields.",
   "register_snack_location_without_questions": "No questions found for this location",
+  "register_snack_get_questions_error": "Error getting questions",
 
   "register_link_already_account": "Already have an account? Sign in",
 
@@ -306,6 +307,8 @@
   "metrics_filters_input_min_age": "Minimum age",
   "metrics_filters_title_max_age": "Select maximum age",
   "metrics_filters_input_max_age": "Maximum age",
+  "metrics_filters_title_questions": "Survey questions",
+  "metrics_filters_title_questions_clean_button": "Clean",
 
   "disclaimer_text_reset_password": "Are you sure you want to reset the password?",
   "disclaimer_text_enable": "Are you sure you want to change the status to enabled?",

@@ -271,10 +271,14 @@ export class TableUserComponent implements OnInit, AfterViewInit {
   }
 
   dialogFilters(): void {
+    let originTable = 'table-user';
+    if (this.tableRole === 'beneficiary') {
+      originTable = 'table-participant';
+    }
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
       data: {
-        origin: 'table-user'
+        origin: originTable
       },
       disableClose: false
     });
@@ -284,10 +288,12 @@ export class TableUserComponent implements OnInit, AfterViewInit {
         // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
         if (result.data.from_date) {
           const date = new Date(result.data.from_date + 'T00:00');
+          result.data.from_date = date;
           this.filterForm.get('from_date').setValue(date);
         }
         if (result.data.to_date) {
           const date2 = new Date(result.data.to_date + 'T00:00');
+          result.data.to_date = date2;
           this.filterForm.get('to_date').setValue(date2);
         }
 
@@ -302,16 +308,20 @@ export class TableUserComponent implements OnInit, AfterViewInit {
         // recuperar filter-chip del localStorage
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
-        this.getDataUserTable(this.filterForm.value);
+        this.getDataUserTable(result.data);
       }
     });
   }
 
   dialogDownloadCsv(role: string): void {
+    let originTable = 'table-user';
+    if (this.tableRole === 'beneficiary') {
+      originTable = 'table-participant';
+    }
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
       data: {
-        origin: 'table-user'
+        origin: originTable
       },
       disableClose: true
     });
@@ -323,10 +333,12 @@ export class TableUserComponent implements OnInit, AfterViewInit {
         // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
         if (result.data.from_date) {
           const date = new Date(result.data.from_date + 'T00:00');
+          result.data.from_date = date;
           this.filterForm.get('from_date').setValue(date);
         }
         if (result.data.to_date) {
           const date2 = new Date(result.data.to_date + 'T00:00');
+          result.data.to_date = date2;
           this.filterForm.get('to_date').setValue(date2);
         }
 
@@ -350,7 +362,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
             break;
         }
 
-        this.getDataUserTable(this.filterForm.value);
+        this.getDataUserTable(result.data);
       }
     });
   }

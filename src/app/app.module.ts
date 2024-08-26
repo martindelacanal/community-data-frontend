@@ -73,7 +73,6 @@ import { MetricsFiltersComponent } from './components/dialog/metrics-filters/met
 import { MetricsDemographicComponent } from './components/metrics/metrics-demographic/metrics-demographic.component';
 import { MetricsParticipantComponent } from './components/metrics/metrics-participant/metrics-participant.component';
 import { MetricsProductComponent } from './components/metrics/metrics-product/metrics-product.component';
-import { MetricsFiltersProductComponent } from './components/dialog/metrics-filters-product/metrics-filters-product.component';
 import { ViewProductComponent } from './components/view/view-product/view-product.component';
 import { ViewNotificationComponent } from './components/view/view-notification/view-notification.component';
 import { ViewLocationComponent } from './components/view/view-location/view-location.component';
@@ -135,7 +134,6 @@ import {MatExpansionModule} from '@angular/material/expansion';
    MetricsDemographicComponent,
    MetricsParticipantComponent,
    MetricsProductComponent,
-   MetricsFiltersProductComponent,
    ViewProductComponent,
    ViewNotificationComponent,
    ViewLocationComponent,

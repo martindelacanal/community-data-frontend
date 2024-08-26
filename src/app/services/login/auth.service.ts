@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from '../../../environments/environment';
-import { Usuario } from 'src/app/models/login/usuario';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Gender } from 'src/app/models/user/gender';
 import { Ethnicity } from 'src/app/models/user/ethnicity';
@@ -39,7 +38,6 @@ export class AuthService {
         localStorage.removeItem('token');
         return false;
       }
-      // Aquí puedes agregar cualquier otra verificación que necesites
       return true;
     } catch (error) {
       console.error(error);
@@ -77,11 +75,14 @@ export class AuthService {
         return false;
       }
       // Obtén la fecha de expiración del token en milisegundos
-      const expiryDate = this.jwtHelper.getTokenExpirationDate(token).getTime();
+      const expiryDate = this.jwtHelper.getTokenExpirationDate(token);
+      if (!expiryDate) {
+        return false;
+      }
       // Obtén la fecha y hora actual en milisegundos
       const now = new Date().getTime();
       // Calcula la diferencia en minutos
-      const diff = (expiryDate - now) / (1000 * 60);
+      const diff = (expiryDate.getTime() - now) / (1000 * 60);
       // Si la diferencia es menor o igual a 5 minutos, el token está a punto de expirar
       return diff <= 5;
     } catch (error) {
@@ -123,7 +124,7 @@ export class AuthService {
     return this.http.get<any>(`${environment.url_api}/email/exists/search?email=${nombre}`);
   }
 
-  getRegisterQuestions(language: string, location_id: number) {
+  getRegisterQuestions(language: string, location_id?: number) {
     return this.http.get<RegisterQuestion[]>(`${environment.url_api}/register/questions?language=${language}&location_id=${location_id}`);
   }
 

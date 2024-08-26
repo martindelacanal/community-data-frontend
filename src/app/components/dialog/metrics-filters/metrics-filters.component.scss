@@ -4,26 +4,36 @@
   justify-content: center;
   align-items: center;
   margin: 8px;
-  max-height: 60vh; /* Ajusta este valor según tus necesidades */
+  max-height: 60vh;
+  /* Ajusta este valor según tus necesidades */
 }
+
 .dialog-body {
   width: 100%;
   padding: 0 16px;
   margin-top: 16px;
 
-  overflow-y: auto; /* Agrega scroll vertical cuando sea necesario */
-  max-height: 50vh; /* Ajusta este valor según tus necesidades */
+  overflow-y: auto;
+  /* Agrega scroll vertical cuando sea necesario */
+  max-height: 50vh;
+  /* Ajusta este valor según tus necesidades */
 
   & p {
     margin-bottom: 16px;
   }
 }
+
 .dialog-footer {
   width: 100%;
   display: flex;
   justify-content: space-between;
   padding: 0 16px;
-  & button{
+
+  & button {
+    padding: 0 32px;
+  }
+
+  & mat-spinner {
     padding: 0 32px;
   }
 }
@@ -32,13 +42,37 @@
   width: 100%;
 }
 
+.radio-button-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.checkbox-options {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.register-question-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & button {
+    padding: 0 32px;
+  }
+}
+
 @media only screen and (max-width: 380px) {
 
   .dialog-footer {
     justify-content: center;
   }
 
-  .dialog-footer button{
+  .dialog-footer button {
     padding: 0 24px;
     margin: 8px;
   }

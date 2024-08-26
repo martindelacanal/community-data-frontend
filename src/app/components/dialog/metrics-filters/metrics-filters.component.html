@@ -4,8 +4,9 @@
     <form [formGroup]="filterForm">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>{{'dialog_download_ticket_csv_input_from_date' | translate }}</mat-label>
-        <input matInput [matDatepicker]="miPicker1" formControlName="from_date" (blur)="formatDateOnBlur($event, 'from_date')" (input)="formatDate($event, 'from_date')" (focus)="formatDateOnFocus($event)"
-          maxlength="10" placeholder="01/31/2024">
+        <input matInput [matDatepicker]="miPicker1" formControlName="from_date"
+          (blur)="formatDateOnBlur($event, 'from_date')" (input)="formatDate($event, 'from_date')"
+          (focus)="formatDateOnFocus($event)" maxlength="10" placeholder="01/31/2024">
         <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
         <mat-datepicker #miPicker1></mat-datepicker>
@@ -15,8 +16,9 @@
       </mat-form-field>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>{{'dialog_download_ticket_csv_input_to_date' | translate }}</mat-label>
-        <input matInput [matDatepicker]="miPicker2" formControlName="to_date" (blur)="formatDateOnBlur($event, 'to_date')" (input)="formatDate($event, 'to_date')" (focus)="formatDateOnFocus($event)"
-          maxlength="10" placeholder="01/31/2024">
+        <input matInput [matDatepicker]="miPicker2" formControlName="to_date"
+          (blur)="formatDateOnBlur($event, 'to_date')" (input)="formatDate($event, 'to_date')"
+          (focus)="formatDateOnFocus($event)" maxlength="10" placeholder="01/31/2024">
         <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="miPicker2"></mat-datepicker-toggle>
         <mat-datepicker #miPicker2></mat-datepicker>
@@ -36,7 +38,8 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>{{'metrics_filters_input_providers' | translate }}</mat-label>
           <mat-select #filterProviders formControlName="providers" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(filterProviders, 'providers')"><b>{{this.selectAllTextProviders}}</b></mat-option>
+            <mat-option [value]="0"
+              (click)="toggleAllSelection(filterProviders, 'providers')"><b>{{this.selectAllTextProviders}}</b></mat-option>
             <mat-option *ngFor="let provider of providers" [value]="provider.id">
               {{provider.name}}
             </mat-option>
@@ -51,7 +54,8 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>{{'metrics_filters_input_product_types' | translate }}</mat-label>
           <mat-select #filterProductTypes formControlName="product_types" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(filterProductTypes, 'product_types')"><b>{{this.selectAllTextProductTypes}}</b></mat-option>
+            <mat-option [value]="0"
+              (click)="toggleAllSelection(filterProductTypes, 'product_types')"><b>{{this.selectAllTextProductTypes}}</b></mat-option>
             <mat-option *ngFor="let product_type of product_types" [value]="product_type.id">
               {{product_type.name}}
             </mat-option>
@@ -59,14 +63,16 @@
         </mat-form-field>
       </div>
       <!-- locations -->
-      <div *ngIf="this.origin !== 'table-product-type' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary'">
+      <div
+        *ngIf="this.origin !== 'table-product-type' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary'">
         <br>
         <p>{{'metrics_filters_title_locations' | translate }}</p>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>{{'metrics_filters_input_locations' | translate }}</mat-label>
           <mat-select #filterLocations formControlName="locations" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(filterLocations, 'locations')"><b>{{this.selectAllTextLocations}}</b></mat-option>
+            <mat-option [value]="0"
+              (click)="toggleAllSelection(filterLocations, 'locations')"><b>{{this.selectAllTextLocations}}</b></mat-option>
             <mat-option *ngFor="let location of locations" [value]="location.id">
               {{location.community_city}}
             </mat-option>
@@ -74,14 +80,15 @@
         </mat-form-field>
       </div>
       <!-- genders -->
-      <div *ngIf="this.origin == 'table-user'">
+      <div *ngIf="this.origin == 'table-user' || this.origin == 'table-participant'">
         <br>
         <p>{{'metrics_filters_title_genders' | translate }}</p>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>{{'metrics_filters_input_genders' | translate }}</mat-label>
           <mat-select #filterGenders formControlName="genders" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(filterGenders, 'genders')"><b>{{this.selectAllTextGenders}}</b></mat-option>
+            <mat-option [value]="0"
+              (click)="toggleAllSelection(filterGenders, 'genders')"><b>{{this.selectAllTextGenders}}</b></mat-option>
             <mat-option *ngFor="let gender of genders" [value]="gender.id">
               {{gender.name}}
             </mat-option>
@@ -89,14 +96,15 @@
         </mat-form-field>
       </div>
       <!-- ethnicities -->
-      <div *ngIf="this.origin == 'table-user'">
+      <div *ngIf="this.origin == 'table-user' || this.origin == 'table-participant'">
         <br>
         <p>{{'metrics_filters_title_ethnicities' | translate }}</p>
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>{{'metrics_filters_input_ethnicities' | translate }}</mat-label>
           <mat-select #filterEthnicities formControlName="ethnicities" multiple>
-            <mat-option [value]="0" (click)="toggleAllSelection(filterEthnicities, 'ethnicities')"><b>{{this.selectAllTextEthnicities}}</b></mat-option>
+            <mat-option [value]="0"
+              (click)="toggleAllSelection(filterEthnicities, 'ethnicities')"><b>{{this.selectAllTextEthnicities}}</b></mat-option>
             <mat-option *ngFor="let ethnicity of ethnicities" [value]="ethnicity.id">
               {{ethnicity.name}}
             </mat-option>
@@ -104,7 +112,7 @@
         </mat-form-field>
       </div>
       <!-- zipcode -->
-      <div *ngIf="this.origin == 'table-user'">
+      <div *ngIf="this.origin == 'table-user' || this.origin == 'table-participant'">
         <br>
         <p>{{'metrics_filters_title_zipcode' | translate }}</p>
 
@@ -114,7 +122,7 @@
         </mat-form-field>
       </div>
       <!-- min_age -->
-      <div *ngIf="this.origin == 'table-user'">
+      <div *ngIf="this.origin == 'table-user' || this.origin == 'table-participant'">
         <br>
         <p>{{'metrics_filters_title_min_age' | translate }}</p>
 
@@ -124,7 +132,7 @@
         </mat-form-field>
       </div>
       <!-- max_age -->
-      <div *ngIf="this.origin == 'table-user'">
+      <div *ngIf="this.origin == 'table-user' || this.origin == 'table-participant'">
         <br>
         <p>{{'metrics_filters_title_max_age' | translate }}</p>
 
@@ -133,12 +141,56 @@
           <input matInput type="number" formControlName="max_age" matNumberInput>
         </mat-form-field>
       </div>
+      <!-- filter questions from metrics-health and table-participant-->
+      <div *ngIf="this.origin == 'metrics-health' || this.origin == 'table-participant'">
+        <br>
+        <mat-divider></mat-divider>
+        <br>
+        <div class="register-question-title">
+          <h2>{{'metrics_filters_title_questions' | translate }}</h2>
+          <button class="ui-button--ui-secundario" (click)="onClickClean()">{{'metrics_filters_title_questions_clean_button' | translate }}</button>
+        </div>
+        <br>
+        <mat-divider></mat-divider>
+        <br>
+        <form *ngIf="!this.loadingRegisterQuestions && this.registerQuestions.length > 0" [formGroup]="registerForm">
+          <div *ngFor="let question of registerQuestions">
+            <div *ngIf="shouldShowQuestion(question)">
+              <br>
+              <p>{{question.name}}</p>
+
+              <div [ngSwitch]="question.answer_type_id">
+                <div *ngSwitchCase="3">
+                  <mat-radio-group aria-labelledby="radio-button-group-label" class="radio-button-group"
+                    formControlName="{{question.id.toString()}}">
+                    <mat-radio-button class="radio-button" *ngFor="let answer of getAnswersForQuestion(question.id)"
+                      [value]="answer.id">
+                      {{ answer.name }}
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <div *ngSwitchCase="4">
+                  <div class="checkbox-options" formArrayName="{{question.id.toString()}}">
+                    <mat-checkbox aria-labelledby="radio-button-group-label" class="checkbox-option"
+                      *ngFor="let answer of getAnswersForQuestion(question.id); let i = index"
+                      [value]="answer.id.toString()"
+                      (change)="onCheckboxChange($event, i, question.id)">{{answer.name}}</mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <mat-spinner *ngIf="this.loadingRegisterQuestions" mode="indeterminate" [diameter]="30"></mat-spinner>
+      </div>
     </form>
   </div>
   <div class="dialog-footer" mat-dialog-actions>
     <button class="ui-button" (click)="onClickCancelar()">{{'dialog_download_ticket_csv_button_cancel' | translate
       }}</button>
-    <button class="ui-button--ui-secundario" (click)="onClickAceptar()" [disabled]="!filterForm.valid">{{'dialog_download_ticket_csv_button_apply' | translate
-    }}</button>
+    <mat-spinner *ngIf="loadingQuestions" class="spinner" mode="indeterminate" [diameter]="30"></mat-spinner>
+    <button *ngIf="!loadingQuestions" class="ui-button--ui-secundario" (click)="onClickAceptar()"
+      [disabled]="!filterForm.valid">{{'dialog_download_ticket_csv_button_apply' | translate
+      }}</button>
   </div>
 </div>

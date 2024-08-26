@@ -158,12 +158,17 @@ export class MetricsComponent implements OnInit {
           }
           for (let j = 0; j < question.answers.length; j++) {
             const answer = question.answers[j];
+            let percentage = 0;
             if ((categories_aux.includes('Yes') && categories_aux.includes('No')) || (categories_aux.includes('Sí') && categories_aux.includes('No')) || (categories_aux.includes('Si') && categories_aux.includes('No'))) {
               // categories.push(answer.answer);
-              const percentage = Number(((answer.total / total) * 100).toFixed(2));
+              if (total > 0) {
+                percentage = Number(((answer.total / total) * 100).toFixed(2));
+              }
               categories.push(answer.answer + ' (' + percentage + '%)');
             } else {
-              const percentage = Number(((answer.total / total) * 100).toFixed(2));
+              if (total > 0) {
+                percentage = Number(((answer.total / total) * 100).toFixed(2));
+              }
               categories.push('(' + percentage + '%) ' + answer.answer);
             }
           }
@@ -326,7 +331,9 @@ export class MetricsComponent implements OnInit {
   dialogDownloadCsv(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: '',
+      data: {
+        origin: 'metrics-health'
+      },
       disableClose: true
     });
 
@@ -337,10 +344,12 @@ export class MetricsComponent implements OnInit {
         // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
         if (result.data.from_date) {
           const date = new Date(result.data.from_date + 'T00:00');
+          result.data.from_date = date;
           this.filterForm.get('from_date').setValue(date);
         }
         if (result.data.to_date) {
           const date2 = new Date(result.data.to_date + 'T00:00');
+          result.data.to_date = date2;
           this.filterForm.get('to_date').setValue(date2);
         }
 
@@ -376,7 +385,7 @@ export class MetricsComponent implements OnInit {
         });
 
         // Recargar los graficos con los filtros aplicados
-        this.getQuestions(this.translate.currentLang, this.filterForm.value);
+        this.getQuestions(this.translate.currentLang, result.data);
       }
     });
   }
@@ -384,7 +393,9 @@ export class MetricsComponent implements OnInit {
   dialogFilters(): void {
     const dialogRef = this.dialog.open(MetricsFiltersComponent, {
       width: '370px',
-      data: '',
+      data: {
+        origin: 'metrics-health'
+      },
       disableClose: false
     });
 
@@ -393,10 +404,12 @@ export class MetricsComponent implements OnInit {
         // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
         if (result.data.from_date) {
           const date = new Date(result.data.from_date + 'T00:00');
+          result.data.from_date = date;
           this.filterForm.get('from_date').setValue(date);
         }
         if (result.data.to_date) {
           const date2 = new Date(result.data.to_date + 'T00:00');
+          result.data.to_date = date2;
           this.filterForm.get('to_date').setValue(date2);
         }
 

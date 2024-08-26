@@ -316,6 +316,7 @@ export class FormularioRegistroComponent implements OnInit {
       },
       error: (error) => {
         console.error(error);
+        this.openSnackBar(this.translate.instant('register_snack_get_questions_error'));
       }
     });
   }

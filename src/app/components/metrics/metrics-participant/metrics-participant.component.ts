@@ -163,7 +163,10 @@ export class MetricsParticipantComponent implements OnInit {
         }
         for (let i = 0; i < this.emailMetrics.length; i++) {
           data.push(this.emailMetrics[i].total);
-          const percentage = Number(((this.emailMetrics[i].total / total) * 100).toFixed(2));
+          let percentage = 0;
+          if (total > 0) {
+            percentage = Number(((this.emailMetrics[i].total / total) * 100).toFixed(2));
+          }
           categories.push(this.emailMetrics[i].name + ' (' + percentage + '%)');
         }
 
@@ -285,7 +288,10 @@ export class MetricsParticipantComponent implements OnInit {
         }
         for (let i = 0; i < this.phoneMetrics.length; i++) {
           data.push(this.phoneMetrics[i].total);
-          const percentage = Number(((this.phoneMetrics[i].total / total) * 100).toFixed(2));
+          let percentage = 0;
+          if (total > 0) {
+            percentage = Number(((this.phoneMetrics[i].total / total) * 100).toFixed(2));
+          }
           categories.push(this.phoneMetrics[i].name + ' (' + percentage + '%)');
         }
 
@@ -421,8 +427,8 @@ export class MetricsParticipantComponent implements OnInit {
         this.filterForm.get('max_age').setValue(result.data.max_age);
         this.filterForm.get('zipcode').setValue(result.data.zipcode);
 
-         // recuperar filter-chip del localStorage
-         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
+        // recuperar filter-chip del localStorage
+        this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
         this.getRegisterMetrics(this.translate.currentLang, result.data);
         this.getEmailMetrics(this.translate.currentLang, result.data);

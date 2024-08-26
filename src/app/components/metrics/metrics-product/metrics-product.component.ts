@@ -230,7 +230,10 @@ export class MetricsProductComponent implements OnInit {
         }
         for (let i = 0; i < this.kindOfProductMetrics.length; i++) {
           data.push(this.kindOfProductMetrics[i].total);
-          const percentage = Number(((this.kindOfProductMetrics[i].total / total) * 100).toFixed(2));
+          let percentage = 0;
+          if (total > 0) {
+            percentage = Number(((this.kindOfProductMetrics[i].total / total) * 100).toFixed(2));
+          }
           categories.push(this.kindOfProductMetrics[i].name + ' (' + percentage + '%)');
         }
 
@@ -353,7 +356,10 @@ export class MetricsProductComponent implements OnInit {
           total += this.poundsPerLocationMetrics.data[i].total;
         }
         for (let i = 0; i < this.poundsPerLocationMetrics.data.length; i++) {
-          const percentage = Number(((this.poundsPerLocationMetrics.data[i].total / total) * 100).toFixed(2));
+          let percentage = 0;
+          if (total > 0) {
+            percentage = Number(((this.poundsPerLocationMetrics.data[i].total / total) * 100).toFixed(2));
+          }
           data.push(this.poundsPerLocationMetrics.data[i].total);
           categories.push(this.poundsPerLocationMetrics.data[i].name + ' (' + percentage + '%)');
         }
@@ -437,7 +443,10 @@ export class MetricsProductComponent implements OnInit {
           total += this.poundsPerProductMetrics.data[i].total;
         }
         for (let i = 0; i < this.poundsPerProductMetrics.data.length; i++) {
-          const percentage = Number(((this.poundsPerProductMetrics.data[i].total / total) * 100).toFixed(2));
+          let percentage = 0;
+          if (total > 0) {
+            percentage = Number(((this.poundsPerProductMetrics.data[i].total / total) * 100).toFixed(2));
+          }
           data.push(this.poundsPerProductMetrics.data[i].total);
           categories.push(this.poundsPerProductMetrics.data[i].name + ' (' + percentage + '%)');
         }

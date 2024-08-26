@@ -216,7 +216,6 @@ export class DashboardHomeComponent implements OnInit {
   private getTotalEnabledUsers() {
     this.dashboardGeneralService.getTotalEnabledUsers().subscribe(
       (res) => {
-        console.log("res", res)
         this.totalEnabledUsers = res;
       }
     );

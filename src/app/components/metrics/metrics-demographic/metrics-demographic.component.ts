@@ -173,7 +173,10 @@ export class MetricsDemographicComponent implements OnInit {
         }
         for (let i = 0; i < this.genderMetrics.length; i++) {
           data.push(this.genderMetrics[i].total);
-          const percentage = Number(((this.genderMetrics[i].total / total) * 100).toFixed(2));
+          let percentage = 0;
+          if (total > 0) {
+            percentage = Number(((this.genderMetrics[i].total / total) * 100).toFixed(2));
+          }
           categories.push(this.genderMetrics[i].name + ' (' + percentage + '%)');
         }
 
@@ -295,7 +298,10 @@ export class MetricsDemographicComponent implements OnInit {
         }
         for (let i = 0; i < this.ethnicityMetrics.length; i++) {
           data.push(this.ethnicityMetrics[i].total);
-          const percentage = Number(((this.ethnicityMetrics[i].total / total) * 100).toFixed(2));
+          let percentage = 0;
+          if (total > 0) {
+            percentage = Number(((this.ethnicityMetrics[i].total / total) * 100).toFixed(2));
+          }
           categories.push(this.ethnicityMetrics[i].name + ' (' + percentage + '%)');
         }
 
@@ -418,7 +424,10 @@ export class MetricsDemographicComponent implements OnInit {
           total += this.householdMetrics.data[i].total;
         }
         for (let i = 0; i < this.householdMetrics.data.length; i++) {
-          const percentage = Number(((this.householdMetrics.data[i].total / total) * 100).toFixed(2));
+          let percentage = 0;
+          if (total > 0) {
+            percentage = Number(((this.householdMetrics.data[i].total / total) * 100).toFixed(2));
+          }
           data.push(this.householdMetrics.data[i].total);
           categories.push(this.householdMetrics.data[i].name + ' (' + percentage + '%)');
         }
@@ -496,7 +505,10 @@ export class MetricsDemographicComponent implements OnInit {
           total += this.ageMetrics.data[i].total;
         }
         for (let i = 0; i < this.ageMetrics.data.length; i++) {
-          const percentage = Number(((this.ageMetrics.data[i].total / total) * 100).toFixed(2));
+          let percentage = 0;
+          if (total > 0) {
+            percentage = Number(((this.ageMetrics.data[i].total / total) * 100).toFixed(2));
+          }
           data.push(this.ageMetrics.data[i].total);
           categories.push(this.ageMetrics.data[i].name + ' (' + percentage + '%)');
         }

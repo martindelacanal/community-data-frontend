@@ -1,10 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatOption } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { catchError, forkJoin, of, tap } from 'rxjs';
+import { catchError, finalize, forkJoin, of, tap } from 'rxjs';
+import { RegisterAnswer } from 'src/app/models/login/register-answer';
+import { RegisterQuestion } from 'src/app/models/login/register-question';
 import { Location } from 'src/app/models/map/location';
 import { FilterChip } from 'src/app/models/metrics/filter-chip';
 import { ProductType } from 'src/app/models/stocker/product-type';
@@ -23,6 +27,8 @@ import { StockerService } from 'src/app/services/stock/stocker.service';
 export class MetricsFiltersComponent implements OnInit {
 
   filterForm: FormGroup;
+  registerForm: FormGroup;
+
   locations: Location[] = [];
   providers: Provider[] = [];
   product_types: ProductType[] = [];
@@ -41,6 +47,11 @@ export class MetricsFiltersComponent implements OnInit {
   private previousInputFromDate: string;
   private previousInputToDate: string;
 
+  public registerQuestions: RegisterQuestion[] = [];
+  public loadingRegisterQuestions: boolean = false;
+
+  public loadingQuestions: boolean = false;
+
   constructor(
     public dialogRef: MatDialogRef<MetricsFiltersComponent>,
     @Inject(MAT_DIALOG_DATA) public message: any,
@@ -49,7 +60,10 @@ export class MetricsFiltersComponent implements OnInit {
     private stockerService: StockerService,
     public translate: TranslateService,
     private authService: AuthService,
+    private snackBar: MatSnackBar,
   ) {
+
+
     // Inicializa el formulario aquí, pero no lo llenes con datos todavía
     this.filterForm = this.formBuilder.group({
       from_date: [null],
@@ -61,7 +75,8 @@ export class MetricsFiltersComponent implements OnInit {
       ethnicities: [null],
       min_age: [null],
       max_age: [null],
-      zipcode: [null]
+      zipcode: [null],
+      register_form: [null]
     });
 
     if (this.message.origin) {
@@ -117,11 +132,15 @@ export class MetricsFiltersComponent implements OnInit {
       array_api.push(this.getProductTypes(this.translate.currentLang));
       keys_available.push('product_types');
     }
-    if (this.origin == 'table-user') {
+    if (this.origin == 'table-user' || this.origin == 'table-participant') {
       array_api.push(this.getGender(this.translate.currentLang));
       array_api.push(this.getEthnicity(this.translate.currentLang));
       keys_available.push('genders');
       keys_available.push('ethnicities');
+    }
+    if (this.origin == 'metrics-health' || this.origin == 'table-participant') {
+      array_api.push(this.getGender(this.translate.currentLang));
+      this.getRegisterQuestions(this.translate.currentLang); // en estos casos se necesita las preguntas del formulario de registro como filtros
     }
 
     let observable$ = array_api.length > 0 ? forkJoin(array_api) : of([]);
@@ -188,7 +207,9 @@ export class MetricsFiltersComponent implements OnInit {
               });
               filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: formattedDate });
             } else {
-              filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: val[key] });
+              if (key !== 'register_form') {
+                filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: val[key] });
+              }
             }
           }
         }
@@ -199,6 +220,10 @@ export class MetricsFiltersComponent implements OnInit {
   }
 
   onClickAceptar() {
+    // Guarda los filtros del formulario de registro en el formulario de filtros
+    if (this.origin == 'metrics-health' || this.origin == 'table-participant') {
+      this.buildCombinedForm();
+    }
     // Si hay elemento en from_date
     if (this.filterForm.value.from_date) {
       console.log(this.filterForm.value.from_date);
@@ -220,7 +245,6 @@ export class MetricsFiltersComponent implements OnInit {
       // Asignar la fecha al campo de fecha en el formulario
       this.filterForm.get('to_date').setValue(dateString2);
     }
-
     this.dialogRef.close({ status: true, data: this.filterForm.value });
   }
 
@@ -232,6 +256,14 @@ export class MetricsFiltersComponent implements OnInit {
     this.dialogRef.close({ status: false, data: this.filterForm.value });
   }
 
+  onClickClean() {
+    // reset registerForm
+    if (this.registerForm) {
+      this.registerForm.reset();
+    } else {
+      this.buildRegisterForm();
+    }
+  }
 
   formatDate(event, selectType: string) {
     let input = event.target.value;
@@ -419,4 +451,135 @@ export class MetricsFiltersComponent implements OnInit {
     );
   }
 
+  private getRegisterQuestions(language: string) {
+    this.loadingQuestions = true;
+    this.authService.getRegisterQuestions(language).pipe(
+      finalize(() => {
+        this.loadingQuestions = false;
+      })
+    ).subscribe({
+      next: (res) => {
+        if (res.length === 0) {
+          this.openSnackBar(this.translate.instant('register_snack_get_questions_error'));
+        }
+        this.registerQuestions = res;
+        this.buildRegisterForm();
+      },
+      error: (error) => {
+        console.error(error);
+        this.openSnackBar(this.translate.instant('register_snack_get_questions_error'));
+      }
+    });
+  }
+
+  private buildRegisterForm(): void {
+    this.loadingRegisterQuestions = true;
+
+    const formGroup = this.registerQuestions.reduce((group, control) => {
+      if (control.answer_type_id === 4) {
+        group[control.id] = this.formBuilder.array([], [Validators.required]);
+      } else {
+        group[control.id] = [null, Validators.required];
+      }
+      return group;
+    }, {});
+
+    this.registerForm = this.formBuilder.group(formGroup);
+
+    for (let i = 0; i < this.registerQuestions.length; i++) {
+      // obtener en un array las preguntas que dependen de la pregunta actual
+      const dependsOnQuestionIds = this.registerQuestions.filter(x => x.depends_on_question_id === this.registerQuestions[i].id);
+
+      if (dependsOnQuestionIds.length > 0) {
+        // Si tiene preguntas que dependan de la pregunta actual, agregar un observador al campo de la pregunta actual
+        this.registerForm.get(this.registerQuestions[i].id.toString()).valueChanges.subscribe(value => {
+
+          var answerIds: number[] = []; // obtener los id de las respuestas seleccionadas
+          if (this.registerQuestions[i].answer_type_id === 4) { // es un multiple option
+            answerIds = value.map(x => parseInt(x, 10)); // value es un array de ids en string
+          } else { // es un simple option
+            answerIds.push(value); // value es un id
+          }
+          // obtener los id de las dependQuestionIds cuya depends_on_answer_id sea igual a alguno de los answerIds obtenidos
+          const dependsOnQuestionIdsFiltered_selected = dependsOnQuestionIds.filter(x => answerIds.includes(x.depends_on_answer_id));
+          // obtener los id de las dependQuestionIds cuyo depends_on_answer_id sea diferente a alguno de los answerIds obtenidos
+          const dependsOnQuestionIdsFiltered_notselected = dependsOnQuestionIds.filter(x => !answerIds.includes(x.depends_on_answer_id));
+          // setValidators a los campos de las dependsOnQuestionIdsFiltered_selected
+          for (let j = 0; j < dependsOnQuestionIdsFiltered_selected.length; j++) {
+            this.registerForm.get(dependsOnQuestionIdsFiltered_selected[j].id.toString()).setValidators(Validators.required);
+            this.registerForm.get(dependsOnQuestionIdsFiltered_selected[j].id.toString()).updateValueAndValidity();
+          }
+          // setValidators a los campos de las dependOnQuestionIdsFiltered_notselected
+          for (let j = 0; j < dependsOnQuestionIdsFiltered_notselected.length; j++) {
+            if (dependsOnQuestionIdsFiltered_notselected[j].answer_type_id === 4) {
+              (this.registerForm.get(dependsOnQuestionIdsFiltered_notselected[j].id.toString()) as FormArray).clear();
+            } else {
+              this.registerForm.get(dependsOnQuestionIdsFiltered_notselected[j].id.toString()).reset();
+            }
+            this.registerForm.get(dependsOnQuestionIdsFiltered_notselected[j].id.toString()).clearValidators();
+            this.registerForm.get(dependsOnQuestionIdsFiltered_notselected[j].id.toString()).updateValueAndValidity();
+            // hacer lo mismo con los hijos de las dependOnQuestionIdsFiltered_notselected
+            const childrenQuestions = this.getChildrenQuestions(dependsOnQuestionIdsFiltered_notselected[j]);
+            for (let k = 0; k < childrenQuestions.length; k++) {
+              if (childrenQuestions[k].answer_type_id === 4) {
+                (this.registerForm.get(childrenQuestions[k].id.toString()) as FormArray).clear();
+              } else {
+                this.registerForm.get(childrenQuestions[k].id.toString()).reset();
+              }
+              this.registerForm.get(childrenQuestions[k].id.toString()).clearValidators();
+              this.registerForm.get(childrenQuestions[k].id.toString()).updateValueAndValidity();
+            }
+          }
+        });
+      }
+    }
+
+    this.loadingRegisterQuestions = false;
+  }
+
+  private getChildrenQuestions(question: RegisterQuestion): RegisterQuestion[] {
+    const childrenQuestions = this.registerQuestions.filter(x => x.depends_on_question_id === question.id);
+    let result = [...childrenQuestions];
+    for (const child of childrenQuestions) {
+      result = [...result, ...this.getChildrenQuestions(child)];
+    }
+    return result;
+  }
+
+  private buildCombinedForm() {
+    this.filterForm.setControl('register_form', this.registerForm);
+  }
+
+  shouldShowQuestion(question: any): boolean {
+    if (!question.depends_on_question_id) {
+      return true;
+    }
+    const dependsOnValue = this.registerForm.get(question.depends_on_question_id.toString()).value;
+    if (!dependsOnValue) {
+      return false;
+    }
+    if (Array.isArray(dependsOnValue)) {
+      return dependsOnValue.includes(question.depends_on_answer_id);
+    }
+    return dependsOnValue === question.depends_on_answer_id;
+  }
+
+  onCheckboxChange(event: MatCheckboxChange, index: number, questionId: number) {
+    const inputArray = this.registerForm.get(questionId.toString()) as FormArray;
+    if (event.checked) {
+      inputArray.push(this.formBuilder.control(this.getAnswersForQuestion(questionId)[index].id));
+    } else {
+      const indexFiltered = inputArray.controls.findIndex(x => x.value === this.getAnswersForQuestion(questionId)[index].id);
+      inputArray.removeAt(indexFiltered);
+    }
+  }
+
+  getAnswersForQuestion(questionId: number): RegisterAnswer[] {
+    const question = this.registerQuestions.find(x => x.id === questionId);
+    return question ? question.answers : [];
+  }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message, this.translate.instant('snackbar_close'));
+  }
 }

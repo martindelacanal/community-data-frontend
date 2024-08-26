@@ -79,6 +79,7 @@
   "register_snack_submitted_error": "Error al enviar el formulario",
   "register_snack_submitted_incomplete_error": "Por favor complete los campos obligatorios",
   "register_snack_location_without_questions": "No se encuentran preguntas para ésta locación",
+  "register_snack_get_questions_error": "Error al obtener las preguntas",
 
   "register_link_already_account": "¿Ya tienes una cuenta? Inicia sesión",
 
@@ -306,6 +307,8 @@
   "metrics_filters_input_min_age": "Edad mínima",
   "metrics_filters_title_max_age": "Seleccione edad máxima",
   "metrics_filters_input_max_age": "Edad máxima",
+  "metrics_filters_title_questions": "Preguntas de la encuesta",
+  "metrics_filters_title_questions_clean_button": "Limpiar",
 
   "disclaimer_text_reset_password": "¿Está seguro que desea reiniciar la contraseña?",
   "disclaimer_text_enable": "¿Está seguro que desea cambiar el estado a habilitado?",

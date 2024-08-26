@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { CanActivateFn, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/login/auth.service';
 import { Usuario } from 'src/app/models/login/usuario';
 import { DecodificadorService } from 'src/app/services/login/decodificador.service';
