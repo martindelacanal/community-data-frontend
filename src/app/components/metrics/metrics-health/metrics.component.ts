@@ -21,6 +21,8 @@ import { MetricsFiltersComponent } from "../../dialog/metrics-filters/metrics-fi
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { FilterChip } from "src/app/models/metrics/filter-chip";
 import { forkJoin, tap } from "rxjs";
+import { Usuario } from "src/app/models/login/usuario";
+import { DecodificadorService } from "src/app/services/login/decodificador.service";
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -57,15 +59,19 @@ export class MetricsComponent implements OnInit {
   filterForm: FormGroup;
   loadingCSV: boolean = false;
 
+  usuario: Usuario;
+
   filtersChip: FilterChip[];
 
   constructor(
+    private decodificadorService: DecodificadorService,
     private metricsService: MetricsService,
     private snackBar: MatSnackBar,
     public translate: TranslateService,
     private dialog: MatDialog,
     private formBuilder: FormBuilder
   ) {
+    this.usuario = this.decodificadorService.getUsuario();
     this.filterForm = this.formBuilder.group({
       from_date: [null],
       to_date: [null],

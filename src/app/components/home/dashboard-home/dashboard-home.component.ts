@@ -84,7 +84,7 @@ export class DashboardHomeComponent implements OnInit {
     this.getTotalProductsUploaded();
     this.getTotalDelivered();
     this.getTotalEnabledUsers();
-    if (this.usuario.role === 'admin') {
+    if (this.usuario.role === 'admin' || this.usuario.role === 'director') {
       this.getTotalClients();
       this.getTotalDaysOperation();
       this.getTotalBeneficiariesServed();

@@ -6,7 +6,7 @@
         <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
       </div>
       <div>
-        <button type="button" class="ui-button" [routerLink]="['/edit/location',idLocation]">{{'table_locations_row_button_edit' |
+        <button *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager'" type="button" class="ui-button" [routerLink]="['/edit/location',idLocation]">{{'table_locations_row_button_edit' |
           translate }}</button>
         <button id="tableButton" type="button" class="ui-button" routerLink="/table/location">{{'view_location_button_locations' |
           translate }}</button>

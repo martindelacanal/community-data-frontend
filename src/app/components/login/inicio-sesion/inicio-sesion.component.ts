@@ -233,6 +233,9 @@ export class InicioSesionComponent implements OnInit {
       case 'client':
         this.router.navigate(['home']);
         break;
+      case 'director':
+        this.router.navigate(['home']);
+        break;
       case 'stocker':
         this.router.navigate(['stocker/home']);
         break;
