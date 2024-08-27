@@ -288,7 +288,7 @@ export class StockerHomeComponent implements OnInit {
       this.imageTicketUploaded = false;
       return;
     }
-    if (files.length > 2) {
+    if (files.length > 4) {
       this.imageTicketUploaded = false;
       alert(this.translate.instant('stocker_alert_max_files_error'));
       return;
