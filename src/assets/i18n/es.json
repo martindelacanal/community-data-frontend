@@ -133,6 +133,7 @@
   "delivery_input_client": "Cliente",
   "delivery_input_client_select_destination": "Cliente (seleccione el destino primero)",
   "delivery_input_client_error_please": "Por favor ingrese el cliente",
+  "delivery_input_phone_error_dont_exist": "El teléfono no existe",
   "delivery_text_beneficiary_error_location": "Error: El participante eligió una locación diferente, por favor corrigelo.",
   "delivery_text_beneficiary_error_location_null": "Error: No se pudo leer la locación, por favor escanea nuevamente.",
   "delivery_text_beneficiary_error_id": "Error: No se pudo leer el ID del participante, por favor escanea nuevamente.",

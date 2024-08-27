@@ -114,21 +114,27 @@ export class FormularioRegistroComponent implements OnInit {
       .pipe(debounceTime(300))
       .subscribe(
         (res) => {
-          this.updateUserNameExists(res);
+          if (res) {
+            this.updateUserNameExists(res);
+          }
         }
       );
     this.firstFormGroup.get('phone').valueChanges
       .pipe(debounceTime(300))
       .subscribe(
         (res) => {
-          this.updatePhoneExists(res);
+          if (res) {
+            this.updatePhoneExists(res);
+          }
         }
       );
     this.firstFormGroup.get('email').valueChanges
       .pipe(debounceTime(300))
       .subscribe(
         (res) => {
-          this.updateEmailExists(res);
+          if (res) {
+            this.updateEmailExists(res);
+          }
         }
       );
 

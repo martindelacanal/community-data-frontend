@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, AfterViewChecked } from '@angular/core';
-import { Observable, finalize, forkJoin } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable, debounceTime, finalize, forkJoin } from 'rxjs';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { QrScannerComponent } from 'angular2-qrscanner';
@@ -10,6 +10,7 @@ import { Client } from 'src/app/models/user/client';
 import { UserStatus } from 'src/app/models/user/user-status';
 import { DeliveryService } from 'src/app/services/deliver/delivery.service';
 import { NewService } from 'src/app/services/new/new.service';
+import { AuthService } from 'src/app/services/login/auth.service';
 
 
 @Component({
@@ -23,7 +24,11 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
 
   public loading: boolean = false;
   public deliveryForm: FormGroup;
+  public phoneForm: FormGroup;
   scanActive: boolean = false;
+  scanPhoneActive: boolean = false;
+  phoneExists: boolean = false;
+  loadingPhoneExists: boolean = false;
   infoValid: boolean = false;
   onBoarded: boolean = false;
   isBeneficiaryLocationError: boolean = false;
@@ -40,12 +45,14 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private deliveryService: DeliveryService,
+    private authService: AuthService,
     private snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
     private newService: NewService,
     public translate: TranslateService
   ) {
     this.buildDeliveryForm();
+    this.buildPhoneForm();
   }
 
   ngOnInit(): void {
@@ -80,6 +87,17 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
         }
       }
     );
+
+    this.phoneForm.get('phone').valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(
+        (res) => {
+          // Solo si tiene valor y tiene 10 caracteres
+          if (res && res.length === 10) {
+            this.updatePhoneExists(res);
+          }
+        }
+      );
   }
 
   ngAfterViewChecked(): void {
@@ -184,6 +202,22 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
     }, 0);
   }
 
+  scanPhone() {
+    this.resetPhoneForm();
+    this.scanPhoneActive = true;
+  }
+
+  private resetPhoneForm() {
+    // Limpia el campo phone
+    if (this.phoneForm) {
+      this.phoneForm.reset();
+    } else {
+      this.buildPhoneForm();
+    }
+    this.phoneExists = false;
+    this.infoValid = false;
+  }
+
   onBoard() {
     this.loading = true;
     if (!this.onBoarded) {
@@ -233,23 +267,37 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
   }
 
   onSubmit() {
-    if (this.infoValid && this.deliveryForm.valid) {
+    if (this.infoValid && (this.deliveryForm.valid || this.phoneForm.valid)) {
       this.loading = true;
-      // cambiar el approved del objeto
-      this.objeto.approved = 'Y';
-      this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.loading = false;
-          this.openSnackBar(this.translate.instant('delivery_snack_delivery_approved'));
-          this.infoValid = false;
-        },
-        error: (error) => {
-          console.log(error);
-          this.loading = false;
-          this.openSnackBar(this.translate.instant('delivery_snack_delivery_approved_error'));
-        }
-      });
+      if (this.scanPhoneActive) {
+        this.deliveryService.uploadPhone(this.phoneForm.value.phone, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
+          next: (res) => {
+            this.loading = false;
+            this.openSnackBar(this.translate.instant('delivery_snack_delivery_approved'));
+            this.resetPhoneForm();
+          },
+          error: (error) => {
+            console.log(error);
+            this.loading = false;
+            this.openSnackBar(this.translate.instant('delivery_snack_delivery_approved_error'));
+          }
+        });
+      } else {
+        // cambiar el approved del objeto
+        this.objeto.approved = 'Y';
+        this.deliveryService.uploadTicket(this.objeto, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
+          next: (res) => {
+            this.loading = false;
+            this.openSnackBar(this.translate.instant('delivery_snack_delivery_approved'));
+            this.infoValid = false;
+          },
+          error: (error) => {
+            console.log(error);
+            this.loading = false;
+            this.openSnackBar(this.translate.instant('delivery_snack_delivery_approved_error'));
+          }
+        });
+      }
 
     } else {
       this.openSnackBar(this.translate.instant('delivery_snack_scan_valid_error'));
@@ -259,6 +307,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
   onCancel() {
     this.infoValid = false;
     this.scanActive = false;
+    this.scanPhoneActive = false;
     this.isBeneficiaryLocationError = false;
     this.isReceivingUserErrorNull = false;
     this.isReceivingLocationErrorNull = false;
@@ -266,6 +315,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
       this.qrScannerComponent.stopScanning();
       this.qrScannerComponent.capturedQr.unsubscribe();
     }
+    this.resetPhoneForm();
   }
 
   openSnackBar(message: string) {
@@ -345,10 +395,49 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
     });
   }
 
+  private updatePhoneExists(nombre: string) {
+    this.loadingPhoneExists = true;
+    this.loading = true;
+    this.authService.getPhoneExists(nombre).pipe(
+      finalize(() => {
+        this.loadingPhoneExists = false;
+        this.loading = false;
+      })
+    ).subscribe({
+      next: (res) => {
+        if (res) {
+          this.phoneExists = true;
+          this.infoValid = true;
+        } else {
+          this.phoneExists = false;
+          this.infoValid = false;
+        }
+        this.phoneForm.get('phone').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
+      },
+      error: (error) => {
+        console.error(error);
+        this.infoValid = false;
+      }
+    });
+  }
+
+  private validatePhone(): ValidationErrors | null {
+    if (!this.phoneExists) {
+      return { 'invalidPhone': true };
+    }
+    return null;
+  }
+
   private buildDeliveryForm(): void {
     this.deliveryForm = this.formBuilder.group({
       destination: [null, Validators.required],
       client_id: [null]
+    });
+  }
+
+  private buildPhoneForm(): void {
+    this.phoneForm = this.formBuilder.group({
+      phone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), () => this.validatePhone()]],
     });
   }
 }

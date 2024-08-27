@@ -133,6 +133,7 @@
   "delivery_input_client": "Client",
   "delivery_input_client_select_destination": "Client (select a destination first)",
   "delivery_input_client_error_please": "Please select a client",
+  "delivery_input_phone_error_dont_exist": "Phone number does not exist",
   "delivery_text_beneficiary_error_location": "Error: The participant chose a different location, please correct this.",
   "delivery_text_beneficiary_error_location_null": "Error: Could not read location, please scan again.",
   "delivery_text_beneficiary_error_id": "Error: Could not read participant ID, please scan again.",

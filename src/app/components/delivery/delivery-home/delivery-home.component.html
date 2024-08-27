@@ -41,19 +41,42 @@
               </mat-error>
             </mat-form-field>
           </div>
+          <div *ngIf="onBoarded && scanPhoneActive" [formGroup]="phoneForm" class="full-width">
+            <mat-form-field appearance="outline">
+              <mat-label>{{'register_first_tab_input_phone' | translate }}</mat-label>
+              <input matInput type="tel" formControlName="phone" required matNumberInput maxlength="10" onlyNumber>
+              <mat-error *ngIf="phoneForm.controls['phone'].hasError('invalidPhone') && !phoneForm.controls['phone'].hasError('required') && !phoneForm.controls['phone'].hasError('minlength') && !phoneForm.controls['phone'].hasError('maxlength')">
+                {{'delivery_input_phone_error_dont_exist' | translate }}
+              </mat-error>
+              <mat-error *ngIf="phoneForm.controls['phone'].hasError('required')">
+                {{'register_first_tab_input_phone_error_please' | translate }}
+              </mat-error>
+              <mat-error *ngIf="phoneForm.controls['phone'].hasError('minlength')">
+                {{'register_first_tab_input_phone_error_minlength' | translate }}
+              </mat-error>
+              <mat-error *ngIf="phoneForm.controls['phone'].hasError('maxlength')">
+                {{'register_first_tab_input_phone_error_maxlength' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
           <ng-template #scanner>
             <div *ngIf="!loading">
-              <button *ngIf="!this.scanActive && !this.infoValid && !isReceivingUserErrorNull" class="qr-button"
+              <div class="scanner-buttons">
+              <button *ngIf="!this.scanActive && !this.infoValid && !isReceivingUserErrorNull && !scanPhoneActive" class="qr-button"
                 type="button" (click)="scanQR()">
                 <mat-icon>qr_code_scanner</mat-icon></button>
-              <p *ngIf="!this.scanActive && this.infoValid && !isReceivingUserErrorNull"
+              <button *ngIf="!this.scanActive && !this.infoValid && !isReceivingUserErrorNull && !scanPhoneActive" class="qr-button"
+                type="button" (click)="scanPhone()">
+                <mat-icon>call</mat-icon></button>
+              </div>
+              <p *ngIf="!this.scanActive && this.infoValid && !isReceivingUserErrorNull && !scanPhoneActive"
                 class="ui-text ui-text--ui-secundario">
                 {{'delivery_text_beneficiary_authorized' | translate }}<br>
                 {{'delivery_text_beneficiary_authorized_press_approved' | translate }}</p>
               <!-- <p *ngIf="!this.scanActive && !this.infoValid && isBeneficiaryLocationError"
                 class="ui-text ui-text--ui-secundario">
                 {{'delivery_text_beneficiary_error_location' | translate }}</p> -->
-              <p *ngIf="!this.scanActive && !this.infoValid && isReceivingUserErrorNull"
+              <p *ngIf="!this.scanActive && !this.infoValid && isReceivingUserErrorNull && !scanPhoneActive"
                 class="ui-text ui-text--ui-secundario">
                 {{'delivery_text_beneficiary_error_id' | translate }}</p>
               <!-- <p *ngIf="!this.scanActive && !this.infoValid && isReceivingLocationErrorNull"
@@ -66,7 +89,7 @@
               </div>
             </div>
           </ng-template>
-          <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+          <mat-spinner *ngIf="loading && !scanPhoneActive" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
         </div>
 
         <!-- separator -->
@@ -87,10 +110,10 @@
                 {{this.userLocation.organization}} - {{'delivery_text_address' | translate }}:
                 {{this.userLocation.address}}</div>
             </span>
-            <button *ngIf="!loading && (this.scanActive || this.infoValid || this.isReceivingUserErrorNull)"
+            <button *ngIf="!loading && (this.scanActive || this.scanPhoneActive || this.infoValid || this.isReceivingUserErrorNull)"
               class="ui-button" type="button" (click)="onCancel()">{{'delivery_button_cancel' | translate }}</button>
             <button
-              *ngIf="!loading && onBoarded && !this.scanActive && !this.infoValid && !this.isReceivingUserErrorNull"
+              *ngIf="!loading && onBoarded && !this.scanActive && !this.scanPhoneActive && !this.infoValid && !this.isReceivingUserErrorNull"
               class="ui-button" type="button" (click)="onBoard()">{{'delivery_button_off_board'
               | translate }}</button>
             <button *ngIf="!loading && onBoarded && !this.scanActive" class="ui-button ui-button--ui-secundario"
