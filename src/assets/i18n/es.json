@@ -8,7 +8,7 @@
   "connection_session_expired": "Sesión expirada, por favor inicie sesión nuevamente",
 
   "login_title": "Iniciar sesión",
-  "login_input_username": "Correo, nombre de usuario o teléfono",
+  "login_input_username": "Correo, usuario o teléfono",
   "login_input_username_error_please": "Por favor ingrese su correo, nombre de usuario o teléfono",
   "login_input_password": "Contraseña o código postal",
   "login_input_password_error_please": "Por favor ingrese su contraseña o código postal",
@@ -19,7 +19,7 @@
   "login_button_login": "Iniciar sesión",
   "login_button_register": "Registrarse",
   "login_button_submit": "Ingresar",
-  "login_button_submit_error": "Correo / Nombre de usuario o contraseña incorrectos",
+  "login_button_submit_error": "Los datos son incorrectos",
   "login_snack_your_new_password": "Tu nueva contraseña es: ",
   "login_snack_role_disabled": "Tu rol está deshabilitado",
 

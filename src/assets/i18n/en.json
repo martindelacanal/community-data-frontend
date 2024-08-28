@@ -19,7 +19,7 @@
   "login_button_login": "Login",
   "login_button_register": "Register",
   "login_button_submit": "Submit",
-  "login_button_submit_error": "Email / User name or password incorrect",
+  "login_button_submit_error": "The data is incorrect",
   "login_snack_your_new_password": "Your new password is: ",
   "login_snack_role_disabled": "Your role is disabled",
 
