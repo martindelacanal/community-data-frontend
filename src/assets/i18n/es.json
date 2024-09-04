@@ -153,6 +153,10 @@
   "delivery_snack_delivery_approved": "Entrega aprobada con éxito",
   "delivery_snack_delivery_approved_error": "Error al aprobar la entrega",
   "delivery_snack_scan_valid_error": "Por favor escanee un QR válido",
+  "delivery_snack_geolocation_error": "Error al obtener la geolocalización",
+  "delivery_snack_geolocation_error_permission": "Por favor habilite la geolocalización",
+  "delivery_snack_geolocation_error_permission_tutorial": "Haga clic en el candado en la barra de direcciones y permita la geolocalización",
+  "delivery_snack_geolocation_more_than_1km": "Tu distancia es mayor a 1 km de la locación, por favor acércate",
 
   "reset_password_title": "Nueva contraseña",
   "reset_password_input_error_please": "Por favor ingrese una contraseña válida",

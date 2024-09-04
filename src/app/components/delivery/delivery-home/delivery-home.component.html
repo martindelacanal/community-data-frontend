@@ -6,9 +6,10 @@
   </section>
   <section class="main">
     <div class="ui-tarjeta ">
-
+      <p *ngIf="!geolocationGetted" class="ui-text ui-text--ui-secundario">
+                {{'delivery_snack_geolocation_error_permission' | translate }}</p>
       <!-- <form [formGroup]="stockForm" novalidate (ngSubmit)="onSubmit()"> -->
-      <div class="main_formulario">
+      <div class="main_formulario" *ngIf="geolocationGetted">
         <!-- donation id -->
         <div class="card" [ngClass]="{'camara-qr': this.scanActive}" [formGroup]="deliveryForm">
           <!-- check if field destination in deliveryForm has value -->
@@ -121,7 +122,7 @@
               [disabled]="this.scanActive || !this.infoValid">{{'delivery_button_approved' |
               translate }}</button>
             <button *ngIf="!loading && !onBoarded" class="ui-button ui-button--ui-secundario" type="button"
-              (click)="onBoard()" [disabled]="!deliveryForm.valid">
+              (click)="onBoard()" [disabled]="!deliveryForm.valid || moreThanDistance">
               {{'delivery_button_on_board' | translate }}
             </button>
             <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>

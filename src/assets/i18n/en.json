@@ -153,6 +153,10 @@
   "delivery_snack_delivery_approved": "Delivery approved successfully",
   "delivery_snack_delivery_approved_error": "Error approving delivery",
   "delivery_snack_scan_valid_error": "Please scan a valid QR",
+  "delivery_snack_geolocation_error": "Error getting geolocation",
+  "delivery_snack_geolocation_error_permission": "Please enable location permissions",
+  "delivery_snack_geolocation_error_permission_tutorial": "Click on the lock icon in the address bar and allow location permissions",
+  "delivery_snack_geolocation_more_than_1km": "Your distance is greater than 1 km from the location, please get closer",
 
   "reset_password_title": "New password",
   "reset_password_input_error_please": "Please enter a valid password",

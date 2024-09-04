@@ -3,4 +3,6 @@ export interface Location{
   organization:string;
   community_city:string;
   address:string;
+  latitude: number;
+  longitude: number;
 }

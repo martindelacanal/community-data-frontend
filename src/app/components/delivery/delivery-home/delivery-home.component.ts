@@ -43,6 +43,11 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
   clientsFiltered: Client[] = [];
   userStatus: UserStatus;
   userLocation: Location;
+  geolocationGetted: boolean = false;
+  latitude: number = 0;
+  longitude: number = 0;
+  moreThanDistance: boolean = false;
+  private locationInterval: any;
   public locationOrganizationSelected: string = '';
   public locationAddressSelected: string = '';
 
@@ -65,23 +70,48 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
         this.getUserLocation();
       });
 
+    this.getCurrentLocation();
+
+    // Actualizar la ubicación cada 1 minuto mientras onBoarded sea false
+    this.locationInterval = setInterval(() => {
+      if (!this.onBoarded) {
+        this.getCurrentLocation();
+      } else {
+        clearInterval(this.locationInterval);
+      }
+    }, 60000); // 60000 ms = 1 minuto
+
     // set locationOrganizationSelected and locationAddressSelected when location changes
     this.deliveryForm.get('destination').valueChanges.subscribe(
       (res) => {
         const location = this.locations.find(l => l.id === res);
         if (location) {
-          this.locationOrganizationSelected = location.organization;
-          this.locationAddressSelected = location.address;
-          this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(res));
-          if (this.clientsFiltered.length > 0) {
-            this.deliveryForm.get('client_id').setValidators([Validators.required]);
+          const distance = this.calculateDistance(this.latitude, this.longitude, location.latitude, location.longitude);
+          if (distance <= 1) { // 1 km
+            this.moreThanDistance = false;
+            this.locationOrganizationSelected = location.organization;
+            this.locationAddressSelected = location.address;
+            this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(res));
+            if (this.clientsFiltered.length > 0) {
+              this.deliveryForm.get('client_id').setValidators([Validators.required]);
+            } else {
+              this.deliveryForm.get('client_id').setValidators([]);
+              this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
+            }
+            this.deliveryForm.get('client_id').markAsTouched();
+            this.deliveryForm.get('client_id').updateValueAndValidity();
           } else {
+            this.openSnackBar(this.translate.instant('delivery_snack_geolocation_more_than_1km'));
+            this.moreThanDistance = true;
+            this.locationOrganizationSelected = '';
+            this.locationAddressSelected = '';
+            this.clientsFiltered = [];
             this.deliveryForm.get('client_id').setValidators([]);
             this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
+            this.deliveryForm.get('client_id').updateValueAndValidity();
           }
-          this.deliveryForm.get('client_id').markAsTouched();
-          this.deliveryForm.get('client_id').updateValueAndValidity();
         } else {
+          this.moreThanDistance = false;
           this.locationOrganizationSelected = '';
           this.locationAddressSelected = '';
           this.clientsFiltered = [];
@@ -109,6 +139,52 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
     if (this.scanActive && this.qrScannerComponent.videoElement) {
       // console.log(this.qrScannerComponent.videoElement.getAttribute('playsinline'));
       this.qrScannerComponent.videoElement.setAttribute('playsinline', 'true');
+    }
+  }
+
+  calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const R = 6371; // Radio de la Tierra en kilómetros
+    const dLat = this.deg2rad(lat2 - lat1);
+    const dLon = this.deg2rad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distancia en kilómetros
+    return distance;
+  }
+
+  deg2rad(deg: number): number {
+    return deg * (Math.PI / 180);
+  }
+
+  ngOnDestroy(): void {
+    // Limpiar el intervalo cuando el componente se destruya
+    if (this.locationInterval) {
+      clearInterval(this.locationInterval);
+    }
+  }
+
+  getCurrentLocation(): void {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+          this.geolocationGetted = true;
+          // console.log(`Latitude: ${this.latitude}, Longitude: ${this.longitude}`);
+        },
+        (error) => {
+          this.geolocationGetted = false;
+          console.error('Error obteniendo la ubicación', error);
+          this.openSnackBar(this.translate.instant('delivery_snack_geolocation_error_permission_tutorial'));
+        }
+      );
+    } else {
+      this.geolocationGetted = false;
+      console.error('Geolocalización no es soportada por este navegador.');
+      this.openSnackBar(this.translate.instant('delivery_snack_geolocation_error'));
     }
   }
 
@@ -232,7 +308,6 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
         })
       ).subscribe({
         next: (res) => {
-          console.log(res);
           // actualizar token con res.token en el local storage
           localStorage.setItem('token', res.token);
           this.userLocation = this.locations.find(location => location.id === this.deliveryForm.value.destination);
@@ -245,6 +320,14 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
           this.onBoarded = false;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded_error'));
+          // Actualizar la ubicación cada 1 minuto mientras onBoarded sea false
+          this.locationInterval = setInterval(() => {
+            if (!this.onBoarded) {
+              this.getCurrentLocation();
+            } else {
+              clearInterval(this.locationInterval);
+            }
+          }, 60000); // 60000 ms = 1 minuto
         }
       });
     } else {
@@ -254,12 +337,19 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
         })
       ).subscribe({
         next: (res) => {
-          console.log(res);
           this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
           this.userLocation = null;
           this.onBoarded = false;
           this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_off_boarded'));
+          // Actualizar la ubicación cada 1 minuto mientras onBoarded sea false
+          this.locationInterval = setInterval(() => {
+            if (!this.onBoarded) {
+              this.getCurrentLocation();
+            } else {
+              clearInterval(this.locationInterval);
+            }
+          }, 60000); // 60000 ms = 1 minuto
         },
         error: (error) => {
           console.log(error);
@@ -369,6 +459,14 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
             this.onBoarded = true;
           } else {
             this.onBoarded = false;
+            // Actualizar la ubicación cada 1 minuto mientras onBoarded sea false
+            this.locationInterval = setInterval(() => {
+              if (!this.onBoarded) {
+                this.getCurrentLocation();
+              } else {
+                clearInterval(this.locationInterval);
+              }
+            }, 60000); // 60000 ms = 1 minuto
           }
           this.deliveryForm.patchValue({
             client_id: res.client_id
