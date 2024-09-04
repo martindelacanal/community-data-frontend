@@ -18,8 +18,8 @@ export class DeliveryService {
   uploadTicket(beneficiaryQR: beneficiaryQR, location_id: number, client_id: number){
     return this.http.post<any>(`${environment.url_api}/upload/beneficiaryQR/${location_id}/${client_id}`, beneficiaryQR);
   }
-  uploadPhone(phone: number, location_id: number, client_id: number){
-    const body = {phone: phone};
+  uploadPhone(phone: number, location_id: number, client_id: number, user_id_from_phone_list: number){
+    const body = {phone: phone, user_id: user_id_from_phone_list};
     return this.http.post<any>(`${environment.url_api}/upload/beneficiaryPhone/${location_id}/${client_id}`, body);
   }
 

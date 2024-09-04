@@ -10,6 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ContenidoToken } from 'src/app/models/login/contenido-token';
 import decode from 'jwt-decode';
+import { MatDialog } from '@angular/material/dialog';
+import { SelectListComponent } from '../../dialog/select-list/select-list.component';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -60,6 +62,7 @@ export class InicioSesionComponent implements OnInit {
     private formBuilder: FormBuilder,
     public translate: TranslateService,
     private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ) {
     // translate.addLangs(['en', 'es']);
     // translate.setDefaultLang('en');
@@ -94,45 +97,70 @@ export class InicioSesionComponent implements OnInit {
       this.loading = true;
       this.authService.signin(this.loginForm.value).subscribe(
         (res: any) => {
-          if (res != null) {
-            const usuario: Usuario = JSON.parse((<ContenidoToken>decode(res.token)).data);
-            if (usuario.role === 'thirdparty') {
-              this.loginValid = false;
-              alert(this.translate.instant('login_snack_role_disabled'));
-            } else {
-              localStorage.setItem('token', res.token);
-              localStorage.setItem('reset_password', res.reset_password);
-              let filters = {
-                ethnicities: [],
-                from_date: null,
-                genders: [],
-                locations: [],
-                max_age: null,
-                min_age: null,
-                product_types: [],
-                providers: [],
-                to_date: null,
-                zipcode: null
-              }
-              localStorage.setItem('filters', JSON.stringify(filters));
-              let filters_chip = [];
-              localStorage.setItem('filters_chip', JSON.stringify(filters_chip));
+          if (Array.isArray(res)) {
+            const dialogRef = this.dialog.open(SelectListComponent, {
+              width: '472px',
+              data: {
+                origin: res,
+              },
+              disableClose: true
+            });
 
-              this.redireccionar();
-            }
+            dialogRef.afterClosed().subscribe(result => {
+              if (result && result.status) {
+                // buscar en res el id seleccionado
+                let usuario = res.find((usuario) => usuario.id === result.id);
+                this.guardarToken(usuario);
+              }
+              this.loading = false;
+              this.authService.login();
+            });
+          } else if (res != null) {
+            this.guardarToken(res);
+            this.loading = false;
+            this.authService.login();
           } else {
             this.loginValid = false;
+            this.loading = false;
+            this.authService.login();
           }
-          this.loading = false;
-          this.authService.login();
         },
         (err: any) => {
           this.loginValid = false;
           this.loading = false;
-        })
+        }
+      );
     } else {
       this.submitted = true;
       this.loginForm.markAllAsTouched();
+    }
+  }
+
+  guardarToken(res: any) {
+    const usuario: Usuario = JSON.parse((<ContenidoToken>decode(res.token)).data);
+    if (usuario.role === 'thirdparty') {
+      this.loginValid = false;
+      alert(this.translate.instant('login_snack_role_disabled'));
+    } else {
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('reset_password', res.reset_password);
+      let filters = {
+        ethnicities: [],
+        from_date: null,
+        genders: [],
+        locations: [],
+        max_age: null,
+        min_age: null,
+        product_types: [],
+        providers: [],
+        to_date: null,
+        zipcode: null
+      }
+      localStorage.setItem('filters', JSON.stringify(filters));
+      let filters_chip = [];
+      localStorage.setItem('filters_chip', JSON.stringify(filters_chip));
+
+      this.redireccionar();
     }
   }
 

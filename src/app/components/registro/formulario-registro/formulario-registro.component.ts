@@ -391,7 +391,7 @@ export class FormularioRegistroComponent implements OnInit {
       })
     ).subscribe({
       next: (res) => {
-        if (res) {
+        if (Array.isArray(res) && res.length > 0) {
           this.phoneExists = true;
         } else {
           this.phoneExists = false;

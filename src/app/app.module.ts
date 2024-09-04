@@ -99,6 +99,7 @@ import { DisclaimerEnableDisableElementComponent } from './components/dialog/dis
 import {MatChipsModule} from '@angular/material/chips';
 import { SurveyComponent } from './components/survey/survey.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { SelectListComponent } from './components/dialog/select-list/select-list.component';
 
 @NgModule({
   declarations: [
@@ -157,7 +158,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
    NewEthnicityComponent,
    NewGenderComponent,
    DisclaimerEnableDisableElementComponent,
-   SurveyComponent
+   SurveyComponent,
+   SelectListComponent
 
   ],
   imports: [

@@ -11,6 +11,8 @@ import { UserStatus } from 'src/app/models/user/user-status';
 import { DeliveryService } from 'src/app/services/deliver/delivery.service';
 import { NewService } from 'src/app/services/new/new.service';
 import { AuthService } from 'src/app/services/login/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SelectListComponent } from '../../dialog/select-list/select-list.component';
 
 
 @Component({
@@ -29,6 +31,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
   scanPhoneActive: boolean = false;
   phoneExists: boolean = false;
   loadingPhoneExists: boolean = false;
+  userIdFromPhoneList: number = 0;
   infoValid: boolean = false;
   onBoarded: boolean = false;
   isBeneficiaryLocationError: boolean = false;
@@ -49,7 +52,8 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
     private snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
     private newService: NewService,
-    public translate: TranslateService
+    public translate: TranslateService,
+    public dialog: MatDialog
   ) {
     this.buildDeliveryForm();
     this.buildPhoneForm();
@@ -216,6 +220,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
     }
     this.phoneExists = false;
     this.infoValid = false;
+    this.userIdFromPhoneList = 0;
   }
 
   onBoard() {
@@ -270,7 +275,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
     if (this.infoValid && (this.deliveryForm.valid || this.phoneForm.valid)) {
       this.loading = true;
       if (this.scanPhoneActive) {
-        this.deliveryService.uploadPhone(this.phoneForm.value.phone, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).subscribe({
+        this.deliveryService.uploadPhone(this.phoneForm.value.phone, this.deliveryForm.value.destination, this.deliveryForm.value.client_id, this.userIdFromPhoneList).subscribe({
           next: (res) => {
             this.loading = false;
             this.openSnackBar(this.translate.instant('delivery_snack_delivery_approved'));
@@ -398,6 +403,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
   private updatePhoneExists(nombre: string) {
     this.loadingPhoneExists = true;
     this.loading = true;
+    this.userIdFromPhoneList = 0;
     this.authService.getPhoneExists(nombre).pipe(
       finalize(() => {
         this.loadingPhoneExists = false;
@@ -405,9 +411,32 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
       })
     ).subscribe({
       next: (res) => {
-        if (res) {
+        if (Array.isArray(res) && res.length > 0) {
           this.phoneExists = true;
-          this.infoValid = true;
+          if (res.length > 1) {
+            const dialogRef = this.dialog.open(SelectListComponent, {
+              width: '472px',
+              data: {
+                origin: res,
+              },
+              disableClose: true
+            });
+
+            dialogRef.afterClosed().subscribe(result => {
+              if (result && result.status) {
+                this.userIdFromPhoneList = result.id;
+                this.infoValid = true;
+                this.onSubmit();
+              } else {
+                this.phoneExists = false;
+                this.infoValid = false;
+                this.userIdFromPhoneList = 0;
+                this.resetPhoneForm();
+              }
+            });
+          } else {
+            this.infoValid = true;
+          }
         } else {
           this.phoneExists = false;
           this.infoValid = false;

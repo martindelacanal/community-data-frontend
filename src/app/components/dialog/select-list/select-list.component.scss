@@ -1,0 +1,73 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 8px;
+  max-height: 60vh;
+  /* Ajusta este valor según tus necesidades */
+}
+
+.dialog-body {
+  width: 100%;
+  padding: 0 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+
+  overflow-y: auto;
+  /* Agrega scroll vertical cuando sea necesario */
+  max-height: 50vh;
+  /* Ajusta este valor según tus necesidades */
+
+  & p {
+    margin-bottom: 16px;
+  }
+}
+
+.dialog-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+
+  & button {
+    padding: 0 32px;
+  }
+
+  & mat-spinner {
+    margin: 0px 32px 0px 0px;
+  }
+}
+
+.mat-table {
+  width: 100%;
+}
+
+.mat-mdc-table {
+  box-shadow: none;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+  border-bottom: 1px solid currentColor;
+  border-top: 1px solid currentColor;
+  background-color: rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+}
+
+.selected-row {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+@media only screen and (max-width: 380px) {
+
+  .dialog-footer {
+    justify-content: center;
+  }
+
+  .dialog-footer button {
+    padding: 0 24px;
+    margin: 8px;
+  }
+
+}
