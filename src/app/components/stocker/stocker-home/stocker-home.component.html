@@ -98,6 +98,30 @@
                 </mat-error>
               </mat-form-field>
             </div>
+            <!-- audit_status -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'stocker_input_audit_status' | translate }}</mat-label>
+                <mat-select formControlName="audit_status">
+                  <mat-option *ngFor="let audit of auditStatus" [value]="audit.id">
+                    {{audit.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="stockForm.controls['audit_status'].hasError('required')">
+                  {{'stocker_input_audit_status_error' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- notes -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'stocker_input_notes' | translate }}</mat-label>
+                <input matInput formControlName="notes">
+                <!-- <mat-error *ngIf="stockForm.controls['notes'].hasError('required')">
+                  {{'stocker_input_notes_error' | translate }}
+                </mat-error> -->
+              </mat-form-field>
+            </div>
             <!-- ticket_photo -->
             <div class="card">
               <div class="subir-archivo">

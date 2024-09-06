@@ -90,6 +90,21 @@
     grid-row: auto;
   }
 
+  .card:nth-child(14) {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .card:nth-child(15) {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .card:nth-child(16) {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
   .subir-archivo {
     display: flex;
     align-items: flex-start;

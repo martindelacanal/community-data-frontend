@@ -49,6 +49,8 @@ export class ViewTicketComponent implements OnInit {
       delivered_by: '',
       created_by_id: '',
       created_by_username: '',
+      audit_status: '',
+      notes: '',
       creation_date: '',
       products: [],
     };
@@ -84,7 +86,7 @@ export class ViewTicketComponent implements OnInit {
 
   private getViewTicket(idTicket: string) {
     this.loading = true;
-    this.viewService.getViewTicket(idTicket).subscribe({
+    this.viewService.getViewTicket(idTicket, this.translate.currentLang).subscribe({
       next: (res) => {
         if (res) {
           this.viewTicket = res;

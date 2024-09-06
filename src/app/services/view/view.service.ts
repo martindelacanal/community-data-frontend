@@ -63,8 +63,8 @@ export class ViewService {
     return this.http.get<ViewEthnicity>(`${environment.url_api}/view/ethnicity/${idEthnicity}`)
   }
 
-  getViewTicket(idTicket: string){
-    return this.http.get<ViewTicket>(`${environment.url_api}/view/ticket/${idTicket}`)
+  getViewTicket(idTicket: string, language: string){
+    return this.http.get<ViewTicket>(`${environment.url_api}/view/ticket/${idTicket}?language=${language}`)
   }
 
   getImagesTicket(idTicket: string){

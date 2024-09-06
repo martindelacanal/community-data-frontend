@@ -8,6 +8,7 @@ import { Observable, debounceTime, finalize, map, of, startWith } from 'rxjs';
 import { Usuario } from 'src/app/models/login/usuario';
 import { Location } from 'src/app/models/map/location';
 import { NewTicket } from 'src/app/models/new/new-ticket';
+import { AuditStatus } from 'src/app/models/stocker/audit-status';
 import { Product } from 'src/app/models/stocker/product';
 import { ProductType } from 'src/app/models/stocker/product-type';
 import { Provider } from 'src/app/models/stocker/provider';
@@ -26,6 +27,7 @@ export class StockerHomeComponent implements OnInit {
   public loading: boolean = true;
   public loadingGetForm: boolean = false;
   private loadingLocations: boolean = false;
+  private loadingAuditStatus: boolean = false;
   private loadingProviders: boolean = false;
   private loadingProducts: boolean = false;
   private loadingProductTypes: boolean = false;
@@ -45,6 +47,7 @@ export class StockerHomeComponent implements OnInit {
   private file_ticket: any;
   public idTicket: string = '';
   locations: Location[] = [];
+  auditStatus: AuditStatus[] = [];
   products: Product[] = [];
   product_types: ProductType[] = [];
   providers: Provider[] = [];
@@ -104,6 +107,7 @@ export class StockerHomeComponent implements OnInit {
     this.getProviders();
     this.getProducts();
     this.getProductTypes(this.translate.currentLang);
+    this.getAuditStatus(this.translate.currentLang);
     this.filteredOptionsProvider = this.stockForm.get('provider').valueChanges.pipe(
       startWith(''),
       map(value => this.filterProviders(value))
@@ -450,6 +454,8 @@ export class StockerHomeComponent implements OnInit {
           destination: res.destination,
           date: new Date(res.date).toISOString(),
           delivered_by: res.delivered_by,
+          audit_status: res.audit_status,
+          notes: res.notes,
           image_count: res.image_count,
           products: res.products
         }
@@ -460,7 +466,9 @@ export class StockerHomeComponent implements OnInit {
           provider: res.provider,
           destination: res.destination,
           date: new Date(res.date),
-          delivered_by: res.delivered_by
+          delivered_by: res.delivered_by,
+          audit_status: res.audit_status,
+          notes: res.notes
         });
         // agregar campos de productos
         for (let i = 0; i < res.products.length; i++) {
@@ -483,6 +491,8 @@ export class StockerHomeComponent implements OnInit {
         this.stockForm.get('destination').updateValueAndValidity();
         this.stockForm.get('date').updateValueAndValidity();
         this.stockForm.get('delivered_by').updateValueAndValidity();
+        this.stockForm.get('audit_status').updateValueAndValidity();
+        this.stockForm.get('notes').updateValueAndValidity();
         this.stockForm.get('products').updateValueAndValidity();
 
         // Mark each form control as touched
@@ -508,6 +518,8 @@ export class StockerHomeComponent implements OnInit {
     this.stockForm.get('destination').setErrors(null);
     this.stockForm.get('date').setErrors(null);
     this.stockForm.get('delivered_by').setErrors(null);
+    this.stockForm.get('audit_status').setErrors(null);
+    this.stockForm.get('notes').setErrors(null);
     this.stockForm.get('products').setErrors(null);
     this.file_ticket = [];
     this.imageTicketUploaded = false;
@@ -559,6 +571,24 @@ export class StockerHomeComponent implements OnInit {
       error: (error) => {
         console.log(error);
         this.openSnackBar(this.translate.instant('table_locations_snack_error_get'));
+      }
+    });
+  }
+
+  private getAuditStatus(language: string) {
+    this.loadingAuditStatus = true;
+    this.stockerService.getAuditStatus(language).pipe(
+      finalize(() => {
+        this.loadingAuditStatus = false;
+        this.checkLoading();
+      })
+    ).subscribe({
+      next: (res) => {
+        this.auditStatus = res;
+      },
+      error: (error) => {
+        console.log(error);
+        this.openSnackBar(this.translate.instant('table_audit_status_snack_error_get'));
       }
     });
   }
@@ -678,6 +708,8 @@ export class StockerHomeComponent implements OnInit {
       destination: [null, Validators.required],
       date: [null, Validators.required],
       delivered_by: [null, Validators.required],
+      audit_status: [null, Validators.required],
+      notes: [null],
       products: this.formBuilder.array([])
     });
   }

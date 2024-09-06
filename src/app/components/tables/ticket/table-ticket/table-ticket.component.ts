@@ -39,7 +39,7 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
 
   dataTicketTable: ticketTable;
   dataSource: any;
-  columns = [' ', 'id', 'donation_id', 'total_weight', 'provider', 'location', 'date', 'delivered_by', 'products', 'creation_date'];
+  columns = [' ', 'id', 'donation_id', 'total_weight', 'provider', 'location', 'date', 'delivered_by', 'audit_status', 'products', 'creation_date'];
 
   tabIndex = 0;
   totalItems: number = 0;
@@ -259,7 +259,7 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
         // recuperar filter-chip del localStorage
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
-        this.tablesService.getFileCSV(result.data).subscribe({
+        this.tablesService.getFileCSV(this.translate.currentLang, result.data).subscribe({
           next: (res) => {
             const blob = new Blob([res as BlobPart], { type: 'application/zip' });
             const url = window.URL.createObjectURL(blob);
@@ -290,7 +290,7 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
 
   private getDataTicketTable(filters?: any) {
     this.loading = true;
-    this.tablesService.getDataTicketTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, filters).subscribe({
+    this.tablesService.getDataTicketTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, this.translate.currentLang, filters).subscribe({
       next: (res) => {
 
         this.pagina = res.page;

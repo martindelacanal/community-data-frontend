@@ -98,15 +98,30 @@
   grid-column: 1 / 2;
   grid-row: 8 / 9;
 }
-// ticket_photo
+// audit_status
 .card:nth-child(9) {
+  grid-column: 1 / 2;
+  grid-row: 9 / 10;
+}
+// notes
+.card:nth-child(10) {
+  grid-column: 1 / 2;
+  grid-row: 10 / 11;
+}
+// creation_date
+.card:nth-child(11) {
+  grid-column: 1 / 2;
+  grid-row: 11 / 12;
+}
+// ticket_photo
+.card:nth-child(12) {
   grid-column: 2 / 3;
   grid-row: 1 / 9;
 }
 // separator
-.card:nth-child(10) {
+.card:nth-child(13) {
   grid-column: 1 / -1;
-  grid-row: 9 / 10;
+  grid-row: 12 / 13;
 }
 // // products form
 // .card:nth-child(9) {
@@ -114,9 +129,9 @@
 //   grid-row: 7 / 8;
 // }
 .card {
-  &:nth-child(11) {
+  &:nth-child(14) {
     grid-column: 1 / -1;
-    grid-row: 10 / 11;
+    grid-row: 13 / 14;
   }
 
   table {
@@ -137,14 +152,14 @@
   }
 }
 // separator
-.card:nth-child(12) {
+.card:nth-child(15) {
   grid-column: 1 / -1;
-  grid-row: 11 / 12;
+  grid-row: 14 / 15;
 }
 // buttons
-.card:nth-child(13) {
+.card:nth-child(16) {
   grid-column: 1 / -1;
-  grid-row: 12 / 13;
+  grid-row: 15 / 16;
 }
 
 .card mat-form-field{

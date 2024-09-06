@@ -27,8 +27,8 @@ export class TablesService {
     return this.http.post<userTable>(`${environment.url_api}/table/user?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&tableRole=${tableRole}`, filters)
   }
 
-  getDataTicketTable(page: number, columna: string, ordenarTipo: string, buscar: string, filters: any){
-    return this.http.post<ticketTable>(`${environment.url_api}/table/ticket?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`, filters)
+  getDataTicketTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
+    return this.http.post<ticketTable>(`${environment.url_api}/table/ticket?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
   }
 
   getDataDeliveredTable(page: number, columna: string, ordenarTipo: string, buscar: string, filters: any){
@@ -71,8 +71,8 @@ export class TablesService {
     return this.http.post<workerTable>(`${environment.url_api}/table/worker?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
   }
 
-  getFileCSV(filters: any) {
-    return this.http.post(`${environment.url_api}/table/ticket/download-csv`, filters, { responseType: 'blob' });
+  getFileCSV(filters: any, language: string) {
+    return this.http.post(`${environment.url_api}/table/ticket/download-csv?language=${language}`, filters, { responseType: 'blob' });
   }
 
   getDeliveredFileCSV(filters: any) {
