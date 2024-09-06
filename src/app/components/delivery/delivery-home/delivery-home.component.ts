@@ -13,6 +13,7 @@ import { NewService } from 'src/app/services/new/new.service';
 import { AuthService } from 'src/app/services/login/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectListComponent } from '../../dialog/select-list/select-list.component';
+import { DisclaimerRegisterComponent } from '../../dialog/disclaimer-register/disclaimer-register/disclaimer-register.component';
 
 
 @Component({
@@ -46,6 +47,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
   geolocationGetted: boolean = false;
   latitude: number = 0;
   longitude: number = 0;
+  accuracy: number = 0;
   moreThanDistance: boolean = false;
   private locationInterval: any;
   public locationOrganizationSelected: string = '';
@@ -87,7 +89,8 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
         const location = this.locations.find(l => l.id === res);
         if (location) {
           const distance = this.calculateDistance(this.latitude, this.longitude, location.latitude, location.longitude);
-          if (distance <= 1) { // 1 km
+          // perdonar la mala accuracy hasta 1000 metros
+          if (distance <= 1 && this.accuracy <= 1000) {
             this.moreThanDistance = false;
             this.locationOrganizationSelected = location.organization;
             this.locationAddressSelected = location.address;
@@ -172,13 +175,19 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
         (position) => {
           this.latitude = position.coords.latitude;
           this.longitude = position.coords.longitude;
+          this.accuracy = position.coords.accuracy; // Precisión en metros
           this.geolocationGetted = true;
-          // console.log(`Latitude: ${this.latitude}, Longitude: ${this.longitude}`);
+          // console.log(`Latitude: ${this.latitude}, Longitude: ${this.longitude}, Accuracy: ${this.accuracy}`);
         },
         (error) => {
           this.geolocationGetted = false;
           console.error('Error obteniendo la ubicación', error);
           this.openSnackBar(this.translate.instant('delivery_snack_geolocation_error_permission_tutorial'));
+        },
+        {
+          enableHighAccuracy: true, // Solicitar alta precisión
+          timeout: 10000, // Tiempo máximo de espera en milisegundos
+          maximumAge: 0 // No usar una ubicación en caché
         }
       );
     } else {
@@ -300,11 +309,12 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
   }
 
   onBoard() {
-    this.loading = true;
     if (!this.onBoarded) {
+      this.loading = true;
       this.deliveryService.onBoard(true, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).pipe(
         finalize(() => {
           this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(this.deliveryForm.value.destination));
+          this.loading = false;
         })
       ).subscribe({
         next: (res) => {
@@ -312,13 +322,11 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
           localStorage.setItem('token', res.token);
           this.userLocation = this.locations.find(location => location.id === this.deliveryForm.value.destination);
           this.onBoarded = true;
-          this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded'));
         },
         error: (error) => {
           console.log(error);
           this.onBoarded = false;
-          this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded_error'));
           // Actualizar la ubicación cada 1 minuto mientras onBoarded sea false
           this.locationInterval = setInterval(() => {
@@ -331,31 +339,43 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
         }
       });
     } else {
-      this.deliveryService.onBoard(false, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).pipe(
-        finalize(() => {
-          this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(this.deliveryForm.value.destination));
-        })
-      ).subscribe({
-        next: (res) => {
-          this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
-          this.userLocation = null;
-          this.onBoarded = false;
-          this.loading = false;
-          this.openSnackBar(this.translate.instant('delivery_snack_off_boarded'));
-          // Actualizar la ubicación cada 1 minuto mientras onBoarded sea false
-          this.locationInterval = setInterval(() => {
-            if (!this.onBoarded) {
-              this.getCurrentLocation();
-            } else {
-              clearInterval(this.locationInterval);
+      const dialogRef = this.dialog.open(DisclaimerRegisterComponent, {
+        width: '370px',
+        data: this.translate.instant('delivery_button_off_board_disclaimer'),
+        disableClose: true
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        this.loading = true;
+        if (result.status) {
+          this.deliveryService.onBoard(false, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).pipe(
+            finalize(() => {
+              this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(this.deliveryForm.value.destination));
+              this.loading = false;
+            })
+          ).subscribe({
+            next: (res) => {
+              this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
+              this.userLocation = null;
+              this.onBoarded = false;
+              this.openSnackBar(this.translate.instant('delivery_snack_off_boarded'));
+              // Actualizar la ubicación cada 1 minuto mientras onBoarded sea false
+              this.locationInterval = setInterval(() => {
+                if (!this.onBoarded) {
+                  this.getCurrentLocation();
+                } else {
+                  clearInterval(this.locationInterval);
+                }
+              }, 60000); // 60000 ms = 1 minuto
+            },
+            error: (error) => {
+              console.log(error);
+              this.onBoarded = true;
+              this.openSnackBar(this.translate.instant('delivery_snack_off_boarded_error'));
             }
-          }, 60000); // 60000 ms = 1 minuto
-        },
-        error: (error) => {
-          console.log(error);
-          this.onBoarded = true;
+          });
+        } else {
           this.loading = false;
-          this.openSnackBar(this.translate.instant('delivery_snack_off_boarded_error'));
         }
       });
     }

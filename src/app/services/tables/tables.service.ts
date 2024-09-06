@@ -11,6 +11,7 @@ import { productTypeTable } from 'src/app/models/tables/product-type-table';
 import { providerTable } from 'src/app/models/tables/provider-table';
 import { ticketTable } from 'src/app/models/tables/ticket-table';
 import { userTable } from 'src/app/models/tables/user-table';
+import { workerTable } from 'src/app/models/tables/worker-table';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -66,6 +67,10 @@ export class TablesService {
     return this.http.post<locationTable>(`${environment.url_api}/table/location?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`, filters)
   }
 
+  getDataWorkerTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
+    return this.http.post<workerTable>(`${environment.url_api}/table/worker?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
+  }
+
   getFileCSV(filters: any) {
     return this.http.post(`${environment.url_api}/table/ticket/download-csv`, filters, { responseType: 'blob' });
   }
@@ -116,6 +121,10 @@ export class TablesService {
 
   getProviderFileCSV(filters: any) {
     return this.http.post(`${environment.url_api}/table/provider/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getWorkerFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/worker/download-csv`, filters, { responseType: 'text' });
   }
 
   resetPassword(id: string){

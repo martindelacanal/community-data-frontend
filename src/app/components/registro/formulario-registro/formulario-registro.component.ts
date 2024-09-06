@@ -604,7 +604,7 @@ export class FormularioRegistroComponent implements OnInit {
   private disclaimer(): void {
     const dialogRef = this.dialog.open(DisclaimerRegisterComponent, {
       width: '370px',
-      data: '',
+      data: this.translate.instant('disclaimer_text'),
       disableClose: true
     });
 

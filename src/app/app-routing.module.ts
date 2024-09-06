@@ -44,6 +44,7 @@ import { NewGenderComponent } from './components/new/new-gender/new-gender.compo
 import { TableEthnicityComponent } from './components/tables/table-ethnicity/table-ethnicity.component';
 import { TableGenderComponent } from './components/tables/table-gender/table-gender.component';
 import { SurveyComponent } from './components/survey/survey.component';
+import { TableWorkerComponent } from './components/tables/worker/table-worker.component';
 
 const routes: Routes = [
   { path: 'survey', component: SurveyComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
@@ -85,6 +86,7 @@ const routes: Routes = [
   { path: 'table/ethnicity', component: TableEthnicityComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/provider', component: TableProviderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/ticket', component: TableTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'opsmanager', 'director']} },
+  { path: 'table/worker', component: TableWorkerComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'opsmanager', 'director']} },
   { path: 'table/user', component: TableUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/user/:search', component: TableUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
   { path: 'metrics/product', component: MetricsProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'director']} },

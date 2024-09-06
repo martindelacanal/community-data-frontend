@@ -124,6 +124,11 @@
             {{'menu_button_ticket_table' | translate }}
           </a>
         </li>
+        <li routerLink="/table/worker" *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager' || usuario.role === 'director'">
+          <a>
+            {{'menu_button_worker_table' | translate }}
+          </a>
+        </li>
       </ul>
     </div>
   </section>

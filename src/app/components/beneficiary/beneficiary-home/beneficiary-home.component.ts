@@ -13,6 +13,7 @@ import { finalize } from 'rxjs/operators';
 import { RegisterQuestion } from 'src/app/models/login/register-question';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { RegisterAnswer } from 'src/app/models/login/register-answer';
+import { DisclaimerRegisterComponent } from '../../dialog/disclaimer-register/disclaimer-register/disclaimer-register.component';
 
 @Component({
   selector: 'app-beneficiary-home',
@@ -153,48 +154,57 @@ export class BeneficiaryHomeComponent implements OnInit {
   }
 
   onBoard() {
-    this.loading = true;
     if (!this.onBoarded) {
+      this.loading = true;
       this.onBoarded = true;
       this.deliveryService.onBoard(true, this.beneficiaryForm.value.destination).pipe(
         finalize(() => {
           this.newQR();
+          this.loading = false;
         })
       ).subscribe({
         next: (res) => {
-          console.log(res);
           localStorage.setItem('token', res.token);
           this.userLocation = this.locations.find(location => location.id === this.beneficiaryForm.value.destination);
           this.locationAddressSelected = this.userLocation.address;
           this.locationOrganizationSelected = this.userLocation.organization;
-          this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded'));
         },
         error: (error) => {
           console.log(error);
           this.onBoarded = false;
-          this.loading = false;
           this.openSnackBar(this.translate.instant('delivery_snack_on_boarded_error'));
         }
       });
     } else {
-      this.onBoarded = false;
-      this.deliveryService.onBoard(false, this.beneficiaryForm.value.destination).pipe(
-        finalize(() => {
-          this.newQR();
-        })
-      ).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.userLocation = null;
+      const dialogRef = this.dialog.open(DisclaimerRegisterComponent, {
+        width: '370px',
+        data: this.translate.instant('beneficiary_button_change_location_disclaimer'),
+        disableClose: true
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        this.loading = true;
+        if (result.status) {
+          this.deliveryService.onBoard(false, this.beneficiaryForm.value.destination).pipe(
+            finalize(() => {
+              this.newQR();
+              this.loading = false;
+            })
+          ).subscribe({
+            next: (res) => {
+              this.userLocation = null;
+              this.onBoarded = false;
+              this.openSnackBar(this.translate.instant('delivery_snack_off_boarded'));
+            },
+            error: (error) => {
+              console.log(error);
+              this.onBoarded = true;
+              this.openSnackBar(this.translate.instant('delivery_snack_off_boarded_error'));
+            }
+          });
+        } else {
           this.loading = false;
-          this.openSnackBar(this.translate.instant('delivery_snack_off_boarded'));
-        },
-        error: (error) => {
-          console.log(error);
-          this.onBoarded = true;
-          this.loading = false;
-          this.openSnackBar(this.translate.instant('delivery_snack_off_boarded_error'));
         }
       });
     }
