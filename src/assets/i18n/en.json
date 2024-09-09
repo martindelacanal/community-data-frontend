@@ -601,6 +601,17 @@
   "view_user_table_title_delivery": "Scan history",
   "view_user_table_title_stocker": "Tickets uploaded",
 
+  "view_worker_title": "View worker",
+  "view_worker_button_workers": "Workers",
+  "view_worker_error": "Error getting worker",
+  "view_worker_scanned_qr": "Scanned QR",
+  "view_worker_table_header_id": "ID",
+  "view_worker_table_header_receiving_user_id": "Participant user ID",
+  "view_worker_table_header_username": "Participant username",
+  "view_worker_table_header_location": "Location",
+  "view_worker_table_header_creation_date": "Creation date",
+  "view_worker_table_header_view": "View",
+
   "carousel_not_images": "No images",
 
   "new_user_title": "New user",

@@ -601,6 +601,16 @@
   "view_user_table_title_delivery": "Historial de escaneos",
   "view_user_table_title_stocker": "Tickets subidos",
 
+  "view_worker_title": "Ver worker",
+  "view_worker_error": "Error al obtener el worker",
+  "view_worker_scanned_qr": "QR escaneado",
+  "view_worker_table_header_id": "ID",
+  "view_worker_table_header_receiving_user_id": "ID de participante",
+  "view_worker_table_header_username": "Usuario de participante",
+  "view_worker_table_header_location": "Ubicación",
+  "view_worker_table_header_creation_date": "Fecha de creación",
+  "view_worker_table_header_view": "Ver",
+
   "carousel_not_images": "No hay imágenes",
 
   "new_user_title": "Nuevo usuario",

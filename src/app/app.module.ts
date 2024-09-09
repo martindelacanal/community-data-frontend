@@ -101,6 +101,7 @@ import { SurveyComponent } from './components/survey/survey.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { SelectListComponent } from './components/dialog/select-list/select-list.component';
 import { TableWorkerComponent } from './components/tables/worker/table-worker.component';
+import { ViewWorkerComponent } from './components/view/view-worker/view-worker.component';
 
 @NgModule({
   declarations: [
@@ -161,7 +162,8 @@ import { TableWorkerComponent } from './components/tables/worker/table-worker.co
    DisclaimerEnableDisableElementComponent,
    SurveyComponent,
    SelectListComponent,
-   TableWorkerComponent
+   TableWorkerComponent,
+   ViewWorkerComponent
 
   ],
   imports: [

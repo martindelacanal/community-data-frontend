@@ -45,6 +45,7 @@ import { TableEthnicityComponent } from './components/tables/table-ethnicity/tab
 import { TableGenderComponent } from './components/tables/table-gender/table-gender.component';
 import { SurveyComponent } from './components/survey/survey.component';
 import { TableWorkerComponent } from './components/tables/worker/table-worker.component';
+import { ViewWorkerComponent } from './components/view/view-worker/view-worker.component';
 
 const routes: Routes = [
   { path: 'survey', component: SurveyComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
@@ -59,6 +60,7 @@ const routes: Routes = [
   { path: 'view/product/:id', component: ViewProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'opsmanager', 'director']} },
   { path: 'view/ticket/:id', component: ViewTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'opsmanager', 'director']} },
   { path: 'view/user/:id', component: ViewUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
+  { path: 'view/worker/:id', component: ViewWorkerComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'opsmanager', 'director']} },
   { path: 'edit/ticket/:id', component: StockerHomeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'edit/product/:id', component: NewProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'edit/product-type/:id', component: NewProductTypeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },

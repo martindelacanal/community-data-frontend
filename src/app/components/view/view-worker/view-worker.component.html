@@ -1,0 +1,76 @@
+<div class="container">
+  <section class="header">
+    <h1 class="title">{{'view_worker_title' | translate }}</h1>
+    <div class="buttons">
+      <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+      <!-- <button *ngIf="!loadingCSV" class="ui-button" type="button"
+        (click)="dialogDownloadCsv()">{{'metrics_button_download_csv' | translate }}</button> -->
+      <button id="filtersButton" class="ui-button" type="button" (click)="dialogFilters()">{{'metrics_filters_button' |
+        translate }}</button>
+      <button id="tableButton" type="button" class="ui-button" routerLink="/table/workers">
+        {{'view_worker_button_workers' | translate }}</button>
+    </div>
+  </section>
+  <mat-chip-set class="chip-grid">
+    <ng-container *ngFor="let filterChip of filtersChip; let i = index">
+      <mat-chip
+        *ngIf="filterChip.code !== 'genders' && filterChip.code !== 'ethnicities' && filterChip.code !== 'zipcode' && filterChip.code !== 'min_age' && filterChip.code !== 'max_age'"
+        (removed)="removeFilterChip(filterChip)">
+        {{filterChip.name}}: {{filterChip.value}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip>
+    </ng-container>
+  </mat-chip-set>
+  <mat-spinner *ngIf="loadingMetrics" class="loading-questions" mode="indeterminate" [diameter]="30"></mat-spinner>
+  <section class="main_tarjetas">
+    <div class="ui-tarjeta">
+      <div class="question">
+        <h2>{{'view_worker_scanned_qr' | translate }}</h2>
+      </div>
+      <!-- <div id="chartYESNO" *ngIf="chartOptionsKindOfProduct">
+        <apx-chart [series]="chartOptionsKindOfProduct.series" [chart]="chartOptionsKindOfProduct.chart"
+          [labels]="chartOptionsKindOfProduct.labels" [legend]="chartOptionsKindOfProduct.legend"
+          [colors]="chartOptionsKindOfProduct.colors" [responsive]="chartOptionsKindOfProduct.responsive"
+          [theme]="chartOptionsKindOfProduct.theme" [dataLabels]="chartOptionsKindOfProduct.dataLabels"
+          [tooltip]="chartOptionsKindOfProduct.tooltip"></apx-chart>
+      </div> -->
+    </div>
+    <div class="ui-tarjeta">
+      <div class="question">
+        <h2>{{'view_user_table_title_delivery' | translate }}</h2>
+      </div>
+      <br>
+      <p>GRAPHIC</p>
+      <br>
+    </div>
+    <div class="ui-tarjeta">
+      <div class="question">
+        <h2>{{'view_user_table_title_delivery' | translate }}</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>{{'view_worker_table_header_id' | translate }}</th>
+            <th>{{'view_worker_table_header_receiving_user_id' | translate }}</th>
+            <th>{{'view_worker_table_header_username' | translate }}</th>
+            <th>{{'view_worker_table_header_location' | translate }}</th>
+            <th>{{'view_worker_table_header_creation_date' | translate }}</th>
+            <th>{{'view_worker_table_header_view' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of viewWorkerTable">
+            <td>{{row.id}}</td>
+            <td>{{row.receiving_user_id}}</td>
+            <td>{{row.username}}</td>
+            <td>{{row.location}}</td>
+            <td>{{row.creation_date}}</td>
+            <td><a class="ui-link" [routerLink]="['/view/delivered', row.receiving_user_id]"><mat-icon>visibility</mat-icon></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>

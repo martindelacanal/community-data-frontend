@@ -12,6 +12,7 @@ import { ViewProvider } from 'src/app/models/view/view-provider';
 import { ViewTicket } from 'src/app/models/view/view-ticket';
 import { ViewTicketImage } from 'src/app/models/view/view-ticket-image';
 import { ViewUser } from 'src/app/models/view/view-user';
+import { ViewWorkerTable } from 'src/app/models/view/view-worker/view-worker-table';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -25,6 +26,10 @@ export class ViewService {
 
   getViewUser(idUser: string, language: string){
     return this.http.get<ViewUser>(`${environment.url_api}/view/user/${idUser}?language=${language}`)
+  }
+
+  getViewWorkerTable(idWorker: string, language: string, filters: any){
+    return this.http.post<ViewWorkerTable[]>(`${environment.url_api}/view/worker/table/${idWorker}?language=${language}`, filters)
   }
 
   getViewLocation(idLocation: string){
