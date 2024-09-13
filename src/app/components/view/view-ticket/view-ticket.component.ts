@@ -50,7 +50,7 @@ export class ViewTicketComponent implements OnInit {
       created_by_id: '',
       created_by_username: '',
       audit_status: '',
-      notes: '',
+      notes: [],
       creation_date: '',
       products: [],
     };

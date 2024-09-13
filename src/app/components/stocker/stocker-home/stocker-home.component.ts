@@ -89,7 +89,7 @@ export class StockerHomeComponent implements OnInit {
       date: '',
       delivered_by: '',
       audit_status: '',
-      notes: '',
+      notes: [],
       image_count: 0,
       products: []
     };
@@ -496,8 +496,7 @@ export class StockerHomeComponent implements OnInit {
           destination: res.destination,
           date: new Date(res.date),
           delivered_by: res.delivered_by,
-          audit_status: res.audit_status,
-          notes: res.notes
+          audit_status: res.audit_status
         });
         // agregar campos de productos
         for (let i = 0; i < res.products.length; i++) {
@@ -521,7 +520,6 @@ export class StockerHomeComponent implements OnInit {
         this.stockForm.get('date').updateValueAndValidity();
         this.stockForm.get('delivered_by').updateValueAndValidity();
         this.stockForm.get('audit_status').updateValueAndValidity();
-        this.stockForm.get('notes').updateValueAndValidity();
         this.stockForm.get('products').updateValueAndValidity();
 
         // Mark each form control as touched

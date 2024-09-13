@@ -83,6 +83,7 @@
   .card:nth-child(12) {
     grid-column: 1 / -1;
     grid-row: auto;
+    margin-top: 16px;
   }
 
   .card:nth-child(13) {
@@ -96,6 +97,11 @@
   }
 
   .card:nth-child(15) {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .card:nth-child(16) {
     grid-column: 1 / -1;
     grid-row: auto;
   }
@@ -117,7 +123,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: left;
-    margin-top: 16px;
+    // margin-top: 16px;
     flex-direction: column;
     .ui-button--ui-secundario {
       margin-left: 0px;

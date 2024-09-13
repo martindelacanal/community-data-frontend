@@ -78,8 +78,9 @@
             <div class="card">
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>{{'stocker_input_date' | translate }}</mat-label>
-                <input matInput [matDatepicker]="miPicker1" formControlName="date" (blur)="formatDateOnBlur($event)" (input)="formatDate($event)" (focus)="formatDateOnFocus($event)"
-                  maxlength="10" placeholder="01/31/2024">
+                <input matInput [matDatepicker]="miPicker1" formControlName="date" (blur)="formatDateOnBlur($event)"
+                  (input)="formatDate($event)" (focus)="formatDateOnFocus($event)" maxlength="10"
+                  placeholder="01/31/2024">
                 <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
                 <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
                 <mat-datepicker #miPicker1></mat-datepicker>
@@ -139,13 +140,50 @@
                     multiple (change)="uploadFile($event)" />
                 </div>
                 <div *ngIf="!loading && this.idTicket && !this.deletedFilesFromEdit">
-                  <button class="ui-button--ui-secundario subir-archivo__button--secundario" type="button" (click)="deleteFiles()">
+                  <button class="ui-button--ui-secundario subir-archivo__button--secundario" type="button"
+                    (click)="deleteFiles()">
                     {{'stocker_button_delete_files_delete' | translate }}
-                    {{this.ticketGetted.image_count === 1 ? (' 1 ' + ('stocker_button_delete_files_file' | translate)) : (' ' + this.ticketGetted.image_count + ' ' + ('stocker_button_delete_files_files' | translate))}}
+                    {{this.ticketGetted.image_count === 1 ? (' 1 ' + ('stocker_button_delete_files_file' | translate)) :
+                    (' ' + this.ticketGetted.image_count + ' ' + ('stocker_button_delete_files_files' | translate))}}
                   </button>
                 </div>
               </div>
             </div>
+
+            <!-- table notes -->
+            <div class="card">
+              <mat-expansion-panel *ngIf="idTicket !== ''">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{'stocker_table_notes_title' | translate}}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <table *ngIf="ticketGetted.notes.length > 0">
+                  <thead>
+                    <tr>
+                      <!-- <th>{{'stocker_table_notes_id' | translate}}</th> -->
+                      <!-- <th>{{'stocker_table_notes_user_id' | translate}}</th> -->
+                      <th>{{'stocker_table_notes_firstname' | translate}}</th>
+                      <th>{{'stocker_table_notes_lastname' | translate}}</th>
+                      <th>{{'stocker_table_notes_note' | translate}}</th>
+                      <th>{{'stocker_table_notes_creation_date' | translate}}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let note of ticketGetted.notes">
+                      <!-- <td>{{note.id}}</td> -->
+                      <!-- <td>{{note.user_id}}</td> -->
+                      <td>{{note.firstname}}</td>
+                      <td>{{note.lastname}}</td>
+                      <td>{{note.note}}</td>
+                      <td>{{note.creation_date}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p *ngIf="ticketGetted.notes.length === 0">{{'stocker_table_notes_empty' | translate}}</p>
+              </mat-expansion-panel>
+            </div>
+
             <!-- separator -->
             <div class="card ">
               <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>

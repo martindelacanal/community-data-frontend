@@ -17,7 +17,7 @@ export class StockerService {
     private http: HttpClient
   ) { }
 
-  uploadTicket(ticket: FormData){
+  uploadTicket(ticket: FormData) {
     return this.http.post(`${environment.url_api}/upload/ticket`, ticket);
   }
 
@@ -29,7 +29,7 @@ export class StockerService {
     return this.http.get<NewTicket>(`${environment.url_api}/upload/ticket/${id}`)
   }
 
-  getLocations(){
+  getLocations() {
     return this.http.get<Location[]>(`${environment.url_api}/locations`);
   }
 
@@ -37,11 +37,11 @@ export class StockerService {
     return this.http.get<AuditStatus[]>(`${environment.url_api}/audit_status?language=${language}`);
   }
 
-  getProviders(){
+  getProviders() {
     return this.http.get<Provider[]>(`${environment.url_api}/providers`);
   }
 
-  getProducts(){
+  getProducts() {
     return this.http.get<Product[]>(`${environment.url_api}/products`);
   }
 

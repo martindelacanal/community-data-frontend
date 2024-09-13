@@ -3,12 +3,15 @@
     <section class="header">
       <div class="header__title">
         <h1 class="title">{{'view_ticket_title' | translate }} {{idTicket}}</h1>
-        <mat-spinner *ngIf="loading || loadingImages" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+        <mat-spinner *ngIf="loading || loadingImages" class="loading-tables" mode="indeterminate"
+          [diameter]="30"></mat-spinner>
       </div>
       <div>
-        <button *ngIf="usuario.role === 'admin' || usuario.role === 'stocker' || usuario.role === 'auditor'" type="button" class="ui-button" [routerLink]="['/edit/ticket',idTicket]">{{'table_tickets_row_button_edit' |
+        <button *ngIf="usuario.role === 'admin' || usuario.role === 'stocker' || usuario.role === 'auditor'"
+          type="button" class="ui-button" [routerLink]="['/edit/ticket',idTicket]">{{'table_tickets_row_button_edit' |
           translate }}</button>
-        <button id="tableButton" type="button" class="ui-button" routerLink="/table/ticket">{{'view_ticket_button_tickets' |
+        <button id="tableButton" type="button" class="ui-button"
+          routerLink="/table/ticket">{{'view_ticket_button_tickets' |
           translate }}</button>
       </div>
     </section>
@@ -18,11 +21,13 @@
         <div class="main_formulario">
           <!-- donation id -->
           <div class="card">
-            <mat-label><strong>{{'stocker_input_donation_id' | translate }}:</strong> {{viewTicket.donation_id}}</mat-label>
+            <mat-label><strong>{{'stocker_input_donation_id' | translate }}:</strong>
+              {{viewTicket.donation_id}}</mat-label>
           </div>
           <!-- destination -->
           <div class="card">
-            <mat-label><strong>{{'stocker_input_destination' | translate }}:</strong> {{viewTicket.location}}</mat-label>
+            <mat-label><strong>{{'stocker_input_destination' | translate }}:</strong>
+              {{viewTicket.location}}</mat-label>
           </div>
           <!-- date -->
           <div class="card">
@@ -30,7 +35,8 @@
           </div>
           <!-- total weight -->
           <div class="card">
-            <mat-label><strong>{{'stocker_input_total_weight' | translate }}:</strong> {{viewTicket.total_weight | number}}</mat-label>
+            <mat-label><strong>{{'stocker_input_total_weight' | translate }}:</strong> {{viewTicket.total_weight |
+              number}}</mat-label>
           </div>
           <!-- provider -->
           <div class="card">
@@ -38,27 +44,61 @@
           </div>
           <!-- delivered_by -->
           <div class="card">
-            <mat-label><strong>{{'stocker_input_delivered_by' | translate }}:</strong> {{viewTicket.delivered_by}}</mat-label>
+            <mat-label><strong>{{'stocker_input_delivered_by' | translate }}:</strong>
+              {{viewTicket.delivered_by}}</mat-label>
           </div>
           <!-- created by id -->
           <div class="card">
-            <mat-label><strong>{{'view_ticket_created_by_id' | translate }}:</strong> {{viewTicket.created_by_id}}</mat-label>
+            <mat-label><strong>{{'view_ticket_created_by_id' | translate }}:</strong>
+              {{viewTicket.created_by_id}}</mat-label>
           </div>
           <!-- created by username -->
           <div class="card">
-            <mat-label><strong>{{'view_ticket_created_by_username' | translate }}:</strong> {{viewTicket.created_by_username}}</mat-label>
+            <mat-label><strong>{{'view_ticket_created_by_username' | translate }}:</strong>
+              {{viewTicket.created_by_username}}</mat-label>
           </div>
           <!-- audit_status -->
           <div class="card">
-            <mat-label><strong>{{'stocker_input_audit_status' | translate }}:</strong> {{viewTicket.audit_status}}</mat-label>
-          </div>
-          <!-- notes -->
-          <div class="card">
-            <mat-label><strong>{{'stocker_input_notes' | translate }}:</strong> {{viewTicket.notes}}</mat-label>
+            <mat-label><strong>{{'stocker_input_audit_status' | translate }}:</strong>
+              {{viewTicket.audit_status}}</mat-label>
           </div>
           <!-- creation_date -->
           <div class="card">
-            <mat-label><strong>{{'stocker_input_creation_date' | translate }}:</strong> {{viewTicket.creation_date}}</mat-label>
+            <mat-label><strong>{{'stocker_input_creation_date' | translate }}:</strong>
+              {{viewTicket.creation_date}}</mat-label>
+          </div>
+          <!-- table notes -->
+          <div class="card">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{'stocker_table_notes_title' | translate}}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <table *ngIf="viewTicket.notes.length > 0">
+                <thead>
+                  <tr>
+                    <!-- <th>{{'stocker_table_notes_id' | translate}}</th> -->
+                    <!-- <th>{{'stocker_table_notes_user_id' | translate}}</th> -->
+                    <th>{{'stocker_table_notes_firstname' | translate}}</th>
+                    <th>{{'stocker_table_notes_lastname' | translate}}</th>
+                    <th>{{'stocker_table_notes_note' | translate}}</th>
+                    <th>{{'stocker_table_notes_creation_date' | translate}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let note of viewTicket.notes">
+                    <!-- <td>{{note.id}}</td> -->
+                    <!-- <td>{{note.user_id}}</td> -->
+                    <td>{{note.firstname}}</td>
+                    <td>{{note.lastname}}</td>
+                    <td>{{note.note}}</td>
+                    <td>{{note.creation_date}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p *ngIf="viewTicket.notes.length === 0">{{'stocker_table_notes_empty' | translate}}</p>
+            </mat-expansion-panel>
           </div>
           <!-- ticket_photo -->
           <div class="card">
@@ -88,7 +128,8 @@
                 <tr *ngFor="let product of viewTicket.products">
                   <td>{{product.product}}</td>
                   <td>{{product.quantity | number}}</td>
-                  <td *ngIf="usuario.role === 'admin'"><a class="ui-link" [routerLink]="['/view/product', product.product_id]"><mat-icon>visibility</mat-icon></a></td>
+                  <td *ngIf="usuario.role === 'admin'"><a class="ui-link"
+                      [routerLink]="['/view/product', product.product_id]"><mat-icon>visibility</mat-icon></a></td>
                 </tr>
               </tbody>
             </table>

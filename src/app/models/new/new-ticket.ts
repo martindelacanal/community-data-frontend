@@ -6,7 +6,14 @@ export interface NewTicket {
   date: string;
   delivered_by: string;
   audit_status: string;
-  notes: string;
+  notes: {
+    id: number;
+    user_id: number;
+    firstname: string;
+    lastname: string;
+    note: string;
+    creation_date: string;
+  }[];
   image_count: number;
   products: {
               product: string;
