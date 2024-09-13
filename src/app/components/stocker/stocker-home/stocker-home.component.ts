@@ -708,9 +708,14 @@ export class StockerHomeComponent implements OnInit {
       destination: [null, Validators.required],
       date: [null, Validators.required],
       delivered_by: [null, Validators.required],
-      audit_status: [null, Validators.required],
+      audit_status: [null],
       notes: [null],
       products: this.formBuilder.array([])
     });
+
+    // disable audit_status if user is not auditor
+    if (this.usuario.role !== 'auditor') {
+      this.stockForm.get('audit_status').disable();
+    }
   }
 }
