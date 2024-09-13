@@ -119,7 +119,7 @@
               <mat-icon>visibility</mat-icon>
               <span>{{'table_tickets_row_button_view' | translate }}</span>
             </button>
-            <button *ngIf="usuario.role === 'admin' || usuario.role === 'stocker'" mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/ticket',element.id]">
+            <button *ngIf="usuario.role === 'admin' || usuario.role === 'stocker' || usuario.role === 'auditor'" mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/ticket',element.id]">
               <mat-icon>edit</mat-icon>
               <span>{{'table_tickets_row_button_edit' | translate }}</span>
             </button>

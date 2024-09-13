@@ -150,6 +150,13 @@
                 <span [class.hidden]="!menuExpanded">{{'menu_button_ticket_table' | translate }}</span>
               </a>
             </li>
+            <li *ngIf="usuario.role === 'auditor'"
+            [class.active-link]="currentRoute.includes('/metrics')" [class.li-collapsed]="!menuExpanded">
+              <a routerLink="/metrics/product">
+                <img class="ui-tarjeta__icono" src="../../../../assets/icons/metricas.svg" alt="Icono de home">
+                <span [class.hidden]="!menuExpanded">{{'menu_button_metrics' | translate }}</span>
+              </a>
+            </li>
             <li *ngIf="usuario.role === 'admin' || usuario.role === 'client' || usuario.role === 'director'"
               [class.active-link]="currentRoute.includes('/metrics')" [class.li-collapsed]="!menuExpanded">
               <a (click)="toggleCardMetrics()" #metricsButton>

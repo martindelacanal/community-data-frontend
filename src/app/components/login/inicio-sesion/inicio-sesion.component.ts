@@ -279,6 +279,9 @@ export class InicioSesionComponent implements OnInit {
       case 'opsmanager':
         this.router.navigate(['stocker/home']);
         break;
+      case 'auditor':
+        this.router.navigate(['table/ticket']);
+        break;
     }
   }
 
