@@ -261,6 +261,9 @@
                 <mat-error *ngIf="showMessageProductNull">
                   {{'stocker_button_submit_product_null_error' | translate }}
                 </mat-error>
+                <mat-error *ngIf="showMessageProductRepeated">
+                  {{'stocker_button_submit_product_repeated_error' | translate }}
+                </mat-error>
               </div>
             </div>
           </div>

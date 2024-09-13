@@ -205,6 +205,7 @@
   "stocker_button_submit_files_error": "Please upload the ticket files.",
   "stocker_button_submit_sum_quantity_error": "The sum of the quantities must be equal to the total weight.",
   "stocker_button_submit_product_null_error": "Please fill the food and quantity fields, or delete the row.",
+  "stocker_button_submit_product_repeated_error": "The food is repeated, please delete or modify the row.",
 
   "stocker_title_edit": "Edit ticket",
   "stocker_button_edit": "Save",

@@ -41,6 +41,7 @@ export class StockerHomeComponent implements OnInit {
   public showMessageFilesInvalid: boolean = false;
   public showMessageQuantityInvalid: boolean = false;
   public showMessageProductNull: boolean = false;
+  public showMessageProductRepeated: boolean = false;
   public locationOrganizationSelected: string = '';
   public locationAddressSelected: string = '';
 
@@ -80,6 +81,18 @@ export class StockerHomeComponent implements OnInit {
     this.buildStockForm();
     // get language from local storage
     translate.use(localStorage.getItem('language') || 'en');
+    this.ticketGetted = {
+      donation_id: '',
+      total_weight: '',
+      provider: '',
+      destination: '',
+      date: '',
+      delivered_by: '',
+      audit_status: '',
+      notes: '',
+      image_count: 0,
+      products: []
+    };
   }
 
   ngOnInit(): void {
@@ -151,6 +164,9 @@ export class StockerHomeComponent implements OnInit {
     var sumQuantity = 0;
     var isQuantityZero = false; // check if there is a product with quantity 0 or null
     var isProductNull = false; // check if there is a product null
+    var isProductRepeated = false; // check if there is a product repeated
+    const productSet = new Set(); // Set to track unique products
+
     for (let i = 0; i < this.productsForm.controls.length; i++) {
       const control = this.productsForm.controls[i];
       const quantity = control.get('quantity').value;
@@ -162,20 +178,28 @@ export class StockerHomeComponent implements OnInit {
       const product = control.get('product').value;
       if (product === null || product === '') {
         isProductNull = true;
+      } else {
+        if (productSet.has(product)) {
+          isProductRepeated = true;
+        } else {
+          productSet.add(product);
+        }
       }
     }
+
     if (isQuantityZero || (sumQuantity !== this.stockForm.get('total_weight').value)) {
       this.isQuantityValid = false;
     } else {
       this.isQuantityValid = true;
     }
 
-    if (this.stockForm.valid && this.isValidFiles && this.isQuantityValid && !isProductNull) {
+    if (this.stockForm.valid && this.isValidFiles && this.isQuantityValid && !isProductNull && !isProductRepeated) {
 
       this.showMessageStockFormInvalid = false;
       this.showMessageFilesInvalid = false;
       this.showMessageQuantityInvalid = false;
       this.showMessageProductNull = false;
+      this.showMessageProductRepeated = false;
       // si se usó un provider creado, se guarda el id, si es nuevo se guarda el texto
       const provider = this.providers.find(p => p.name.toLowerCase() === this.stockForm.get('provider').value.toLowerCase());
       if (provider) {
@@ -273,6 +297,11 @@ export class StockerHomeComponent implements OnInit {
         this.showMessageProductNull = true;
       } else {
         this.showMessageProductNull = false;
+      }
+      if (isProductRepeated) {
+        this.showMessageProductRepeated = true;
+      } else {
+        this.showMessageProductRepeated = false;
       }
 
       this.openSnackBar(this.translate.instant('stocker_snack_form_error'));

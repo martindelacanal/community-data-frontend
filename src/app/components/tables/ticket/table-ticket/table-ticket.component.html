@@ -16,7 +16,7 @@
           (click)="dialogDownloadCsv()">{{'table_tickets_button_download_zip' | translate }}</button>
           <button id="filtersButton" class="ui-button" type="button" (click)="dialogFilters()">{{'metrics_filters_button' |
             translate }}</button>
-        <button *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager'" id="addButton" [routerLink]="['/stocker/home']" class="ui-button">{{'table_tickets_button_add_ticket' | translate }}</button>
+        <button *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager' || usuario.role === 'stocker'" id="addButton" [routerLink]="['/stocker/home']" class="ui-button">{{'table_tickets_button_add_ticket' | translate }}</button>
       </div>
     </div>
     <mat-chip-set class="chip-grid">
@@ -119,7 +119,7 @@
               <mat-icon>visibility</mat-icon>
               <span>{{'table_tickets_row_button_view' | translate }}</span>
             </button>
-            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/ticket',element.id]">
+            <button *ngIf="usuario.role === 'admin' || usuario.role === 'stocker'" mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/edit/ticket',element.id]">
               <mat-icon>edit</mat-icon>
               <span>{{'table_tickets_row_button_edit' | translate }}</span>
             </button>

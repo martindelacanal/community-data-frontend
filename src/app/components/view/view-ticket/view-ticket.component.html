@@ -6,7 +6,7 @@
         <mat-spinner *ngIf="loading || loadingImages" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
       </div>
       <div>
-        <button *ngIf="usuario.role === 'admin'" type="button" class="ui-button" [routerLink]="['/edit/ticket',idTicket]">{{'table_tickets_row_button_edit' |
+        <button *ngIf="usuario.role === 'admin' || usuario.role === 'stocker'" type="button" class="ui-button" [routerLink]="['/edit/ticket',idTicket]">{{'table_tickets_row_button_edit' |
           translate }}</button>
         <button id="tableButton" type="button" class="ui-button" routerLink="/table/ticket">{{'view_ticket_button_tickets' |
           translate }}</button>
@@ -81,14 +81,14 @@
                 <tr>
                   <th>{{'stocker_input_product' | translate}}</th>
                   <th>{{'stocker_input_quantity' | translate}}</th>
-                  <th>{{'view_product_title' | translate}}</th>
+                  <th *ngIf="usuario.role === 'admin'">{{'view_product_title' | translate}}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let product of viewTicket.products">
                   <td>{{product.product}}</td>
                   <td>{{product.quantity | number}}</td>
-                  <td><a class="ui-link" [routerLink]="['/view/product', product.product_id]"><mat-icon>visibility</mat-icon></a></td>
+                  <td *ngIf="usuario.role === 'admin'"><a class="ui-link" [routerLink]="['/view/product', product.product_id]"><mat-icon>visibility</mat-icon></a></td>
                 </tr>
               </tbody>
             </table>
