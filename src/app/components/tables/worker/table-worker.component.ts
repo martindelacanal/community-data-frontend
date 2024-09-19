@@ -11,6 +11,8 @@ import { workerTable } from 'src/app/models/tables/worker-table';
 import { TablesService } from 'src/app/services/tables/tables.service';
 import { DisclaimerEnableDisableElementComponent } from '../../dialog/disclaimer-enable-disable-element/disclaimer-enable-disable-element.component';
 import { MetricsFiltersComponent } from '../../dialog/metrics-filters/metrics-filters.component';
+import { Router } from '@angular/router';
+import * as moment from 'moment-timezone';
 
 const spanishRangeLabel = (page: number, pageSize: number, length: number) => {
   const amountPages = Math.ceil(length / pageSize);
@@ -58,7 +60,8 @@ export class TableWorkerComponent implements OnInit, AfterViewInit {
     public translate: TranslateService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
   ) {
     this.columna = 'id';
     this.filterForm = this.formBuilder.group({
@@ -269,6 +272,32 @@ export class TableWorkerComponent implements OnInit, AfterViewInit {
         this.getDataWorkerTable(this.filterForm.value);
       }
     });
+  }
+
+  viewWorker(id: number, user_id: number, onboarding_date: string, offboarding_date: string): void {
+      // Obtener los filtros actuales del localStorage
+      const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
+
+      // Convertir las fechas a formato ISO sin cambiar la zona horaria
+      const fromDateISO = moment(onboarding_date, 'MM/DD/YYYY HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+      const toDateISO = moment(offboarding_date, 'MM/DD/YYYY HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+
+      // Actualizar los campos from_date y to_date con las nuevas fechas en formato ISO
+      currentFilters.from_date = fromDateISO;
+      currentFilters.to_date = toDateISO;
+
+      // Guardar los filtros actualizados en el localStorage
+      localStorage.setItem('filters', JSON.stringify(currentFilters));
+
+      // Actualizar filters_chip en el localStorage
+      let filters_chip: FilterChip[] = JSON.parse(localStorage.getItem('filters_chip')) || [];
+      filters_chip = filters_chip.filter(f => f.code !== 'from_date' && f.code !== 'to_date');
+      filters_chip.push({ code: 'from_date', name: 'From Date', value: onboarding_date });
+      filters_chip.push({ code: 'to_date', name: 'To Date', value: offboarding_date });
+      localStorage.setItem('filters_chip', JSON.stringify(filters_chip));
+
+      // Navegar a la vista del trabajador
+      this.router.navigate(['/view/worker', user_id]);
   }
 
   private getDataWorkerTable(filters?: any) {

@@ -1,5 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { GraphicLineComplete } from 'src/app/models/grafico-linea/graphic-line-complete';
+import { KindOfProductMetrics } from 'src/app/models/metrics/kindOfProduct-metrics';
 import { ViewClient } from 'src/app/models/view/view-client';
 import { ViewDelivered } from 'src/app/models/view/view-delivered';
 import { ViewEthnicity } from 'src/app/models/view/view-ethnicity';
@@ -29,7 +31,22 @@ export class ViewService {
   }
 
   getViewWorkerTable(idWorker: string, language: string, filters: any){
+    console.log(filters)
     return this.http.post<ViewWorkerTable[]>(`${environment.url_api}/view/worker/table/${idWorker}?language=${language}`, filters)
+  }
+
+  getScannedQRWorkerMetrics(language: string, filters: any, idUser: string){
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<KindOfProductMetrics[]>(`${environment.url_api}/view/worker/scannedQR/${idUser}`, filters, httpOptions);
+  }
+
+  getScanHistoryWorkerMetrics(language: string, filters: any, idUser: string) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<GraphicLineComplete[]>(`${environment.url_api}/view/worker/scanHistory/${idUser}`, filters, httpOptions);
   }
 
   getViewLocation(idLocation: string){

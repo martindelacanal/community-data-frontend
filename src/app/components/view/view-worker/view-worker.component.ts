@@ -5,11 +5,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { ApexNonAxisChartSeries, ApexChart, ApexResponsive, ApexTheme, ApexDataLabels, ApexTooltip, ApexLegend, ChartComponent } from 'ng-apexcharts';
-import { tap, forkJoin } from 'rxjs';
+import { tap, forkJoin, finalize } from 'rxjs';
 import { FilterChip } from 'src/app/models/metrics/filter-chip';
 import { KindOfProductMetrics } from 'src/app/models/metrics/kindOfProduct-metrics';
 import { ViewService } from 'src/app/services/view/view.service';
 import { ViewWorkerTable } from 'src/app/models/view/view-worker/view-worker-table';
+import { ActivatedRoute, Params } from '@angular/router';
+import { GraphicLineComplete } from 'src/app/models/grafico-linea/graphic-line-complete';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { format } from 'date-fns';
 
 export type ChartOptionsYESNO = {
   series: ApexNonAxisChartSeries;
@@ -32,25 +36,54 @@ export class ViewWorkerComponent implements OnInit {
 
   @ViewChild("chartYESNO") chartYESNO: ChartComponent;
 
-  public chartOptionsKindOfProduct: Partial<ChartOptionsYESNO>;
+  public chartOptionsScannedQR: Partial<ChartOptionsYESNO>;
 
   public loadingMetrics: boolean = true;
-  public loadingKindOfProductMetrics: boolean = false;
+  public loadingScannedQRMetrics: boolean = false;
+  public loadingScanHistoryMetrics: boolean = false;
+  public loadingWorkerTable: boolean = false;
   public viewWorkerTable: ViewWorkerTable[] = [];
 
-  public kindOfProductMetrics: KindOfProductMetrics[] = [];
+  public scannedQRMetrics: KindOfProductMetrics[] = [];
+
+  // scan history
+  multi: GraphicLineComplete[] = [];
+  view: [number,number] = [undefined, 300];
+
+  // options
+  legend: boolean = false;
+  showLabels: boolean = true;
+  animations: boolean = true;
+  xAxis: boolean = true;
+  yAxis: boolean = true;
+  showYAxisLabel: boolean = false;
+  showXAxisLabel: boolean = false;
+  xAxisLabel: string = 'Year';
+  yAxisLabel: string = 'Population';
+  timeline: boolean = false;
+  autoScale: boolean = false;
+
+  colorScheme: Color = {
+    name: 'my-color-scheme',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#28A745']
+  };
 
   filterForm: FormGroup;
   loadingCSV: boolean = false;
 
   filtersChip: FilterChip[];
 
+  idWorker: string;
+
   constructor(
     private viewService: ViewService,
     private snackBar: MatSnackBar,
     public translate: TranslateService,
     private dialog: MatDialog,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute,
   ) {
     this.filterForm = this.formBuilder.group({
       from_date: [null],
@@ -58,11 +91,11 @@ export class ViewWorkerComponent implements OnInit {
       locations: [null],
     });
     this.filtersChip = [];
+    this.multi = [];
 
   }
 
   ngOnInit() {
-    this.getViewUser('4', this.translate.currentLang);
 
     // Intenta recuperar el valor de 'filters' del localStorage
     const filters = JSON.parse(localStorage.getItem('filters'));
@@ -87,21 +120,27 @@ export class ViewWorkerComponent implements OnInit {
 
     // Si existe, asigna el valor al formulario
     if (filters) {
-      // Convierte las fechas a objetos Date y luego las formatea en el formato deseado
-      if (filters.from_date) {
-        const date = new Date(filters.from_date + 'T00:00');
-        filters.from_date = date;
-      }
-      if (filters.to_date) {
-        const date2 = new Date(filters.to_date + 'T00:00');
-        filters.to_date = date2;
-      }
+      // // Convierte las fechas a objetos Date y luego las formatea en el formato deseado
+      // if (filters.from_date) {
+      //   const date = new Date(filters.from_date + 'T00:00');
+      //   filters.from_date = date;
+      // }
+      // if (filters.to_date) {
+      //   const date2 = new Date(filters.to_date + 'T00:00');
+      //   filters.to_date = date2;
+      // }
 
       this.filterForm.patchValue(filters);
     }
 
-    this.getKindOfProductMetrics(this.translate.currentLang, this.filterForm.value);
-
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.idWorker = params['id'];
+      if (this.idWorker) {
+        this.getViewUser(this.idWorker, this.translate.currentLang);
+        this.getScannedQRMetrics(this.translate.currentLang, this.filterForm.value);
+        this.getScanHistoryMetrics(this.translate.currentLang, this.filterForm.value);
+      }
+    });
   }
 
   removeFilterChip(filterChip: FilterChip): void {
@@ -117,147 +156,179 @@ export class ViewWorkerComponent implements OnInit {
     localStorage.setItem('filters', JSON.stringify(filters));
     // eliminar el filtro del formulario
     this.filterForm.get(filterChip.code).setValue(null);
-    this.getKindOfProductMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getScannedQRMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getScanHistoryMetrics(this.translate.currentLang, this.filterForm.value);
   }
 
-  private getKindOfProductMetrics(language: string, filters?: any) {
-    this.loadingKindOfProductMetrics = true;
-    // this.metricsService.getKindOfProductMetrics(language, filters).subscribe({
-    //   next: (res) => {
-    //     this.kindOfProductMetrics = res;
-    //     const data = [];
-    //     const categories = [];
-    //     let total = 0;
-    //     for (let i = 0; i < this.kindOfProductMetrics.length; i++) {
-    //       total += this.kindOfProductMetrics[i].total;
-    //     }
-    //     for (let i = 0; i < this.kindOfProductMetrics.length; i++) {
-    //       data.push(this.kindOfProductMetrics[i].total);
-    //       let percentage = 0;
-    //       if (total > 0) {
-    //         percentage = Number(((this.kindOfProductMetrics[i].total / total) * 100).toFixed(2));
-    //       }
-    //       categories.push(this.kindOfProductMetrics[i].name + ' (' + percentage + '%)');
-    //     }
+  private getScannedQRMetrics(language: string, filters?: any) {
+    this.loadingScannedQRMetrics = true;
+    this.viewService.getScannedQRWorkerMetrics(language, filters, this.idWorker).pipe(
+      finalize(() => {
+        this.loadingScannedQRMetrics = false;
+        this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
+      })
+    ).subscribe({
+      next: (res) => {
+        this.scannedQRMetrics = res;
+        const data = [];
+        const categories = [];
+        let total = 0;
+        for (let i = 0; i < this.scannedQRMetrics.length; i++) {
+          total += this.scannedQRMetrics[i].total;
+        }
+        for (let i = 0; i < this.scannedQRMetrics.length; i++) {
+          data.push(this.scannedQRMetrics[i].total);
+          let percentage = 0;
+          if (total > 0) {
+            percentage = Number(((this.scannedQRMetrics[i].total / total) * 100).toFixed(2));
+          }
+          categories.push(this.scannedQRMetrics[i].name + ' (' + percentage + '%)');
+        }
 
-    //     this.chartOptionsKindOfProduct = {
-    //       series: data,
-    //       chart: {
-    //         width: 480,
-    //         type: "pie",
-    //         toolbar: {
-    //           show: true,
-    //           tools: {
-    //             download: true, // Habilitar la descarga de imágenes
-    //           },
-    //         },
-    //       },
-    //       labels: categories,
-    //       legend: {
-    //         position: 'bottom',
-    //       },
-    //       theme: {
-    //         monochrome: {
-    //           enabled: false,
-    //           color: "#97c481",
-    //         }
-    //       },
-    //       colors: this.generateColors(categories.length),
-    //       // dataLabels: {
-    //       //   style: {
-    //       //     colors: ['#5D5D5E']
-    //       //   }
-    //       // },
-    //       tooltip: {
-    //         theme: 'dark',
-    //         y: {
-    //           formatter: function (val) {
-    //             // Convertir el valor a un número y luego a una cadena con formato de miles
-    //             return Number(val).toLocaleString('en-US');
-    //           }
-    //         }
-    //       },
-    //       responsive: [
-    //         {
-    //           breakpoint: 1100,
-    //           options: {
-    //             chart: {
-    //               width: 380
-    //             },
-    //             legend: {
-    //               position: "bottom"
-    //             }
-    //           }
-    //         },
-    //         {
-    //           breakpoint: 850,
-    //           options: {
-    //             chart: {
-    //               width: 500
-    //             },
-    //             legend: {
-    //               position: "bottom"
-    //             }
-    //           }
-    //         },
-    //         {
-    //           breakpoint: 510,
-    //           options: {
-    //             chart: {
-    //               width: 400
-    //             },
-    //             legend: {
-    //               position: "bottom"
-    //             }
-    //           }
-    //         },
-    //         {
-    //           breakpoint: 450,
-    //           options: {
-    //             chart: {
-    //               width: 350
-    //             },
-    //             legend: {
-    //               position: "bottom"
-    //             }
-    //           }
-    //         },
-    //         {
-    //           breakpoint: 350,
-    //           options: {
-    //             chart: {
-    //               width: 300
-    //             },
-    //             legend: {
-    //               position: "bottom"
-    //             }
-    //           }
-    //         }
-    //       ]
-    //     };
+        this.chartOptionsScannedQR = {
+          series: data,
+          chart: {
+            width: 480,
+            type: "pie",
+            toolbar: {
+              show: true,
+              tools: {
+                download: true, // Habilitar la descarga de imágenes
+              },
+            },
+          },
+          labels: categories,
+          legend: {
+            position: 'bottom',
+          },
+          theme: {
+            monochrome: {
+              enabled: false,
+              color: "#97c481",
+            }
+          },
+          colors: this.generateColors(categories.length),
+          // dataLabels: {
+          //   style: {
+          //     colors: ['#5D5D5E']
+          //   }
+          // },
+          tooltip: {
+            theme: 'dark',
+            y: {
+              formatter: function (val) {
+                // Convertir el valor a un número y luego a una cadena con formato de miles
+                return Number(val).toLocaleString('en-US');
+              }
+            }
+          },
+          responsive: [
+            {
+              breakpoint: 1100,
+              options: {
+                chart: {
+                  width: 380
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            },
+            {
+              breakpoint: 850,
+              options: {
+                chart: {
+                  width: 500
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            },
+            {
+              breakpoint: 510,
+              options: {
+                chart: {
+                  width: 400
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            },
+            {
+              breakpoint: 450,
+              options: {
+                chart: {
+                  width: 350
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            },
+            {
+              breakpoint: 350,
+              options: {
+                chart: {
+                  width: 300
+                },
+                legend: {
+                  position: "bottom"
+                }
+              }
+            }
+          ]
+        };
 
-    //     this.loadingKindOfProductMetrics = false;
-    //     this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
-    //   },
-    //   error: (error) => {
-    //     console.error(error);
-    //   }
-    // });
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
+  formatXAxisTick(tick: any): string {
+    return format(new Date(tick), 'MM/dd/yyyy');
+  }
+
+  private getScanHistoryMetrics(language: string, filters?: any) {
+    this.loadingScanHistoryMetrics = true;
+    this.viewService.getScanHistoryWorkerMetrics(language, filters, this.idWorker).pipe(
+      finalize(() => {
+        this.loadingScanHistoryMetrics = false;
+        this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
+      })
+    ).subscribe({
+      next: (res) => {
+        if(res.length > 0){
+          this.multi = res;
+        }else{
+          this.multi = [];
+        }
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
   }
 
   private getViewUser(idUser: string, language: string) {
-    this.loadingCSV = true;
-    this.viewService.getViewWorkerTable(idUser, language, this.filterForm.value).subscribe({
+    this.loadingWorkerTable = true;
+    this.viewService.getViewWorkerTable(idUser, language, this.filterForm.value).pipe(
+      finalize(() => {
+        this.loadingWorkerTable = false;
+        this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
+      })
+    ).subscribe({
       next: (res) => {
         if (res) {
           this.viewWorkerTable = res;
         }
-        this.loadingCSV = false;
       },
       error: (error) => {
         console.log(error);
         this.openSnackBar(this.translate.instant('view_user_error'));
-        this.loadingCSV = false;
       }
     });
   }
@@ -343,7 +414,8 @@ export class ViewWorkerComponent implements OnInit {
         // recuperar filter-chip del localStorage
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
-        this.getKindOfProductMetrics(this.translate.currentLang, result.data);
+        this.getScannedQRMetrics(this.translate.currentLang, result.data);
+        this.getScanHistoryMetrics(this.translate.currentLang, result.data);
       }
     });
   }
@@ -353,7 +425,7 @@ export class ViewWorkerComponent implements OnInit {
   }
 
   private checkLoadingMetrics() {
-    if (!this.loadingKindOfProductMetrics) {
+    if (!this.loadingScannedQRMetrics && !this.loadingScanHistoryMetrics && !this.loadingWorkerTable) {
       this.loadingMetrics = false;
     }
   }

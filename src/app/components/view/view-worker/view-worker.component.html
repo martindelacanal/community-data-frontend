@@ -1,13 +1,15 @@
 <div class="container">
   <section class="header">
-    <h1 class="title">{{'view_worker_title' | translate }}</h1>
-    <div class="buttons">
-      <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+    <div class="header__title">
+      <h1 class="title">{{'view_worker_title' | translate }} {{idWorker}}</h1>
+      <mat-spinner *ngIf="loadingMetrics" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+    </div>
+    <div>
       <!-- <button *ngIf="!loadingCSV" class="ui-button" type="button"
         (click)="dialogDownloadCsv()">{{'metrics_button_download_csv' | translate }}</button> -->
       <button id="filtersButton" class="ui-button" type="button" (click)="dialogFilters()">{{'metrics_filters_button' |
         translate }}</button>
-      <button id="tableButton" type="button" class="ui-button" routerLink="/table/workers">
+      <button id="tableButton" type="button" class="ui-button" routerLink="/table/worker">
         {{'view_worker_button_workers' | translate }}</button>
     </div>
   </section>
@@ -23,27 +25,35 @@
       </mat-chip>
     </ng-container>
   </mat-chip-set>
-  <mat-spinner *ngIf="loadingMetrics" class="loading-questions" mode="indeterminate" [diameter]="30"></mat-spinner>
   <section class="main_tarjetas">
     <div class="ui-tarjeta">
       <div class="question">
         <h2>{{'view_worker_scanned_qr' | translate }}</h2>
       </div>
-      <!-- <div id="chartYESNO" *ngIf="chartOptionsKindOfProduct">
-        <apx-chart [series]="chartOptionsKindOfProduct.series" [chart]="chartOptionsKindOfProduct.chart"
-          [labels]="chartOptionsKindOfProduct.labels" [legend]="chartOptionsKindOfProduct.legend"
-          [colors]="chartOptionsKindOfProduct.colors" [responsive]="chartOptionsKindOfProduct.responsive"
-          [theme]="chartOptionsKindOfProduct.theme" [dataLabels]="chartOptionsKindOfProduct.dataLabels"
-          [tooltip]="chartOptionsKindOfProduct.tooltip"></apx-chart>
-      </div> -->
+      <div id="chartYESNO" *ngIf="chartOptionsScannedQR">
+        <apx-chart [series]="chartOptionsScannedQR.series" [chart]="chartOptionsScannedQR.chart"
+          [labels]="chartOptionsScannedQR.labels" [legend]="chartOptionsScannedQR.legend"
+          [colors]="chartOptionsScannedQR.colors" [responsive]="chartOptionsScannedQR.responsive"
+          [theme]="chartOptionsScannedQR.theme" [dataLabels]="chartOptionsScannedQR.dataLabels"
+          [tooltip]="chartOptionsScannedQR.tooltip"></apx-chart>
+      </div>
     </div>
     <div class="ui-tarjeta">
       <div class="question">
         <h2>{{'view_user_table_title_delivery' | translate }}</h2>
       </div>
-      <br>
-      <p>GRAPHIC</p>
-      <br>
+      <ngx-charts-line-chart [xAxisTickFormatting]="formatXAxisTick" [view]="view" [scheme]="colorScheme"
+        [legend]="legend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis"
+        [yAxis]="yAxis" [autoScale]="autoScale" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+        [timeline]="timeline" [results]="multi">
+        <ng-template #tooltipTemplate let-model="model">
+          <div class="tooltip-mouse-punto-interseccion">
+            <div>{{ model.series }}</div>
+            <div>{{ model.name | date: 'MM/dd/yyyy' }}</div>
+            <div>{{ model.value }}</div>
+          </div>
+        </ng-template>
+      </ngx-charts-line-chart>
     </div>
     <div class="ui-tarjeta">
       <div class="question">
@@ -67,7 +77,8 @@
             <td>{{row.username}}</td>
             <td>{{row.location}}</td>
             <td>{{row.creation_date}}</td>
-            <td><a class="ui-link" [routerLink]="['/view/delivered', row.receiving_user_id]"><mat-icon>visibility</mat-icon></a></td>
+            <td><a class="ui-link"
+                [routerLink]="['/view/delivered', row.receiving_user_id]"><mat-icon>visibility</mat-icon></a></td>
           </tr>
         </tbody>
       </table>
