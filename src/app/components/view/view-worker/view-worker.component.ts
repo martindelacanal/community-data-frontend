@@ -67,7 +67,7 @@ export class ViewWorkerComponent implements OnInit {
     name: 'my-color-scheme',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#28A745']
+    domain: ['#28A745', '#EC1C64']
   };
 
   filterForm: FormGroup;
