@@ -112,6 +112,35 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
             this.deliveryForm.get('client_id').setValidators([]);
             this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
             this.deliveryForm.get('client_id').updateValueAndValidity();
+            // Si está onBoarded, hacer offBoard
+            if (this.onBoarded) {
+              this.deliveryService.onBoard(false, this.deliveryForm.value.destination, this.deliveryForm.value.client_id).pipe(
+                finalize(() => {
+                  this.clientsFiltered = this.clients.filter(client => client.location_ids.includes(this.deliveryForm.value.destination));
+                  this.loading = false;
+                })
+              ).subscribe({
+                next: (res) => {
+                  this.deliveryForm.get('client_id').setValue(null); // Limpia el campo client_id
+                  this.userLocation = null;
+                  this.onBoarded = false;
+                  this.openSnackBar(this.translate.instant('delivery_snack_geolocation_more_than_1km'));
+                  // Actualizar la ubicación cada 1 minuto mientras onBoarded sea false
+                  this.locationInterval = setInterval(() => {
+                    if (!this.onBoarded) {
+                      this.getCurrentLocation();
+                    } else {
+                      clearInterval(this.locationInterval);
+                    }
+                  }, 60000); // 60000 ms = 1 minuto
+                },
+                error: (error) => {
+                  console.log(error);
+                  this.onBoarded = true;
+                  this.openSnackBar(this.translate.instant('delivery_snack_off_boarded_error'));
+                }
+              });
+            }
           }
         } else {
           this.moreThanDistance = false;
@@ -237,6 +266,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
         })
         .catch(err => {
           console.error('Error al acceder a la cámara trasera', err);
+          this.openSnackBar(this.translate.instant('delivery_snack_camera_error_reload'));
         });
 
       this.qrScannerComponent.capturedQr.subscribe(result => {
@@ -260,7 +290,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
                       this.isReceivingLocationErrorNull = true; // no se pudo leer id de la locacion del beneficiario
                       break;
                     default:
-                      this.openSnackBar(this.translate.instant('delivery_snack_upload_qr_error'));
+                      this.openSnackBar(this.translate.instant('delivery_snack_upload_qr_error') + '1');
                       break;
                   }
 
@@ -276,7 +306,7 @@ export class DeliveryHomeComponent implements OnInit, AfterViewChecked {
               },
               error: (error) => {
                 console.log(error);
-                this.openSnackBar(this.translate.instant('delivery_snack_upload_qr_error'));
+                this.openSnackBar(this.translate.instant('delivery_snack_upload_qr_error') + '2 ' + error.status);
                 this.infoValid = false;
                 this.loading = false;
               }
