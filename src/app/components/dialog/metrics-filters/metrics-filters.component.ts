@@ -15,6 +15,7 @@ import { ProductType } from 'src/app/models/stocker/product-type';
 import { Provider } from 'src/app/models/stocker/provider';
 import { Ethnicity } from 'src/app/models/user/ethnicity';
 import { Gender } from 'src/app/models/user/gender';
+import { WorkerFilter } from 'src/app/models/view/view-worker/worker-filter';
 import { DeliveryService } from 'src/app/services/deliver/delivery.service';
 import { AuthService } from 'src/app/services/login/auth.service';
 import { StockerService } from 'src/app/services/stock/stocker.service';
@@ -29,12 +30,14 @@ export class MetricsFiltersComponent implements OnInit {
   filterForm: FormGroup;
   registerForm: FormGroup;
 
+  workers: WorkerFilter[] = [];
   locations: Location[] = [];
   providers: Provider[] = [];
   product_types: ProductType[] = [];
   genders: Gender[];
   ethnicities: Ethnicity[];
   origin: string = '';
+  selectAllTextWorkers = 'Select all';
   selectAllTextLocations = 'Select all';
   selectAllTextGenders = 'Select all';
   selectAllTextEthnicities = 'Select all';
@@ -68,6 +71,7 @@ export class MetricsFiltersComponent implements OnInit {
     this.filterForm = this.formBuilder.group({
       from_date: [null],
       to_date: [null],
+      workers: [null],
       locations: [null],
       providers: [null],
       product_types: [null],
@@ -90,6 +94,7 @@ export class MetricsFiltersComponent implements OnInit {
     this.filtersChipAnterior = localStorage.getItem('filters_chip');
 
     // Traduce el texto de los botones de selección
+    this.selectAllTextWorkers = this.translate.instant('metrics_filters_button_select_all');
     this.selectAllTextLocations = this.translate.instant('metrics_filters_button_select_all');
     this.selectAllTextProviders = this.translate.instant('metrics_filters_button_select_all');
     this.selectAllTextProductTypes = this.translate.instant('metrics_filters_button_select_all');
@@ -120,6 +125,10 @@ export class MetricsFiltersComponent implements OnInit {
 
     let array_api = [];
     let keys_available = [];
+    if (this.origin === 'table-worker') {
+      array_api.push(this.getWorkers());
+      keys_available.push('workers');
+    }
     if (this.origin !== 'table-product-type' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary') {
       array_api.push(this.getLocations());
       keys_available.push('locations');
@@ -158,12 +167,18 @@ export class MetricsFiltersComponent implements OnInit {
           //borrar el filtro si ya existe
           filters_chip = filters_chip.filter(f => f.code !== key);
           if (val[key] && (!Array.isArray(val[key]) || val[key].length) && val[key] !== '') {
-            // si es un array de id, recorrerlo y guardar los nombres separados por coma utilizando las variables locations, providers, product_types, genders y ethnicities
-            if (key === 'locations' || key === 'providers' || key === 'product_types' || key === 'genders' || key === 'ethnicities') {
+            // si es un array de id, recorrerlo y guardar los nombres separados por coma utilizando las variables workers, locations, providers, product_types, genders y ethnicities
+            if (key === 'workers' || key === 'locations' || key === 'providers' || key === 'product_types' || key === 'genders' || key === 'ethnicities') {
               if (keys_available.includes(key)) {
                 let names = [];
                 val[key].forEach(id => {
                   switch (key) {
+                    case 'workers':
+                      let worker = this.workers.find(l => l.id === id);
+                      if (worker) {
+                        names.push(worker.username);
+                      }
+                      break;
                     case 'locations':
                       let location = this.locations.find(l => l.id === id);
                       if (location) {
@@ -373,6 +388,9 @@ export class MetricsFiltersComponent implements OnInit {
 
   setSelectAllText(selectType: string, text: string) {
     switch (selectType) {
+      case 'workers':
+        this.selectAllTextWorkers = text;
+        break;
       case 'locations':
         this.selectAllTextLocations = text;
         break;
@@ -389,6 +407,18 @@ export class MetricsFiltersComponent implements OnInit {
         this.selectAllTextEthnicities = text;
         break;
     }
+  }
+
+  private getWorkers() {
+    return this.deliveryService.getWorkers().pipe(
+      tap((res) => {
+        this.workers = res;
+      }),
+      catchError((error) => {
+        console.error(error);
+        return of(null);
+      })
+    );
   }
 
   private getLocations() {

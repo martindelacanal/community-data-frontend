@@ -5,6 +5,7 @@ import { beneficiaryQR } from 'src/app/models/beneficiary/beneficiary-qr.model';
 import { Location } from 'src/app/models/map/location';
 import { UserStatus } from 'src/app/models/user/user-status';
 import { RegisterQuestion } from 'src/app/models/login/register-question';
+import { WorkerFilter } from 'src/app/models/view/view-worker/worker-filter';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,10 @@ export class DeliveryService {
   uploadPhone(phone: number, location_id: number, client_id: number, user_id_from_phone_list: number){
     const body = {phone: phone, user_id: user_id_from_phone_list};
     return this.http.post<any>(`${environment.url_api}/upload/beneficiaryPhone/${location_id}/${client_id}`, body);
+  }
+
+  getWorkers(){
+    return this.http.get<WorkerFilter[]>(`${environment.url_api}/workers`);
   }
 
   getLocations(){

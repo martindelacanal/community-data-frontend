@@ -31,7 +31,6 @@ export class ViewService {
   }
 
   getViewWorkerTable(idWorker: string, language: string, filters: any){
-    console.log(filters)
     return this.http.post<ViewWorkerTable[]>(`${environment.url_api}/view/worker/table/${idWorker}?language=${language}`, filters)
   }
 

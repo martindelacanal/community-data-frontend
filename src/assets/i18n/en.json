@@ -316,6 +316,8 @@
   "metrics_filters_input_to_date": "To",
   "metrics_filters_title_locations": "Select locations",
   "metrics_filters_input_locations": "Locations",
+  "metrics_filters_title_workers": "Select workers",
+  "metrics_filters_input_workers": "Workers",
   "metrics_filters_title_genders": "Select genders",
   "metrics_filters_input_genders": "Genders",
   "metrics_filters_title_ethnicities": "Select ethnicities",

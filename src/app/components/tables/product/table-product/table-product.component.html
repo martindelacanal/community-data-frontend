@@ -25,7 +25,8 @@
                           filterChip.code !== 'genders' &&
                           filterChip.code !== 'max_age' &&
                           filterChip.code !== 'min_age' &&
-                          filterChip.code !== 'zipcode'"
+                          filterChip.code !== 'zipcode' &&
+                          filterChip.code !== 'workers'"
           (removed)="removeFilterChip(filterChip)">
           {{filterChip.name}}: {{filterChip.value}}
           <button matChipRemove>

@@ -148,7 +148,7 @@ export class ViewWorkerComponent implements OnInit {
     localStorage.setItem('filters_chip', JSON.stringify(this.filtersChip));
     // colocar en null o [] el campo de filters en localStorage
     const filters = JSON.parse(localStorage.getItem('filters'));
-    if (filterChip.code === 'genders' || filterChip.code === 'ethnicities' || filterChip.code === 'locations' || filterChip.code === 'product_types' || filterChip.code === 'providers') {
+    if (filterChip.code === 'genders' || filterChip.code === 'ethnicities' || filterChip.code === 'workers' || filterChip.code === 'locations' || filterChip.code === 'product_types' || filterChip.code === 'providers') {
       filters[filterChip.code] = [];
     } else {
       filters[filterChip.code] = null;
@@ -329,60 +329,6 @@ export class ViewWorkerComponent implements OnInit {
       error: (error) => {
         console.log(error);
         this.openSnackBar(this.translate.instant('view_user_error'));
-      }
-    });
-  }
-
-  dialogDownloadCsv(): void {
-    const dialogRef = this.dialog.open(MetricsFiltersComponent, {
-      width: '370px',
-      data: {
-        origin: 'table-worker'
-      },
-      disableClose: true
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.status) {
-        this.loadingCSV = true;
-
-        // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
-        if (result.data.from_date) {
-          const date = new Date(result.data.from_date + 'T00:00');
-          this.filterForm.get('from_date').setValue(date);
-        }
-        if (result.data.to_date) {
-          const date2 = new Date(result.data.to_date + 'T00:00');
-          this.filterForm.get('to_date').setValue(date2);
-        }
-
-        // set values into filterForm
-        this.filterForm.get('locations').setValue(result.data.locations);
-        this.filterForm.get('providers').setValue(result.data.providers);
-        this.filterForm.get('product_types').setValue(result.data.product_types);
-
-        // recuperar filter-chip del localStorage
-        this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
-
-        // this.metricsService.getDemographicFileCSV(result.data).subscribe({
-        //   next: (res) => {
-        //     const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
-        //     const url = window.URL.createObjectURL(blob);
-        //     const a = document.createElement('a');
-        //     a.href = url;
-        //     a.download = 'demographic-metrics.csv';
-        //     document.body.appendChild(a);
-        //     a.click();
-        //     document.body.removeChild(a);
-        //     window.URL.revokeObjectURL(url);
-        //     this.loadingCSV = false;
-        //   },
-        //   error: (error) => {
-        //     console.log(error);
-        //     this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
-        //     this.loadingCSV = false;
-        //   }
-        // });
       }
     });
   }

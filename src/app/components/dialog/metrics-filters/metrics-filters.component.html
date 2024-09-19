@@ -79,6 +79,23 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <!-- workers -->
+      <div
+        *ngIf="this.origin === 'table-worker'">
+        <br>
+        <p>{{'metrics_filters_title_workers' | translate }}</p>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{'metrics_filters_input_workers' | translate }}</mat-label>
+          <mat-select #filterWorkers formControlName="workers" multiple>
+            <mat-option [value]="0"
+              (click)="toggleAllSelection(filterWorkers, 'workers')"><b>{{this.selectAllTextWorkers}}</b></mat-option>
+            <mat-option *ngFor="let worker of workers" [value]="worker.id">
+              {{worker.username}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <!-- genders -->
       <div *ngIf="this.origin == 'table-user' || this.origin == 'table-participant'">
         <br>
