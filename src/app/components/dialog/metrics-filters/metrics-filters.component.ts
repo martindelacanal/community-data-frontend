@@ -120,7 +120,7 @@ export class MetricsFiltersComponent implements OnInit {
 
     let array_api = [];
     let keys_available = [];
-    if (this.origin !== 'table-product-type' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-worker' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary') {
+    if (this.origin !== 'table-product-type' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary') {
       array_api.push(this.getLocations());
       keys_available.push('locations');
     }
