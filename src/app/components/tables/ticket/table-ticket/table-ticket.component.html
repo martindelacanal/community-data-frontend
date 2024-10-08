@@ -124,7 +124,7 @@
               <mat-icon>edit</mat-icon>
               <span>{{'table_tickets_row_button_edit' | translate }}</span>
             </button>
-            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado">
+            <button *ngIf="usuario.role === 'admin'" mat-menu-item class="boton-usuario-desplegado" (click)="dialogDelete(element.id)">
               <mat-icon>delete</mat-icon>
               <span>{{'table_tickets_row_button_delete' | translate }}</span>
             </button>

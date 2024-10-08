@@ -71,8 +71,12 @@ export class TablesService {
     return this.http.post<workerTable>(`${environment.url_api}/table/worker?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
   }
 
-  getFileCSV(filters: any, language: string) {
+  getFileCSV(language: string, filters: any) {
     return this.http.post(`${environment.url_api}/table/ticket/download-csv?language=${language}`, filters, { responseType: 'blob' });
+  }
+
+  deleteTicket(id: string){
+    return this.http.delete<any>(`${environment.url_api}/ticket/${id}`);
   }
 
   getDeliveredFileCSV(filters: any) {

@@ -392,6 +392,9 @@
   "table_tickets_button_add_ticket": "Agregar ticket",
   "table_tickets_button_download_zip": "Descargar ZIP",
   "table_tickets_button_download_zip_error": "Error al descargar ZIP",
+  "table_tickets_disclaimer_delete": "¿Estás seguro que deseas eliminar el ticket?",
+  "table_tickets_delete_success": "Ticket eliminado con éxito",
+  "table_tickets_delete_error": "Error al eliminar el ticket",
 
   "table_delivered_title": "Entregas",
   "table_delivered_snack_error_get": "Error al obtener las entregas",

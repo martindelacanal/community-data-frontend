@@ -6,7 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { debounceTime, forkJoin, tap } from 'rxjs';
+import { debounceTime, finalize, forkJoin, tap } from 'rxjs';
+import { DisclaimerRegisterComponent } from 'src/app/components/dialog/disclaimer-register/disclaimer-register/disclaimer-register.component';
 import { MetricsFiltersComponent } from 'src/app/components/dialog/metrics-filters/metrics-filters.component';
 import { Usuario } from 'src/app/models/login/usuario';
 import { FilterChip } from 'src/app/models/metrics/filter-chip';
@@ -49,7 +50,7 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
   buscar = new FormControl();
   buscarValor: string = '';
   pagina: number = 0;
-  columna: string = 'id';
+  columna: string = 'date';
   ordenarTipo: string = 'desc';
   ordenCambiado: { columna: string, direccion: string };
 
@@ -66,7 +67,7 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
     private decodificadorService: DecodificadorService,
     private formBuilder: FormBuilder
   ) {
-    this.columna = 'id';
+    this.columna = 'date';
     this.usuario = this.decodificadorService.getUsuario();
     this.filterForm = this.formBuilder.group({
       from_date: [null],
@@ -259,7 +260,7 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
         // recuperar filter-chip del localStorage
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
-        this.tablesService.getFileCSV(this.translate.currentLang, result.data).subscribe({
+        this.tablesService.getFileCSV(this.translate.currentLang, this.filterForm.value).subscribe({
           next: (res) => {
             const blob = new Blob([res as BlobPart], { type: 'application/zip' });
             const url = window.URL.createObjectURL(blob);
@@ -282,6 +283,36 @@ export class TableTicketComponent implements OnInit, AfterViewInit {
         this.getDataTicketTable(this.filterForm.value);
       }
     });
+  }
+
+  dialogDelete(id: string): void {
+    const dialogRef = this.dialog.open(DisclaimerRegisterComponent, {
+      width: '370px',
+      data: this.translate.instant('table_tickets_disclaimer_delete'),
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.status) {
+        this.loading = true;
+        this.tablesService.deleteTicket(id).pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe({
+          next: (res) => {
+            this.openSnackBar(this.translate.instant('table_tickets_delete_success'));
+            // Actualizar la tabla
+            this.getDataTicketTable(this.filterForm.value);
+          },
+          error: (error) => {
+            console.log(error);
+            this.openSnackBar(this.translate.instant('table_tickets_delete_error'));
+          }
+        });
+      }
+    });
+
   }
 
   openSnackBar(message: string) {
