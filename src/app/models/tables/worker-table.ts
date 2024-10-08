@@ -1,7 +1,7 @@
 export interface workerTable {
   results: [
       {
-        id: string,
+        first_onboarding_id: string,
         user_id: string,
         username: string,
         firstname: string,

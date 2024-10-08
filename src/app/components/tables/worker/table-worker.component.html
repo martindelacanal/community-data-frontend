@@ -36,13 +36,13 @@
       </ng-container>
     </mat-chip-set>
     <table mat-table [dataSource]="dataSource">
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('id')"
-          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'id', 'desc': ordenarTipo === 'desc' && columna === 'id'}">
+      <ng-container matColumnDef="first_onboarding_id">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('first_onboarding_id')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'first_onboarding_id', 'desc': ordenarTipo === 'desc' && columna === 'first_onboarding_id'}">
           <strong>ID</strong><span></span>
         </th>
         <tr>
-          <td mat-cell *matCellDef="let element">{{element.id}}</td>
+          <td mat-cell *matCellDef="let element">{{element.first_onboarding_id}}</td>
         </tr>
       </ng-container>
       <ng-container matColumnDef="user_id">
@@ -101,7 +101,7 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu" class="menu-tabla">
-            <button mat-menu-item class="boton-usuario-desplegado" (click)="viewWorker(element.id, element.user_id, element.onboarding_date, element.offboarding_date)">
+            <button mat-menu-item class="boton-usuario-desplegado" (click)="viewWorker(element.first_onboarding_id, element.user_id, element.onboarding_date, element.offboarding_date)">
               <mat-icon>visibility</mat-icon>
               <span>{{'table_workers_row_button_view' | translate }}</span>
             </button>

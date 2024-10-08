@@ -37,7 +37,7 @@ export class TableWorkerComponent implements OnInit, AfterViewInit {
 
   dataWorkerTable: workerTable;
   dataSource: any;
-  columns = [' ', 'id', 'user_id', 'username', 'firstname', 'lastname', 'community_city', 'onboarding_date', 'offboarding_date'];
+  columns = [' ', 'first_onboarding_id', 'user_id', 'username', 'firstname', 'lastname', 'community_city', 'onboarding_date', 'offboarding_date'];
 
   tabIndex = 0;
   totalItems: number = 0;
@@ -47,7 +47,7 @@ export class TableWorkerComponent implements OnInit, AfterViewInit {
   buscar = new FormControl();
   buscarValor: string = '';
   pagina: number = 0;
-  columna: string = 'id';
+  columna: string = 'first_onboarding_id';
   ordenarTipo: string = 'desc';
   ordenCambiado: { columna: string, direccion: string };
 
@@ -63,7 +63,7 @@ export class TableWorkerComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private router: Router,
   ) {
-    this.columna = 'id';
+    this.columna = 'first_onboarding_id';
     this.filterForm = this.formBuilder.group({
       from_date: [null],
       to_date: [null],
@@ -284,7 +284,7 @@ export class TableWorkerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  viewWorker(id: number, user_id: number, onboarding_date: string, offboarding_date: string | null): void {
+  viewWorker(first_onboarding_id: number, user_id: number, onboarding_date: string, offboarding_date: string | null): void {
     // Obtener los filtros actuales del localStorage
     const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
 
@@ -316,7 +316,6 @@ export class TableWorkerComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.tablesService.getDataWorkerTable(this.pagina + 1, this.columna, this.ordenarTipo, this.buscarValor, this.translate.currentLang, filters).subscribe({
       next: (res) => {
-
         this.pagina = res.page;
         this.columna = res.orderBy;
         this.ordenarTipo = res.orderType;
