@@ -67,7 +67,7 @@ export class ViewWorkerComponent implements OnInit {
     name: 'my-color-scheme',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#28A745', '#EC1C64']
+    domain: ['#97c481', '#EC1C64']
   };
 
   filterForm: FormGroup;
@@ -207,7 +207,7 @@ export class ViewWorkerComponent implements OnInit {
               color: "#97c481",
             }
           },
-          colors: this.generateColors(categories.length),
+          colors: ['#97c481', '#EC1C64'],
           // dataLabels: {
           //   style: {
           //     colors: ['#5D5D5E']
@@ -380,27 +380,27 @@ export class ViewWorkerComponent implements OnInit {
     return '#' + color.replace(/^#/, '').replace(/../g, color => ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
   }
 
-  private generateColors(n) {
-    const colors = [];
-    const baseColor = '97c481';
-    const maxLightColors = 2;
-    const darkColorsCount = Math.max(n - maxLightColors, 0);
-    const lightColorsCount = Math.min(n, maxLightColors);
+  // private generateColors(n) {
+  //   const colors = [];
+  //   const baseColor = '97c481';
+  //   const maxLightColors = 2;
+  //   const darkColorsCount = Math.max(n - maxLightColors, 0);
+  //   const lightColorsCount = Math.min(n, maxLightColors);
 
-    // Genera colores más oscuros
-    for (let i = 0; i < darkColorsCount; i++) {
-      const amount = -20 * (darkColorsCount - i);
-      colors.push(this.adjustColor(baseColor, amount));
-    }
+  //   // Genera colores más oscuros
+  //   for (let i = 0; i < darkColorsCount; i++) {
+  //     const amount = -20 * (darkColorsCount - i);
+  //     colors.push(this.adjustColor(baseColor, amount));
+  //   }
 
-    // Genera colores más claros
-    for (let i = 0; i < lightColorsCount; i++) {
-      const amount = 20 * (i + 1);
-      colors.push(this.adjustColor(baseColor, amount));
-    }
+  //   // Genera colores más claros
+  //   for (let i = 0; i < lightColorsCount; i++) {
+  //     const amount = 20 * (i + 1);
+  //     colors.push(this.adjustColor(baseColor, amount));
+  //   }
 
-    return colors;
-  }
+  //   return colors;
+  // }
 
 }
 
