@@ -89,6 +89,7 @@ export class ViewWorkerComponent implements OnInit {
       from_date: [null],
       to_date: [null],
       locations: [null],
+      workers: [null],
     });
     this.filtersChip = [];
     this.multi = [];
@@ -120,15 +121,15 @@ export class ViewWorkerComponent implements OnInit {
 
     // Si existe, asigna el valor al formulario
     if (filters) {
-      // // Convierte las fechas a objetos Date y luego las formatea en el formato deseado
-      // if (filters.from_date) {
-      //   const date = new Date(filters.from_date + 'T00:00');
-      //   filters.from_date = date;
-      // }
-      // if (filters.to_date) {
-      //   const date2 = new Date(filters.to_date + 'T00:00');
-      //   filters.to_date = date2;
-      // }
+      // Convierte las fechas a objetos Date y luego las formatea en el formato deseado
+      if (filters.from_date) {
+        const date = new Date(filters.from_date + 'T00:00');
+        filters.from_date = date;
+      }
+      if (filters.to_date) {
+        const date2 = new Date(filters.to_date + 'T00:00');
+        filters.to_date = date2;
+      }
 
       this.filterForm.patchValue(filters);
     }
@@ -136,6 +137,7 @@ export class ViewWorkerComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.idWorker = params['id'];
       if (this.idWorker) {
+        this.loadingMetrics = true;
         this.getViewUser(this.idWorker, this.translate.currentLang);
         this.getScannedQRMetrics(this.translate.currentLang, this.filterForm.value);
         this.getScanHistoryMetrics(this.translate.currentLang, this.filterForm.value);
@@ -156,6 +158,8 @@ export class ViewWorkerComponent implements OnInit {
     localStorage.setItem('filters', JSON.stringify(filters));
     // eliminar el filtro del formulario
     this.filterForm.get(filterChip.code).setValue(null);
+    this.loadingMetrics = true;
+    this.getViewUser(this.idWorker, this.translate.currentLang);
     this.getScannedQRMetrics(this.translate.currentLang, this.filterForm.value);
     this.getScanHistoryMetrics(this.translate.currentLang, this.filterForm.value);
   }
@@ -356,10 +360,13 @@ export class ViewWorkerComponent implements OnInit {
 
         // set values into filterForm
         this.filterForm.get('locations').setValue(result.data.locations);
+        this.filterForm.get('workers').setValue(result.data.workers);
 
         // recuperar filter-chip del localStorage
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
+        this.loadingMetrics = true;
+        this.getViewUser(this.idWorker, this.translate.currentLang);
         this.getScannedQRMetrics(this.translate.currentLang, result.data);
         this.getScanHistoryMetrics(this.translate.currentLang, result.data);
       }

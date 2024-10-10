@@ -618,7 +618,7 @@
 
   "view_worker_title": "Ver worker",
   "view_worker_error": "Error al obtener el worker",
-  "view_worker_scanned_qr": "QR escaneado",
+  "view_worker_scanned_qr": "QR escaneado entre fechas",
   "view_worker_table_header_id": "ID",
   "view_worker_table_header_receiving_user_id": "ID de participante",
   "view_worker_table_header_username": "Usuario de participante",

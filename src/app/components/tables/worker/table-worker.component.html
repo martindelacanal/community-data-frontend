@@ -101,7 +101,7 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu" class="menu-tabla">
-            <button mat-menu-item class="boton-usuario-desplegado" (click)="viewWorker(element.first_onboarding_id, element.user_id, element.onboarding_date, element.offboarding_date)">
+            <button mat-menu-item class="boton-usuario-desplegado" (click)="viewWorker(element.user_id, element.onboarding_date, element.offboarding_date)">
               <mat-icon>visibility</mat-icon>
               <span>{{'table_workers_row_button_view' | translate }}</span>
             </button>

@@ -284,32 +284,32 @@ export class TableWorkerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  viewWorker(first_onboarding_id: number, user_id: number, onboarding_date: string, offboarding_date: string | null): void {
-    // Obtener los filtros actuales del localStorage
-    const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
+  viewWorker(user_id: number, onboarding_date: string, offboarding_date: string | null): void {
+      // Obtener los filtros actuales del localStorage
+      const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
 
-    // Convertir las fechas a formato ISO sin cambiar la zona horaria
-    const fromDateISO = moment(onboarding_date, 'MM/DD/YYYY HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-    const toDateISO = offboarding_date
-      ? moment(offboarding_date, 'MM/DD/YYYY HH:mm:ss').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
-      : moment().tz('America/Los_Angeles').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+      // Convertir las fechas a formato ISO sin la parte del horario
+      const fromDateISO = moment(onboarding_date, 'MM/DD/YYYY').format('YYYY-MM-DD');
+      const toDateISO = offboarding_date
+        ? moment(offboarding_date, 'MM/DD/YYYY').format('YYYY-MM-DD')
+        : moment().tz('America/Los_Angeles').format('YYYY-MM-DD');
 
-    // Actualizar los campos from_date y to_date con las nuevas fechas en formato ISO
-    currentFilters.from_date = fromDateISO;
-    currentFilters.to_date = toDateISO;
+      // Actualizar los campos from_date y to_date con las nuevas fechas en formato ISO (solo fecha)
+      currentFilters.from_date = fromDateISO;
+      currentFilters.to_date = toDateISO;
 
-    // Guardar los filtros actualizados en el localStorage
-    localStorage.setItem('filters', JSON.stringify(currentFilters));
+      // Guardar los filtros actualizados en el localStorage
+      localStorage.setItem('filters', JSON.stringify(currentFilters));
 
-    // Actualizar filters_chip en el localStorage
-    let filters_chip: FilterChip[] = JSON.parse(localStorage.getItem('filters_chip')) || [];
-    filters_chip = filters_chip.filter(f => f.code !== 'from_date' && f.code !== 'to_date');
-    filters_chip.push({ code: 'from_date', name: 'From Date', value: onboarding_date });
-    filters_chip.push({ code: 'to_date', name: 'To Date', value: offboarding_date || moment().tz('America/Los_Angeles').format('MM/DD/YYYY HH:mm:ss') });
-    localStorage.setItem('filters_chip', JSON.stringify(filters_chip));
+      // Actualizar filters_chip en el localStorage
+      let filters_chip: FilterChip[] = JSON.parse(localStorage.getItem('filters_chip')) || [];
+      filters_chip = filters_chip.filter(f => f.code !== 'from_date' && f.code !== 'to_date');
+      filters_chip.push({ code: 'from_date', name: 'From Date', value: onboarding_date.split(' ')[0] });
+      filters_chip.push({ code: 'to_date', name: 'To Date', value: offboarding_date ? offboarding_date.split(' ')[0] : moment().tz('America/Los_Angeles').format('MM/DD/YYYY') });
+      localStorage.setItem('filters_chip', JSON.stringify(filters_chip));
 
-    // Navegar a la vista del trabajador
-    this.router.navigate(['/view/worker', user_id]);
+      // Navegar a la vista del trabajador
+      this.router.navigate(['/view/worker', user_id]);
   }
 
   private getDataWorkerTable(filters?: any) {
