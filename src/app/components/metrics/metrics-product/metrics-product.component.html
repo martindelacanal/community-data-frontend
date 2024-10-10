@@ -32,6 +32,14 @@
       <br>
       <p>{{'metrics_product_reachs_pounds_delivered' | translate }}: {{this.reachMetrics.poundsDelivered | number}}</p>
       <br>
+      <div id="chartTotalPounds" *ngIf="chartOptionsTotalPounds">
+        <apx-chart [series]="chartOptionsTotalPounds.series" [chart]="chartOptionsTotalPounds.chart"
+          [labels]="chartOptionsTotalPounds.labels" [legend]="chartOptionsTotalPounds.legend"
+          [colors]="chartOptionsTotalPounds.colors" [responsive]="chartOptionsTotalPounds.responsive"
+          [theme]="chartOptionsTotalPounds.theme" [dataLabels]="chartOptionsTotalPounds.dataLabels"
+          [tooltip]="chartOptionsTotalPounds.tooltip" [plotOptions]="chartOptionsTotalPounds.plotOptions"
+          [xaxis]="chartOptionsTotalPounds.xaxis" [fill]="chartOptionsTotalPounds.fill"></apx-chart>
+      </div>
     </div>
     <div class="ui-tarjeta">
       <div class="question">

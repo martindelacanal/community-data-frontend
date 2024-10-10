@@ -12,6 +12,7 @@ import { PoundsPerProductMetrics } from 'src/app/models/metrics/poundsPerProduct
 import { QuestionMetrics } from 'src/app/models/metrics/question-metrics';
 import { ReachMetrics } from 'src/app/models/metrics/reach-metrics';
 import { RegisterMetrics } from 'src/app/models/metrics/register-metrics';
+import { TotalPoundsMetrics } from 'src/app/models/metrics/totalPounds-metrics';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -91,6 +92,13 @@ export class MetricsService {
       params: new HttpParams().set('language', language)
     };
     return this.http.post<ReachMetrics>(`${environment.url_api}/metrics/product/reach`, filters, httpOptions);
+  }
+
+  getTotalPoundsMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<TotalPoundsMetrics>(`${environment.url_api}/metrics/product/total_pounds`, filters, httpOptions);
   }
 
   getKindOfProductMetrics(language: string, filters: any) {

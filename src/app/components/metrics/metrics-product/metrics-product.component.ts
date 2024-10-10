@@ -14,7 +14,8 @@ import {
   ApexResponsive,
   ApexTheme,
   ApexTooltip,
-  ApexLegend
+  ApexLegend,
+  ApexFill
 } from "ng-apexcharts";
 import { KindOfProductMetrics } from 'src/app/models/metrics/kindOfProduct-metrics';
 import { PoundsPerLocationMetrics } from 'src/app/models/metrics/poundsPerLocation-metrics';
@@ -25,6 +26,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FilterChip } from 'src/app/models/metrics/filter-chip';
 import { forkJoin, tap } from 'rxjs';
 import { MetricsFiltersComponent } from '../../dialog/metrics-filters/metrics-filters.component';
+import { TotalPoundsMetrics } from 'src/app/models/metrics/totalPounds-metrics';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -45,6 +47,21 @@ export type ChartOptionsYESNO = {
   tooltip: ApexTooltip;
   legend: ApexLegend;
   colors: string[];
+};
+
+export type ChartOptionsTotalPounds = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+  theme: ApexTheme;
+  dataLabels: ApexDataLabels;
+  tooltip: ApexTooltip;
+  legend: ApexLegend;
+  colors: string[];
+  plotOptions: ApexPlotOptions; // Agregar esta línea
+  xaxis: ApexXAxis; // Agregar esta línea
+  fill: ApexFill; // Agregar esta línea
 };
 
 const spanishRangeLabel = (page: number, pageSize: number, length: number) => {
@@ -72,17 +89,20 @@ export class MetricsProductComponent implements OnInit {
   @ViewChild("chartYESNO") chartYESNO: ChartComponent;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  public chartOptionsTotalPounds: Partial<ChartOptionsTotalPounds>;
   public chartOptionsKindOfProduct: Partial<ChartOptionsYESNO>;
   public chartOptionsPoundsPerLocation: Partial<ChartOptions>;
   public chartOptionsPoundsPerProduct: Partial<ChartOptions>;
 
   public loadingMetrics: boolean = true;
   public loadingReachMetrics: boolean = false;
+  public loadingTotalPoundsMetrics: boolean = false;
   public loadingKindOfProductMetrics: boolean = false;
   public loadingPoundsPerLocationMetrics: boolean = false;
   public loadingPoundsPerProductMetrics: boolean = false;
 
   public reachMetrics: ReachMetrics;
+  public totalPoundsMetrics: TotalPoundsMetrics;
   public kindOfProductMetrics: KindOfProductMetrics[] = [];
   public poundsPerLocationMetrics: PoundsPerLocationMetrics;
   public poundsPerLocationAverage: number = 0;
@@ -158,6 +178,7 @@ export class MetricsProductComponent implements OnInit {
     }
 
     this.getReachMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getTotalPoundsMetrics(this.translate.currentLang, this.filterForm.value);
     this.getKindOfProductMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPoundsPerLocationMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPoundsPerProductMetrics(this.translate.currentLang, this.filterForm.value);
@@ -197,6 +218,7 @@ export class MetricsProductComponent implements OnInit {
     // eliminar el filtro del formulario
     this.filterForm.get(filterChip.code).setValue(null);
     this.getReachMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getTotalPoundsMetrics(this.translate.currentLang, this.filterForm.value);
     this.getKindOfProductMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPoundsPerLocationMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPoundsPerProductMetrics(this.translate.currentLang, this.filterForm.value);
@@ -209,6 +231,82 @@ export class MetricsProductComponent implements OnInit {
         this.reachMetrics = res;
 
         this.loadingReachMetrics = false;
+        this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
+  private getTotalPoundsMetrics(language: string, filters?: any) {
+    this.loadingTotalPoundsMetrics = true;
+
+    this.metricsService.getTotalPoundsMetrics(language, filters).subscribe({
+      next: (res) => {
+        this.totalPoundsMetrics = res;
+
+        this.chartOptionsTotalPounds = {
+          series: this.totalPoundsMetrics.series,
+          chart: {
+            type: 'bar',
+            height: 350,
+            stacked: true,
+            toolbar: {
+              show: true
+            },
+            zoom: {
+              enabled: true
+            }
+          },
+          theme: {
+            monochrome: {
+              enabled: false,
+              color: "#97c481",
+            }
+          },
+          colors: this.generateColors(this.totalPoundsMetrics.series.length),
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: 'bottom',
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }],
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              borderRadius: 10,
+              borderRadiusApplication: 'end', // 'around', 'end'
+              borderRadiusWhenStacked: 'last', // 'all', 'last'
+              dataLabels: {
+                total: {
+                  enabled: true,
+                  style: {
+                    fontSize: '13px',
+                    fontWeight: 900
+                  }
+                }
+              }
+            },
+          },
+          xaxis: {
+            type: 'category',
+            categories: this.totalPoundsMetrics.categories,
+          },
+          legend: {
+            position: 'right',
+            offsetY: 40
+          },
+          fill: {
+            opacity: 1
+          }
+        };
+
+        this.loadingTotalPoundsMetrics = false;
         this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
       },
       error: (error) => {
@@ -602,6 +700,7 @@ export class MetricsProductComponent implements OnInit {
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
         this.getReachMetrics(this.translate.currentLang, result.data);
+        this.getTotalPoundsMetrics(this.translate.currentLang, result.data);
         this.getKindOfProductMetrics(this.translate.currentLang, result.data);
         this.getPoundsPerLocationMetrics(this.translate.currentLang, result.data);
         this.getPoundsPerProductMetrics(this.translate.currentLang, result.data);
@@ -614,7 +713,7 @@ export class MetricsProductComponent implements OnInit {
   }
 
   private checkLoadingMetrics() {
-    if (!this.loadingReachMetrics && !this.loadingKindOfProductMetrics && !this.loadingPoundsPerLocationMetrics) {
+    if (!this.loadingReachMetrics && !this.loadingTotalPoundsMetrics && !this.loadingKindOfProductMetrics && !this.loadingPoundsPerLocationMetrics) {
       this.loadingMetrics = false;
     }
   }
