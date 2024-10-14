@@ -199,7 +199,7 @@ export class MetricsParticipantComponent implements OnInit {
               color: "#97c481",
             }
           },
-          colors: this.generateColors(this.registerHistoryMetrics.series.length),
+          colors: ['#83b06d', '#abd895', '#bfeca9'],
           responsive: [{
             breakpoint: 480,
             options: {
@@ -218,7 +218,7 @@ export class MetricsParticipantComponent implements OnInit {
               borderRadiusWhenStacked: 'last', // 'all', 'last'
               dataLabels: {
                 total: {
-                  enabled: true,
+                  enabled: false,
                   style: {
                     fontSize: '13px',
                     fontWeight: 900
@@ -226,6 +226,9 @@ export class MetricsParticipantComponent implements OnInit {
                 }
               }
             },
+          },
+          dataLabels: {
+            enabled: false // Deshabilitar etiquetas de datos
           },
           xaxis: {
             type: 'category',

@@ -282,7 +282,7 @@ export class MetricsProductComponent implements OnInit {
               color: "#97c481",
             }
           },
-          colors: this.generateColors(this.totalPoundsMetrics.series.length),
+          colors: ['#83b06d', '#abd895', '#bfeca9'],
           responsive: [{
             breakpoint: 480,
             options: {
@@ -309,6 +309,9 @@ export class MetricsProductComponent implements OnInit {
                 }
               }
             },
+          },
+          dataLabels: {
+            enabled: false // Deshabilitar etiquetas de datos
           },
           xaxis: {
             type: 'category',
