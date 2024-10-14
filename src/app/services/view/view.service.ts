@@ -48,6 +48,10 @@ export class ViewService {
     return this.http.post<GraphicLineComplete[]>(`${environment.url_api}/view/worker/scanHistory/${idUser}`, filters, httpOptions);
   }
 
+  getUsername(idWorker: string){
+    return this.http.get<string>(`${environment.url_api}/view/worker/username/${idWorker}`)
+  }
+
   getViewLocation(idLocation: string){
     return this.http.get<ViewLocation>(`${environment.url_api}/view/location/${idLocation}`)
   }

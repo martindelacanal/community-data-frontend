@@ -1,8 +1,8 @@
 <div class="container">
   <section class="header">
     <div class="header__title">
-      <h1 class="title">{{'view_worker_title' | translate }} {{idWorker}}</h1>
-      <mat-spinner *ngIf="loadingMetrics" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+      <h1 class="title">{{'view_worker_title' | translate }} {{username ? username : ''}}</h1>
+            <mat-spinner *ngIf="loadingMetrics" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
     </div>
     <div>
       <!-- <button *ngIf="!loadingCSV" class="ui-button" type="button"

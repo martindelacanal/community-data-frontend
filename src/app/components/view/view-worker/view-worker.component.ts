@@ -42,6 +42,7 @@ export class ViewWorkerComponent implements OnInit {
   public loadingScannedQRMetrics: boolean = false;
   public loadingScanHistoryMetrics: boolean = false;
   public loadingWorkerTable: boolean = false;
+  public loadingUsernameTable: boolean = false;
   public viewWorkerTable: ViewWorkerTable[] = [];
 
   public scannedQRMetrics: KindOfProductMetrics[] = [];
@@ -76,6 +77,7 @@ export class ViewWorkerComponent implements OnInit {
   filtersChip: FilterChip[];
 
   idWorker: string;
+  username: string;
 
   constructor(
     private viewService: ViewService,
@@ -138,6 +140,7 @@ export class ViewWorkerComponent implements OnInit {
       this.idWorker = params['id'];
       if (this.idWorker) {
         this.loadingMetrics = true;
+        this.getUsername(this.idWorker);
         this.getViewUser(this.idWorker, this.translate.currentLang);
         this.getScannedQRMetrics(this.translate.currentLang, this.filterForm.value);
         this.getScanHistoryMetrics(this.translate.currentLang, this.filterForm.value);
@@ -317,6 +320,26 @@ export class ViewWorkerComponent implements OnInit {
     });
   }
 
+  private getUsername(idUser: string) {
+    this.loadingUsernameTable = true;
+    this.viewService.getUsername(idUser).pipe(
+      finalize(() => {
+        this.loadingUsernameTable = false;
+        this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
+      })
+    ).subscribe({
+      next: (res) => {
+        if (res) {
+          this.username = res;
+        }
+      },
+      error: (error) => {
+        console.log(error);
+        this.openSnackBar(this.translate.instant('view_user_error'));
+      }
+    });
+  }
+
   private getViewUser(idUser: string, language: string) {
     this.loadingWorkerTable = true;
     this.viewService.getViewWorkerTable(idUser, language, this.filterForm.value).pipe(
@@ -378,7 +401,7 @@ export class ViewWorkerComponent implements OnInit {
   }
 
   private checkLoadingMetrics() {
-    if (!this.loadingScannedQRMetrics && !this.loadingScanHistoryMetrics && !this.loadingWorkerTable) {
+    if (!this.loadingScannedQRMetrics && !this.loadingScanHistoryMetrics && !this.loadingWorkerTable && !this.loadingUsernameTable) {
       this.loadingMetrics = false;
     }
   }
