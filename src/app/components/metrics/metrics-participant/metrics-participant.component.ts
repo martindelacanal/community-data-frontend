@@ -210,6 +210,15 @@ export class MetricsParticipantComponent implements OnInit {
               }
             }
           }],
+          tooltip: {
+            theme: 'dark',
+            y: {
+              formatter: function (val) {
+                // Convertir el valor a un número y luego a una cadena con formato de miles
+                return Number(val).toLocaleString('en-US');
+              }
+            }
+          },
           plotOptions: {
             bar: {
               horizontal: false,

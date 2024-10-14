@@ -4,7 +4,7 @@
       <!-- ID Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let element" (click)="onRowClick(element)" [class.selected-row]="isSelected(element)"> {{element.id}} </td>
+        <td mat-cell *matCellDef="let element" (click)="onRowClick(element)" [class.selected-row]="isSelected(element)"> {{element.id | number}} </td>
       </ng-container>
 
       <!-- First Name Column -->

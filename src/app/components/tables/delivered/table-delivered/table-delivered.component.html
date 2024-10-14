@@ -44,7 +44,7 @@
           <strong>ID</strong><span></span>
         </th>
         <tr>
-          <td mat-cell *matCellDef="let element">{{element.id}}</td>
+          <td mat-cell *matCellDef="let element">{{element.id | number}}</td>
         </tr>
       </ng-container>
       <ng-container matColumnDef="delivering_user_id">
