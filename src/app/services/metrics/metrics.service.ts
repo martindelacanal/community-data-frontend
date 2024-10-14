@@ -66,6 +66,13 @@ export class MetricsService {
     return this.http.post<AgeMetrics>(`${environment.url_api}/metrics/demographic/age`, filters, httpOptions);
   }
 
+  getRegisterHistoryMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<TotalPoundsMetrics>(`${environment.url_api}/metrics/participant/register_history`, filters, httpOptions);
+  }
+
   getRegisterMetrics(language: string, filters: any) {
     const httpOptions = {
       params: new HttpParams().set('language', language)

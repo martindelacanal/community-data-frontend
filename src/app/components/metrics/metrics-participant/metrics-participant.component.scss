@@ -76,6 +76,13 @@
   overflow-y: auto;
 }
 
+.kpis-filtroInterval {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 16px;
+}
+
 @media only screen and (max-width: 355px) {
   // Agrega aquí tus estilos para dispositivos móviles pequeños
 
@@ -107,6 +114,12 @@
 
   .ui-tarjeta {
     padding: 16px;
+  }
+
+  .kpis-filtroInterval {
+    align-items: start;
+    flex-direction: column;
+    margin-bottom: 0px;
   }
 }
 

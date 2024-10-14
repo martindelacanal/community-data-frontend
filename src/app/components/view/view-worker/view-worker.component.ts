@@ -67,7 +67,7 @@ export class ViewWorkerComponent implements OnInit {
     name: 'my-color-scheme',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#97c481', '#EC1C64']
+    domain: ['#EC1C64', '#97c481']
   };
 
   filterForm: FormGroup;
@@ -211,7 +211,7 @@ export class ViewWorkerComponent implements OnInit {
               color: "#97c481",
             }
           },
-          colors: ['#97c481', '#EC1C64'],
+          colors: ['#EC1C64', '#97c481'],
           // dataLabels: {
           //   style: {
           //     colors: ['#5D5D5E']

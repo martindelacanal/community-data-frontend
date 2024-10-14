@@ -28,11 +28,26 @@
         <h2>{{'metrics_product_reachs_title' | translate }}</h2>
       </div>
       <br>
-      <p>{{'metrics_product_reachs_reach' | translate }}: {{ this.reachMetrics.reach | number}}</p>
-      <br>
-      <p>{{'metrics_product_reachs_pounds_delivered' | translate }}: {{this.reachMetrics.poundsDelivered | number}}</p>
-      <br>
-      <div id="chartTotalPounds" *ngIf="chartOptionsTotalPounds">
+      <div class="kpis-filtroInterval">
+        <div>
+          <p>{{'metrics_product_reachs_reach' | translate }}: {{ this.reachMetrics.reach | number}}</p>
+          <br>
+          <p>{{'metrics_product_reachs_pounds_delivered' | translate }}: {{this.reachMetrics.poundsDelivered | number}}
+          </p>
+          <br>
+        </div>
+        <form [formGroup]="filterForm" class="filtros">
+          <mat-form-field appearance="outline">
+            <mat-label>{{'metrics_product_filter_interval' | translate }}</mat-label>
+            <mat-select formControlName="interval">
+              <mat-option *ngFor="let interval of intervals" [value]="interval.id">
+                {{interval.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+      </div>
+      <div id="chartStacked" *ngIf="chartOptionsTotalPounds">
         <apx-chart [series]="chartOptionsTotalPounds.series" [chart]="chartOptionsTotalPounds.chart"
           [labels]="chartOptionsTotalPounds.labels" [legend]="chartOptionsTotalPounds.legend"
           [colors]="chartOptionsTotalPounds.colors" [responsive]="chartOptionsTotalPounds.responsive"

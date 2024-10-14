@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
-import { ApexChart, ApexDataLabels, ApexLegend, ApexNonAxisChartSeries, ApexResponsive, ApexTheme, ApexTooltip, ChartComponent } from 'ng-apexcharts';
+import { ApexAxisChartSeries, ApexChart, ApexDataLabels, ApexFill, ApexLegend, ApexNonAxisChartSeries, ApexPlotOptions, ApexResponsive, ApexTheme, ApexTooltip, ApexXAxis, ChartComponent } from 'ng-apexcharts';
 import { MetricsService } from 'src/app/services/metrics/metrics.service';
 import { MetricsFiltersComponent } from '../../dialog/metrics-filters/metrics-filters.component';
 import { EmailMetrics } from 'src/app/models/metrics/email-metrics';
@@ -11,6 +11,7 @@ import { PhoneMetrics } from 'src/app/models/metrics/phone-metrics';
 import { RegisterMetrics } from 'src/app/models/metrics/register-metrics';
 import { FilterChip } from 'src/app/models/metrics/filter-chip';
 import { forkJoin, tap } from 'rxjs';
+import { TotalPoundsMetrics } from 'src/app/models/metrics/totalPounds-metrics';
 
 export type ChartOptionsYESNO = {
   series: ApexNonAxisChartSeries;
@@ -24,6 +25,21 @@ export type ChartOptionsYESNO = {
   colors: string[];
 };
 
+export type ChartOptionsStacked = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+  theme: ApexTheme;
+  dataLabels: ApexDataLabels;
+  tooltip: ApexTooltip;
+  legend: ApexLegend;
+  colors: string[];
+  plotOptions: ApexPlotOptions; // Agregar esta línea
+  xaxis: ApexXAxis; // Agregar esta línea
+  fill: ApexFill; // Agregar esta línea
+};
+
 @Component({
   selector: 'app-metrics-participant',
   templateUrl: './metrics-participant.component.html',
@@ -32,14 +48,17 @@ export type ChartOptionsYESNO = {
 export class MetricsParticipantComponent implements OnInit {
 
   @ViewChild("chartYESNO") chartYESNO: ChartComponent;
+  public chartOptionsRegisterHistory: Partial<ChartOptionsStacked>;
   public chartOptionsEmail: Partial<ChartOptionsYESNO>;
   public chartOptionsPhone: Partial<ChartOptionsYESNO>;
 
   public loadingMetrics: boolean = true;
+  public loadingRegisterHistoryMetrics: boolean = false;
   public loadingRegisterMetrics: boolean = false;
   public loadingEmailMetrics: boolean = false;
   public loadingPhoneMetrics: boolean = false;
 
+  public registerHistoryMetrics: TotalPoundsMetrics;
   public emailMetrics: EmailMetrics[] = [];
   public phoneMetrics: PhoneMetrics[] = [];
   public registerMetrics: RegisterMetrics;
@@ -48,6 +67,8 @@ export class MetricsParticipantComponent implements OnInit {
   loadingCSV: boolean = false;
 
   filtersChip: FilterChip[];
+
+  public intervals: any[];
 
   constructor(
     private metricsService: MetricsService,
@@ -64,7 +85,8 @@ export class MetricsParticipantComponent implements OnInit {
       ethnicities: [null],
       min_age: [null],
       max_age: [null],
-      zipcode: [null]
+      zipcode: [null],
+      interval: ['month']
     });
     this.filtersChip = [];
 
@@ -72,6 +94,12 @@ export class MetricsParticipantComponent implements OnInit {
       total: 0,
       new: 0,
       recurring: 0,
+    }
+
+    if (this.translate.currentLang == 'es') {
+      this.intervals = [{ id: 'year', name: 'Año' }, { id: 'quarter', name: 'Trimestre' }, { id: 'month', name: 'Mes' }, { id: 'week', name: 'Semana' }, { id: 'day', name: 'Día' }];
+    } else {
+      this.intervals = [{ id: 'year', name: 'Year' }, { id: 'quarter', name: 'Quarter' }, { id: 'month', name: 'Month' }, { id: 'week', name: 'Week' }, { id: 'day', name: 'Day' }];
     }
   }
 
@@ -112,6 +140,14 @@ export class MetricsParticipantComponent implements OnInit {
       this.filterForm.patchValue(filters);
     }
 
+    this.filterForm.get('interval')?.valueChanges.subscribe((value) => {
+      // Actualiza el valor del campo 'interval' sin disparar el evento de cambio de valor
+      this.filterForm.get('interval').patchValue(value, { emitEvent: false });
+      this.loadingMetrics = true;
+      this.getRegisterHistoryMetrics(this.translate.currentLang, this.filterForm.value);
+    });
+
+    this.getRegisterHistoryMetrics(this.translate.currentLang, this.filterForm.value);
     this.getRegisterMetrics(this.translate.currentLang, this.filterForm.value);
     this.getEmailMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPhoneMetrics(this.translate.currentLang, this.filterForm.value);
@@ -130,10 +166,89 @@ export class MetricsParticipantComponent implements OnInit {
     localStorage.setItem('filters', JSON.stringify(filters));
     // eliminar el filtro del formulario
     this.filterForm.get(filterChip.code).setValue(null);
+    this.getRegisterHistoryMetrics(this.translate.currentLang, this.filterForm.value);
     this.getRegisterMetrics(this.translate.currentLang, this.filterForm.value);
     this.getEmailMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPhoneMetrics(this.translate.currentLang, this.filterForm.value);
   }
+
+
+  private getRegisterHistoryMetrics(language: string, filters?: any) {
+    this.loadingRegisterHistoryMetrics = true;
+
+    this.metricsService.getRegisterHistoryMetrics(language, filters).subscribe({
+      next: (res) => {
+        this.registerHistoryMetrics = res;
+
+        this.chartOptionsRegisterHistory = {
+          series: this.registerHistoryMetrics.series,
+          chart: {
+            type: 'bar',
+            height: 350,
+            stacked: true,
+            toolbar: {
+              show: true
+            },
+            zoom: {
+              enabled: true
+            }
+          },
+          theme: {
+            monochrome: {
+              enabled: false,
+              color: "#97c481",
+            }
+          },
+          colors: this.generateColors(this.registerHistoryMetrics.series.length),
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: 'bottom',
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }],
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              borderRadius: 10,
+              borderRadiusApplication: 'end', // 'around', 'end'
+              borderRadiusWhenStacked: 'last', // 'all', 'last'
+              dataLabels: {
+                total: {
+                  enabled: true,
+                  style: {
+                    fontSize: '13px',
+                    fontWeight: 900
+                  }
+                }
+              }
+            },
+          },
+          xaxis: {
+            type: 'category',
+            categories: this.registerHistoryMetrics.categories,
+          },
+          legend: {
+            position: 'right',
+            offsetY: 40
+          },
+          fill: {
+            opacity: 1
+          }
+        };
+
+        this.loadingRegisterHistoryMetrics = false;
+        this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
 
   private getRegisterMetrics(language: string, filters?: any) {
     this.loadingRegisterMetrics = true;
@@ -430,6 +545,7 @@ export class MetricsParticipantComponent implements OnInit {
         // recuperar filter-chip del localStorage
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
+        this.getRegisterHistoryMetrics(this.translate.currentLang, result.data);
         this.getRegisterMetrics(this.translate.currentLang, result.data);
         this.getEmailMetrics(this.translate.currentLang, result.data);
         this.getPhoneMetrics(this.translate.currentLang, result.data);
@@ -443,7 +559,7 @@ export class MetricsParticipantComponent implements OnInit {
   }
 
   private checkLoadingMetrics() {
-    if (!this.loadingRegisterMetrics && !this.loadingEmailMetrics && !this.loadingPhoneMetrics) {
+    if (!this.loadingRegisterMetrics && !this.loadingEmailMetrics && !this.loadingPhoneMetrics && !this.loadingRegisterHistoryMetrics) {
       this.loadingMetrics = false;
     }
   }

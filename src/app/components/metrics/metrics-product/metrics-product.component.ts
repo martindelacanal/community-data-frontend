@@ -49,7 +49,7 @@ export type ChartOptionsYESNO = {
   colors: string[];
 };
 
-export type ChartOptionsTotalPounds = {
+export type ChartOptionsStacked = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   responsive: ApexResponsive[];
@@ -89,7 +89,7 @@ export class MetricsProductComponent implements OnInit {
   @ViewChild("chartYESNO") chartYESNO: ChartComponent;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  public chartOptionsTotalPounds: Partial<ChartOptionsTotalPounds>;
+  public chartOptionsTotalPounds: Partial<ChartOptionsStacked>;
   public chartOptionsKindOfProduct: Partial<ChartOptionsYESNO>;
   public chartOptionsPoundsPerLocation: Partial<ChartOptions>;
   public chartOptionsPoundsPerProduct: Partial<ChartOptions>;
@@ -118,6 +118,8 @@ export class MetricsProductComponent implements OnInit {
 
   filtersChip: FilterChip[];
 
+  public intervals: any[];
+
   constructor(
     private metricsService: MetricsService,
     private snackBar: MatSnackBar,
@@ -131,6 +133,7 @@ export class MetricsProductComponent implements OnInit {
       locations: [null],
       providers: [null],
       product_types: [null],
+      interval: ['month']
     });
     this.filtersChip = [];
 
@@ -138,9 +141,17 @@ export class MetricsProductComponent implements OnInit {
       reach: 0,
       poundsDelivered: 0,
     }
+
+    if (this.translate.currentLang == 'es') {
+      this.intervals = [{ id: 'year', name: 'Año' }, { id: 'quarter', name: 'Trimestre' }, { id: 'month', name: 'Mes' }, { id: 'week', name: 'Semana' }, { id: 'day', name: 'Día' }];
+    } else {
+      this.intervals = [{ id: 'year', name: 'Year' }, { id: 'quarter', name: 'Quarter' }, { id: 'month', name: 'Month' }, { id: 'week', name: 'Week' }, { id: 'day', name: 'Day' }];
+    }
+
   }
 
   ngOnInit() {
+
     // Intenta recuperar el valor de 'filters' del localStorage
     const filters = JSON.parse(localStorage.getItem('filters'));
     const filters_chip = JSON.parse(localStorage.getItem('filters_chip'));
@@ -176,6 +187,13 @@ export class MetricsProductComponent implements OnInit {
 
       this.filterForm.patchValue(filters);
     }
+
+    this.filterForm.get('interval')?.valueChanges.subscribe((value) => {
+      // Actualiza el valor del campo 'interval' sin disparar el evento de cambio de valor
+      this.filterForm.get('interval').patchValue(value, { emitEvent: false });
+      this.loadingMetrics = true;
+      this.getTotalPoundsMetrics(this.translate.currentLang, this.filterForm.value);
+    });
 
     this.getReachMetrics(this.translate.currentLang, this.filterForm.value);
     this.getTotalPoundsMetrics(this.translate.currentLang, this.filterForm.value);
@@ -241,7 +259,6 @@ export class MetricsProductComponent implements OnInit {
 
   private getTotalPoundsMetrics(language: string, filters?: any) {
     this.loadingTotalPoundsMetrics = true;
-
     this.metricsService.getTotalPoundsMetrics(language, filters).subscribe({
       next: (res) => {
         this.totalPoundsMetrics = res;
