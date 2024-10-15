@@ -24,6 +24,11 @@
     <div class="ui-tarjeta">
       <div class="question">
         <h2>{{'metrics_participant_registers_title' | translate }}</h2>
+        <div>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartRegisterHistory)">
+            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+          </button>
+        </div>
       </div>
       <br>
       <div class="kpis-filtroInterval">
@@ -49,7 +54,8 @@
           </mat-form-field>
         </form>
       </div>
-      <div id="chartStacked" *ngIf="chartOptionsRegisterHistory">
+
+      <div id="chartStacked" #chartRegisterHistory *ngIf="chartOptionsRegisterHistory">
         <apx-chart [series]="chartOptionsRegisterHistory.series" [chart]="chartOptionsRegisterHistory.chart"
           [labels]="chartOptionsRegisterHistory.labels" [legend]="chartOptionsRegisterHistory.legend"
           [colors]="chartOptionsRegisterHistory.colors" [responsive]="chartOptionsRegisterHistory.responsive"
@@ -61,8 +67,13 @@
     <div class="ui-tarjeta">
       <div class="question">
         <h2>{{'metrics_participant_with_email_title' | translate }}</h2>
+        <div>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartYESNOEmail)">
+            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+          </button>
+        </div>
       </div>
-      <div id="chartYESNO" *ngIf="chartOptionsEmail">
+      <div id="chartYESNOEmail" #chartYESNOEmail *ngIf="chartOptionsEmail">
         <apx-chart [series]="chartOptionsEmail.series" [chart]="chartOptionsEmail.chart"
           [labels]="chartOptionsEmail.labels" [legend]="chartOptionsEmail.legend" [colors]="chartOptionsEmail.colors"
           [responsive]="chartOptionsEmail.responsive" [theme]="chartOptionsEmail.theme"
@@ -72,8 +83,13 @@
     <div class="ui-tarjeta">
       <div class="question">
         <h2>{{'metrics_participant_with_phone_title' | translate }}</h2>
+        <div>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartYESNOPhone)">
+            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+          </button>
+        </div>
       </div>
-      <div id="chartYESNO" *ngIf="chartOptionsPhone">
+      <div id="chartYESNOPhone" #chartYESNOPhone *ngIf="chartOptionsPhone">
         <apx-chart [series]="chartOptionsPhone.series" [chart]="chartOptionsPhone.chart"
           [labels]="chartOptionsPhone.labels" [legend]="chartOptionsPhone.legend" [colors]="chartOptionsPhone.colors"
           [responsive]="chartOptionsPhone.responsive" [theme]="chartOptionsPhone.theme"

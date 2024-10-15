@@ -59,6 +59,12 @@
   margin-left: 16px;
 }
 
+#chartStacked {
+  // display: flex;
+  // justify-content: center;
+  align-items: bottom;
+  height: 100%;
+}
 #chartYESNO {
   display: flex;
   justify-content: center;
@@ -66,7 +72,10 @@
   height: 100%;
 }
 
-#chart {
+#chartPoundsPerLocation {
+  margin-right: 20px;
+}
+#chartPoundsPerProduct {
   margin-right: 20px;
 }
 
@@ -87,6 +96,24 @@
   justify-content: space-between;
   align-items: end;
   margin-bottom: 16px;
+}
+
+#chart:fullscreen {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.ui-button.fullscreen {
+  padding: 0 32px;
+  min-width: 50px;
+}
+
+.question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
 @media only screen and (max-width: 355px) {

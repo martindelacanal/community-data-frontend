@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -47,7 +47,9 @@ export type ChartOptionsStacked = {
 })
 export class MetricsParticipantComponent implements OnInit {
 
-  @ViewChild("chartYESNO") chartYESNO: ChartComponent;
+  @ViewChild('chartYESNOEmail', { static: false }) chartYESNOEmail: ElementRef;
+  @ViewChild('chartYESNOPhone', { static: false }) chartYESNOPhone: ElementRef;
+  @ViewChild('chartRegisterHistory', { static: false }) chartRegisterHistory: ElementRef;
   public chartOptionsRegisterHistory: Partial<ChartOptionsStacked>;
   public chartOptionsEmail: Partial<ChartOptionsYESNO>;
   public chartOptionsPhone: Partial<ChartOptionsYESNO>;
@@ -151,6 +153,24 @@ export class MetricsParticipantComponent implements OnInit {
     this.getRegisterMetrics(this.translate.currentLang, this.filterForm.value);
     this.getEmailMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPhoneMetrics(this.translate.currentLang, this.filterForm.value);
+  }
+
+  toggleFullScreen(chartElement: ElementRef) {
+    if (chartElement) {
+      const elem = chartElement.nativeElement;
+      elem.style.backgroundColor = 'white'; // Asegúrate de que el fondo sea blanco
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+      }
+    } else {
+      console.error('chartElement is not defined');
+    }
   }
 
   removeFilterChip(filterChip: FilterChip): void {

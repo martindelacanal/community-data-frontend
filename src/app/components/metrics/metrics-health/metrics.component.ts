@@ -1,11 +1,9 @@
-
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { TranslateService } from "@ngx-translate/core";
 import {
   ApexAxisChartSeries,
   ApexChart,
-  ChartComponent,
   ApexDataLabels,
   ApexXAxis,
   ApexPlotOptions,
@@ -50,8 +48,6 @@ export type ChartOptionsYESNO = {
 })
 export class MetricsComponent implements OnInit {
 
-  @ViewChild("chart") chart: ChartComponent;
-  @ViewChild("chartYESNO") chartYESNO: ChartComponent;
   public chartOptions: Partial<ChartOptions>[];
   public chartOptionsYESNO: Partial<ChartOptionsYESNO>[];
   public loadingQuestions: boolean = false;
@@ -125,18 +121,49 @@ export class MetricsComponent implements OnInit {
     this.getQuestions(this.translate.currentLang, this.filterForm.value);
   }
 
+  /**
+   * Método para alternar el modo fullscreen de un gráfico.
+   * @param type Tipo de gráfico ('main' o 'yesno').
+   * @param index Índice del gráfico en el array.
+   */
+  toggleFullScreen(type: 'main' | 'yesno', index: number) {
+    const elementId = type === 'main' ? `chart-container-main-${index}` : `chart-container-yesno-${index}`;
+    const chartContainer = document.getElementById(elementId);
+
+    if (chartContainer) {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        chartContainer.style.backgroundColor = 'white'; // Asegura que el fondo sea blanco
+        chartContainer.requestFullscreen?.().catch(err => {
+          console.error(`Error al intentar habilitar el modo fullscreen: ${err.message} (${err.name})`);
+        });
+      }
+    } else {
+      console.error(`Elemento con ID ${elementId} no encontrado.`);
+    }
+  }
+
+
   removeFilterChip(filterChip: FilterChip): void {
     this.filtersChip = this.filtersChip.filter(f => f.code !== filterChip.code);
     localStorage.setItem('filters_chip', JSON.stringify(this.filtersChip));
-    // colocar en null o [] el campo de filters en localStorage
+    // Colocar en null o [] el campo de filters en localStorage
     const filters = JSON.parse(localStorage.getItem('filters'));
-    if (filterChip.code === 'genders' || filterChip.code === 'ethnicities' || filterChip.code === 'workers' || filterChip.code === 'locations' || filterChip.code === 'product_types' || filterChip.code === 'providers') {
+    if (
+      filterChip.code === 'genders' ||
+      filterChip.code === 'ethnicities' ||
+      filterChip.code === 'workers' ||
+      filterChip.code === 'locations' ||
+      filterChip.code === 'product_types' ||
+      filterChip.code === 'providers'
+    ) {
       filters[filterChip.code] = [];
     } else {
       filters[filterChip.code] = null;
     }
     localStorage.setItem('filters', JSON.stringify(filters));
-    // eliminar el filtro del formulario
+    // Eliminar el filtro del formulario
     this.filterForm.get(filterChip.code).setValue(null);
     this.getQuestions(this.translate.currentLang, this.filterForm.value);
   }
@@ -145,8 +172,6 @@ export class MetricsComponent implements OnInit {
     this.loadingQuestions = true;
     this.metricsService.getQuestions(language, filters).subscribe({
       next: (res) => {
-        // this.chartOptions = [];
-        // this.chartOptionsYESNO = [];
         this.questionsMetrics = res;
         this.chartOptions = new Array(this.questionsMetrics.length).fill(null);
         this.chartOptionsYESNO = new Array(this.questionsMetrics.length).fill(null);
@@ -165,8 +190,11 @@ export class MetricsComponent implements OnInit {
           for (let j = 0; j < question.answers.length; j++) {
             const answer = question.answers[j];
             let percentage = 0;
-            if ((categories_aux.includes('Yes') && categories_aux.includes('No')) || (categories_aux.includes('Sí') && categories_aux.includes('No')) || (categories_aux.includes('Si') && categories_aux.includes('No'))) {
-              // categories.push(answer.answer);
+            if (
+              (categories_aux.includes('Yes') && categories_aux.includes('No')) ||
+              (categories_aux.includes('Sí') && categories_aux.includes('No')) ||
+              (categories_aux.includes('Si') && categories_aux.includes('No'))
+            ) {
               if (total > 0) {
                 percentage = Number(((answer.total / total) * 100).toFixed(2));
               }
@@ -179,7 +207,11 @@ export class MetricsComponent implements OnInit {
             }
           }
 
-          if ((categories_aux.includes('Yes') && categories_aux.includes('No')) || (categories_aux.includes('Sí') && categories_aux.includes('No')) || (categories_aux.includes('Si') && categories_aux.includes('No'))) {
+          if (
+            (categories_aux.includes('Yes') && categories_aux.includes('No')) ||
+            (categories_aux.includes('Sí') && categories_aux.includes('No')) ||
+            (categories_aux.includes('Si') && categories_aux.includes('No'))
+          ) {
             this.chartOptionsYESNO[i] = {
               series: data,
               chart: {
@@ -199,16 +231,10 @@ export class MetricsComponent implements OnInit {
                   color: "#97c481",
                 }
               },
-              // dataLabels: {
-              //   style: {
-              //     colors: ['#5D5D5E']
-              //   }
-              // },
               tooltip: {
                 theme: 'dark',
                 y: {
                   formatter: function (val) {
-                    // Convertir el valor a un número y luego a una cadena con formato de miles
                     return Number(val).toLocaleString('en-US');
                   }
                 }
@@ -282,7 +308,7 @@ export class MetricsComponent implements OnInit {
               ],
               chart: {
                 type: "bar",
-                height: Math.max(350, 30 * categories.length), // Ajusta la altura en función del número de categorías (minimo 350px)
+                height: Math.max(350, 30 * categories.length), // Ajusta la altura en función del número de categorías (mínimo 350px)
               },
               plotOptions: {
                 bar: {
@@ -292,14 +318,12 @@ export class MetricsComponent implements OnInit {
               dataLabels: {
                 enabled: true,
                 formatter: function (val) {
-                  // Convertir el valor a un número y luego a una cadena con formato de miles
                   return Number(val).toLocaleString('en-US');
                 }
               },
               tooltip: {
                 y: {
                   formatter: function (val) {
-                    // Convertir el valor a un número y luego a una cadena con formato de miles
                     return Number(val).toLocaleString('en-US');
                   }
                 }
@@ -315,10 +339,8 @@ export class MetricsComponent implements OnInit {
                     fontFamily: 'Roboto, sans-serif',
                   }
                 },
-                // tickAmount: Math.max(...data), // problema de muchos numeros en el eje X
                 labels: {
                   formatter: function (val) {
-                    // Convertir el valor a un número y luego a una cadena con formato de miles
                     return Number(val).toLocaleString('en-US');
                   }
                 }
@@ -330,6 +352,7 @@ export class MetricsComponent implements OnInit {
       },
       error: (error) => {
         console.error(error);
+        this.loadingQuestions = false;
       }
     });
   }
@@ -347,7 +370,7 @@ export class MetricsComponent implements OnInit {
       if (result && result.status) {
         this.loadingCSV = true;
 
-        // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
+        // Convertir fechas a ISO 8601
         if (result.data.from_date) {
           const date = new Date(result.data.from_date + 'T00:00');
           result.data.from_date = date;
@@ -359,7 +382,7 @@ export class MetricsComponent implements OnInit {
           this.filterForm.get('to_date').setValue(date2);
         }
 
-        // set values into filterForm
+        // Set values into filterForm
         this.filterForm.get('locations').setValue(result.data.locations);
         this.filterForm.get('genders').setValue(result.data.genders);
         this.filterForm.get('ethnicities').setValue(result.data.ethnicities);
@@ -367,7 +390,7 @@ export class MetricsComponent implements OnInit {
         this.filterForm.get('max_age').setValue(result.data.max_age);
         this.filterForm.get('zipcode').setValue(result.data.zipcode);
 
-        // recuperar filter-chip del localStorage
+        // Recuperar filter-chip del localStorage
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
         this.metricsService.getHealthFileCSV(result.data).subscribe({
@@ -390,7 +413,7 @@ export class MetricsComponent implements OnInit {
           }
         });
 
-        // Recargar los graficos con los filtros aplicados
+        // Recargar los gráficos con los filtros aplicados
         this.getQuestions(this.translate.currentLang, result.data);
       }
     });
@@ -407,7 +430,7 @@ export class MetricsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.status) {
-        // por problema de zona horaria local, se debe convertir la fecha a ISO 8601 (me estaba retrasando 1 dia)
+        // Convertir fechas a ISO 8601
         if (result.data.from_date) {
           const date = new Date(result.data.from_date + 'T00:00');
           result.data.from_date = date;
@@ -419,7 +442,7 @@ export class MetricsComponent implements OnInit {
           this.filterForm.get('to_date').setValue(date2);
         }
 
-        // set values into filterForm
+        // Set values into filterForm
         this.filterForm.get('locations').setValue(result.data.locations);
         this.filterForm.get('genders').setValue(result.data.genders);
         this.filterForm.get('ethnicities').setValue(result.data.ethnicities);
@@ -427,7 +450,7 @@ export class MetricsComponent implements OnInit {
         this.filterForm.get('max_age').setValue(result.data.max_age);
         this.filterForm.get('zipcode').setValue(result.data.zipcode);
 
-        // recuperar filter-chip del localStorage
+        // Recuperar filter-chip del localStorage
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
         this.getQuestions(this.translate.currentLang, result.data);
@@ -438,6 +461,5 @@ export class MetricsComponent implements OnInit {
   openSnackBar(message: string) {
     this.snackBar.open(message, this.translate.instant('snackbar_close'));
   }
-
 
 }

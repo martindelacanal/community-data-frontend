@@ -26,6 +26,11 @@
     <div class="ui-tarjeta">
       <div class="question">
         <h2>{{'metrics_product_reachs_title' | translate }}</h2>
+        <div>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartStacked)">
+            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+          </button>
+        </div>
       </div>
       <br>
       <div class="kpis-filtroInterval">
@@ -47,7 +52,7 @@
           </mat-form-field>
         </form>
       </div>
-      <div id="chartStacked" *ngIf="chartOptionsTotalPounds">
+      <div id="chartStacked" #chartStacked *ngIf="chartOptionsTotalPounds">
         <apx-chart [series]="chartOptionsTotalPounds.series" [chart]="chartOptionsTotalPounds.chart"
           [labels]="chartOptionsTotalPounds.labels" [legend]="chartOptionsTotalPounds.legend"
           [colors]="chartOptionsTotalPounds.colors" [responsive]="chartOptionsTotalPounds.responsive"
@@ -59,8 +64,13 @@
     <div class="ui-tarjeta">
       <div class="question">
         <h2>{{'metrics_product_kind_of_product_title' | translate }}</h2>
+        <div>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartYESNO)">
+            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+          </button>
+        </div>
       </div>
-      <div id="chartYESNO" *ngIf="chartOptionsKindOfProduct">
+      <div id="chartYESNO" #chartYESNO *ngIf="chartOptionsKindOfProduct">
         <apx-chart [series]="chartOptionsKindOfProduct.series" [chart]="chartOptionsKindOfProduct.chart"
           [labels]="chartOptionsKindOfProduct.labels" [legend]="chartOptionsKindOfProduct.legend"
           [colors]="chartOptionsKindOfProduct.colors" [responsive]="chartOptionsKindOfProduct.responsive"
@@ -71,6 +81,11 @@
     <div class="ui-tarjeta">
       <div class="question">
         <h2>{{'metrics_product_with_pounds_per_location_title' | translate }}</h2>
+        <div>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartPoundsPerLocation)">
+            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+          </button>
+        </div>
       </div>
       <br>
       <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerLocationAverage | number}}</p>
@@ -78,7 +93,7 @@
       <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerLocationMedian | number}}</p>
       <br>
       <div class="chart-container">
-        <div id="chart" *ngIf="chartOptionsPoundsPerLocation">
+        <div id="chartPoundsPerLocation" #chartPoundsPerLocation *ngIf="chartOptionsPoundsPerLocation">
           <apx-chart [series]="chartOptionsPoundsPerLocation.series" [chart]="chartOptionsPoundsPerLocation.chart"
             [dataLabels]="chartOptionsPoundsPerLocation.dataLabels"
             [plotOptions]="chartOptionsPoundsPerLocation.plotOptions"
@@ -89,6 +104,11 @@
     <div class="ui-tarjeta">
       <div class="question">
         <h2>{{'metrics_product_with_pounds_per_product_title' | translate }}</h2>
+        <div>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartPoundsPerProduct)">
+            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+          </button>
+        </div>
       </div>
       <br>
       <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerProductAverage | number}}</p>
@@ -96,7 +116,7 @@
       <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerProductMedian | number}}</p>
       <br>
       <div class="chart-container">
-        <div id="chart" *ngIf="chartOptionsPoundsPerProduct">
+        <div id="chartPoundsPerProduct" #chartPoundsPerProduct *ngIf="chartOptionsPoundsPerProduct">
           <apx-chart [series]="chartOptionsPoundsPerProduct.series" [chart]="chartOptionsPoundsPerProduct.chart"
             [dataLabels]="chartOptionsPoundsPerProduct.dataLabels"
             [plotOptions]="chartOptionsPoundsPerProduct.plotOptions"

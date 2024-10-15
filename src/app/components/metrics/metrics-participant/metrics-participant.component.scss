@@ -59,7 +59,13 @@
   margin-left: 16px;
 }
 
-#chartYESNO {
+#chartYESNOEmail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+#chartYESNOPhone {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -83,6 +89,24 @@
   margin-bottom: 16px;
 }
 
+#chart:fullscreen {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.ui-button.fullscreen {
+  padding: 0 32px;
+  min-width: 50px;
+}
+
+.question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
 @media only screen and (max-width: 355px) {
   // Agrega aquí tus estilos para dispositivos móviles pequeños
 
@@ -97,6 +121,7 @@
 }
 
 @media only screen and (max-width: 850px) {
+
   // Agrega aquí tus estilos para dispositivos móviles
   .container {
     margin: 0 8px;

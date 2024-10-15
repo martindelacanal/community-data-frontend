@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -85,8 +85,10 @@ const englishRangeLabel = (page: number, pageSize: number, length: number) => {
 })
 export class MetricsProductComponent implements OnInit {
 
-  @ViewChild("chart") chart: ChartComponent;
-  @ViewChild("chartYESNO") chartYESNO: ChartComponent;
+  @ViewChild('chartStacked', { static: false }) chartStacked: ElementRef;
+  @ViewChild('chartYESNO', { static: false }) chartYESNO: ElementRef;
+  @ViewChild('chartPoundsPerLocation', { static: false }) chartPoundsPerLocation: ElementRef;
+  @ViewChild('chartPoundsPerProduct', { static: false }) chartPoundsPerProduct: ElementRef;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   public chartOptionsTotalPounds: Partial<ChartOptionsStacked>;
@@ -220,6 +222,24 @@ export class MetricsProductComponent implements OnInit {
         }
       }
     )
+  }
+
+  toggleFullScreen(chartElement: ElementRef) {
+    if (chartElement) {
+      const elem = chartElement.nativeElement;
+      elem.style.backgroundColor = 'white'; // Asegúrate de que el fondo sea blanco
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+      }
+    } else {
+      console.error('chartElement is not defined');
+    }
   }
 
   removeFilterChip(filterChip: FilterChip): void {

@@ -39,6 +39,21 @@
   border-top: 4px solid var(--ui-primario);
   align-self: start;
   height: 100%;
+  position: relative;
+  /* Para posicionar los botones de fullscreen */
+}
+
+.question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.fullscreen-buttons {
+  display: flex;
+  gap: 8px;
+  /* Espacio entre los botones */
 }
 
 .ui-button {
@@ -59,26 +74,66 @@
   margin-left: 16px;
 }
 
-#chartYESNO {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-#chart {
-  margin-right: 20px;
-}
-
 .chart-container {
   width: 100%;
   height: 365px;
-  overflow-y: auto;
+  overflow: hidden;
+  /* Cambiado de overflow-y a hidden para evitar barras de desplazamiento */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.chart-yesno-align>div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.chart-container>div {
+  width: 100%;
+  height: 100%;
+}
+
+.ui-button.fullscreen {
+  /* Estilos específicos para los botones de fullscreen */
+  padding: 0 32px;
+  min-width: 50px;
+  z-index: 10;
+  /* Asegura que el botón esté encima del gráfico */
+}
+
+.ui-button.fullscreen mat-icon {
+  font-size: 27px;
+}
+
+/* Ocultar los botones de fullscreen cuando en fullscreen */
+:fullscreen .ui-tarjeta .fullscreen-buttons {
+  display: none;
+}
+
+/* Estilos para la tarjeta en fullscreen */
+:fullscreen {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  /* Eliminar padding para que el gráfico ocupe todo el espacio */
+  overflow: hidden;
+  /* Asegura que no haya barras de desplazamiento */
+}
+
+:fullscreen .chart-container {
+  width: 100%;
+  height: 100%;
 }
 
 @media only screen and (max-width: 355px) {
-  // Agrega aquí tus estilos para dispositivos móviles pequeños
 
+  /* Estilos para dispositivos móviles pequeños */
   .ui-button {
     font-size: 1.4rem;
   }
@@ -86,11 +141,11 @@
   h1 {
     font-size: 2.4rem;
   }
-
 }
 
 @media only screen and (max-width: 850px) {
-  // Agrega aquí tus estilos para dispositivos móviles
+
+  /* Estilos para dispositivos móviles */
   .container {
     margin: 0 8px;
   }
@@ -111,8 +166,8 @@
 }
 
 @media only screen and (min-width: 851px) and (max-width: 1650px) {
-  // Agrega aquí tus estilos para tablets
 
+  /* Estilos para tablets */
   .container {
     margin: 0 16px;
   }
