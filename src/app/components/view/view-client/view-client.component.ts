@@ -41,7 +41,8 @@ export class ViewClientComponent implements OnInit {
       enabled: '',
       creation_date: '',
       modification_date: '',
-      locations: []
+      locations: [],
+      emails_for_reporting: []
     };
 
   }

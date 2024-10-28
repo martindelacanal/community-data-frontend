@@ -553,6 +553,7 @@
   "view_client_locations": "Locations",
   "view_client_button_clients": "Clients",
   "view_client_table_title": "Client locations",
+  "view_client_emails_for_reporting": "Emails for reporting",
 
   "view_product_title": "View food",
   "view_product_error": "Error getting food",
@@ -756,6 +757,10 @@
   "new_client_button_create": "Create",
   "new_client_snack_created": "Client created successfully",
   "new_client_snack_error": "Error creating client",
+  "new_client_title_email_for_reporting": "Emails for reporting",
+  "new_client_tooltip_add_email": "Add email",
+  "new_client_tooltip_remove_email": "Remove email",
+  "new_client_input_email_for_reporting": "Email",
 
   "edit_client_title": "Edit client",
   "edit_client_button_create": "Save",

@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -30,6 +30,7 @@ export class NewClientComponent implements OnInit {
   public idClient: string = '';
   public locations: Location[] = [];
   private clientGetted: NewClient;
+  public numberOfFields: number;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -48,8 +49,10 @@ export class NewClientComponent implements OnInit {
       phone: null,
       address: null,
       webpage: null,
-      location_ids: null
+      location_ids: null,
+      emails_for_reporting: []
     }
+    this.numberOfFields = 0;
     this.buildNewForm();
     // get language from local storage
     translate.use(localStorage.getItem('language') || 'en');
@@ -97,7 +100,6 @@ export class NewClientComponent implements OnInit {
   onSubmit() {
     this.loading = true;
     if (this.clientForm.valid) {
-
       if (this.idClient) {
         this.newService.updateClient(this.idClient, this.clientForm.value).subscribe({
           next: (res) => {
@@ -137,6 +139,42 @@ export class NewClientComponent implements OnInit {
     this.snackBar.open(message, this.translate.instant('snackbar_close'));
   }
 
+  agregarCampo(createButton?: boolean) {
+    this.emailsForReportingForm.push(this.formBuilder.group({
+      email: [null],
+    }));
+    if (!createButton) {
+      this.numberOfFields++;
+    }
+  }
+  quitarCampo(createButton?: boolean) {
+    if (this.emailsForReportingForm.length > 0) {
+      this.emailsForReportingForm.removeAt(this.emailsForReportingForm.length - 1);
+      if (!createButton) {
+        this.numberOfFields--;
+      }
+    }
+  }
+  quitarCampoParticular(index: number): void {
+    this.emailsForReportingForm.removeAt(index);
+    this.numberOfFields--;
+  }
+  onNumberOfFieldsChange() {
+    if (Number.isInteger(this.numberOfFields) && this.numberOfFields >= 0) {
+      // quitar campos hasta que el número de campos sea igual al número de campos en el formulario
+      while (this.emailsForReportingForm.length > this.numberOfFields) {
+        this.quitarCampo(true);
+      }
+      // agregar campos hasta que el número de campos sea igual al número de campos en el formulario
+      while (this.emailsForReportingForm.length < this.numberOfFields) {
+        this.agregarCampo(true);
+      }
+    }
+  }
+  get emailsForReportingForm() {
+    return this.clientForm.get('emails_for_reporting') as FormArray;
+  }
+
   private resetearFormulario() {
     this.clientForm.reset();
     this.clientForm.get('name').setErrors(null);
@@ -161,7 +199,8 @@ export class NewClientComponent implements OnInit {
           phone: res.phone,
           address: res.address,
           webpage: res.webpage,
-          location_ids: res.location_ids
+          location_ids: res.location_ids,
+          emails_for_reporting: res.emails_for_reporting
         }
 
         this.clientForm.patchValue({
@@ -171,12 +210,23 @@ export class NewClientComponent implements OnInit {
           phone: res.phone,
           address: res.address,
           webpage: res.webpage,
-          location_ids: res.location_ids
+          location_ids: res.location_ids,
+          emails_for_reporting: res.emails_for_reporting
         });
+
+        // agregar campos de productos
+        for (let i = 0; i < res.emails_for_reporting.length; i++) {
+          this.agregarCampo(true);
+          const control = this.emailsForReportingForm.controls[i];
+          control.get('email').setValue(res.emails_for_reporting[i].email);
+        }
+
+        this.numberOfFields = res.emails_for_reporting.length;
 
         // Actualizar la validez de los campos de formulario
         this.clientForm.get('name').updateValueAndValidity();
         this.clientForm.get('short_name').updateValueAndValidity();
+        this.clientForm.get('emails_for_reporting').updateValueAndValidity();
 
       },
       error: (error) => {
@@ -261,7 +311,8 @@ export class NewClientComponent implements OnInit {
       phone: [null],
       address: [null],
       webpage: [null],
-      location_ids: [null]
+      location_ids: [null],
+      emails_for_reporting: this.formBuilder.array([])
     });
   }
 

@@ -6,4 +6,7 @@ export interface NewClient {
   address: string;
   webpage: string;
   location_ids: number[];
+  emails_for_reporting: {
+    email: string
+  }[];
 }

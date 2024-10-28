@@ -105,16 +105,21 @@
   grid-row: 4 / 5;
 }
 
-// separator
+// emails_for_reporting
 .card:nth-child(10) {
   grid-column: 1 / -1;
   grid-row: 6 / 7;
 }
+// separator
+.card:nth-child(11) {
+  grid-column: 1 / -1;
+  grid-row: 7 / 8;
+}
 
 .card {
-  &:nth-child(11) {
+  &:nth-child(12) {
     grid-column: 1 / -1;
-    grid-row: 7 / 8;
+    grid-row: 8 / 9;
   }
 
   table {
@@ -135,14 +140,14 @@
   }
 }
 // separator
-.card:nth-child(12) {
-  grid-column: 1 / -1;
-  grid-row: 8 / 9;
-}
-// buttons
 .card:nth-child(13) {
   grid-column: 1 / -1;
   grid-row: 9 / 10;
+}
+// buttons
+.card:nth-child(14) {
+  grid-column: 1 / -1;
+  grid-row: 10 / 11;
 }
 
 .card mat-form-field{

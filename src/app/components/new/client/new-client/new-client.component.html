@@ -72,8 +72,8 @@
                 </mat-error>
               </mat-form-field>
             </div>
-             <!-- webpage -->
-             <div class="card">
+            <!-- webpage -->
+            <div class="card">
               <mat-form-field appearance="outline">
                 <mat-label>{{'view_client_webpage' | translate }}</mat-label>
                 <input matInput formControlName="webpage">
@@ -98,11 +98,70 @@
             <div class="card ">
               <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
             </div>
+            <!-- emails_for_reporting -->
+            <div class="card">
+              <h2>{{'new_client_title_email_for_reporting' | translate }}</h2>
+              <div class="card__add_emails">
+                <div class="card__add_emails__buttons-container">
+                  <button class="card__add_emails--button" mat-icon-button type="button"
+                    matTooltip="{{'new_client_tooltip_add_email' | translate }}" matTooltipPosition="above"
+                    (click)="agregarCampo()">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                  <button class="card__add_emails--button" mat-icon-button type="button"
+                    matTooltip="{{'new_client_tooltip_remove_email' | translate }}" matTooltipPosition="above"
+                    [disabled]="emailsForReportingForm.controls.length < 1" (click)="quitarCampo()">
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                </div>
+                <mat-form-field appearance="outline">
+                  <mat-label>{{'stocker_input_number_of_fields' | translate }}</mat-label>
+                  <input matInput type="number" matNumberInput min="0" [(ngModel)]="numberOfFields"
+                    [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+                <button class="ui-button--ui-secundario" type="button"
+                  (click)="onNumberOfFieldsChange()">{{this.emailsForReportingForm.length > 0 ?
+                  this.translate.instant('stocker_button_modify') :
+                  this.translate.instant('stocker_button_create')}}</button>
+              </div>
+            </div>
+            <div class="card">
+              <div formArrayName="emails_for_reporting"
+                *ngFor="let emails of emailsForReportingForm.controls; let i=index">
+                <div [formGroupName]="i">
+                  <div class="card__email-quantity--grid">
+
+                    <!-- COMIENZO EMAIL-->
+                    <div class="card__email">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>{{'new_client_input_email_for_reporting' | translate }}</mat-label>
+                        <input matInput type="email" formControlName="email" required>
+                      </mat-form-field>
+                    </div>
+                    <!-- FIN EMAIL -->
+
+                    <div class="card__email-delete-button">
+                      <button mat-icon-button class="more-button second" aria-label="Toggle menu" type="button"
+                        matTooltip="{{'new_client_tooltip_remove_email' | translate }}" matTooltipPosition="above"
+                        (click)="quitarCampoParticular(i)">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- separator -->
+            <div class="card ">
+              <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+            </div>
             <!-- buttons -->
             <div class="card">
               <div class="main__footer">
                 <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
-                <button *ngIf="!loading" class="ui-button" type="submit" [disabled]="!clientForm.valid || loadingNameShortNameExists">{{ idClient ==
+                <button *ngIf="!loading" class="ui-button" type="submit"
+                  [disabled]="!clientForm.valid || loadingNameShortNameExists">{{ idClient ==
                   '' ? ('new_client_button_create' | translate) : ('edit_client_button_create' | translate) }}</button>
                 <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
               </div>

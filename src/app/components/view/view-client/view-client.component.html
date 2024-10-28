@@ -61,6 +61,14 @@
             <mat-label><strong>{{'table_clients_header_modification_date' | translate }}:</strong>
               {{viewClient.modification_date}}</mat-label>
           </div>
+          <!-- emails_for_reporting -->
+          <div class="card ">
+            <mat-label><strong>{{'view_client_emails_for_reporting' | translate }}:</strong>
+              <ul>
+                <li *ngFor="let emailObject of viewClient.emails_for_reporting">{{emailObject.email}}</li>
+              </ul>
+            </mat-label>
+          </div>
           <!-- separator -->
           <div class="card ">
             <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>

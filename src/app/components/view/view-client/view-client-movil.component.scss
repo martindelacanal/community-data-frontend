@@ -90,6 +90,12 @@
     grid-row: auto;
   }
 
+  .card:nth-child(14) {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+
   .header {
     display: flex;
     flex-direction: column;

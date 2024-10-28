@@ -96,10 +96,25 @@
   grid-column: 1 / -1;
   grid-row: 5 / 6;
 }
-// buttons
+// emails_for_reporting add
 .card:nth-child(9) {
-  grid-column: 1 / -1;
+  grid-column: 1 / 2;
   grid-row: 6 / 7;
+}
+// emails_for_reporting form
+.card:nth-child(10) {
+  grid-column: 1 / -1;
+  grid-row: 7 / 8;
+}
+// separator
+.card:nth-child(11) {
+  grid-column: 1 / -1;
+  grid-row: 8 / 9;
+}
+// buttons
+.card:nth-child(12) {
+  grid-column: 1 / -1;
+  grid-row: 9 / 10;
 }
 
 .card mat-form-field{
@@ -134,6 +149,29 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+}
+
+.card__email {
+  width: 100%;
+}
+
+.card__email-quantity--grid {
+  display: flex;
+}
+
+.card__add_emails {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  // margin-top: 24px;
+  .ui-button--ui-secundario {
+    margin-left: 16px;
+    margin-bottom: 16px;
+    padding: 0 32px;
+  }
+}
+.card__add_emails--button {
+  margin-bottom: 16px;
 }
 
 // Media queries responsive
