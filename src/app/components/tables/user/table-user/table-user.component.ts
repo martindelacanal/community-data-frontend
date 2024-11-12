@@ -313,7 +313,7 @@ export class TableUserComponent implements OnInit, AfterViewInit {
     });
   }
 
-  dialogDownloadCsv(role: string): void {
+  dialogDownloadCsv(role: string, isMailchimp: boolean): void {
     let originTable = 'table-user';
     if (this.tableRole === 'beneficiary') {
       originTable = 'table-participant';
@@ -353,15 +353,18 @@ export class TableUserComponent implements OnInit, AfterViewInit {
         // recuperar filter-chip del localStorage
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
-        switch (role) {
-          case 'all': this.downloadAllCSV(result);
-            break;
-          case 'client': this.downloadClientUserCSV(result);
-            break;
-          case 'beneficiary': this.downloadBeneficiaryCSV(result);
-            break;
+        if (isMailchimp) {
+          this.downloadBeneficiaryCSVMailchimp(result);
+        } else {
+          switch (role) {
+            case 'all': this.downloadAllCSV(result);
+              break;
+            case 'client': this.downloadClientUserCSV(result);
+              break;
+            case 'beneficiary': this.downloadBeneficiaryCSV(result);
+              break;
+          }
         }
-
         this.getDataUserTable(result.data);
       }
     });
@@ -424,6 +427,30 @@ export class TableUserComponent implements OnInit, AfterViewInit {
         const a = document.createElement('a');
         a.href = url;
         a.download = 'participants-table.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        this.loadingCSV = false;
+      },
+      error: (error) => {
+        console.log(error);
+        this.openSnackBar(this.translate.instant('metrics_button_download_csv_error'));
+        this.loadingCSV = false;
+      }
+    });
+
+  }
+
+  private downloadBeneficiaryCSVMailchimp(result: any) {
+
+    this.tablesService.getParticipantFileCSVMailchimp(result.data).subscribe({
+      next: (res) => {
+        const blob = new Blob([res as BlobPart], { type: 'text/csv; charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'participants-table-mailchimp.csv';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

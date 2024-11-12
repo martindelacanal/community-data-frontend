@@ -95,6 +95,10 @@ export class TablesService {
     return this.http.post(`${environment.url_api}/table/user/client/download-csv`, filters, { responseType: 'text' });
   }
 
+  getParticipantFileCSVMailchimp(filters: any) {
+    return this.http.post(`${environment.url_api}/table/user/beneficiary/download-csv-mailchimp`, filters, { responseType: 'text' });
+  }
+
   getParticipantFileCSV(filters: any) {
     return this.http.post(`${environment.url_api}/table/user/beneficiary/download-csv`, filters, { responseType: 'text' });
   }
