@@ -27,27 +27,18 @@
 
   <section class="main_tarjetas" *ngIf="!loadingQuestions">
     <div class="ui-tarjeta" *ngFor="let question of questionsMetrics; let i = index">
-      <div class="question">
-        <h2>{{ question.question }}</h2>
-        <div class="fullscreen-buttons">
-          <!-- Botón de pantalla completa para el gráfico principal -->
-          <button *ngIf="chartOptions[i]"
-          class="ui-button fullscreen" type="button" (click)="toggleFullScreen('main', i)"
-            aria-label="Fullscreen main chart" title="Fullscreen main chart">
-            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
-          </button>
-
-          <!-- Botón de pantalla completa para el gráfico YES/NO -->
-          <button *ngIf="chartOptionsYESNO[i]" class="ui-button fullscreen" type="button"
-            (click)="toggleFullScreen('yesno', i)" aria-label="Fullscreen YES/NO chart" title="Fullscreen YES/NO chart">
-            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
-          </button>
-        </div>
-      </div>
 
       <!-- Gráfico principal -->
-      <div class="chart-container" *ngIf="chartOptions[i]" id="chart-container-main-{{i}}">
-        <div id="chart-main-{{i}}" #chartMain>
+      <div class="chart-container" *ngIf="chartOptions[i]" id="chart-container-main-{{i}}" #chartContainer>
+        <div class="chart-header">
+          <h2>{{ question.question }}</h2>
+          <button *ngIf="chartOptions[i]" class="ui-button fullscreen" type="button"
+            (click)="toggleFullScreen('main', i)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
+          </button>
+        </div>
+
+        <div class="chart-main" id="chart-main-{{i}}" #chartMain>
           <apx-chart [series]="chartOptions[i].series" [chart]="chartOptions[i].chart"
             [dataLabels]="chartOptions[i].dataLabels" [plotOptions]="chartOptions[i].plotOptions"
             [xaxis]="chartOptions[i].xaxis"></apx-chart>
@@ -55,7 +46,15 @@
       </div>
 
       <!-- Gráfico YES/NO -->
-      <div class="chart-container chart-yesno-align" *ngIf="chartOptionsYESNO[i]" id="chart-container-yesno-{{i}}">
+      <div class="chart-container" *ngIf="chartOptionsYESNO[i]" id="chart-container-yesno-{{i}}" #chartContainer>
+        <div class="chart-header">
+          <h2>{{ question.question }}</h2>
+          <button *ngIf="chartOptionsYESNO[i]" class="ui-button fullscreen" type="button"
+            (click)="toggleFullScreen('yesno', i)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
+          </button>
+        </div>
+
         <div id="chart-yesno-{{i}}" #chartYesNo>
           <apx-chart [series]="chartOptionsYESNO[i].series" [chart]="chartOptionsYESNO[i].chart"
             [labels]="chartOptionsYESNO[i].labels" [responsive]="chartOptionsYESNO[i].responsive"

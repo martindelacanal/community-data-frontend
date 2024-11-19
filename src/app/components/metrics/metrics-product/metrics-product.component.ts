@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -83,7 +83,7 @@ const englishRangeLabel = (page: number, pageSize: number, length: number) => {
   templateUrl: './metrics-product.component.html',
   styleUrls: ['./metrics-product.component.scss']
 })
-export class MetricsProductComponent implements OnInit {
+export class MetricsProductComponent implements OnInit, OnDestroy {
 
   @ViewChild('chartStacked', { static: false }) chartStacked: ElementRef;
   @ViewChild('chartYESNO', { static: false }) chartYESNO: ElementRef;
@@ -121,6 +121,7 @@ export class MetricsProductComponent implements OnInit {
   filtersChip: FilterChip[];
 
   public intervals: any[];
+  isFullscreen: boolean = false;
 
   constructor(
     private metricsService: MetricsService,
@@ -222,20 +223,27 @@ export class MetricsProductComponent implements OnInit {
         }
       }
     )
+
+    // Add fullscreen change listener
+    document.addEventListener('fullscreenchange', () => {
+      this.isFullscreen = !!document.fullscreenElement;
+    });
   }
 
-  toggleFullScreen(chartElement: ElementRef) {
+  ngOnDestroy() {
+    // Remove fullscreen listener when component is destroyed
+    document.removeEventListener('fullscreenchange', () => {
+      this.isFullscreen = !!document.fullscreenElement;
+    });
+  }
+
+  toggleFullScreen(chartElement: HTMLElement) {
     if (chartElement) {
-      const elem = chartElement.nativeElement;
-      elem.style.backgroundColor = 'white'; // Asegúrate de que el fondo sea blanco
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) { /* Firefox */
-        elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE/Edge */
-        elem.msRequestFullscreen();
+      chartElement.style.backgroundColor = 'white';
+      if (!document.fullscreenElement) {
+        chartElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
       }
     } else {
       console.error('chartElement is not defined');

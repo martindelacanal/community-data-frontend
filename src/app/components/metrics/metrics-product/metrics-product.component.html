@@ -24,109 +24,113 @@
   <mat-spinner *ngIf="loadingMetrics" class="loading-questions" mode="indeterminate" [diameter]="30"></mat-spinner>
   <section class="main_tarjetas">
     <div class="ui-tarjeta">
-      <div class="question">
-        <h2>{{'metrics_product_reachs_title' | translate }}</h2>
-        <div>
-          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartStacked)">
-            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+      <div class="chart-container" id="chartStackedContainer" #chartStackedContainer>
+        <div class="chart-header">
+          <h2>{{'metrics_product_reachs_title' | translate }}</h2>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartStackedContainer)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
           </button>
         </div>
-      </div>
-      <br>
-      <div class="kpis-filtroInterval">
-        <div>
-          <p>{{'metrics_product_reachs_reach' | translate }}: {{ this.reachMetrics.reach | number}}</p>
-          <br>
-          <p>{{'metrics_product_reachs_pounds_delivered' | translate }}: {{this.reachMetrics.poundsDelivered | number}}
-          </p>
-          <br>
+        <br>
+        <div class="kpis-filtroInterval" *ngIf="!isFullscreen">
+          <div>
+            <p>{{'metrics_product_reachs_reach' | translate }}: {{ this.reachMetrics.reach | number}}</p>
+            <br>
+            <p>{{'metrics_product_reachs_pounds_delivered' | translate }}: {{this.reachMetrics.poundsDelivered | number}}
+            </p>
+            <br>
+          </div>
+          <form [formGroup]="filterForm" class="filtros">
+            <mat-form-field appearance="outline">
+              <mat-label>{{'metrics_product_filter_interval' | translate }}</mat-label>
+              <mat-select formControlName="interval">
+                <mat-option *ngFor="let interval of intervals" [value]="interval.id">
+                  {{interval.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
         </div>
-        <form [formGroup]="filterForm" class="filtros">
-          <mat-form-field appearance="outline">
-            <mat-label>{{'metrics_product_filter_interval' | translate }}</mat-label>
-            <mat-select formControlName="interval">
-              <mat-option *ngFor="let interval of intervals" [value]="interval.id">
-                {{interval.name}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </form>
-      </div>
-      <div id="chartStacked" #chartStacked *ngIf="chartOptionsTotalPounds">
-        <apx-chart [series]="chartOptionsTotalPounds.series" [chart]="chartOptionsTotalPounds.chart"
-          [labels]="chartOptionsTotalPounds.labels" [legend]="chartOptionsTotalPounds.legend"
-          [colors]="chartOptionsTotalPounds.colors" [responsive]="chartOptionsTotalPounds.responsive"
-          [theme]="chartOptionsTotalPounds.theme" [dataLabels]="chartOptionsTotalPounds.dataLabels"
-          [tooltip]="chartOptionsTotalPounds.tooltip" [plotOptions]="chartOptionsTotalPounds.plotOptions"
-          [xaxis]="chartOptionsTotalPounds.xaxis" [fill]="chartOptionsTotalPounds.fill"></apx-chart>
-      </div>
-    </div>
-    <div class="ui-tarjeta">
-      <div class="question">
-        <h2>{{'metrics_product_kind_of_product_title' | translate }}</h2>
-        <div>
-          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartYESNO)">
-            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
-          </button>
+        <!-- espacio para fullscreen -->
+        <div *ngIf="isFullscreen">
+          <br><br><br><br>
         </div>
-      </div>
-      <div id="chartYESNO" #chartYESNO *ngIf="chartOptionsKindOfProduct">
-        <apx-chart [series]="chartOptionsKindOfProduct.series" [chart]="chartOptionsKindOfProduct.chart"
-          [labels]="chartOptionsKindOfProduct.labels" [legend]="chartOptionsKindOfProduct.legend"
-          [colors]="chartOptionsKindOfProduct.colors" [responsive]="chartOptionsKindOfProduct.responsive"
-          [theme]="chartOptionsKindOfProduct.theme" [dataLabels]="chartOptionsKindOfProduct.dataLabels"
-          [tooltip]="chartOptionsKindOfProduct.tooltip"></apx-chart>
-      </div>
-    </div>
-    <div class="ui-tarjeta">
-      <div class="question">
-        <h2>{{'metrics_product_with_pounds_per_location_title' | translate }}</h2>
-        <div>
-          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartPoundsPerLocation)">
-            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
-          </button>
-        </div>
-      </div>
-      <br>
-      <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerLocationAverage | number}}</p>
-      <br>
-      <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerLocationMedian | number}}</p>
-      <br>
-      <div class="chart-container">
-        <div id="chartPoundsPerLocation" #chartPoundsPerLocation *ngIf="chartOptionsPoundsPerLocation">
-          <apx-chart [series]="chartOptionsPoundsPerLocation.series" [chart]="chartOptionsPoundsPerLocation.chart"
-            [dataLabels]="chartOptionsPoundsPerLocation.dataLabels"
-            [plotOptions]="chartOptionsPoundsPerLocation.plotOptions"
-            [xaxis]="chartOptionsPoundsPerLocation.xaxis"></apx-chart>
+        <div id="chartStacked" #chartStacked *ngIf="chartOptionsTotalPounds">
+          <apx-chart [series]="chartOptionsTotalPounds.series" [chart]="chartOptionsTotalPounds.chart"
+            [labels]="chartOptionsTotalPounds.labels" [legend]="chartOptionsTotalPounds.legend"
+            [colors]="chartOptionsTotalPounds.colors" [responsive]="chartOptionsTotalPounds.responsive"
+            [theme]="chartOptionsTotalPounds.theme" [dataLabels]="chartOptionsTotalPounds.dataLabels"
+            [tooltip]="chartOptionsTotalPounds.tooltip" [plotOptions]="chartOptionsTotalPounds.plotOptions"
+            [xaxis]="chartOptionsTotalPounds.xaxis" [fill]="chartOptionsTotalPounds.fill"></apx-chart>
         </div>
       </div>
     </div>
     <div class="ui-tarjeta">
-      <div class="question">
-        <h2>{{'metrics_product_with_pounds_per_product_title' | translate }}</h2>
-        <div>
-          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartPoundsPerProduct)">
-            <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+      <div class="chart-container" id="chartYESNOContainer" #chartYESNOContainer>
+        <div class="chart-header">
+          <h2>{{'metrics_product_kind_of_product_title' | translate }}</h2>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartYESNOContainer)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
           </button>
         </div>
-      </div>
-      <br>
-      <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerProductAverage | number}}</p>
-      <br>
-      <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerProductMedian | number}}</p>
-      <br>
-      <div class="chart-container">
-        <div id="chartPoundsPerProduct" #chartPoundsPerProduct *ngIf="chartOptionsPoundsPerProduct">
-          <apx-chart [series]="chartOptionsPoundsPerProduct.series" [chart]="chartOptionsPoundsPerProduct.chart"
-            [dataLabels]="chartOptionsPoundsPerProduct.dataLabels"
-            [plotOptions]="chartOptionsPoundsPerProduct.plotOptions"
-            [xaxis]="chartOptionsPoundsPerProduct.xaxis"></apx-chart>
+        <div id="chartYESNO" #chartYESNO *ngIf="chartOptionsKindOfProduct">
+          <apx-chart [series]="chartOptionsKindOfProduct.series" [chart]="chartOptionsKindOfProduct.chart"
+            [labels]="chartOptionsKindOfProduct.labels" [legend]="chartOptionsKindOfProduct.legend"
+            [colors]="chartOptionsKindOfProduct.colors" [responsive]="chartOptionsKindOfProduct.responsive"
+            [theme]="chartOptionsKindOfProduct.theme" [dataLabels]="chartOptionsKindOfProduct.dataLabels"
+            [tooltip]="chartOptionsKindOfProduct.tooltip"></apx-chart>
         </div>
       </div>
-      <mat-paginator class="paginador" #paginator [length]="poundsPerProductTotalItems"
-        [pageIndex]="poundsPerProductPage" [pageSize]="10" [pageSizeOptions]="[10]" (page)="updatePage($event)"
-        aria-label="Seleccione una página">
-      </mat-paginator>
+    </div>
+    <div class="ui-tarjeta">
+      <div class="chart-container" id="chartPoundsPerLocationContainer" #chartPoundsPerLocationContainer>
+        <div class="chart-header">
+          <h2>{{'metrics_product_with_pounds_per_location_title' | translate }}</h2>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartPoundsPerLocationContainer)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
+          </button>
+        </div>
+        <br>
+        <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerLocationAverage | number}}</p>
+        <br>
+        <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerLocationMedian | number}}</p>
+        <br>
+        <div class="chart-container chart" [class.fullscreen]="isFullscreen">
+          <div id="chartPoundsPerLocation" #chartPoundsPerLocation *ngIf="chartOptionsPoundsPerLocation">
+            <apx-chart [series]="chartOptionsPoundsPerLocation.series" [chart]="chartOptionsPoundsPerLocation.chart"
+              [dataLabels]="chartOptionsPoundsPerLocation.dataLabels"
+              [plotOptions]="chartOptionsPoundsPerLocation.plotOptions"
+              [xaxis]="chartOptionsPoundsPerLocation.xaxis"></apx-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui-tarjeta">
+      <div class="chart-container" id="chartPoundsPerProductContainer" #chartPoundsPerProductContainer>
+        <div class="chart-header">
+          <h2>{{'metrics_product_with_pounds_per_product_title' | translate }}</h2>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartPoundsPerProductContainer)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
+          </button>
+        </div>
+        <br>
+        <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerProductAverage | number}}</p>
+        <br>
+        <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerProductMedian | number}}</p>
+        <br>
+        <div class="chart-container chart" [class.fullscreen]="isFullscreen">
+          <div id="chartPoundsPerProduct" #chartPoundsPerProduct *ngIf="chartOptionsPoundsPerProduct">
+            <apx-chart [series]="chartOptionsPoundsPerProduct.series" [chart]="chartOptionsPoundsPerProduct.chart"
+              [dataLabels]="chartOptionsPoundsPerProduct.dataLabels"
+              [plotOptions]="chartOptionsPoundsPerProduct.plotOptions"
+              [xaxis]="chartOptionsPoundsPerProduct.xaxis"></apx-chart>
+          </div>
+        </div>
+        <mat-paginator class="paginador" #paginator [length]="poundsPerProductTotalItems"
+          [pageIndex]="poundsPerProductPage" [pageSize]="10" [pageSizeOptions]="[10]" (page)="updatePage($event)"
+          aria-label="Seleccione una página">
+        </mat-paginator>
+      </div>
     </div>
   </section>
 </div>

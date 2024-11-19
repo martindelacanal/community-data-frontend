@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -45,7 +45,7 @@ export type ChartOptionsStacked = {
   templateUrl: './metrics-participant.component.html',
   styleUrls: ['./metrics-participant.component.scss']
 })
-export class MetricsParticipantComponent implements OnInit {
+export class MetricsParticipantComponent implements OnInit, OnDestroy {
 
   @ViewChild('chartYESNOEmail', { static: false }) chartYESNOEmail: ElementRef;
   @ViewChild('chartYESNOPhone', { static: false }) chartYESNOPhone: ElementRef;
@@ -71,6 +71,8 @@ export class MetricsParticipantComponent implements OnInit {
   filtersChip: FilterChip[];
 
   public intervals: any[];
+
+  isFullscreen: boolean = false;
 
   constructor(
     private metricsService: MetricsService,
@@ -153,20 +155,27 @@ export class MetricsParticipantComponent implements OnInit {
     this.getRegisterMetrics(this.translate.currentLang, this.filterForm.value);
     this.getEmailMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPhoneMetrics(this.translate.currentLang, this.filterForm.value);
+
+    // Agregar listener para el evento fullscreenchange
+    document.addEventListener('fullscreenchange', () => {
+      this.isFullscreen = !!document.fullscreenElement;
+    });
   }
 
-  toggleFullScreen(chartElement: ElementRef) {
+  ngOnDestroy() {
+    // Remover el listener cuando el componente se destruye
+    document.removeEventListener('fullscreenchange', () => {
+      this.isFullscreen = !!document.fullscreenElement;
+    });
+  }
+
+  toggleFullScreen(chartElement: HTMLElement) {
     if (chartElement) {
-      const elem = chartElement.nativeElement;
-      elem.style.backgroundColor = 'white'; // Asegúrate de que el fondo sea blanco
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) { /* Firefox */
-        elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE/Edge */
-        elem.msRequestFullscreen();
+      chartElement.style.backgroundColor = 'white';
+      if (!document.fullscreenElement) {
+        chartElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
       }
     } else {
       console.error('chartElement is not defined');

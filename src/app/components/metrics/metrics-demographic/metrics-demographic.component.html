@@ -23,81 +23,85 @@
   <mat-spinner *ngIf="loadingMetrics" class="loading-questions" mode="indeterminate" [diameter]="30"></mat-spinner>
   <section class="main_tarjetas">
     <div class="ui-tarjeta">
-      <div class="question">
-        <h2>{{'metrics_demographic_gender_title' | translate }}</h2>
-        <div>
-          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartYESNOGender)">
-          <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+      <div class="chart-container" id="chartGenderContainer" #chartGenderContainer>
+        <div class="chart-header">
+          <h2>{{ 'metrics_demographic_gender_title' | translate }}</h2>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartGenderContainer)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
           </button>
         </div>
+        <div id="chartYESNOGender" #chartYESNOGender *ngIf="chartOptionsGender">
+          <apx-chart [series]="chartOptionsGender.series" [chart]="chartOptionsGender.chart"
+            [labels]="chartOptionsGender.labels" [legend]="chartOptionsGender.legend" [colors]="chartOptionsGender.colors"
+            [responsive]="chartOptionsGender.responsive" [theme]="chartOptionsGender.theme"
+            [dataLabels]="chartOptionsGender.dataLabels" [tooltip]="chartOptionsGender.tooltip"></apx-chart>
+        </div>
       </div>
-      <div id="chartYESNOGender" #chartYESNOGender *ngIf="chartOptionsGender">
-        <apx-chart [series]="chartOptionsGender.series" [chart]="chartOptionsGender.chart"
-          [labels]="chartOptionsGender.labels" [legend]="chartOptionsGender.legend" [colors]="chartOptionsGender.colors"
-          [responsive]="chartOptionsGender.responsive" [theme]="chartOptionsGender.theme"
-          [dataLabels]="chartOptionsGender.dataLabels" [tooltip]="chartOptionsGender.tooltip"></apx-chart>
-      </div>
+
     </div>
     <div class="ui-tarjeta">
-      <div class="question">
-        <h2>{{'metrics_demographic_ethnicity_title' | translate }}</h2>
-        <div>
-          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartYESNOEthnicity)">
-          <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+      <div class="chart-container" id="chartEthnicityContainer" #chartEthnicityContainer>
+        <div class="chart-header">
+          <h2>{{ 'metrics_demographic_ethnicity_title' | translate }}</h2>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartEthnicityContainer)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
           </button>
         </div>
+        <div id="chartYESNOEthnicity" #chartYESNOEthnicity *ngIf="chartOptionsEthnicity">
+          <apx-chart [series]="chartOptionsEthnicity.series" [chart]="chartOptionsEthnicity.chart"
+            [labels]="chartOptionsEthnicity.labels" [legend]="chartOptionsEthnicity.legend"
+            [colors]="chartOptionsEthnicity.colors" [responsive]="chartOptionsEthnicity.responsive"
+            [theme]="chartOptionsEthnicity.theme" [dataLabels]="chartOptionsEthnicity.dataLabels"
+            [tooltip]="chartOptionsEthnicity.tooltip"></apx-chart>
+        </div>
       </div>
-      <div id="chartYESNOEthnicity" #chartYESNOEthnicity *ngIf="chartOptionsEthnicity">
-        <apx-chart [series]="chartOptionsEthnicity.series" [chart]="chartOptionsEthnicity.chart"
-          [labels]="chartOptionsEthnicity.labels" [legend]="chartOptionsEthnicity.legend"
-          [colors]="chartOptionsEthnicity.colors" [responsive]="chartOptionsEthnicity.responsive"
-          [theme]="chartOptionsEthnicity.theme" [dataLabels]="chartOptionsEthnicity.dataLabels"
-          [tooltip]="chartOptionsEthnicity.tooltip"></apx-chart>
-      </div>
+
     </div>
     <div class="ui-tarjeta">
-      <div class="question">
-        <h2>{{'metrics_demographic_household_title' | translate }}</h2>
-        <div>
-          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartHousehold)">
-          <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+      <div class="chart-container" id="chartHouseholdContainer" #chartHouseholdContainer>
+        <div class="chart-header">
+          <h2>{{ 'metrics_demographic_household_title' | translate }}</h2>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartHouseholdContainer)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
           </button>
         </div>
-      </div>
-      <br>
-      <p>{{'metrics_demographic_average' | translate }}: {{ this.householdMetricsAverage | number}}</p>
-      <br>
-      <p>{{'metrics_demographic_median' | translate }}: {{this.householdMetricsMedian | number}}</p>
-      <br>
-      <div class="chart-container">
-        <div id="chartHousehold" #chartHousehold *ngIf="chartOptionsHousehold">
-          <apx-chart [series]="chartOptionsHousehold.series" [chart]="chartOptionsHousehold.chart"
-            [dataLabels]="chartOptionsHousehold.dataLabels" [plotOptions]="chartOptionsHousehold.plotOptions"
-            [xaxis]="chartOptionsHousehold.xaxis"></apx-chart>
+        <br>
+        <p>{{'metrics_demographic_average' | translate }}: {{ this.householdMetricsAverage | number}}</p>
+        <br>
+        <p>{{'metrics_demographic_median' | translate }}: {{this.householdMetricsMedian | number}}</p>
+        <br>
+        <div class="chart-container chart" [class.fullscreen]="isFullscreen">
+          <div id="chartHousehold" #chartHousehold *ngIf="chartOptionsHousehold">
+            <apx-chart [series]="chartOptionsHousehold.series" [chart]="chartOptionsHousehold.chart"
+              [dataLabels]="chartOptionsHousehold.dataLabels" [plotOptions]="chartOptionsHousehold.plotOptions"
+              [xaxis]="chartOptionsHousehold.xaxis"></apx-chart>
+          </div>
         </div>
       </div>
+
     </div>
     <div class="ui-tarjeta">
-      <div class="question">
-        <h2>{{'metrics_demographic_age_title' | translate }}</h2>
-        <div>
-          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartAge)">
-          <mat-icon style="font-size: 27px;">fullscreen</mat-icon>
+      <div class="chart-container" id="chartAgeContainer" #chartAgeContainer>
+        <div class="chart-header">
+          <h2>{{ 'metrics_demographic_age_title' | translate }}</h2>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartAgeContainer)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
           </button>
         </div>
-      </div>
-      <br>
-      <p>{{'metrics_demographic_average' | translate }}: {{ this.ageMetricsAverage | number}}</p>
-      <br>
-      <p>{{'metrics_demographic_median' | translate }}: {{this.ageMetricsMedian | number}}</p>
-      <br>
-      <div class="chart-container">
-        <div id="chartAge" #chartAge *ngIf="chartOptionsAge">
-          <apx-chart [series]="chartOptionsAge.series" [chart]="chartOptionsAge.chart"
-            [dataLabels]="chartOptionsAge.dataLabels" [plotOptions]="chartOptionsAge.plotOptions"
-            [xaxis]="chartOptionsAge.xaxis"></apx-chart>
+        <br>
+        <p>{{'metrics_demographic_average' | translate }}: {{ this.ageMetricsAverage | number}}</p>
+        <br>
+        <p>{{'metrics_demographic_median' | translate }}: {{this.ageMetricsMedian | number}}</p>
+        <br>
+        <div class="chart-container chart" [class.fullscreen]="isFullscreen">
+          <div id="chartAge" #chartAge *ngIf="chartOptionsAge">
+            <apx-chart [series]="chartOptionsAge.series" [chart]="chartOptionsAge.chart"
+              [dataLabels]="chartOptionsAge.dataLabels" [plotOptions]="chartOptionsAge.plotOptions"
+              [xaxis]="chartOptionsAge.xaxis"></apx-chart>
+          </div>
         </div>
       </div>
+
     </div>
   </section>
 </div>

@@ -59,6 +59,8 @@ export class MetricsComponent implements OnInit {
 
   filtersChip: FilterChip[];
 
+  isFullscreen: boolean = false;
+
   constructor(
     private decodificadorService: DecodificadorService,
     private metricsService: MetricsService,
@@ -119,6 +121,18 @@ export class MetricsComponent implements OnInit {
     }
 
     this.getQuestions(this.translate.currentLang, this.filterForm.value);
+
+     // Add fullscreen change listener
+     document.addEventListener('fullscreenchange', () => {
+      this.isFullscreen = !!document.fullscreenElement;
+    });
+  }
+
+  ngOnDestroy() {
+    // Remove fullscreen listener when component is destroyed
+    document.removeEventListener('fullscreenchange', () => {
+      this.isFullscreen = !!document.fullscreenElement;
+    });
   }
 
   /**

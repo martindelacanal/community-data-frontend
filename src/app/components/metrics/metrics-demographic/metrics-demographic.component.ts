@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -52,12 +52,13 @@ export type ChartOptionsYESNO = {
   templateUrl: './metrics-demographic.component.html',
   styleUrls: ['./metrics-demographic.component.scss']
 })
-export class MetricsDemographicComponent implements OnInit {
+export class MetricsDemographicComponent implements OnInit, OnDestroy {
 
   @ViewChild('chartYESNOGender', { static: false }) chartYESNOGender: ElementRef;
   @ViewChild('chartYESNOEthnicity', { static: false }) chartYESNOEthnicity: ElementRef;
   @ViewChild('chartHousehold', { static: false }) chartHousehold: ElementRef;
   @ViewChild('chartAge', { static: false }) chartAge: ElementRef;
+
   public chartOptionsGender: Partial<ChartOptionsYESNO>;
   public chartOptionsEthnicity: Partial<ChartOptionsYESNO>;
   public chartOptionsHousehold: Partial<ChartOptions>;
@@ -79,6 +80,7 @@ export class MetricsDemographicComponent implements OnInit {
   loadingCSV: boolean = false;
 
   filtersChip: FilterChip[];
+  isFullscreen: boolean = false;
 
   constructor(
     private metricsService: MetricsService,
@@ -141,20 +143,27 @@ export class MetricsDemographicComponent implements OnInit {
     this.getEthnicityMetrics(this.translate.currentLang, this.filterForm.value);
     this.getHouseholdMetrics(this.translate.currentLang, this.filterForm.value);
     this.getAgeMetrics(this.translate.currentLang, this.filterForm.value);
+
+    // Agregar listener para el evento fullscreenchange
+    document.addEventListener('fullscreenchange', () => {
+      this.isFullscreen = !!document.fullscreenElement;
+    });
   }
 
-  toggleFullScreen(chartElement: ElementRef) {
+  ngOnDestroy() {
+    // Remover el listener cuando el componente se destruye
+    document.removeEventListener('fullscreenchange', () => {
+      this.isFullscreen = !!document.fullscreenElement;
+    });
+  }
+
+  toggleFullScreen(chartElement: HTMLElement) {
     if (chartElement) {
-      const elem = chartElement.nativeElement;
-      elem.style.backgroundColor = 'white'; // Asegúrate de que el fondo sea blanco
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.mozRequestFullScreen) { /* Firefox */
-        elem.mozRequestFullScreen();
-      } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE/Edge */
-        elem.msRequestFullscreen();
+      chartElement.style.backgroundColor = 'white';
+      if (!document.fullscreenElement) {
+        chartElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
       }
     } else {
       console.error('chartElement is not defined');
