@@ -623,6 +623,7 @@
   "view_user_table_title_delivery": "Historial de escaneos",
   "view_user_table_title_stocker": "Tickets subidos",
 
+  "view_metrics_worker_title": "Métricas de worker",
   "view_worker_title": "Ver worker",
   "view_worker_error": "Error al obtener el worker",
   "view_worker_scanned_qr": "QR escaneado entre fechas",

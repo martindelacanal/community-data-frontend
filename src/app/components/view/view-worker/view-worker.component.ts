@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { MetricsFiltersComponent } from '../../dialog/metrics-filters/metrics-filters.component';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -32,7 +32,7 @@ export type ChartOptionsYESNO = {
   templateUrl: './view-worker.component.html',
   styleUrls: ['./view-worker.component.scss']
 })
-export class ViewWorkerComponent implements OnInit {
+export class ViewWorkerComponent implements OnInit, OnDestroy {
 
   @ViewChild("chartYESNO") chartYESNO: ChartComponent;
 
@@ -49,7 +49,7 @@ export class ViewWorkerComponent implements OnInit {
 
   // scan history
   multi: GraphicLineComplete[] = [];
-  view: [number,number] = [undefined, 300];
+  view: [number, number] = [undefined, 300];
 
   // options
   legend: boolean = false;
@@ -78,6 +78,12 @@ export class ViewWorkerComponent implements OnInit {
 
   idWorker: string;
   username: string;
+
+  isFullscreen: boolean = false;
+
+  @ViewChild('chartContainer1', { static: false }) chartContainer1: ElementRef;
+  @ViewChild('chartContainer2', { static: false }) chartContainer2: ElementRef;
+  // ...add more ViewChild references for each chart container...
 
   constructor(
     private viewService: ViewService,
@@ -138,14 +144,23 @@ export class ViewWorkerComponent implements OnInit {
 
     this.activatedRoute.params.subscribe((params: Params) => {
       this.idWorker = params['id'];
-      if (this.idWorker) {
+      if (this.idWorker && this.idWorker !== '0') {
         this.loadingMetrics = true;
         this.getUsername(this.idWorker);
         this.getViewUser(this.idWorker, this.translate.currentLang);
         this.getScannedQRMetrics(this.translate.currentLang, this.filterForm.value);
         this.getScanHistoryMetrics(this.translate.currentLang, this.filterForm.value);
+      } else {
+        if (this.idWorker === '0') {
+          this.getScannedQRMetrics(this.translate.currentLang, this.filterForm.value);
+          this.getScanHistoryMetrics(this.translate.currentLang, this.filterForm.value);
+        }
       }
     });
+  }
+
+  ngOnDestroy() {
+    // Cleanup logic if needed
   }
 
   removeFilterChip(filterChip: FilterChip): void {
@@ -308,9 +323,9 @@ export class ViewWorkerComponent implements OnInit {
       })
     ).subscribe({
       next: (res) => {
-        if(res.length > 0){
+        if (res.length > 0) {
           this.multi = res;
-        }else{
+        } else {
           this.multi = [];
         }
       },
@@ -431,6 +446,19 @@ export class ViewWorkerComponent implements OnInit {
 
   //   return colors;
   // }
+
+  toggleFullScreen(chartElement: HTMLElement) {
+    if (chartElement) {
+      chartElement.style.backgroundColor = 'white';
+      if (!document.fullscreenElement) {
+        chartElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    } else {
+      console.error('chartElement is not defined');
+    }
+  }
 
 }
 

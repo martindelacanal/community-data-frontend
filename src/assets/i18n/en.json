@@ -623,6 +623,7 @@
   "view_user_table_title_delivery": "Scan history",
   "view_user_table_title_stocker": "Tickets uploaded",
 
+  "view_metrics_worker_title": "Worker metrics",
   "view_worker_title": "View worker",
   "view_worker_button_workers": "Workers",
   "view_worker_error": "Error getting worker",
