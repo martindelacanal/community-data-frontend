@@ -275,7 +275,6 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
     this.metricsService.getReachMetrics(language, filters).subscribe({
       next: (res) => {
         this.reachMetrics = res;
-
         this.loadingReachMetrics = false;
         this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
       },

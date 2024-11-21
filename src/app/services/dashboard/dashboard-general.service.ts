@@ -16,6 +16,10 @@ export class DashboardGeneralService {
     return this.http.get<GraphicLineComplete>(`${environment.url_api}/dashboard/graphic-line/${selectedTab}?language=${language}`);
   }
 
+  postGraficoLinea(selectedTab: string, language: string, filters: any) {
+    return this.http.post<GraphicLineComplete>(`${environment.url_api}/dashboard/graphic-line/${selectedTab}?language=${language}`, filters);
+  }
+
   getPoundsDelivered() {
     return this.http.get<number>(`${environment.url_api}/pounds-delivered`);
   }

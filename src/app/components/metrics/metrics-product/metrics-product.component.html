@@ -31,14 +31,11 @@
             <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
           </button>
         </div>
-        <br>
         <div class="kpis-filtroInterval" *ngIf="!isFullscreen">
           <div>
             <p>{{'metrics_product_reachs_reach' | translate }}: {{ this.reachMetrics.reach | number}}</p>
-            <br>
             <p>{{'metrics_product_reachs_pounds_delivered' | translate }}: {{this.reachMetrics.poundsDelivered | number}}
             </p>
-            <br>
           </div>
           <form [formGroup]="filterForm" class="filtros">
             <mat-form-field appearance="outline">
@@ -53,7 +50,6 @@
         </div>
         <!-- espacio para fullscreen -->
         <div *ngIf="isFullscreen">
-          <br><br><br><br>
         </div>
         <div id="chartStacked" #chartStacked *ngIf="chartOptionsTotalPounds">
           <apx-chart [series]="chartOptionsTotalPounds.series" [chart]="chartOptionsTotalPounds.chart"
@@ -90,11 +86,8 @@
             <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
           </button>
         </div>
-        <br>
         <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerLocationAverage | number}}</p>
-        <br>
         <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerLocationMedian | number}}</p>
-        <br>
         <div class="chart-container chart" [class.fullscreen]="isFullscreen">
           <div id="chartPoundsPerLocation" #chartPoundsPerLocation *ngIf="chartOptionsPoundsPerLocation">
             <apx-chart [series]="chartOptionsPoundsPerLocation.series" [chart]="chartOptionsPoundsPerLocation.chart"
@@ -113,11 +106,8 @@
             <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
           </button>
         </div>
-        <br>
         <p>{{'metrics_demographic_average' | translate }}: {{ this.poundsPerProductAverage | number}}</p>
-        <br>
         <p>{{'metrics_demographic_median' | translate }}: {{this.poundsPerProductMedian | number}}</p>
-        <br>
         <div class="chart-container chart" [class.fullscreen]="isFullscreen">
           <div id="chartPoundsPerProduct" #chartPoundsPerProduct *ngIf="chartOptionsPoundsPerProduct">
             <apx-chart [series]="chartOptionsPoundsPerProduct.series" [chart]="chartOptionsPoundsPerProduct.chart"
@@ -127,9 +117,25 @@
           </div>
         </div>
         <mat-paginator class="paginador" #paginator [length]="poundsPerProductTotalItems"
-          [pageIndex]="poundsPerProductPage" [pageSize]="10" [pageSizeOptions]="[10]" (page)="updatePage($event)"
+        [pageIndex]="poundsPerProductPage" [pageSize]="10" [pageSizeOptions]="[10]" (page)="updatePage($event)"
           aria-label="Seleccione una página">
         </mat-paginator>
+      </div>
+    </div>
+    <div class="ui-tarjeta">
+      <div class="chart-container" id="chartPoundsDelivered" #chartPoundsDelivered>
+        <div class="chart-header">
+          <h2>{{'dashboard_admin_tab_title_pounds' | translate }}</h2>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartPoundsDelivered)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
+          </button>
+        </div>
+        <div id="chartYESNO" #chartYESNO *ngIf="chartOptionsKindOfProduct">
+          <app-grafico-linea-dashboard-home
+            [selectedTab]="'pounds-filters'"
+            [filters]="filterForm.value">
+          </app-grafico-linea-dashboard-home>
+        </div>
       </div>
     </div>
   </section>

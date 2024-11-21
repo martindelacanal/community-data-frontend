@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
@@ -11,9 +11,10 @@ import { DashboardGeneralService } from 'src/app/services/dashboard/dashboard-ge
   templateUrl: './grafico-linea-dashboard-home.component.html',
   styleUrls: ['./grafico-linea-dashboard-home.component.scss']
 })
-export class GraficoLineaDashboardHomeComponent implements OnInit{
+export class GraficoLineaDashboardHomeComponent implements OnInit, OnChanges {
 
   @Input() selectedTab: string;
+  @Input() filters: any; // Cambiado de FormGroup a any
 
   multi: GraphicLineComplete[] = [];
   view: [number,number] = [undefined, 300];
@@ -46,9 +47,20 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
 
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['filters'] && !changes['filters'].firstChange) {
+      this.postGraficoLinea(this.selectedTab, this.translate.currentLang, this.filters);
+    }
+  }
+
   ngOnInit(): void {
     // switch value of selectedTab
-    this.getGraficoLinea(this.selectedTab, this.translate.currentLang);
+    if (this.selectedTab === 'pounds-filters') {
+      this.postGraficoLinea(this.selectedTab, this.translate.currentLang, this.filters.value);
+    } else {
+      this.getGraficoLinea(this.selectedTab, this.translate.currentLang);
+    }
+
     switch (this.selectedTab) {
       case 'pounds':
         this.multi = [
@@ -59,22 +71,15 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
               //   "value": 0,
               //   "name": "2016-04-19T09:57:01.208Z"
               // },
-              // {
-              //   "value": 5,
-              //   "name": "2016-05-14T18:11:35.766Z"
-              // },
-              // {
-              //   "value": 10,
-              //   "name": "2016-06-16T03:30:54.136Z"
-              // },
-              // {
-              //   "value": 4,
-              //   "name": "2016-07-15T06:49:48.939Z"
-              // },
-              // {
-              //   "value": 12,
-              //   "name": "2016-08-15T09:57:01.208Z"
-              // }
+            ]
+          }
+        ];
+        break;
+      case 'pounds-filters':
+        this.multi = [
+          {
+            "name": "Pounds",
+            "series": [
             ]
           }
         ];
@@ -84,26 +89,6 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
           {
             "name": "Beneficiaries",
             "series": [
-              // {
-              //   "value": 21,
-              //   "name": "2016-04-19T09:57:01.208Z"
-              // },
-              // {
-              //   "value": 2,
-              //   "name": "2016-05-14T18:11:35.766Z"
-              // },
-              // {
-              //   "value": 15,
-              //   "name": "2016-06-16T03:30:54.136Z"
-              // },
-              // {
-              //   "value": 4,
-              //   "name": "2016-07-15T06:49:48.939Z"
-              // },
-              // {
-              //   "value": 12,
-              //   "name": "2016-08-15T09:57:01.208Z"
-              // }
             ]
           }
         ];
@@ -113,26 +98,6 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
           {
             "name": "Delivery people",
             "series": [
-              // {
-              //   "value": 10,
-              //   "name": "2016-04-19T09:57:01.208Z"
-              // },
-              // {
-              //   "value": 5,
-              //   "name": "2016-05-14T18:11:35.766Z"
-              // },
-              // {
-              //   "value": 0,
-              //   "name": "2016-06-16T03:30:54.136Z"
-              // },
-              // {
-              //   "value": 5,
-              //   "name": "2016-07-15T06:49:48.939Z"
-              // },
-              // {
-              //   "value": 1,
-              //   "name": "2016-08-15T09:57:01.208Z"
-              // }
             ]
           }
         ];
@@ -142,26 +107,6 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
           {
             "name": "Operations",
             "series": [
-              // {
-              //   "value": 20,
-              //   "name": "2016-04-19T09:57:01.208Z"
-              // },
-              // {
-              //   "value": 25,
-              //   "name": "2016-05-14T18:11:35.766Z"
-              // },
-              // {
-              //   "value": 10,
-              //   "name": "2016-06-16T03:30:54.136Z"
-              // },
-              // {
-              //   "value": 4,
-              //   "name": "2016-07-15T06:49:48.939Z"
-              // },
-              // {
-              //   "value": 32,
-              //   "name": "2016-08-15T09:57:01.208Z"
-              // }
             ]
           }
         ];
@@ -187,6 +132,19 @@ export class GraficoLineaDashboardHomeComponent implements OnInit{
 
   private getGraficoLinea(selectedTab: string, language: string) {
     this.dashboardGeneralService.getGraficoLinea(selectedTab, language).subscribe(
+      (res) => {
+        if(res.series.length > 0){
+          this.multi = [res];
+        }else{
+          this.multi = [];
+        }
+
+      }
+    );
+  }
+
+  private postGraficoLinea(selectedTab: string, language: string, filters: any) {
+    this.dashboardGeneralService.postGraficoLinea(selectedTab, language, filters).subscribe(
       (res) => {
         if(res.series.length > 0){
           this.multi = [res];

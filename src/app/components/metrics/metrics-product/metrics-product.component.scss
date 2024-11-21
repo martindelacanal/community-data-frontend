@@ -81,11 +81,13 @@
 
 .chart-container {
   width: 100%;
-
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .chart-container.chart {
-  height: 400px;
+  height: 365px;
   overflow-y: auto;
 }
 
@@ -135,7 +137,6 @@
 .kpis-filtroInterval {
   display: flex;
   justify-content: space-between;
-  align-items: end;
   margin-bottom: 16px;
 }
 
