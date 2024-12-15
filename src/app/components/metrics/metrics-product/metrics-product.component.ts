@@ -154,6 +154,17 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // Initialize form with localStorage values first
+    const savedFilters = localStorage.getItem('filters') ? JSON.parse(localStorage.getItem('filters')) : null;
+
+    this.filterForm = this.formBuilder.group({
+      interval: [savedFilters?.interval || 'month'],
+      from_date: [savedFilters?.from_date || null],
+      to_date: [savedFilters?.to_date || null],
+      locations: [savedFilters?.locations || null],
+      providers: [savedFilters?.providers || null],
+      product_types: [savedFilters?.product_types || null]
+    });
 
     // Intenta recuperar el valor de 'filters' del localStorage
     const filters = JSON.parse(localStorage.getItem('filters'));

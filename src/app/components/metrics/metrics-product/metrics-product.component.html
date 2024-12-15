@@ -132,9 +132,25 @@
             <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
           </button>
         </div>
+        <div class="kpis-filtroInterval" *ngIf="!isFullscreen">
+          <div class="kpis-titulos">
+          </div>
+          <form [formGroup]="filterForm" class="filtros">
+            <mat-form-field appearance="outline">
+              <mat-label>{{'metrics_product_filter_interval' | translate }}</mat-label>
+              <mat-select formControlName="interval">
+                <mat-option *ngFor="let interval of intervals" [value]="interval.id">
+                  {{interval.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
         <div id="chartYESNO" #chartYESNO *ngIf="chartOptionsKindOfProduct">
           <div class="chart-wrapper">
-            <app-grafico-linea-dashboard-home [selectedTab]="'pounds-filters'" [filters]="filterForm.value">
+            <app-grafico-linea-dashboard-home
+              [selectedTab]="'pounds-filters'"
+              [filters]="filterForm.value">
             </app-grafico-linea-dashboard-home>
           </div>
         </div>

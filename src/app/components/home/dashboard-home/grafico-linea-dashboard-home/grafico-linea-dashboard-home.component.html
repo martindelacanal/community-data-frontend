@@ -1,5 +1,5 @@
-<ngx-charts-line-chart
-  [xAxisTickFormatting]="formatXAxisTick"
+<!-- [xAxisTickFormatting]="formatXAxisTick" -->
+<ngx-charts-line-chart *ngIf="!loading"
   [view]="view"
   [scheme]="colorScheme"
   [legend]="legend"

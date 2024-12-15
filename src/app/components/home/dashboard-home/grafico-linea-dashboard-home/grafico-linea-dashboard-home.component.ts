@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { format } from 'date-fns';
+import { finalize } from 'rxjs';
 import { GraphicLineComplete } from 'src/app/models/grafico-linea/graphic-line-complete';
 import { DashboardGeneralService } from 'src/app/services/dashboard/dashboard-general.service';
 
@@ -17,7 +18,7 @@ export class GraficoLineaDashboardHomeComponent implements OnInit, OnChanges {
   @Input() filters: any; // Cambiado de FormGroup a any
 
   multi: GraphicLineComplete[] = [];
-  view: [number,number] = [undefined, 300];
+  view: [number, number] = [undefined, 300];
 
   // options
   legend: boolean = false;
@@ -31,6 +32,9 @@ export class GraficoLineaDashboardHomeComponent implements OnInit, OnChanges {
   yAxisLabel: string = 'Population';
   timeline: boolean = false;
   autoScale: boolean = false;
+
+  // loading
+  loading: boolean = true;
 
   colorScheme: Color = {
     name: 'my-color-scheme',
@@ -54,33 +58,25 @@ export class GraficoLineaDashboardHomeComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    // switch value of selectedTab
-    if (this.selectedTab === 'pounds-filters') {
-      this.postGraficoLinea(this.selectedTab, this.translate.currentLang, this.filters.value);
+    // Check if we have initial values
+    if (this.selectedTab && this.filters && this.selectedTab === 'pounds-filters') {
+      this.postGraficoLinea(this.selectedTab, this.translate.currentLang, this.filters);
     } else {
       this.getGraficoLinea(this.selectedTab, this.translate.currentLang);
     }
 
+    // Initialize series based on selectedTab
+    this.initializeSeries();
+  }
+
+  private initializeSeries(): void {
     switch (this.selectedTab) {
       case 'pounds':
-        this.multi = [
-          {
-            "name": "Pounds",
-            "series": [
-              // {
-              //   "value": 0,
-              //   "name": "2016-04-19T09:57:01.208Z"
-              // },
-            ]
-          }
-        ];
-        break;
       case 'pounds-filters':
         this.multi = [
           {
             "name": "Pounds",
-            "series": [
-            ]
+            "series": []
           }
         ];
         break;
@@ -88,8 +84,7 @@ export class GraficoLineaDashboardHomeComponent implements OnInit, OnChanges {
         this.multi = [
           {
             "name": "Beneficiaries",
-            "series": [
-            ]
+            "series": []
           }
         ];
         break;
@@ -97,8 +92,7 @@ export class GraficoLineaDashboardHomeComponent implements OnInit, OnChanges {
         this.multi = [
           {
             "name": "Delivery people",
-            "series": [
-            ]
+            "series": []
           }
         ];
         break;
@@ -106,12 +100,11 @@ export class GraficoLineaDashboardHomeComponent implements OnInit, OnChanges {
         this.multi = [
           {
             "name": "Operations",
-            "series": [
-            ]
+            "series": []
           }
         ];
         break;
-      }
+    }
   }
 
   onSelect(data): void {
@@ -131,29 +124,43 @@ export class GraficoLineaDashboardHomeComponent implements OnInit, OnChanges {
   }
 
   private getGraficoLinea(selectedTab: string, language: string) {
-    this.dashboardGeneralService.getGraficoLinea(selectedTab, language).subscribe(
-      (res) => {
-        if(res.series.length > 0){
+    this.loading = true;
+    this.dashboardGeneralService.getGraficoLinea(selectedTab, language).pipe(
+      finalize(() => {
+        this.loading = false;
+      })
+    ).subscribe({
+      next: (res) => {
+        if (res.series.length > 0) {
           this.multi = [res];
-        }else{
+        } else {
           this.multi = [];
         }
-
+      },
+      error: (error) => {
+        console.log(error);
       }
-    );
+    });
   }
 
   private postGraficoLinea(selectedTab: string, language: string, filters: any) {
-    this.dashboardGeneralService.postGraficoLinea(selectedTab, language, filters).subscribe(
-      (res) => {
-        if(res.series.length > 0){
+    this.loading = true;
+    this.dashboardGeneralService.postGraficoLinea(selectedTab, language, filters).pipe(
+      finalize(() => {
+        this.loading = false;
+      })
+    ).subscribe({
+      next: (res) => {
+        if (res.series.length > 0) {
           this.multi = [res];
-        }else{
+        } else {
           this.multi = [];
         }
-
+      },
+      error: (error) => {
+        console.log(error);
       }
-    );
+    });
   }
 
 }
