@@ -177,6 +177,14 @@ table {
   transition: font-size 0.3s ease;
 }
 
+.chart-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 24px;
+}
+
 @media only screen and (max-width: 355px) {
   // Agrega aquí tus estilos para dispositivos móviles pequeños
 
@@ -190,7 +198,15 @@ table {
 
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 800px) {
+
+  .chart-wrapper {
+    justify-content: left;
+  }
+
+}
+
+@media only screen and (max-width: 1250px) {
 
   // Agrega aquí tus estilos para dispositivos móviles
   .container {
@@ -212,26 +228,23 @@ table {
     grid-row: 1 / 2;
   }
 
+  .ui-tarjeta:nth-child(2) {
+    grid-column: 1 / -1;
+    grid-row: 2 / 3;
+  }
+
+  .ui-tarjeta:nth-child(3) {
+    grid-column: 1 / -1;
+    grid-row: 3 / 4;
+  }
+
   .ui-tarjeta {
-
-    .ui-tarjeta:nth-child(2) {
-      grid-column: 1 / -1;
-      grid-row: 2 / 3;
-    }
-
-    .ui-tarjeta:nth-child(3) {
-      grid-column: 1 / -1;
-      grid-row: 3 / 4;
-    }
-
-    .ui-tarjeta {
-      padding: 16px;
-    }
+    padding: 16px;
   }
 
 }
 
-@media only screen and (min-width: 851px) and (max-width: 1650px) {
+@media only screen and (min-width: 1251px) and (max-width: 1650px) {
   // Agrega aquí tus estilos para tablets
 
   .container {

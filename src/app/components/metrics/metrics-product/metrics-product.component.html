@@ -32,9 +32,10 @@
           </button>
         </div>
         <div class="kpis-filtroInterval" *ngIf="!isFullscreen">
-          <div>
+          <div class="kpis-titulos">
             <p>{{'metrics_product_reachs_reach' | translate }}: {{ this.reachMetrics.reach | number}}</p>
-            <p>{{'metrics_product_reachs_pounds_delivered' | translate }}: {{this.reachMetrics.poundsDelivered | number}}
+            <p>{{'metrics_product_reachs_pounds_delivered' | translate }}: {{this.reachMetrics.poundsDelivered |
+              number}}
             </p>
           </div>
           <form [formGroup]="filterForm" class="filtros">
@@ -82,7 +83,8 @@
       <div class="chart-container" id="chartPoundsPerLocationContainer" #chartPoundsPerLocationContainer>
         <div class="chart-header">
           <h2>{{'metrics_product_with_pounds_per_location_title' | translate }}</h2>
-          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartPoundsPerLocationContainer)">
+          <button class="ui-button fullscreen" type="button"
+            (click)="toggleFullScreen(chartPoundsPerLocationContainer)">
             <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
           </button>
         </div>
@@ -117,7 +119,7 @@
           </div>
         </div>
         <mat-paginator class="paginador" #paginator [length]="poundsPerProductTotalItems"
-        [pageIndex]="poundsPerProductPage" [pageSize]="10" [pageSizeOptions]="[10]" (page)="updatePage($event)"
+          [pageIndex]="poundsPerProductPage" [pageSize]="10" [pageSizeOptions]="[10]" (page)="updatePage($event)"
           aria-label="Seleccione una página">
         </mat-paginator>
       </div>
@@ -131,10 +133,10 @@
           </button>
         </div>
         <div id="chartYESNO" #chartYESNO *ngIf="chartOptionsKindOfProduct">
-          <app-grafico-linea-dashboard-home
-            [selectedTab]="'pounds-filters'"
-            [filters]="filterForm.value">
-          </app-grafico-linea-dashboard-home>
+          <div class="chart-wrapper">
+            <app-grafico-linea-dashboard-home [selectedTab]="'pounds-filters'" [filters]="filterForm.value">
+            </app-grafico-linea-dashboard-home>
+          </div>
         </div>
       </div>
     </div>
