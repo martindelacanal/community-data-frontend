@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Location } from 'src/app/models/map/location';
 import { NewTicket } from 'src/app/models/new/new-ticket';
 import { AuditStatus } from 'src/app/models/stocker/audit-status';
+import { Delivered } from 'src/app/models/stocker/delivered-by';
 import { Product } from 'src/app/models/stocker/product';
 import { ProductType } from 'src/app/models/stocker/product-type';
 import { Provider } from 'src/app/models/stocker/provider';
@@ -31,6 +32,10 @@ export class StockerService {
 
   getLocations() {
     return this.http.get<Location[]>(`${environment.url_api}/locations`);
+  }
+
+  getDelivereds() {
+    return this.http.get<Delivered[]>(`${environment.url_api}/delivered-by`);
   }
 
   getAuditStatus(language: string) {

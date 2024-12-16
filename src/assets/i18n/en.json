@@ -509,6 +509,14 @@
   "table_locations_row_button_delete": "Delete",
   "table_locations_button_add_location": "Add location",
 
+  "table_delivered_by_title": "Delivered by",
+  "table_delivered_by_snack_error_get": "Error getting delivered by",
+  "table_delivered_by_header_creation_date": "Creation date",
+  "table_delivered_by_row_button_view": "View",
+  "table_delivered_by_row_button_edit": "Edit",
+  "table_delivered_by_row_button_delete": "Delete",
+  "table_delivered_by_button_add_delivered_by": "Add delivered by",
+
   "table_workers_title": "Workers",
   "table_workers_snack_error_get": "Error getting workers",
   "table_workers_header_user_id": "User ID",

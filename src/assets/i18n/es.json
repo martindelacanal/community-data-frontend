@@ -509,6 +509,14 @@
   "table_locations_row_button_delete": "Eliminar",
   "table_locations_button_add_location": "Agregar locación",
 
+  "table_delivered_by_title": "Entregado por",
+  "table_delivered_by_snack_error_get": "Error al obtener los entregados por",
+  "table_delivered_by_header_creation_date": "Fecha de creación",
+  "table_delivered_by_row_button_view": "Ver",
+  "table_delivered_by_row_button_edit": "Editar",
+  "table_delivered_by_row_button_delete": "Eliminar",
+  "table_delivered_by_button_add_delivered_by": "Agregar entregado por",
+
   "table_workers_title": "Workers",
   "table_workers_snack_error_get": "Error al obtener los workers",
   "table_workers_header_user_id": "ID de usuario",

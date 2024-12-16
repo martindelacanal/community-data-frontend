@@ -93,7 +93,11 @@
             <div class="card">
               <mat-form-field appearance="outline">
                 <mat-label>{{'stocker_input_delivered_by' | translate }}</mat-label>
-                <input matInput formControlName="delivered_by" required>
+                <mat-select formControlName="delivered_by">
+                  <mat-option *ngFor="let delivered of delivereds" [value]="delivered.id">
+                    {{delivered.name}}
+                  </mat-option>
+                </mat-select>
                 <mat-error *ngIf="stockForm.controls['delivered_by'].hasError('required')">
                   {{'stocker_input_delivered_by_error' | translate }}
                 </mat-error>

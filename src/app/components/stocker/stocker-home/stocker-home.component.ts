@@ -9,6 +9,7 @@ import { Usuario } from 'src/app/models/login/usuario';
 import { Location } from 'src/app/models/map/location';
 import { NewTicket } from 'src/app/models/new/new-ticket';
 import { AuditStatus } from 'src/app/models/stocker/audit-status';
+import { Delivered } from 'src/app/models/stocker/delivered-by';
 import { Product } from 'src/app/models/stocker/product';
 import { ProductType } from 'src/app/models/stocker/product-type';
 import { Provider } from 'src/app/models/stocker/provider';
@@ -27,6 +28,7 @@ export class StockerHomeComponent implements OnInit {
   public loading: boolean = true;
   public loadingGetForm: boolean = false;
   private loadingLocations: boolean = false;
+  private loadingDelivereds: boolean = false;
   private loadingAuditStatus: boolean = false;
   private loadingProviders: boolean = false;
   private loadingProducts: boolean = false;
@@ -48,6 +50,7 @@ export class StockerHomeComponent implements OnInit {
   private file_ticket: any;
   public idTicket: string = '';
   locations: Location[] = [];
+  delivereds: Delivered[] = [];
   auditStatus: AuditStatus[] = [];
   products: Product[] = [];
   product_types: ProductType[] = [];
@@ -117,6 +120,7 @@ export class StockerHomeComponent implements OnInit {
       );
 
     this.getLocations();
+    this.getDelivereds();
     this.getProviders();
     this.getProducts();
     this.getProductTypes(this.translate.currentLang);
@@ -602,6 +606,24 @@ export class StockerHomeComponent implements OnInit {
     });
   }
 
+  private getDelivereds() {
+    this.loadingDelivereds = true;
+    this.stockerService.getDelivereds().pipe(
+      finalize(() => {
+        this.loadingDelivereds = false;
+        this.checkLoading();
+      })
+    ).subscribe({
+      next: (res) => {
+        this.delivereds = res;
+      },
+      error: (error) => {
+        console.log(error);
+        this.openSnackBar(this.translate.instant('table_delivered_by_snack_error_get'));
+      }
+    });
+  }
+
   private getAuditStatus(language: string) {
     this.loadingAuditStatus = true;
     this.stockerService.getAuditStatus(language).pipe(
@@ -716,7 +738,7 @@ export class StockerHomeComponent implements OnInit {
   }
 
   private checkLoading() {
-    if (!this.loadingLocations && !this.loadingProviders && !this.loadingProducts && !this.loadingProductTypes) {
+    if (!this.loadingLocations && !this.loadingProviders && !this.loadingProducts && !this.loadingProductTypes && !this.loadingDelivereds && !this.loadingAuditStatus) {
       if (this.idTicket) {
         if (!this.loadingGetForm) {
           this.loading = false;
