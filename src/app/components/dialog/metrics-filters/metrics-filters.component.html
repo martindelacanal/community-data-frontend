@@ -46,6 +46,38 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <!-- delivered_by -->
+      <div *ngIf="this.origin == 'table-ticket'">
+        <br>
+        <p>{{'metrics_filters_title_delivered_by' | translate }}</p>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{'metrics_filters_input_delivered_by' | translate }}</mat-label>
+          <mat-select #filterDeliveredBy formControlName="delivered_by" multiple>
+            <mat-option [value]="0"
+              (click)="toggleAllSelection(filterDeliveredBy, 'delivered_by')"><b>{{this.selectAllTextDeliveredBy}}</b></mat-option>
+            <mat-option *ngFor="let delivered of delivereds" [value]="delivered.id">
+              {{delivered.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- stocker_upload -->
+      <div *ngIf="this.origin == 'table-ticket'">
+        <br>
+        <p>{{'metrics_filters_title_stocker_upload' | translate }}</p>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{'metrics_filters_input_stocker_upload' | translate }}</mat-label>
+          <mat-select #filterStockerUpload formControlName="stocker_upload" multiple>
+            <mat-option [value]="0"
+              (click)="toggleAllSelection(filterStockerUpload, 'stocker_upload')"><b>{{this.selectAllTextStockerUpload}}</b></mat-option>
+            <mat-option *ngFor="let stocker of stockers" [value]="stocker.id">
+              {{stocker.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <!-- product_types -->
       <div *ngIf="this.origin == 'table-product' || this.origin == 'metrics-product'">
         <br>

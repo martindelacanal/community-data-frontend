@@ -46,6 +46,10 @@ export class StockerService {
     return this.http.get<Provider[]>(`${environment.url_api}/providers`);
   }
 
+  getStockerUpload() {
+    return this.http.get<Provider[]>(`${environment.url_api}/stocker-upload`);
+  }
+
   getProducts() {
     return this.http.get<Product[]>(`${environment.url_api}/products`);
   }

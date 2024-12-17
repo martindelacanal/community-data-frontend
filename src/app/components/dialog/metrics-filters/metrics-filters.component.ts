@@ -11,6 +11,7 @@ import { RegisterAnswer } from 'src/app/models/login/register-answer';
 import { RegisterQuestion } from 'src/app/models/login/register-question';
 import { Location } from 'src/app/models/map/location';
 import { FilterChip } from 'src/app/models/metrics/filter-chip';
+import { Delivered } from 'src/app/models/stocker/delivered-by';
 import { ProductType } from 'src/app/models/stocker/product-type';
 import { Provider } from 'src/app/models/stocker/provider';
 import { Ethnicity } from 'src/app/models/user/ethnicity';
@@ -33,6 +34,8 @@ export class MetricsFiltersComponent implements OnInit {
   workers: WorkerFilter[] = [];
   locations: Location[] = [];
   providers: Provider[] = [];
+  delivereds: Delivered[] = [];
+  stockers: Provider[] = [];
   product_types: ProductType[] = [];
   genders: Gender[];
   ethnicities: Ethnicity[];
@@ -42,6 +45,8 @@ export class MetricsFiltersComponent implements OnInit {
   selectAllTextGenders = 'Select all';
   selectAllTextEthnicities = 'Select all';
   selectAllTextProviders = 'Select all';
+  selectAllTextDeliveredBy = 'Select all';
+  selectAllTextStockerUpload = 'Select all';
   selectAllTextProductTypes = 'Select all';
 
   filtersAnterior: string = '';
@@ -74,6 +79,8 @@ export class MetricsFiltersComponent implements OnInit {
       workers: [null],
       locations: [null],
       providers: [null],
+      delivered_by: [null],
+      stocker_upload: [null],
       product_types: [null],
       genders: [null],
       ethnicities: [null],
@@ -97,6 +104,8 @@ export class MetricsFiltersComponent implements OnInit {
     this.selectAllTextWorkers = this.translate.instant('metrics_filters_button_select_all');
     this.selectAllTextLocations = this.translate.instant('metrics_filters_button_select_all');
     this.selectAllTextProviders = this.translate.instant('metrics_filters_button_select_all');
+    this.selectAllTextDeliveredBy = this.translate.instant('metrics_filters_button_select_all');
+    this.selectAllTextStockerUpload = this.translate.instant('metrics_filters_button_select_all');
     this.selectAllTextProductTypes = this.translate.instant('metrics_filters_button_select_all');
     this.selectAllTextGenders = this.translate.instant('metrics_filters_button_select_all');
     this.selectAllTextEthnicities = this.translate.instant('metrics_filters_button_select_all');
@@ -137,6 +146,14 @@ export class MetricsFiltersComponent implements OnInit {
       array_api.push(this.getProviders());
       keys_available.push('providers');
     }
+    if (this.origin == 'table-ticket') {
+      array_api.push(this.getDeliveredBy());
+      keys_available.push('delivered_by');
+    }
+    if (this.origin == 'table-ticket') {
+      array_api.push(this.getStockerUpload());
+      keys_available.push('stocker_upload');
+    }
     if (this.origin == 'table-product' || this.origin == 'metrics-product') {
       array_api.push(this.getProductTypes(this.translate.currentLang));
       keys_available.push('product_types');
@@ -167,8 +184,8 @@ export class MetricsFiltersComponent implements OnInit {
           //borrar el filtro si ya existe
           filters_chip = filters_chip.filter(f => f.code !== key);
           if (val[key] && (!Array.isArray(val[key]) || val[key].length) && val[key] !== '') {
-            // si es un array de id, recorrerlo y guardar los nombres separados por coma utilizando las variables workers, locations, providers, product_types, genders y ethnicities
-            if (key === 'workers' || key === 'locations' || key === 'providers' || key === 'product_types' || key === 'genders' || key === 'ethnicities') {
+            // si es un array de id, recorrerlo y guardar los nombres separados por coma utilizando las variables workers, locations, providers, delivered_by, stocker_upload, product_types, genders y ethnicities
+            if (key === 'workers' || key === 'locations' || key === 'providers' || key === 'delivered_by' || key === 'stocker_upload' || key === 'product_types' || key === 'genders' || key === 'ethnicities') {
               if (keys_available.includes(key)) {
                 let names = [];
                 val[key].forEach(id => {
@@ -189,6 +206,18 @@ export class MetricsFiltersComponent implements OnInit {
                       let provider = this.providers.find(p => p.id === id);
                       if (provider) {
                         names.push(provider.name);
+                      }
+                      break;
+                    case 'delivered_by':
+                      let delivered = this.delivereds.find(p => p.id === id);
+                      if (delivered) {
+                        names.push(delivered.name);
+                      }
+                      break;
+                    case 'stocker_upload':
+                      let stocker = this.stockers.find(p => p.id === id);
+                      if (stocker) {
+                        names.push(stocker.name);
                       }
                       break;
                     case 'product_types':
@@ -397,6 +426,12 @@ export class MetricsFiltersComponent implements OnInit {
       case 'providers':
         this.selectAllTextProviders = text;
         break;
+      case 'delivered_by':
+        this.selectAllTextDeliveredBy = text;
+        break;
+      case 'stocker_upload':
+        this.selectAllTextStockerUpload = text;
+        break;
       case 'product_types':
         this.selectAllTextProductTypes = text;
         break;
@@ -437,6 +472,30 @@ export class MetricsFiltersComponent implements OnInit {
     return this.stockerService.getProviders().pipe(
       tap((res) => {
         this.providers = res;
+      }),
+      catchError((error) => {
+        console.error(error);
+        return of(null);
+      })
+    );
+  }
+
+  private getDeliveredBy() {
+    return this.stockerService.getDelivereds().pipe(
+      tap((res) => {
+        this.delivereds = res;
+      }),
+      catchError((error) => {
+        console.error(error);
+        return of(null);
+      })
+    );
+  }
+
+  private getStockerUpload() {
+    return this.stockerService.getStockerUpload().pipe(
+      tap((res) => {
+        this.stockers = res;
       }),
       catchError((error) => {
         console.error(error);
