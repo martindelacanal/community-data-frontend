@@ -108,6 +108,7 @@
   "menu_button_client_user_table": "Client users",
   "menu_button_client_table": "Clients",
   "menu_button_delivered_table": "Delivered",
+  "menu_button_delivered_by_table": "Delivered by",
   "menu_button_location_table": "Locations",
   "menu_button_product_table": "Foods",
   "menu_button_product_type_table": "Food types",
@@ -515,7 +516,10 @@
 
   "table_delivered_by_title": "Delivered by",
   "table_delivered_by_snack_error_get": "Error getting delivered by",
+  "table_delivered_by_header_name": "Name",
+  "table_delivered_by_header_enabled": "Enabled",
   "table_delivered_by_header_creation_date": "Creation date",
+  "table_delivered_by_header_modification_date": "Modification date",
   "table_delivered_by_row_button_view": "View",
   "table_delivered_by_row_button_edit": "Edit",
   "table_delivered_by_row_button_delete": "Delete",
@@ -593,6 +597,12 @@
   "view_gender_error": "Error getting gender",
   "view_gender_button_genders": "Genders",
   "view_gender_table_title": "Participants",
+
+  "view_delivered_by_title": "View delivered by",
+  "view_delivered_by_name": "Name",
+  "view_delivered_by_error": "Error getting delivered by",
+  "view_delivered_by_button_delivered_by": "Delivered by (table)",
+  "view_delivered_by_table_title": "Tickets",
 
   "view_delivered_title": "View delivered",
   "view_delivered_error": "Error getting delivered",
@@ -703,6 +713,21 @@
   "edit_product_type_snack_get_error": "Error getting food type",
   "edit_product_type_snack_product_type_updated": "Food type updated successfully",
   "edit_product_type_snack_error_update": "Error updating food type",
+
+  "new_delivered_by_title": "New delivered by",
+  "new_delivered_by_invalid_form": "Please fill the form correctly",
+  "new_delivered_by_input_name": "Name",
+  "new_delivered_by_input_name_error_exists": "Delivered by name already exists, choose another one",
+  "new_delivered_by_input_name_error_please": "Please enter a name",
+  "new_delivered_by_button_create": "Create",
+  "new_delivered_by_snack_created": "Delivered by created successfully",
+  "new_delivered_by_snack_error": "Error creating delivered by",
+
+  "edit_delivered_by_title": "Edit delivered by",
+  "edit_delivered_by_button_create": "Save",
+  "edit_delivered_by_snack_get_error": "Error getting delivered by",
+  "edit_delivered_by_snack_delivered_by_updated": "Delivered by updated successfully",
+  "edit_delivered_by_snack_error_update": "Error updating delivered by",
 
   "new_gender_title": "New gender",
   "new_gender_invalid_form": "Please fill the form correctly",

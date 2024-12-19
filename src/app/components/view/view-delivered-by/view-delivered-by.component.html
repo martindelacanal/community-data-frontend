@@ -1,0 +1,75 @@
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div class="header__title">
+        <h1 class="title">{{'view_delivered_by_title' | translate }} {{idDeliveredBy}}</h1>
+        <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+      </div>
+      <div>
+        <button type="button" class="ui-button" [routerLink]="['/edit/delivered-by',idDeliveredBy]">{{'table_delivered_by_row_button_edit' |
+          translate }}</button>
+        <button id="tableButton" type="button" class="ui-button" routerLink="/table/delivered-by">{{'view_delivered_by_button_delivered_by' |
+          translate }}</button>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <div class="main_formulario">
+          <!-- name -->
+          <div class="card">
+            <mat-label><strong>{{'view_delivered_by_name' | translate }}:</strong> {{viewDeliveredBy.name}}</mat-label>
+          </div>
+          <!-- creation_date -->
+          <div class="card">
+            <mat-label><strong>{{'table_delivered_by_header_creation_date' | translate }}:</strong>
+              {{viewDeliveredBy.creation_date}}</mat-label>
+          </div>
+          <!-- modification_date -->
+          <div class="card">
+            <mat-label><strong>{{'table_delivered_by_header_modification_date' | translate }}:</strong>
+              {{viewDeliveredBy.modification_date}}</mat-label>
+          </div>
+          <!-- separator -->
+          <div class="card ">
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+
+          <div class="card">
+            <h2>{{'view_delivered_by_table_title' | translate}}</h2>
+            <br>
+            <table>
+              <thead>
+                <tr>
+                  <th>{{'table_tickets_header_donation_id' | translate}}</th>
+                  <th>{{'table_tickets_header_date' | translate}}</th>
+                  <th>{{'table_tickets_header_creation_date' | translate}}</th>
+                  <th>{{'table_tickets_row_button_view' | translate}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ticket of viewDeliveredBy.tickets">
+                  <td>{{ticket.donation_id}}</td>
+                  <td>{{ticket.date}}</td>
+                  <td>{{ticket.creation_date}}</td>
+                  <td><a class="ui-link" [routerLink]="['/view/ticket', ticket.ticket_id]"><mat-icon>visibility</mat-icon></a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- separator -->
+          <div class="card ">
+            <!-- <div class="ui-separator-horizontal"></div> -->
+            <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+          </div>
+          <!-- buttons -->
+          <div class="card">
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>

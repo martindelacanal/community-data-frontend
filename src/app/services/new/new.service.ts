@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NewClient } from 'src/app/models/new/new-client';
+import { NewDeliveredBy } from 'src/app/models/new/new-delivered-by';
 import { NewEthnicity } from 'src/app/models/new/new-ethnicity';
 import { NewGender } from 'src/app/models/new/new-gender';
 import { NewLocation } from 'src/app/models/new/new-location';
@@ -67,6 +68,22 @@ export class NewService {
 
   getProductTypeExists(name: string) {
     return this.http.get<any>(`${environment.url_api}/product-type/exists/search?name=${name}`);
+  }
+
+  newDeliveredBy(deliveredBy: NewDeliveredBy) {
+    return this.http.post<any>(`${environment.url_api}/new/delivered-by`, deliveredBy)
+  }
+
+  updateDeliveredBy(id: string, deliveredBy: NewDeliveredBy) {
+    return this.http.put<any>(`${environment.url_api}/new/delivered-by/${id}`, deliveredBy)
+  }
+
+  getDeliveredBy(id: string) {
+    return this.http.get<NewDeliveredBy>(`${environment.url_api}/new/delivered-by/${id}`)
+  }
+
+  getDeliveredByExists(name: string) {
+    return this.http.get<any>(`${environment.url_api}/delivered-by/exists/search?name=${name}`);
   }
 
   newGender(gender: NewGender) {

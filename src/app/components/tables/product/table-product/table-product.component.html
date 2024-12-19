@@ -26,6 +26,8 @@
                           filterChip.code !== 'max_age' &&
                           filterChip.code !== 'min_age' &&
                           filterChip.code !== 'zipcode' &&
+                          filterChip.code !== 'delivered_by' &&
+                          filterChip.code !== 'stocker_upload' &&
                           filterChip.code !== 'workers'"
           (removed)="removeFilterChip(filterChip)">
           {{filterChip.name}}: {{filterChip.value}}

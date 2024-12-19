@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { clientTable } from 'src/app/models/tables/client-table';
+import { deliveredByTable } from 'src/app/models/tables/delivered-by-table';
 import { deliveredTable } from 'src/app/models/tables/delivered-table';
 import { ethnicityTable } from 'src/app/models/tables/ethnicity-table';
 import { genderTable } from 'src/app/models/tables/gender-table';
@@ -45,6 +46,10 @@ export class TablesService {
 
   getDataGenderTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
     return this.http.post<genderTable>(`${environment.url_api}/table/gender?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
+  }
+
+  getDataDeliveredByTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
+    return this.http.post<deliveredByTable>(`${environment.url_api}/table/delivered-by?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
   }
 
   getDataEthnicityTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
@@ -113,6 +118,10 @@ export class TablesService {
 
   getGenderFileCSV(filters: any) {
     return this.http.post(`${environment.url_api}/table/gender/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getDeliveredByFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/delivered-by/download-csv`, filters, { responseType: 'text' });
   }
 
   getLocationFileCSV(filters: any) {

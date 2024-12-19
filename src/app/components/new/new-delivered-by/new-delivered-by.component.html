@@ -1,0 +1,50 @@
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div class="header__title">
+        <h1 class="title" *ngIf="!this.idDeliveredBy" >{{'new_delivered_by_title' | translate }}</h1>
+        <h1 class="title" *ngIf="this.idDeliveredBy" >{{'edit_delivered_by_title' | translate }} {{this.idDeliveredBy}}</h1>
+        <mat-spinner *ngIf="loadingGet" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+      </div>
+      <div>
+        <button type="button" class="ui-button" routerLink="/table/delivered-by">{{'view_delivered_by_button_delivered_by' | translate }}</button>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <form [formGroup]="deliveredByForm" novalidate (ngSubmit)="onSubmit()">
+          <div class="main_formulario">
+            <!-- name -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'new_delivered_by_input_name' | translate }}</mat-label>
+                <input matInput formControlName="name" required>
+                <mat-error *ngIf="deliveredByForm.controls['name'].hasError('invalidName')">
+                  {{'new_delivered_by_input_name_error_exists' | translate }}
+                </mat-error>
+                <mat-error *ngIf="deliveredByForm.controls['name'].hasError('required')">
+                  {{'new_delivered_by_input_name_error_please' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- separator -->
+            <div class="card ">
+              <div class="ui-separator-horizontal ui-separator-horizontal--gris"></div>
+            </div>
+            <!-- buttons -->
+            <div class="card">
+              <div class="main__footer">
+                <!-- <button class="ui-button ui-button--estado-sistema" type="button" routerLink="/clientes">Volver</button> -->
+                <button *ngIf="!loading" class="ui-button" type="submit"
+                  [disabled]="!deliveredByForm.valid || loadingNameExists">{{ idDeliveredBy == '' ? ('new_delivered_by_button_create' | translate) : ('edit_delivered_by_button_create' | translate) }}</button>
+                <mat-spinner *ngIf="loading" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </section>
+  </div>
+</div>

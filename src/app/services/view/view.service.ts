@@ -4,6 +4,7 @@ import { GraphicLineComplete } from 'src/app/models/grafico-linea/graphic-line-c
 import { KindOfProductMetrics } from 'src/app/models/metrics/kindOfProduct-metrics';
 import { ViewClient } from 'src/app/models/view/view-client';
 import { ViewDelivered } from 'src/app/models/view/view-delivered';
+import { ViewDeliveredBy } from 'src/app/models/view/view-delivered-by';
 import { ViewEthnicity } from 'src/app/models/view/view-ethnicity';
 import { ViewGender } from 'src/app/models/view/view-gender';
 import { ViewLocation } from 'src/app/models/view/view-location';
@@ -78,6 +79,10 @@ export class ViewService {
 
   getViewProductType(idProductType: string){
     return this.http.get<ViewProductType>(`${environment.url_api}/view/product-type/${idProductType}`)
+  }
+
+  getViewDeliveredBy(idDeliveredBy: string){
+    return this.http.get<ViewDeliveredBy>(`${environment.url_api}/view/delivered-by/${idDeliveredBy}`)
   }
 
   getViewGender(idGender: string){

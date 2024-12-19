@@ -138,7 +138,7 @@ export class MetricsFiltersComponent implements OnInit {
       array_api.push(this.getWorkers());
       keys_available.push('workers');
     }
-    if (this.origin !== 'table-product-type' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary') {
+    if (this.origin !== 'table-product-type' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-delivered-by' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary') {
       array_api.push(this.getLocations());
       keys_available.push('locations');
     }

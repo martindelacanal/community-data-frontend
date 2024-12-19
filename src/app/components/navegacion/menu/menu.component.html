@@ -84,6 +84,11 @@
             {{'menu_button_delivered_table' | translate }}
           </a>
         </li>
+        <li routerLink="/table/delivered-by" *ngIf="usuario.role === 'admin'">
+          <a>
+            {{'menu_button_delivered_by_table' | translate }}
+          </a>
+        </li>
         <li routerLink="/table/ethnicity" *ngIf="usuario.role === 'admin'">
           <a>
             {{'menu_button_ethnicity_table' | translate }}

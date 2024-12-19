@@ -102,6 +102,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { SelectListComponent } from './components/dialog/select-list/select-list.component';
 import { TableWorkerComponent } from './components/tables/worker/table-worker.component';
 import { ViewWorkerComponent } from './components/view/view-worker/view-worker.component';
+import { TableDeliveredByComponent } from './components/tables/delivered-by/table-delivered-by.component';
+import { NewDeliveredByComponent } from './components/new/new-delivered-by/new-delivered-by.component';
+import { ViewDeliveredByComponent } from './components/view/view-delivered-by/view-delivered-by.component';
 
 @NgModule({
   declarations: [
@@ -163,7 +166,10 @@ import { ViewWorkerComponent } from './components/view/view-worker/view-worker.c
    SurveyComponent,
    SelectListComponent,
    TableWorkerComponent,
-   ViewWorkerComponent
+   ViewWorkerComponent,
+   TableDeliveredByComponent,
+   NewDeliveredByComponent,
+   ViewDeliveredByComponent
 
   ],
   imports: [

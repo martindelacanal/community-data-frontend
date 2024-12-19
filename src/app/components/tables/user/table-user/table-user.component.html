@@ -29,6 +29,8 @@
       <ng-container *ngFor="let filterChip of filtersChip; let i = index">
         <mat-chip *ngIf="filterChip.code !== 'product_types' &&
                           filterChip.code !== 'providers' &&
+                          filterChip.code !== 'delivered_by' &&
+                          filterChip.code !== 'stocker_upload' &&
                           filterChip.code !== 'workers'"
           (removed)="removeFilterChip(filterChip)">
           {{filterChip.name}}: {{filterChip.value}}
