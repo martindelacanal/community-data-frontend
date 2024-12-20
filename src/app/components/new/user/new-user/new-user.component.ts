@@ -1,6 +1,6 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -40,6 +40,7 @@ export class NewUserComponent implements OnInit {
   public idUser: string = '';
   private userGetted: NewUser;
   public role_id_button_table: number;
+  public numberOfFields: number;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -62,7 +63,9 @@ export class NewUserComponent implements OnInit {
       role_id: null,
       phone: null,
       client_id: null,
+      emails_for_reporting: []
     }
+    this.numberOfFields = 0;
     this.buildNewForm();
     // get language from local storage
     translate.use(localStorage.getItem('language') || 'en');
@@ -185,6 +188,43 @@ export class NewUserComponent implements OnInit {
     event.target.value = formattedInput;
   }
 
+  agregarCampo(createButton?: boolean) {
+    this.emailsForReportingForm.push(this.formBuilder.group({
+      email: [null],
+    }));
+    if (!createButton) {
+      this.numberOfFields++;
+    }
+  }
+  quitarCampo(createButton?: boolean) {
+    if (this.emailsForReportingForm.length > 0) {
+      this.emailsForReportingForm.removeAt(this.emailsForReportingForm.length - 1);
+      if (!createButton) {
+        this.numberOfFields--;
+      }
+    }
+  }
+  quitarCampoParticular(index: number): void {
+    this.emailsForReportingForm.removeAt(index);
+    this.numberOfFields--;
+  }
+  onNumberOfFieldsChange() {
+    if (Number.isInteger(this.numberOfFields) && this.numberOfFields >= 0) {
+      // quitar campos hasta que el número de campos sea igual al número de campos en el formulario
+      while (this.emailsForReportingForm.length > this.numberOfFields) {
+        this.quitarCampo(true);
+      }
+      // agregar campos hasta que el número de campos sea igual al número de campos en el formulario
+      while (this.emailsForReportingForm.length < this.numberOfFields) {
+        this.agregarCampo(true);
+      }
+    }
+  }
+  get emailsForReportingForm() {
+    return this.userForm.get('emails_for_reporting') as FormArray;
+  }
+
+
   private resetearFormulario() {
     this.userForm.reset();
     this.userForm.get('username').setErrors(null);
@@ -216,7 +256,8 @@ export class NewUserComponent implements OnInit {
           gender_id: res.gender_id,
           role_id: res.role_id,
           phone: res.phone,
-          client_id: res.client_id
+          client_id: res.client_id,
+          emails_for_reporting: res.emails_for_reporting
         }
 
         this.userForm.patchValue({
@@ -228,12 +269,23 @@ export class NewUserComponent implements OnInit {
           gender_id: res.gender_id,
           role_id: res.role_id,
           phone: res.phone,
-          client_id: res.client_id
+          client_id: res.client_id,
+          emails_for_reporting: res.emails_for_reporting
         });
+
+        // agregar campos de productos
+        for (let i = 0; i < res.emails_for_reporting.length; i++) {
+          this.agregarCampo(true);
+          const control = this.emailsForReportingForm.controls[i];
+          control.get('email').setValue(res.emails_for_reporting[i].email);
+        }
+
+        this.numberOfFields = res.emails_for_reporting.length;
 
         // Si se obtiene un usuario, desactivar el validador required para role_id y password
         this.userForm.get('role_id').setValidators([]);
         this.userForm.get('password').setValidators([]);
+        this.userForm.get('emails_for_reporting').updateValueAndValidity();
 
         // Si role_id es 2, entonces client_id debe tener validators.required
         if (res.role_id === 2 && res.client_id === null) {
@@ -440,7 +492,8 @@ export class NewUserComponent implements OnInit {
       gender_id: [null, Validators.required],
       role_id: [null, Validators.required],
       phone: [null, [Validators.minLength(10), Validators.maxLength(10), () => this.validatePhone()]],
-      client_id: [null]
+      client_id: [null],
+      emails_for_reporting: this.formBuilder.array([])
     });
   }
 

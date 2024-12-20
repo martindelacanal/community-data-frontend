@@ -9,4 +9,7 @@ export interface NewUser {
   role_id: number;
   phone: string;
   client_id: string;
+  emails_for_reporting: {
+    email: string
+  }[];
 }

@@ -111,10 +111,33 @@
   grid-column: 1 / -1;
   grid-row: 6 / 7;
 }
-// buttons
+// emails_for_reporting add
 .card:nth-child(12) {
-  grid-column: 1 / -1;
+  grid-column: 1 / 2;
   grid-row: 7 / 8;
+}
+// emails_for_reporting form
+.card:nth-child(13) {
+  grid-column: 1 / -1;
+  grid-row: 8 / 9;
+}
+// separator
+.card:nth-child(14) {
+  grid-column: 1 / -1;
+  grid-row: 9 / 10;
+}
+// buttons
+.card:nth-child(15) {
+  grid-column: 1 / -1;
+  grid-row: 10 / 11;
+}
+
+.card__email {
+  width: 100%;
+}
+
+.card__email-quantity--grid {
+  display: flex;
 }
 
 .card mat-form-field{

@@ -55,6 +55,7 @@ export class ViewUserComponent implements OnInit {
       household_size: '',
       table_header: [],
       table_rows: [[]],
+      emails_for_reporting: []
     };
 
   }

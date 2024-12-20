@@ -20,4 +20,7 @@ export interface ViewUser {
   household_size: string;
   table_header: string[];
   table_rows: string[][];
+  emails_for_reporting: {
+    email: string;
+  }[];
 }

@@ -1,4 +1,4 @@
-<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
   <div class="container">
     <section class="header">
       <div class="header__title">
@@ -108,6 +108,14 @@
           <div class="card">
             <mat-label><strong>{{'view_user_household_size' | translate }}:</strong>
               {{viewUser.household_size}}</mat-label>
+          </div>
+          <!-- emails_for_reporting -->
+          <div class="card " *ngIf="viewUser.emails_for_reporting.length > 0">
+            <mat-label><strong>{{'view_client_emails_for_reporting' | translate }}:</strong>
+              <ul>
+                <li *ngFor="let emailObject of viewUser.emails_for_reporting">{{emailObject.email}}</li>
+              </ul>
+            </mat-label>
           </div>
           <!-- separator -->
           <div class="card ">
