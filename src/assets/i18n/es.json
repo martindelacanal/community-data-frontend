@@ -104,7 +104,7 @@
   "register_volunteers_input_volunteer_signature": "Firma",
   "register_volunteers_input_volunteer_location": "Locación",
   "register_volunteers_input_volunteer_date": "Fecha",
-  "register_volunteers_input_volunteer_date_now_please": "Por favor ingrese la fecha de hoy",
+  "register_volunteers_input_volunteer_date_please": "Por favor ingrese una fecha",
   "register_volunteers_enter_signature": "Ingrese su firma",
   "register_volunteers_clear_signature": "Borrar firma",
 

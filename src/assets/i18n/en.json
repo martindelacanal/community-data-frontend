@@ -104,7 +104,7 @@
   "register_volunteers_input_volunteer_signature": "Signature",
   "register_volunteers_input_volunteer_location": "Location",
   "register_volunteers_input_volunteer_date": "Date",
-  "register_volunteers_input_volunteer_date_now_please": "Please enter today's date",
+  "register_volunteers_input_volunteer_date_please": "Please enter a date",
   "register_volunteers_enter_signature": "Enter your signature",
   "register_volunteers_clear_signature": "Clear signature",
 
