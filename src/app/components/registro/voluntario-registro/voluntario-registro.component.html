@@ -1,0 +1,183 @@
+<div class="cuerpo">
+  <header>
+    <span><a routerLink="/login" alt="Logo principal" id="logo">Community Data</a></span>
+    <span class="form-inline">
+      <mat-button-toggle-group [(ngModel)]="selectedLanguage" id="languageSelector" #selectedLang
+        (change)="switchLang()">
+        <mat-button-toggle *ngFor="let language of translate.getLangs()" [value]="language">
+          {{ translate.instant('language_' + language) }}
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </span>
+  </header>
+  <main>
+    <section>
+      <div class="ui-tarjeta">
+        <h1>{{'register_volunteers_terms_and_conditions' | translate }}</h1>
+        <p>
+          <b>
+            {{'register_volunteers_1_title' | translate }}
+          </b>
+        </p>
+        <p>
+          {{'register_volunteers_1_paragraph' | translate }}
+        </p>
+        <br>
+        <p>
+          <b>
+            {{'register_volunteers_2_title' | translate }}
+          </b>
+        </p>
+        <p>
+          {{'register_volunteers_2_paragraph' | translate }}
+        </p>
+        <br>
+        <p>
+          <b>
+            {{'register_volunteers_3_title' | translate }}
+          </b>
+        </p>
+        <p>
+          {{'register_volunteers_3_paragraph' | translate }}
+        </p>
+        <p>
+          {{'register_volunteers_3.1_paragraph' | translate }}
+        </p>
+        <br>
+        <p>
+          <b>
+            {{'register_volunteers_4_title' | translate }}
+          </b>
+        </p>
+        <p>
+          {{'register_volunteers_4_paragraph' | translate }}
+        </p>
+        <br>
+
+        <form [formGroup]="volunteerFormGroup" novalidate (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="outline">
+            <mat-label>{{'register_first_tab_input_first_name' | translate }}</mat-label>
+            <input matInput formControlName="firstName" required>
+            <mat-error *ngIf="volunteerFormGroup.controls['firstName'].hasError('required')">
+              {{'register_first_tab_input_first_name_error_please' | translate }}
+            </mat-error>
+            <mat-error *ngIf="volunteerFormGroup.controls['firstName'].hasError('hasNumber')">
+              {{'register_first_tab_input_first_name_error_numbers' | translate }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{'register_first_tab_input_last_name' | translate }}</mat-label>
+            <input matInput formControlName="lastName" required>
+            <mat-error *ngIf="volunteerFormGroup.controls['lastName'].hasError('required')">
+              {{'register_first_tab_input_last_name_error_please' | translate }}
+            </mat-error>
+            <mat-error *ngIf="volunteerFormGroup.controls['lastName'].hasError('hasNumber')">
+              {{'register_first_tab_input_last_name_error_numbers' | translate }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{'login_recover_password_input_date_of_birth' | translate }}</mat-label>
+            <input matInput [matDatepicker]="miPicker1" formControlName="dateOfBirth" (blur)="formatDateOnBlur($event)"
+              (input)="formatDate($event)" (focus)="formatDateOnFocus($event)" maxlength="10" placeholder="01/31/1990">
+            <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="miPicker1"></mat-datepicker-toggle>
+            <mat-datepicker #miPicker1></mat-datepicker>
+            <mat-error *ngIf="volunteerFormGroup.controls['dateOfBirth'].hasError('required')">
+              {{'login_recover_password_input_date_of_birth_error_please' | translate }}
+            </mat-error>
+            <mat-error *ngIf="volunteerFormGroup.controls['dateOfBirth'].hasError('invalidAge')">
+              {{'login_recover_password_input_date_of_birth_error_age' | translate }}
+            </mat-error>
+            <mat-error *ngIf="volunteerFormGroup.controls['dateOfBirth'].hasError('tooOld')">
+              {{'login_recover_password_input_date_of_birth_error_age_too_old' | translate }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{'register_first_tab_input_email_address' | translate }}</mat-label>
+            <input matInput formControlName="email" type="email">
+            <mat-error *ngIf="volunteerFormGroup.controls['email'].hasError('invalidEmail')">
+              {{'register_first_tab_input_email_address_error_invalid' | translate }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{'register_first_tab_input_phone' | translate }}</mat-label>
+            <input matInput type="tel" formControlName="phone" required matNumberInput maxlength="10" onlyNumber>
+            <mat-error *ngIf="volunteerFormGroup.controls['phone'].hasError('required')">
+              {{'register_first_tab_input_phone_error_please' | translate }}
+            </mat-error>
+            <mat-error *ngIf="volunteerFormGroup.controls['phone'].hasError('minlength')">
+              {{'register_first_tab_input_phone_error_minlength' | translate }}
+            </mat-error>
+            <mat-error *ngIf="volunteerFormGroup.controls['phone'].hasError('maxlength')">
+              {{'register_first_tab_input_phone_error_maxlength' | translate }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{'register_first_tab_input_zip_code' | translate }}</mat-label>
+            <input matInput type="number" formControlName="zipcode" required matNumberInput>
+            <mat-error *ngIf="volunteerFormGroup.controls['zipcode'].hasError('required')">
+              {{'register_first_tab_input_zip_code_error_please' | translate }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>{{'delivery_input_destination' | translate }}</mat-label>
+            <mat-select formControlName="destination">
+              <mat-option *ngFor="let location of locations" [value]="location.id">
+                {{location.community_city}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="volunteerFormGroup.controls['destination'].hasError('required')">
+              {{'delivery_input_destination_error_please' | translate }}
+            </mat-error>
+          </mat-form-field>
+          <label class="radio-button-label" id="radio-button-group-label">{{'register_first_tab_input_gender' |
+            translate }} <span [ngClass]="{'required': volunteerFormGroup.controls['gender'].invalid}">*</span></label>
+          <mat-radio-group *ngIf="!loadingGender" aria-labelledby="radio-button-group-label" class="radio-button-group"
+            formControlName="gender">
+            <mat-radio-button class="radio-button" *ngFor="let gender of genders" [value]="gender.id">
+              {{gender.name}}
+            </mat-radio-button>
+          </mat-radio-group>
+          <mat-spinner *ngIf="loadingGender" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>{{'register_volunteers_input_volunteer_date' | translate }}</mat-label>
+            <input matInput [matDatepicker]="miPicker2" formControlName="date" (blur)="formatDateOnBlur($event)"
+              (input)="formatDate($event)" (focus)="formatDateOnFocus($event)" maxlength="10" placeholder="01/31/1990">
+            <mat-hint>{{'login_recover_password_input_date_of_birth_format' | translate }}</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="miPicker2"></mat-datepicker-toggle>
+            <mat-datepicker #miPicker2></mat-datepicker>
+            <mat-error *ngIf="volunteerFormGroup.controls['date'].hasError('required')">
+              {{'register_volunteers_input_volunteer_date_now_please' | translate }}
+            </mat-error>
+          </mat-form-field>
+          <!-- FIRMA -->
+          <label class="radio-button-label" id="radio-button-group-label">{{'register_volunteers_enter_signature' |
+            translate }} <span [ngClass]="{'required': isSignatureEmpty()}">*</span></label>
+          <div class="signature-container">
+            <div class="signature-pad">
+              <canvas #signaturePadCanvas
+                      width="288"
+                      height="150"
+                      (touchstart)="$event.preventDefault()"
+                      (touchmove)="$event.preventDefault()">
+              </canvas>
+            </div>
+            <button class="ui-button signature"
+                    (click)="clearSignature()"
+                    [disabled]="isSignatureEmpty()">
+              {{'register_volunteers_clear_signature' | translate }}
+            </button>
+          </div>
+          <div class="button-signup">
+            <button *ngIf="!loadingSubmit" class="ui-button next" type="submit" (click)="onSubmit()"
+              [disabled]="!volunteerFormGroup.valid">{{'register_second_tab_button_submit' | translate}}</button>
+            <mat-spinner *ngIf="loadingSubmit" class="spinner" mode="indeterminate" [diameter]="30"></mat-spinner>
+          </div>
+        </form>
+        <div class="ui-separator-horizontal"></div>
+        <a class="ui-link" (click)="setForgetPassword(false,true)">{{'register_link_already_account' | translate
+          }}</a>
+      </div>
+    </section>
+  </main>
+</div>

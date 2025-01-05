@@ -1,0 +1,296 @@
+.cuerpo {
+  background-color: var(--ui-secundario);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: scroll;
+  min-height: 100px;
+}
+
+header {
+  height: 52px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--ui-primario);
+}
+
+#languageSelector {
+  margin-right: 16px;
+}
+
+.mat-button-toggle-group {
+  height: 32px;
+  align-items: center;
+  font-weight: 400;
+}
+
+// header img {
+//   height: 100%;
+//   margin-left: 15px;
+//   margin-top: 20px;
+// }
+header span {
+  margin-left: 16px;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: var(--texto-blanco);
+}
+
+header #logo {
+  color: var(--texto-blanco);
+  //eliminar el subrayado del link
+  text-decoration: none;
+  cursor: pointer;
+}
+
+main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.ui-tarjeta {
+  max-width: 900px;
+  min-width: 320px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  margin: 16px 16px;
+}
+
+.ui-tarjeta h1 {
+  align-self: left;
+  font-size: 3.0rem;
+  font-weight: 600;
+  color: var(--texto-primario);
+  margin-bottom: 32px;
+}
+
+.tarjeta__input {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tarjeta__input .ui-input {
+  width: 100%;
+}
+
+.tarjeta__input mat-form-field {
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.tarjeta__input label {
+  margin-top: 16px;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--texto-primario);
+  margin-bottom: 8px;
+
+  &.radio-button-label {
+    margin-top: 0;
+  }
+}
+
+.ui-tarjeta form {
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-tarjeta .tarjeta__button {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ui-separator-horizontal {
+  // margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.ui-link {
+  align-self: center;
+}
+
+.botones-stepper {
+  display: flex;
+  justify-content: space-between;
+
+  & .ui-button.next {
+    margin-left: auto;
+  }
+
+  & .ui-button.back {
+    margin-right: auto;
+  }
+
+  & .spinner {
+    margin-left: auto;
+  }
+}
+
+.radio-button-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.checkbox-options {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.required {
+  color: var(--estado-error);
+  font-weight: 600;
+}
+
+.radio-button-label {
+  margin-top: 16px;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: var(--texto-primario);
+  margin-bottom: 8px;
+}
+
+.signature-container {
+
+  .signature-pad {
+    border-radius: 4px;
+    margin-bottom: 12px;
+
+    canvas {
+      border: 1px solid #ccc;
+      width: 288px;
+      height: 150px;
+      border-radius: 4px;
+    }
+  }
+}
+
+.button-signup {
+  display: flex;
+  justify-content: right;
+  margin-bottom: 16px;
+}
+
+button.signature {
+  max-width: 250px;
+  padding: 0px 24px;
+  margin-bottom: 16px;
+}
+
+@media only screen and (max-width: 700px) {
+  // Agrega aquí tus estilos para dispositivos móviles
+
+  // PARA EDITAR EL PADDING DEL MAT-STEPPER
+  // :host ::ng-deep .mat-vertical-stepper-header {
+  //   padding: 16px;
+  // }
+
+  // :host ::ng-deep .mat-vertical-content {
+  //   padding: 16px;
+  // }
+
+  .ui-tarjeta {
+    max-width: 900px;
+    min-width: 320px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    margin: 16px 16px;
+  }
+
+  .ui-tarjeta h1 {
+    align-self: left;
+    font-size: 3.0rem;
+    font-weight: 600;
+    color: var(--texto-primario);
+    margin-bottom: 8px;
+  }
+
+  .botones-stepper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    & .ui-button.next {
+      margin: 0px;
+    }
+
+    & .ui-button.back {
+      margin: 16px;
+    }
+
+    & .spinner {
+      margin: 16px;
+    }
+  }
+
+  // .ui-button {
+  //   padding: 0 32px;
+  //   min-width: 140px;
+  //   margin-bottom: 16px;
+  // }
+
+  // .ui-button--ui-secundario {
+  //   margin-right: 0px;
+  // }
+}
+
+@media only screen and (max-width: 387px) {
+  header span {
+    margin-left: 16px;
+    font-size: 2.0rem;
+    font-weight: 600;
+    color: var(--texto-blanco);
+  }
+}
+
+@media only screen and (max-width: 357px) {
+  header span {
+    margin-left: 16px;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--texto-blanco);
+  }
+
+  .ui-tarjeta h1 {
+    font-size: 2.4rem;
+  }
+}
+
+@media only screen and (min-width: 701px) {
+  // Agrega aquí tus estilos para tablets
+
+  .ui-tarjeta {
+    max-width: 900px;
+    min-width: 320px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    margin: 48px 48px;
+  }
+}

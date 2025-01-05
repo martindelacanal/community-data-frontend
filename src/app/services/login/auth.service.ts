@@ -104,6 +104,10 @@ export class AuthService {
     this.isAuthenticated.next(true);
   }
 
+  registerVolunteer(form: FormData) {
+    return this.http.post(`${environment.url_api}/signup/volunteer`, form);
+  }
+
   changePassword(idUser: string, form: any) {
     return this.http.put<any>(`${environment.url_api}/change-password/${idUser}`, form);
   }

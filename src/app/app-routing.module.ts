@@ -49,6 +49,7 @@ import { ViewWorkerComponent } from './components/view/view-worker/view-worker.c
 import { TableDeliveredByComponent } from './components/tables/delivered-by/table-delivered-by.component';
 import { NewDeliveredByComponent } from './components/new/new-delivered-by/new-delivered-by.component';
 import { ViewDeliveredByComponent } from './components/view/view-delivered-by/view-delivered-by.component';
+import { VoluntarioRegistroComponent } from './components/registro/voluntario-registro/voluntario-registro.component';
 
 const routes: Routes = [
   { path: 'survey', component: SurveyComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
@@ -109,6 +110,7 @@ const routes: Routes = [
   { path: 'beneficiary/home', component: BeneficiaryHomeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['beneficiary']} },
   { path: 'home', component: DashboardHomeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'director']} },
   { path: 'register', component: FormularioRegistroComponent },
+  { path: 'register/volunteer', component: VoluntarioRegistroComponent },
   { path: 'login', component: InicioSesionComponent },
   { path: '**', pathMatch: 'full', redirectTo: 'login' }
 ];

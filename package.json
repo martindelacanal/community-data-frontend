@@ -26,6 +26,7 @@
     "@ngx-translate/http-loader": "^7.0.0",
     "@swimlane/ngx-charts": "^20.1.2",
     "@techiediaries/ngx-qrcode": "^9.1.0",
+    "@types/signature_pad": "^2.3.6",
     "angular2-qrscanner": "^1.0.7",
     "apexcharts": "^3.42.0",
     "date-fns": "^2.29.3",
@@ -35,6 +36,7 @@
     "ng-apexcharts": "^1.8.0",
     "ng-image-slider": "^7.0.1",
     "rxjs": "~7.5.0",
+    "signature_pad": "^5.0.4",
     "slick-carousel": "^1.8.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

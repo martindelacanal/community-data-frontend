@@ -105,6 +105,7 @@ import { ViewWorkerComponent } from './components/view/view-worker/view-worker.c
 import { TableDeliveredByComponent } from './components/tables/delivered-by/table-delivered-by.component';
 import { NewDeliveredByComponent } from './components/new/new-delivered-by/new-delivered-by.component';
 import { ViewDeliveredByComponent } from './components/view/view-delivered-by/view-delivered-by.component';
+import { VoluntarioRegistroComponent } from './components/registro/voluntario-registro/voluntario-registro.component';
 
 @NgModule({
   declarations: [
@@ -169,7 +170,8 @@ import { ViewDeliveredByComponent } from './components/view/view-delivered-by/vi
    ViewWorkerComponent,
    TableDeliveredByComponent,
    NewDeliveredByComponent,
-   ViewDeliveredByComponent
+   ViewDeliveredByComponent,
+   VoluntarioRegistroComponent
 
   ],
   imports: [

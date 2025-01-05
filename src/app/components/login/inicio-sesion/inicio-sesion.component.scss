@@ -46,7 +46,7 @@ header #logo {
 }
 
 main {
-  height: 93vh;
+  height: 90vh;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -135,16 +135,6 @@ section {
   margin-bottom: 16px;
 }
 
-// .ui-separator-horizontal.firstpage-first {
-//   margin-top: 0px;
-//   margin-bottom: 16px;
-// }
-
-// .ui-separator-horizontal.firstpage-second {
-//   margin-bottom: 16px;
-//   margin-bottom: 0px;
-// }
-
 .ui-link {
   align-self: center;
 }
@@ -189,6 +179,18 @@ hr {
   margin: 0 10px;
   font-size: 1.4rem;
   font-weight: bold;
+}
+
+footer {
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  .ui-link {
+    margin-right: 16px;
+    color: #537045;
+    font-size: 1.6rem;
+  }
 }
 
 @media only screen and (max-width: 387px) {
