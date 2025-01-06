@@ -339,6 +339,7 @@
   "metrics_product_with_pounds_per_location_title": "Pounds per location",
   "metrics_product_with_pounds_per_product_title": "Pounds per food",
   "metrics_product_pounds_per_location_title_x_axis": "Pounds",
+  "metrics_product_number_of_trips_title": "Number of trips",
 
   "metrics_filters_button": "Filters",
   "metrics_filters_button_select_all": "Select all",

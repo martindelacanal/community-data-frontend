@@ -95,6 +95,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
   public chartOptionsKindOfProduct: Partial<ChartOptionsYESNO>;
   public chartOptionsPoundsPerLocation: Partial<ChartOptions>;
   public chartOptionsPoundsPerProduct: Partial<ChartOptions>;
+  public chartOptionsNumberOfTrips: Partial<ChartOptionsStacked>;
 
   public loadingMetrics: boolean = true;
   public loadingReachMetrics: boolean = false;
@@ -102,11 +103,13 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
   public loadingKindOfProductMetrics: boolean = false;
   public loadingPoundsPerLocationMetrics: boolean = false;
   public loadingPoundsPerProductMetrics: boolean = false;
+  public loadingNumberOfTripsMetrics: boolean = false;
 
   public reachMetrics: ReachMetrics;
   public totalPoundsMetrics: TotalPoundsMetrics;
   public kindOfProductMetrics: KindOfProductMetrics[] = [];
   public poundsPerLocationMetrics: PoundsPerLocationMetrics;
+  public numberOfTripsMetrics: TotalPoundsMetrics;
   public poundsPerLocationAverage: number = 0;
   public poundsPerLocationMedian: number = 0;
   public poundsPerProductMetrics: PoundsPerProductMetrics;
@@ -136,6 +139,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
       locations: [null],
       providers: [null],
       product_types: [null],
+      stocker_upload: [null],
       interval: ['month']
     });
     this.filtersChip = [];
@@ -162,6 +166,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
       from_date: [savedFilters?.from_date || null],
       to_date: [savedFilters?.to_date || null],
       locations: [savedFilters?.locations || null],
+      stocker_upload: [savedFilters?.stocker_upload || null],
       providers: [savedFilters?.providers || null],
       product_types: [savedFilters?.product_types || null]
     });
@@ -207,6 +212,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
       this.filterForm.get('interval').patchValue(value, { emitEvent: false });
       this.loadingMetrics = true;
       this.getTotalPoundsMetrics(this.translate.currentLang, this.filterForm.value);
+      this.getNumberOfTripsMetrics(this.translate.currentLang, this.filterForm.value);
     });
 
     this.getReachMetrics(this.translate.currentLang, this.filterForm.value);
@@ -214,6 +220,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
     this.getKindOfProductMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPoundsPerLocationMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPoundsPerProductMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getNumberOfTripsMetrics(this.translate.currentLang, this.filterForm.value);
 
     this.translate.onLangChange.subscribe(
       (res) => {
@@ -279,6 +286,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
     this.getKindOfProductMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPoundsPerLocationMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPoundsPerProductMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getNumberOfTripsMetrics(this.translate.currentLang, this.filterForm.value);
   }
 
   private getReachMetrics(language: string, filters?: any) {
@@ -374,6 +382,93 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
         };
 
         this.loadingTotalPoundsMetrics = false;
+        this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
+  private getNumberOfTripsMetrics(language: string, filters?: any) {
+    this.loadingNumberOfTripsMetrics = true;
+    this.metricsService.getNumberOfTripsMetrics(language, filters).subscribe({
+      next: (res) => {
+        this.numberOfTripsMetrics = res;
+
+        this.chartOptionsNumberOfTrips = {
+          series: this.numberOfTripsMetrics.series,
+          chart: {
+            type: 'bar',
+            height: 350,
+            stacked: true,
+            toolbar: {
+              show: true
+            },
+            zoom: {
+              enabled: true
+            }
+          },
+          theme: {
+            monochrome: {
+              enabled: false,
+              color: "#97c481",
+            }
+          },
+          colors: ['#83b06d', '#abd895', '#bfeca9'],
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: 'bottom',
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }],
+          tooltip: {
+            theme: 'dark',
+            y: {
+              formatter: function (val) {
+                // Convertir el valor a un número y luego a una cadena con formato de miles
+                return Number(val).toLocaleString('en-US');
+              }
+            }
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              borderRadius: 10,
+              borderRadiusApplication: 'end', // 'around', 'end'
+              borderRadiusWhenStacked: 'last', // 'all', 'last'
+              dataLabels: {
+                total: {
+                  enabled: false,
+                  style: {
+                    fontSize: '13px',
+                    fontWeight: 900
+                  }
+                }
+              }
+            },
+          },
+          dataLabels: {
+            enabled: false // Deshabilitar etiquetas de datos
+          },
+          xaxis: {
+            type: 'category',
+            categories: this.numberOfTripsMetrics.categories,
+          },
+          legend: {
+            position: 'right',
+            offsetY: 40
+          },
+          fill: {
+            opacity: 1
+          }
+        };
+
+        this.loadingNumberOfTripsMetrics = false;
         this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
       },
       error: (error) => {
@@ -708,6 +803,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
 
         // set values into filterForm
         this.filterForm.get('locations').setValue(result.data.locations);
+        this.filterForm.get('stocker_upload').setValue(result.data.stocker_upload);
         this.filterForm.get('providers').setValue(result.data.providers);
         this.filterForm.get('product_types').setValue(result.data.product_types);
 
@@ -760,6 +856,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
 
         // set values into filterForm
         this.filterForm.get('locations').setValue(result.data.locations);
+        this.filterForm.get('stocker_upload').setValue(result.data.stocker_upload);
         this.filterForm.get('providers').setValue(result.data.providers);
         this.filterForm.get('product_types').setValue(result.data.product_types);
 
@@ -771,6 +868,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
         this.getKindOfProductMetrics(this.translate.currentLang, result.data);
         this.getPoundsPerLocationMetrics(this.translate.currentLang, result.data);
         this.getPoundsPerProductMetrics(this.translate.currentLang, result.data);
+        this.getNumberOfTripsMetrics(this.translate.currentLang, result.data);
       }
     });
   }
@@ -780,7 +878,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
   }
 
   private checkLoadingMetrics() {
-    if (!this.loadingReachMetrics && !this.loadingTotalPoundsMetrics && !this.loadingKindOfProductMetrics && !this.loadingPoundsPerLocationMetrics) {
+    if (!this.loadingReachMetrics && !this.loadingTotalPoundsMetrics && !this.loadingKindOfProductMetrics && !this.loadingPoundsPerLocationMetrics && !this.loadingPoundsPerProductMetrics && !this.loadingNumberOfTripsMetrics) {
       this.loadingMetrics = false;
     }
   }

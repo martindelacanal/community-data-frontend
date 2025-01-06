@@ -108,6 +108,13 @@ export class MetricsService {
     return this.http.post<TotalPoundsMetrics>(`${environment.url_api}/metrics/product/total_pounds`, filters, httpOptions);
   }
 
+  getNumberOfTripsMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<TotalPoundsMetrics>(`${environment.url_api}/metrics/product/number_of_trips`, filters, httpOptions);
+  }
+
   getKindOfProductMetrics(language: string, filters: any) {
     const httpOptions = {
       params: new HttpParams().set('language', language)

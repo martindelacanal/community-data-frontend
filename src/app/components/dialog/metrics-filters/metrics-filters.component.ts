@@ -150,7 +150,7 @@ export class MetricsFiltersComponent implements OnInit {
       array_api.push(this.getDeliveredBy());
       keys_available.push('delivered_by');
     }
-    if (this.origin == 'table-ticket') {
+    if (this.origin == 'table-ticket' || this.origin == 'metrics-product') {
       array_api.push(this.getStockerUpload());
       keys_available.push('stocker_upload');
     }

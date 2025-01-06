@@ -339,6 +339,7 @@
   "metrics_product_with_pounds_per_location_title": "Libras por locación",
   "metrics_product_with_pounds_per_product_title": "Libras por alimento",
   "metrics_product_pounds_per_location_title_x_axis": "Libras",
+  "metrics_product_number_of_trips_title": "Número de viajes",
 
   "metrics_filters_button": "Filtros",
   "metrics_filters_button_select_all": "Seleccionar todo",

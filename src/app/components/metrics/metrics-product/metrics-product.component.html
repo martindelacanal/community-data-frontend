@@ -156,5 +156,40 @@
         </div>
       </div>
     </div>
+    <div class="ui-tarjeta">
+      <div class="chart-container" id="chartNumberOfTrips" #chartNumberOfTrips>
+        <div class="chart-header">
+          <h2>{{'metrics_product_number_of_trips_title' | translate }}</h2>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartNumberOfTrips)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
+          </button>
+        </div>
+        <div class="kpis-filtroInterval" *ngIf="!isFullscreen">
+          <div class="kpis-titulos">
+          </div>
+          <form [formGroup]="filterForm" class="filtros">
+            <mat-form-field appearance="outline">
+              <mat-label>{{'metrics_product_filter_interval' | translate }}</mat-label>
+              <mat-select formControlName="interval">
+                <mat-option *ngFor="let interval of intervals" [value]="interval.id">
+                  {{interval.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+        <!-- espacio para fullscreen -->
+        <div *ngIf="isFullscreen">
+        </div>
+        <div id="chartStacked" #chartStacked *ngIf="chartOptionsNumberOfTrips">
+          <apx-chart [series]="chartOptionsNumberOfTrips.series" [chart]="chartOptionsNumberOfTrips.chart"
+            [labels]="chartOptionsNumberOfTrips.labels" [legend]="chartOptionsNumberOfTrips.legend"
+            [colors]="chartOptionsNumberOfTrips.colors" [responsive]="chartOptionsNumberOfTrips.responsive"
+            [theme]="chartOptionsNumberOfTrips.theme" [dataLabels]="chartOptionsNumberOfTrips.dataLabels"
+            [tooltip]="chartOptionsNumberOfTrips.tooltip" [plotOptions]="chartOptionsNumberOfTrips.plotOptions"
+            [xaxis]="chartOptionsNumberOfTrips.xaxis" [fill]="chartOptionsNumberOfTrips.fill"></apx-chart>
+        </div>
+      </div>
+    </div>
   </section>
 </div>
