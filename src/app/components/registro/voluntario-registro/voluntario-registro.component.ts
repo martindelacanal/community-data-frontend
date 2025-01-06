@@ -49,7 +49,8 @@ export class VoluntarioRegistroComponent implements OnInit, AfterViewInit {
     this.getGender(this.translate.currentLang);
     this.getLocations();
 
-    this.translate.onLangChange.subscribe(() => {
+    this.translate.onLangChange.subscribe((event) => {
+      this.volunteerFormGroup.get('language').setValue(event.lang);
       if (this.firstExecuteComponent) {
         this.firstExecuteComponent = false;
       } else {
@@ -100,13 +101,13 @@ export class VoluntarioRegistroComponent implements OnInit, AfterViewInit {
 
       // Obtener la fecha del formulario
       const dateOfBirth = new Date(this.volunteerFormGroup.value.dateOfBirth);
-      const date = new Date(this.volunteerFormGroup.value.date);
+      // const date = new Date(this.volunteerFormGroup.value.date);
       // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
       const dateOfBirthString = dateOfBirth.toISOString().slice(0, 10);
-      const dateString = date.toISOString().slice(0, 10);
+      // const dateString = date.toISOString().slice(0, 10);
       // Asignar la fecha al campo de fecha en el formulario
       this.volunteerFormGroup.get('dateOfBirth').setValue(dateOfBirthString);
-      this.volunteerFormGroup.get('date').setValue(dateString);
+      // this.volunteerFormGroup.get('date').setValue(dateString);
 
       var body = new FormData();
       const dataURL = this.signaturePad.toDataURL('image/jpeg');
@@ -139,6 +140,8 @@ export class VoluntarioRegistroComponent implements OnInit, AfterViewInit {
     this.translate.use(this.selectedLanguage);
     // save in local storage
     localStorage.setItem('language', this.selectedLanguage);
+    // Update language control when language changes
+    this.volunteerFormGroup.get('language').setValue(this.selectedLanguage);
   }
 
   setForgetPassword(login: boolean, password: boolean) {
@@ -226,7 +229,8 @@ export class VoluntarioRegistroComponent implements OnInit, AfterViewInit {
       zipcode: [null, Validators.required],
       destination: [null, Validators.required],
       gender: [null, Validators.required],
-      date: [null, Validators.required],
+      // date: [null, Validators.required],
+      language: [this.translate.currentLang],
       signature: [false, Validators.requiredTrue]
     });
   }

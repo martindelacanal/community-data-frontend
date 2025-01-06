@@ -27,11 +27,14 @@
         <!-- <div class="ui-separator-horizontal firstpage-first"></div> -->
 
         <div class="tarjeta__button firstpage">
-          <img src="assets/imgs/bienestar_logo_white.png" alt="Logo principal">
+          <img src="assets/imgs/bienestar_logo_color.png" alt="Logo principal">
           <button class="ui-button firstpage" type="button"
             (click)="setForgetPassword(true,false,false)">{{'login_button_login' | translate }}</button>
 
           <button class="ui-button firstpage" type="button" (click)="signUp()">{{'login_button_register' | translate
+            }}</button>
+
+          <button class="ui-button firstpage" type="button" routerLink="/register/volunteer">{{'login_volunteers_register' | translate
             }}</button>
         </div>
 
@@ -135,6 +138,6 @@
 
   </main>
 </div>
-<footer>
+<!-- <footer>
   <a class="ui-link login" *ngIf="firstPageSection" routerLink="/register/volunteer">{{'login_volunteers_register' | translate }}</a>
-</footer>
+</footer> -->

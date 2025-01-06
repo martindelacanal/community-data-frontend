@@ -22,7 +22,7 @@
   "login_button_submit_error": "The data is incorrect",
   "login_snack_your_new_password": "Your new password is: ",
   "login_snack_role_disabled": "Your role is disabled",
-  "login_volunteers_register": "Bienestar volunteers only",
+  "login_volunteers_register": "Volunteers only",
 
   "login_recover_password_title": "Recover password",
   "login_recover_password_subtitle_information": "Contact Support to reset your password.",

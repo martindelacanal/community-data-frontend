@@ -120,14 +120,14 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field appearance="outline">
-            <mat-label>{{'delivery_input_destination' | translate }}</mat-label>
+            <mat-label>{{'register_volunteers_input_volunteer_location' | translate }}</mat-label>
             <mat-select formControlName="destination">
               <mat-option *ngFor="let location of locations" [value]="location.id">
                 {{location.community_city}}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="volunteerFormGroup.controls['destination'].hasError('required')">
-              {{'delivery_input_destination_error_please' | translate }}
+              {{'new_client_input_location_ids_error_please' | translate }}
             </mat-error>
           </mat-form-field>
           <label class="radio-button-label" id="radio-button-group-label">{{'register_first_tab_input_gender' |
@@ -139,7 +139,7 @@
             </mat-radio-button>
           </mat-radio-group>
           <mat-spinner *ngIf="loadingGender" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
-          <mat-form-field appearance="outline" class="full-width">
+          <!-- <mat-form-field appearance="outline" class="full-width">
             <mat-label>{{'register_volunteers_input_volunteer_date' | translate }}</mat-label>
             <input matInput [matDatepicker]="miPicker2" formControlName="date" (blur)="formatDateOnBlur($event)"
               (input)="formatDate($event)" (focus)="formatDateOnFocus($event)" maxlength="10" placeholder="01/31/1990">
@@ -149,7 +149,7 @@
             <mat-error *ngIf="volunteerFormGroup.controls['date'].hasError('required')">
               {{'register_volunteers_input_volunteer_date_please' | translate }}
             </mat-error>
-          </mat-form-field>
+          </mat-form-field> -->
           <!-- FIRMA -->
           <label class="radio-button-label" id="radio-button-group-label">{{'register_volunteers_enter_signature' |
             translate }} <span [ngClass]="{'required': isSignatureEmpty()}">*</span></label>
