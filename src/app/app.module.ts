@@ -106,6 +106,9 @@ import { TableDeliveredByComponent } from './components/tables/delivered-by/tabl
 import { NewDeliveredByComponent } from './components/new/new-delivered-by/new-delivered-by.component';
 import { ViewDeliveredByComponent } from './components/view/view-delivered-by/view-delivered-by.component';
 import { VoluntarioRegistroComponent } from './components/registro/voluntario-registro/voluntario-registro.component';
+import { NewTransportedByComponent } from './components/new/new-transported-by/new-transported-by.component';
+import { TableTransportedByComponent } from './components/tables/transported-by/table-transported-by.component';
+import { ViewTransportedByComponent } from './components/view/view-transported-by/view-transported-by.component';
 
 @NgModule({
   declarations: [
@@ -171,7 +174,10 @@ import { VoluntarioRegistroComponent } from './components/registro/voluntario-re
    TableDeliveredByComponent,
    NewDeliveredByComponent,
    ViewDeliveredByComponent,
-   VoluntarioRegistroComponent
+   VoluntarioRegistroComponent,
+   NewTransportedByComponent,
+   TableTransportedByComponent,
+   ViewTransportedByComponent
 
   ],
   imports: [

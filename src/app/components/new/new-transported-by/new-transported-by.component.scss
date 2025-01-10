@@ -1,0 +1,117 @@
+
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 56px;
+}
+
+.main {
+  font-size: 1.2rem;
+}
+
+.title {
+  margin-bottom: 16px;
+}
+
+.header,
+.ui-tarjeta {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__title{
+  display: flex;
+  align-items: baseline;
+}
+
+.header__title .loading-tables {
+  margin-left: 16px;
+}
+
+.header .ui-button {
+  margin-bottom: 16px;
+}
+
+.ui-tarjeta{
+  margin: 0 auto;
+  padding: 48px;
+  border-top: 4px solid var(--ui-primario);
+  // background-image: linear-gradient(to bottom, var(--ui-primario) 0%, var(--ui-primario) 2%, transparent 2%, transparent 100%);
+}
+
+.main_formulario {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(24px, 1fr));
+  grid-template-rows: repeat(2, auto);
+  row-gap: 16px;
+  column-gap: 48px;
+  align-items: center;
+}
+// name
+.card:nth-child(1) {
+  grid-column: 1 / -1;
+  grid-row: 1 / 2;
+}
+// separator
+.card:nth-child(2) {
+  grid-column: 1 / -1;
+  grid-row: 2 / 3;
+}
+// buttons
+.card:nth-child(3) {
+  grid-column: 1 / -1;
+  grid-row: 3 / 4;
+}
+
+.card mat-form-field{
+  width: 100%;
+}
+
+.main_formulario .ui-separator-horizontal.ui-separator-horizontal--gris {
+  background: var(--ui-secundario);
+}
+
+
+.ui-button {
+  padding: 0 32px;
+}
+
+.ui-button--estado-sistema {
+  margin: 0 16px;
+}
+
+
+.required {
+  color: var(--estado-error);
+  font-weight: 600;
+}
+
+.main_formulario .main__footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card .main__footer{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+// Media queries responsive
+
+.mobile {
+  @import './new-transported-by-movil.component.scss';
+}
+
+.tablet {
+  @import './new-transported-by-tablet.component.scss';
+}

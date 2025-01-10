@@ -140,6 +140,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
       providers: [null],
       product_types: [null],
       stocker_upload: [null],
+      transported_by: [null],
       interval: ['month']
     });
     this.filtersChip = [];
@@ -167,6 +168,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
       to_date: [savedFilters?.to_date || null],
       locations: [savedFilters?.locations || null],
       stocker_upload: [savedFilters?.stocker_upload || null],
+      transported_by: [savedFilters?.transported_by || null],
       providers: [savedFilters?.providers || null],
       product_types: [savedFilters?.product_types || null]
     });
@@ -273,7 +275,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
     localStorage.setItem('filters_chip', JSON.stringify(this.filtersChip));
     // colocar en null o [] el campo de filters en localStorage
     const filters = JSON.parse(localStorage.getItem('filters'));
-    if (filterChip.code === 'genders' || filterChip.code === 'ethnicities' || filterChip.code === 'workers' || filterChip.code === 'locations' || filterChip.code === 'product_types' || filterChip.code === 'providers' || filterChip.code === 'delivered_by' || filterChip.code === 'stocker_upload') {
+    if (filterChip.code === 'genders' || filterChip.code === 'ethnicities' || filterChip.code === 'workers' || filterChip.code === 'locations' || filterChip.code === 'product_types' || filterChip.code === 'providers' || filterChip.code === 'delivered_by' || filterChip.code === 'transported_by' || filterChip.code === 'stocker_upload') {
       filters[filterChip.code] = [];
     } else {
       filters[filterChip.code] = null;
@@ -804,6 +806,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
         // set values into filterForm
         this.filterForm.get('locations').setValue(result.data.locations);
         this.filterForm.get('stocker_upload').setValue(result.data.stocker_upload);
+        this.filterForm.get('transported_by').setValue(result.data.transported_by);
         this.filterForm.get('providers').setValue(result.data.providers);
         this.filterForm.get('product_types').setValue(result.data.product_types);
 
@@ -857,6 +860,7 @@ export class MetricsProductComponent implements OnInit, OnDestroy {
         // set values into filterForm
         this.filterForm.get('locations').setValue(result.data.locations);
         this.filterForm.get('stocker_upload').setValue(result.data.stocker_upload);
+        this.filterForm.get('transported_by').setValue(result.data.transported_by);
         this.filterForm.get('providers').setValue(result.data.providers);
         this.filterForm.get('product_types').setValue(result.data.product_types);
 

@@ -7,6 +7,7 @@ import { Delivered } from 'src/app/models/stocker/delivered-by';
 import { Product } from 'src/app/models/stocker/product';
 import { ProductType } from 'src/app/models/stocker/product-type';
 import { Provider } from 'src/app/models/stocker/provider';
+import { Transported } from 'src/app/models/stocker/transported-by';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -36,6 +37,10 @@ export class StockerService {
 
   getDelivereds() {
     return this.http.get<Delivered[]>(`${environment.url_api}/delivered-by`);
+  }
+
+  getTransporteds() {
+    return this.http.get<Transported[]>(`${environment.url_api}/transported-by`);
   }
 
   getAuditStatus(language: string) {

@@ -8,6 +8,7 @@ import { NewLocation } from 'src/app/models/new/new-location';
 import { NewProduct } from 'src/app/models/new/new-product';
 import { NewProductType } from 'src/app/models/new/new-product-type';
 import { NewProvider } from 'src/app/models/new/new-provider';
+import { NewTransportedBy } from 'src/app/models/new/new-transported-by';
 import { NewUser } from 'src/app/models/new/new-user';
 import { Client } from 'src/app/models/user/client';
 import { Role } from 'src/app/models/user/role';
@@ -84,6 +85,22 @@ export class NewService {
 
   getDeliveredByExists(name: string) {
     return this.http.get<any>(`${environment.url_api}/delivered-by/exists/search?name=${name}`);
+  }
+
+  newTransportedBy(transportedBy: NewTransportedBy) {
+    return this.http.post<any>(`${environment.url_api}/new/transported-by`, transportedBy)
+  }
+
+  updateTransportedBy(id: string, transportedBy: NewTransportedBy) {
+    return this.http.put<any>(`${environment.url_api}/new/transported-by/${id}`, transportedBy)
+  }
+
+  getTransportedBy(id: string) {
+    return this.http.get<NewTransportedBy>(`${environment.url_api}/new/transported-by/${id}`)
+  }
+
+  getTransportedByExists(name: string) {
+    return this.http.get<any>(`${environment.url_api}/transported-by/exists/search?name=${name}`);
   }
 
   newGender(gender: NewGender) {

@@ -14,6 +14,7 @@ import { ViewProductType } from 'src/app/models/view/view-product-type';
 import { ViewProvider } from 'src/app/models/view/view-provider';
 import { ViewTicket } from 'src/app/models/view/view-ticket';
 import { ViewTicketImage } from 'src/app/models/view/view-ticket-image';
+import { ViewTransportedBy } from 'src/app/models/view/view-transported-by';
 import { ViewUser } from 'src/app/models/view/view-user';
 import { ViewWorkerTable } from 'src/app/models/view/view-worker/view-worker-table';
 import { environment } from 'src/environments/environment';
@@ -83,6 +84,10 @@ export class ViewService {
 
   getViewDeliveredBy(idDeliveredBy: string){
     return this.http.get<ViewDeliveredBy>(`${environment.url_api}/view/delivered-by/${idDeliveredBy}`)
+  }
+
+  getViewTransportedBy(idTransportedBy: string){
+    return this.http.get<ViewTransportedBy>(`${environment.url_api}/view/transported-by/${idTransportedBy}`)
   }
 
   getViewGender(idGender: string){

@@ -11,6 +11,7 @@ import { productTable } from 'src/app/models/tables/product-table';
 import { productTypeTable } from 'src/app/models/tables/product-type-table';
 import { providerTable } from 'src/app/models/tables/provider-table';
 import { ticketTable } from 'src/app/models/tables/ticket-table';
+import { transportedByTable } from 'src/app/models/tables/transported-by-table';
 import { userTable } from 'src/app/models/tables/user-table';
 import { workerTable } from 'src/app/models/tables/worker-table';
 import { environment } from 'src/environments/environment';
@@ -50,6 +51,10 @@ export class TablesService {
 
   getDataDeliveredByTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
     return this.http.post<deliveredByTable>(`${environment.url_api}/table/delivered-by?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
+  }
+
+  getDataTransportedByTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
+    return this.http.post<transportedByTable>(`${environment.url_api}/table/transported-by?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
   }
 
   getDataEthnicityTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
@@ -122,6 +127,10 @@ export class TablesService {
 
   getDeliveredByFileCSV(filters: any) {
     return this.http.post(`${environment.url_api}/table/delivered-by/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getTransportedByFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/transported-by/download-csv`, filters, { responseType: 'text' });
   }
 
   getLocationFileCSV(filters: any) {

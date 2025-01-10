@@ -10,7 +10,7 @@
   <mat-chip-set class="chip-grid">
     <ng-container *ngFor="let filterChip of filtersChip; let i = index">
       <mat-chip
-        *ngIf="filterChip.code !== 'product_types' && filterChip.code !== 'providers' && filterChip.code !== 'workers'"
+        *ngIf="filterChip.code !== 'product_types' && filterChip.code !== 'providers' && filterChip.code !== 'workers' && filterChip.code !== 'stocker_upload' && filterChip.code !== 'delivered_by' && filterChip.code !== 'transported_by' && filterChip.code !== 'workers'"
         (removed)="removeFilterChip(filterChip)">
         {{filterChip.name}}: {{filterChip.value}}
         <button matChipRemove>

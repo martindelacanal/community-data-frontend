@@ -47,6 +47,7 @@ export class ViewTicketComponent implements OnInit {
       location: '',
       date: '',
       delivered_by: '',
+      transported_by: '',
       created_by_id: '',
       created_by_username: '',
       audit_status: '',

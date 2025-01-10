@@ -169,7 +169,7 @@ export class TableProviderComponent implements OnInit, AfterViewInit {
     localStorage.setItem('filters_chip', JSON.stringify(this.filtersChip));
     // colocar en null o [] el campo de filters en localStorage
     const filters = JSON.parse(localStorage.getItem('filters'));
-    if (filterChip.code === 'genders' || filterChip.code === 'ethnicities' || filterChip.code === 'workers' || filterChip.code === 'locations' || filterChip.code === 'product_types' || filterChip.code === 'providers' || filterChip.code === 'delivered_by' || filterChip.code === 'stocker_upload') {
+    if (filterChip.code === 'genders' || filterChip.code === 'ethnicities' || filterChip.code === 'workers' || filterChip.code === 'locations' || filterChip.code === 'product_types' || filterChip.code === 'providers' || filterChip.code === 'delivered_by' || filterChip.code === 'transported_by' || filterChip.code === 'stocker_upload') {
       filters[filterChip.code] = [];
     } else {
       filters[filterChip.code] = null;

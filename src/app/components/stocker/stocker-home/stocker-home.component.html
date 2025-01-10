@@ -89,17 +89,18 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <!-- delivered_by -->
+            <!-- transported_by -->
             <div class="card">
               <mat-form-field appearance="outline">
-                <mat-label>{{'stocker_input_delivered_by' | translate }}</mat-label>
-                <mat-select formControlName="delivered_by">
-                  <mat-option *ngFor="let delivered of delivereds" [value]="delivered.id">
-                    {{delivered.name}}
+                <mat-label>{{'stocker_input_transported_by' | translate }}</mat-label>
+                <input matInput formControlName="transported_by" required [matAutocomplete]="autoTransportedBy">
+                <mat-autocomplete #autoTransportedBy="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredOptionsTransportedBy | async" [value]="option">
+                    {{ option }}
                   </mat-option>
-                </mat-select>
-                <mat-error *ngIf="stockForm.controls['delivered_by'].hasError('required')">
-                  {{'stocker_input_delivered_by_error' | translate }}
+                </mat-autocomplete>
+                <mat-error *ngIf="stockForm.controls['transported_by'].hasError('required')">
+                  {{'stocker_input_transported_by_error' | translate }}
                 </mat-error>
               </mat-form-field>
             </div>
@@ -115,6 +116,20 @@
                 <!-- <mat-error *ngIf="stockForm.controls['audit_status'].hasError('required')">
                   {{'stocker_input_audit_status_error' | translate }}
                 </mat-error> -->
+              </mat-form-field>
+            </div>
+            <!-- delivered_by -->
+            <div class="card">
+              <mat-form-field appearance="outline">
+                <mat-label>{{'stocker_input_delivered_by' | translate }}</mat-label>
+                <mat-select formControlName="delivered_by">
+                  <mat-option *ngFor="let delivered of delivereds" [value]="delivered.id">
+                    {{delivered.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="stockForm.controls['delivered_by'].hasError('required')">
+                  {{'stocker_input_delivered_by_error' | translate }}
+                </mat-error>
               </mat-form-field>
             </div>
             <!-- notes -->

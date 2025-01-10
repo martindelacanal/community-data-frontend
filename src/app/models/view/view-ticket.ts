@@ -6,6 +6,7 @@ export interface ViewTicket {
   location: string;
   date: string;
   delivered_by: string;
+  transported_by: string;
   created_by_id: string;
   created_by_username: string;
   audit_status: string;

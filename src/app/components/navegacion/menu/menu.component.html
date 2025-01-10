@@ -84,11 +84,6 @@
             {{'menu_button_delivered_table' | translate }}
           </a>
         </li>
-        <li routerLink="/table/delivered-by" *ngIf="usuario.role === 'admin'">
-          <a>
-            {{'menu_button_delivered_by_table' | translate }}
-          </a>
-        </li>
         <li routerLink="/table/ethnicity" *ngIf="usuario.role === 'admin'">
           <a>
             {{'menu_button_ethnicity_table' | translate }}
@@ -124,6 +119,11 @@
             {{'menu_button_provider_table' | translate }}
           </a>
         </li>
+        <li routerLink="/table/delivered-by" *ngIf="usuario.role === 'admin'">
+          <a>
+            {{'menu_button_delivered_by_table' | translate }}
+          </a>
+        </li>
         <li routerLink="/table/user/" *ngIf="usuario.role === 'admin'">
           <a>
             {{'menu_button_system_user_table' | translate }}
@@ -132,6 +132,11 @@
         <li routerLink="/table/ticket" *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager' || usuario.role === 'director'">
           <a>
             {{'menu_button_ticket_table' | translate }}
+          </a>
+        </li>
+        <li routerLink="/table/transported-by" *ngIf="usuario.role === 'admin'">
+          <a>
+            {{'menu_button_transported_by_table' | translate }}
           </a>
         </li>
         <li routerLink="/table/worker" *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager' || usuario.role === 'director'">

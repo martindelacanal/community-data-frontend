@@ -13,6 +13,7 @@ import { Delivered } from 'src/app/models/stocker/delivered-by';
 import { Product } from 'src/app/models/stocker/product';
 import { ProductType } from 'src/app/models/stocker/product-type';
 import { Provider } from 'src/app/models/stocker/provider';
+import { Transported } from 'src/app/models/stocker/transported-by';
 import { DecodificadorService } from 'src/app/services/login/decodificador.service';
 import { StockerService } from 'src/app/services/stock/stocker.service';
 
@@ -31,6 +32,7 @@ export class StockerHomeComponent implements OnInit {
   private loadingDelivereds: boolean = false;
   private loadingAuditStatus: boolean = false;
   private loadingProviders: boolean = false;
+  private loadingTransporteds: boolean = false;
   private loadingProducts: boolean = false;
   private loadingProductTypes: boolean = false;
   private previousInput: string;
@@ -56,9 +58,12 @@ export class StockerHomeComponent implements OnInit {
   product_types: ProductType[] = [];
   providers: Provider[] = [];
   providerNames: string[] = [];
+  transporteds: Transported[] = [];
+  transportedNames: string[] = [];
   productNames: string[] = [];
   filteredOptions: Observable<string[]>;
   filteredOptionsProvider: Observable<string[]>;
+  filteredOptionsTransportedBy: Observable<string[]>;
   inputIndexModified: number;
   numberOfFields: number;
   donationIDExists: boolean = false;
@@ -91,6 +96,7 @@ export class StockerHomeComponent implements OnInit {
       destination: '',
       date: '',
       delivered_by: '',
+      transported_by: '',
       audit_status: '',
       notes: [],
       image_count: 0,
@@ -121,6 +127,7 @@ export class StockerHomeComponent implements OnInit {
 
     this.getLocations();
     this.getDelivereds();
+    this.getTransporteds();
     this.getProviders();
     this.getProducts();
     this.getProductTypes(this.translate.currentLang);
@@ -128,6 +135,10 @@ export class StockerHomeComponent implements OnInit {
     this.filteredOptionsProvider = this.stockForm.get('provider').valueChanges.pipe(
       startWith(''),
       map(value => this.filterProviders(value))
+    );
+    this.filteredOptionsTransportedBy = this.stockForm.get('transported_by').valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterTransporteds(value))
     );
     this.filteredOptions = this.stockForm.get('products').valueChanges.pipe(
       startWith(''),
@@ -209,6 +220,11 @@ export class StockerHomeComponent implements OnInit {
       if (provider) {
         this.stockForm.get('provider').setValue(provider.id);
       }
+      // si se usó un transported creado, se guarda el id, si es nuevo se guarda el texto
+      const transported = this.transporteds.find(t => t.name.toLowerCase() === this.stockForm.get('transported_by').value.toLowerCase());
+      if (transported) {
+        this.stockForm.get('transported_by').setValue(transported.id);
+      }
       // si se usó un producto creado, se guarda el id, si es nuevo se guarda el texto
       for (let i = 0; i < this.productsForm.controls.length; i++) {
         const control = this.productsForm.controls[i];
@@ -241,6 +257,9 @@ export class StockerHomeComponent implements OnInit {
             console.log(error);
             // volver a colocar el provider y el product en el formulario, ya que se cambió a id, ahora se cambia a texto
             this.stockForm.get('provider').setValue(this.providers.find(p => p.id === this.stockForm.get('provider').value).name);
+            // volver a colocar el transported_by en el formulario, ya que se cambió a id, ahora se cambia a texto
+            this.stockForm.get('transported_by').setValue(this.transporteds.find(t => t.id === this.stockForm.get('transported_by').value).name);
+
             for (let i = 0; i < this.productsForm.controls.length; i++) {
               const control = this.productsForm.controls[i];
               const productName = control.get('product').value;
@@ -266,6 +285,8 @@ export class StockerHomeComponent implements OnInit {
             console.log(error);
             // volver a colocar el provider y el product en el formulario, ya que se cambió a id, ahora se cambia a texto
             this.stockForm.get('provider').setValue(this.providers.find(p => p.id === this.stockForm.get('provider').value).name);
+            // volver a colocar el transported_by en el formulario, ya que se cambió a id, ahora se cambia a texto
+            this.stockForm.get('transported_by').setValue(this.transporteds.find(t => t.id === this.stockForm.get('transported_by').value).name);
             for (let i = 0; i < this.productsForm.controls.length; i++) {
               const control = this.productsForm.controls[i];
               const productName = control.get('product').value;
@@ -487,6 +508,7 @@ export class StockerHomeComponent implements OnInit {
           destination: res.destination,
           date: new Date(res.date).toISOString(),
           delivered_by: res.delivered_by,
+          transported_by: res.transported_by,
           audit_status: res.audit_status,
           notes: res.notes,
           image_count: res.image_count,
@@ -500,6 +522,7 @@ export class StockerHomeComponent implements OnInit {
           destination: res.destination,
           date: new Date(res.date),
           delivered_by: res.delivered_by,
+          transported_by: res.transported_by,
           audit_status: res.audit_status
         });
         // agregar campos de productos
@@ -523,6 +546,7 @@ export class StockerHomeComponent implements OnInit {
         this.stockForm.get('destination').updateValueAndValidity();
         this.stockForm.get('date').updateValueAndValidity();
         this.stockForm.get('delivered_by').updateValueAndValidity();
+        this.stockForm.get('transported_by').updateValueAndValidity();
         this.stockForm.get('audit_status').updateValueAndValidity();
         this.stockForm.get('products').updateValueAndValidity();
 
@@ -549,6 +573,7 @@ export class StockerHomeComponent implements OnInit {
     this.stockForm.get('destination').setErrors(null);
     this.stockForm.get('date').setErrors(null);
     this.stockForm.get('delivered_by').setErrors(null);
+    this.stockForm.get('transported_by').setErrors(null);
     this.stockForm.get('audit_status').setErrors(null);
     this.stockForm.get('notes').setErrors(null);
     this.stockForm.get('products').setErrors(null);
@@ -574,6 +599,17 @@ export class StockerHomeComponent implements OnInit {
     }
     const filterValue = value.toLowerCase();
     return this.providerNames.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  private filterTransporteds(value: any): string[] {
+    if (typeof value !== 'string') {
+      return [];
+    }
+    if (value === '') {
+      return this.transportedNames;
+    }
+    const filterValue = value.toLowerCase();
+    return this.transportedNames.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   private filterProducts(value: any): string[] {
@@ -664,6 +700,28 @@ export class StockerHomeComponent implements OnInit {
     });
   }
 
+  private getTransporteds() {
+    this.loadingTransporteds = true;
+    this.stockerService.getTransporteds().pipe(
+      finalize(() => {
+        this.loadingTransporteds = false;
+        this.checkLoading();
+      })
+    ).subscribe({
+      next: (res) => {
+        this.transporteds = res;
+        // iterate transporteds and push name into transportedNames
+        for (let i = 0; i < this.transporteds.length; i++) {
+          this.transportedNames.push(this.transporteds[i].name);
+        }
+      },
+      error: (error) => {
+        console.error(error);
+        this.openSnackBar(this.translate.instant('table_transported_by_snack_error_get'));
+      }
+    });
+  }
+
   private getProducts() {
     this.loadingProducts = true;
     this.stockerService.getProducts().pipe(
@@ -738,7 +796,7 @@ export class StockerHomeComponent implements OnInit {
   }
 
   private checkLoading() {
-    if (!this.loadingLocations && !this.loadingProviders && !this.loadingProducts && !this.loadingProductTypes && !this.loadingDelivereds && !this.loadingAuditStatus) {
+    if (!this.loadingLocations && !this.loadingProviders && !this.loadingProducts && !this.loadingProductTypes && !this.loadingDelivereds && !this.loadingTransporteds && !this.loadingAuditStatus) {
       if (this.idTicket) {
         if (!this.loadingGetForm) {
           this.loading = false;
@@ -757,6 +815,7 @@ export class StockerHomeComponent implements OnInit {
       destination: [null, Validators.required],
       date: [null, Validators.required],
       delivered_by: [null, Validators.required],
+      transported_by: [null, Validators.required],
       audit_status: [null],
       notes: [null],
       products: this.formBuilder.array([])

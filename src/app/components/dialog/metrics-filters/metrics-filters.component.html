@@ -62,6 +62,22 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <!-- transported_by -->
+      <div *ngIf="this.origin == 'table-ticket' || this.origin == 'metrics-product'">
+        <br>
+        <p>{{'metrics_filters_title_transported_by' | translate }}</p>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{'metrics_filters_input_transported_by' | translate }}</mat-label>
+          <mat-select #filterTransportedBy formControlName="transported_by" multiple>
+            <mat-option [value]="0"
+              (click)="toggleAllSelection(filterTransportedBy, 'transported_by')"><b>{{this.selectAllTextTransportedBy}}</b></mat-option>
+            <mat-option *ngFor="let transported of transporteds" [value]="transported.id">
+              {{transported.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <!-- stocker_upload -->
       <div *ngIf="this.origin == 'table-ticket' || this.origin == 'metrics-product'">
         <br>
@@ -96,7 +112,7 @@
       </div>
       <!-- locations -->
       <div
-        *ngIf="this.origin !== 'table-product-type' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-delivered-by' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary'">
+        *ngIf="this.origin !== 'table-product-type' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-delivered-by' && this.origin !== 'table-transported-by' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary'">
         <br>
         <p>{{'metrics_filters_title_locations' | translate }}</p>
 

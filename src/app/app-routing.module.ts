@@ -50,11 +50,15 @@ import { TableDeliveredByComponent } from './components/tables/delivered-by/tabl
 import { NewDeliveredByComponent } from './components/new/new-delivered-by/new-delivered-by.component';
 import { ViewDeliveredByComponent } from './components/view/view-delivered-by/view-delivered-by.component';
 import { VoluntarioRegistroComponent } from './components/registro/voluntario-registro/voluntario-registro.component';
+import { ViewTransportedByComponent } from './components/view/view-transported-by/view-transported-by.component';
+import { NewTransportedByComponent } from './components/new/new-transported-by/new-transported-by.component';
+import { TableTransportedByComponent } from './components/tables/transported-by/table-transported-by.component';
 
 const routes: Routes = [
   { path: 'survey', component: SurveyComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/product-type/:id', component: ViewProductTypeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/delivered-by/:id', component: ViewDeliveredByComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'view/transported-by/:id', component: ViewTransportedByComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/gender/:id', component: ViewGenderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/ethnicity/:id', component: ViewEthnicityComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/provider/:id', component: ViewProviderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
@@ -70,6 +74,7 @@ const routes: Routes = [
   { path: 'edit/product/:id', component: NewProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'edit/product-type/:id', component: NewProductTypeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'edit/delivered-by/:id', component: NewDeliveredByComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'edit/transported-by/:id', component: NewTransportedByComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'edit/gender/:id', component: NewGenderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'edit/ethnicity/:id', component: NewEthnicityComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'edit/provider/:id', component: NewProviderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
@@ -79,6 +84,7 @@ const routes: Routes = [
   { path: 'new/product', component: NewProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'new/product-type', component: NewProductTypeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'new/delivered-by', component: NewDeliveredByComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'new/transported-by', component: NewTransportedByComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'new/gender', component: NewGenderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'new/ethnicity', component: NewEthnicityComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'new/provider', component: NewProviderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
@@ -92,6 +98,7 @@ const routes: Routes = [
   { path: 'table/product', component: TableProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'opsmanager', 'director']} },
   { path: 'table/product-type', component: TableProductTypeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/delivered-by', component: TableDeliveredByComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
+  { path: 'table/transported-by', component: TableTransportedByComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/gender', component: TableGenderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/ethnicity', component: TableEthnicityComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/provider', component: TableProviderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },

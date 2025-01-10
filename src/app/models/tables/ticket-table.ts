@@ -8,6 +8,7 @@ export interface ticketTable {
         location: string,
         date: string,
         delivered_by: string,
+        transported_by: string,
         audit_status: string,
         products: string,
         creation_date: string
