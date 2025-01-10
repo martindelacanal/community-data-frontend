@@ -53,6 +53,7 @@ export class StockerHomeComponent implements OnInit {
   public idTicket: string = '';
   locations: Location[] = [];
   delivereds: Delivered[] = [];
+  deliveredNames: string[] = [];
   auditStatus: AuditStatus[] = [];
   products: Product[] = [];
   product_types: ProductType[] = [];
@@ -64,6 +65,7 @@ export class StockerHomeComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   filteredOptionsProvider: Observable<string[]>;
   filteredOptionsTransportedBy: Observable<string[]>;
+  filteredOptionsDeliveredBy: Observable<string[]>;
   inputIndexModified: number;
   numberOfFields: number;
   donationIDExists: boolean = false;
@@ -139,6 +141,10 @@ export class StockerHomeComponent implements OnInit {
     this.filteredOptionsTransportedBy = this.stockForm.get('transported_by').valueChanges.pipe(
       startWith(''),
       map(value => this.filterTransporteds(value))
+    );
+    this.filteredOptionsDeliveredBy = this.stockForm.get('delivered_by').valueChanges.pipe(
+      startWith(''),
+      map(value => this.filterDelivereds(value))
     );
     this.filteredOptions = this.stockForm.get('products').valueChanges.pipe(
       startWith(''),
@@ -225,6 +231,11 @@ export class StockerHomeComponent implements OnInit {
       if (transported) {
         this.stockForm.get('transported_by').setValue(transported.id);
       }
+      // si se usó un delivered creado, se guarda el id, si es nuevo se guarda el texto
+      const delivered = this.delivereds.find(d => d.name.toLowerCase() === this.stockForm.get('delivered_by').value.toLowerCase());
+      if (delivered) {
+        this.stockForm.get('delivered_by').setValue(delivered.id);
+      }
       // si se usó un producto creado, se guarda el id, si es nuevo se guarda el texto
       for (let i = 0; i < this.productsForm.controls.length; i++) {
         const control = this.productsForm.controls[i];
@@ -259,6 +270,8 @@ export class StockerHomeComponent implements OnInit {
             this.stockForm.get('provider').setValue(this.providers.find(p => p.id === this.stockForm.get('provider').value).name);
             // volver a colocar el transported_by en el formulario, ya que se cambió a id, ahora se cambia a texto
             this.stockForm.get('transported_by').setValue(this.transporteds.find(t => t.id === this.stockForm.get('transported_by').value).name);
+            // volver a colocar el delivered_by en el formulario, ya que se cambió a id, ahora se cambia a texto
+            this.stockForm.get('delivered_by').setValue(this.delivereds.find(d => d.id === this.stockForm.get('delivered_by').value).name);
 
             for (let i = 0; i < this.productsForm.controls.length; i++) {
               const control = this.productsForm.controls[i];
@@ -287,6 +300,9 @@ export class StockerHomeComponent implements OnInit {
             this.stockForm.get('provider').setValue(this.providers.find(p => p.id === this.stockForm.get('provider').value).name);
             // volver a colocar el transported_by en el formulario, ya que se cambió a id, ahora se cambia a texto
             this.stockForm.get('transported_by').setValue(this.transporteds.find(t => t.id === this.stockForm.get('transported_by').value).name);
+            // volver a colocar el delivered_by en el formulario, ya que se cambió a id, ahora se cambia a texto
+            this.stockForm.get('delivered_by').setValue(this.delivereds.find(d => d.id === this.stockForm.get('delivered_by').value).name);
+
             for (let i = 0; i < this.productsForm.controls.length; i++) {
               const control = this.productsForm.controls[i];
               const productName = control.get('product').value;
@@ -612,6 +628,17 @@ export class StockerHomeComponent implements OnInit {
     return this.transportedNames.filter(option => option.toLowerCase().includes(filterValue));
   }
 
+  private filterDelivereds(value: any): string[] {
+    if (typeof value !== 'string') {
+      return [];
+    }
+    if (value === '') {
+      return this.deliveredNames;
+    }
+    const filterValue = value.toLowerCase();
+    return this.deliveredNames.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
   private filterProducts(value: any): string[] {
     if (typeof value !== 'string' && typeof value !== 'object') {
       return [];
@@ -652,6 +679,10 @@ export class StockerHomeComponent implements OnInit {
     ).subscribe({
       next: (res) => {
         this.delivereds = res;
+        // iterate delivereds and push name into deliveredNames
+        for (let i = 0; i < this.delivereds.length; i++) {
+          this.deliveredNames.push(this.delivereds[i].name);
+        }
       },
       error: (error) => {
         console.log(error);
