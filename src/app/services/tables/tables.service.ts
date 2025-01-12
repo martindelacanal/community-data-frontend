@@ -160,4 +160,8 @@ export class TablesService {
   enableDisableElement(id: string, table: string, enabled: string){
     return this.http.put<any>(`${environment.url_api}/enable-disable/${id}`, { table: table, enabled: enabled });
   }
+
+  enableDisableMailchimpErrorElement(id: string, enabled: string){
+    return this.http.put<any>(`${environment.url_api}/mailchimp/error/enable-disable/${id}`, { enabled: enabled });
+  }
 }

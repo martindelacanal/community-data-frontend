@@ -134,6 +134,9 @@ export class TableUserComponent implements OnInit, AfterViewInit {
           }
         }
         this.tableRole = search;
+        if (this.tableRole == 'beneficiary') {
+          this.columns = [' ', 'id', 'username', 'email', 'firstname', 'lastname', 'role', 'enabled', 'mailchimp_error', 'creation_date'];
+        }
       }
       this.getDataUserTable(this.filterForm.value);
     });
@@ -254,6 +257,35 @@ export class TableUserComponent implements OnInit, AfterViewInit {
       }
       if (result.status) {
         this.tablesService.enableDisableElement(id, 'user', enable).pipe(
+          finalize(() => {
+            this.getDataUserTable(this.filterForm.value);
+          })
+        ).subscribe({
+          next: (res) => {
+            this.openSnackBar(this.translate.instant('table_snack_enable_disable'));
+          },
+          error: (error) => {
+            console.log(error);
+            this.openSnackBar(this.translate.instant('table_snack_enable_disable_error'));
+          }
+        });
+      }
+    });
+  }
+
+  openDialogEnableDisableMailchimpErrorElement(id: string, enabled: string): void {
+    const dialogRef = this.dialog.open(DisclaimerEnableDisableElementComponent, {
+      width: '370px',
+      data: enabled
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      let enable = 'Y';
+      if (enabled === 'Y') {
+        enable = 'N';
+      }
+      if (result.status) {
+        this.tablesService.enableDisableMailchimpErrorElement(id, enable).pipe(
           finalize(() => {
             this.getDataUserTable(this.filterForm.value);
           })

@@ -8,6 +8,7 @@ export interface userTable {
         lastname: string,
         role: string,
         enabled: string,
+        mailchimp_error: string,
         creation_date: string
       }
   ],

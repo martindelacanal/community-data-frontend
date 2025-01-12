@@ -408,6 +408,7 @@
   "table_users_header_lastname": "Apellido",
   "table_users_header_role": "Rol",
   "table_users_header_enabled": "Habilitado",
+  "table_users_header_mailchimp_error": "Error Mailchimp",
   "table_users_header_creation_date": "Fecha de creación",
   "table_users_row_button_view": "Ver",
   "table_users_row_button_edit": "Editar",
@@ -415,6 +416,8 @@
   "table_users_row_button_reset_password": "Reiniciar contraseña",
   "table_users_row_button_enable": "Habilitar",
   "table_users_row_button_disable": "Deshabilitar",
+  "table_users_row_button_enable_mailchimp_error": "Error Mailchimp",
+  "table_users_row_button_disable_mailchimp_error": "Error Mailchimp",
   "table_users_button_add_user": "Agregar usuario",
 
   "table_tickets_title": "Tickets",
