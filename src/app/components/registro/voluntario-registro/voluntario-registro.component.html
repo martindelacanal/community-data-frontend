@@ -139,6 +139,24 @@
             </mat-radio-button>
           </mat-radio-group>
           <mat-spinner *ngIf="loadingGender" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+          <label class="radio-button-label" id="radio-button-group-label">{{'register_first_tab_input_ethnicity'
+            | translate }} <span
+              [ngClass]="{'required': volunteerFormGroup.controls['ethnicity'].invalid}">*</span></label>
+          <mat-radio-group *ngIf="!loadingEthnicity" aria-labelledby="radio-button-group-label" class="radio-button-group"
+            formControlName="ethnicity">
+            <mat-radio-button class="radio-button" *ngFor="let ethnicity of ethnicities" [value]="ethnicity.id">
+              {{ethnicity.name}}
+            </mat-radio-button>
+          </mat-radio-group>
+          <mat-spinner *ngIf="loadingEthnicity" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+          <mat-form-field appearance="outline"
+            *ngIf="otroEthnicity && otroEthnicity.id === volunteerFormGroup.get('ethnicity').value">
+            <mat-label>{{'register_first_tab_input_others' | translate }}</mat-label>
+            <input matInput formControlName="otherEthnicity" required>
+            <mat-error *ngIf="volunteerFormGroup.controls['otherEthnicity'].hasError('required')">
+              {{'register_first_tab_input_others_error_please' | translate }}
+            </mat-error>
+          </mat-form-field>
           <!-- <mat-form-field appearance="outline" class="full-width">
             <mat-label>{{'register_volunteers_input_volunteer_date' | translate }}</mat-label>
             <input matInput [matDatepicker]="miPicker2" formControlName="date" (blur)="formatDateOnBlur($event)"

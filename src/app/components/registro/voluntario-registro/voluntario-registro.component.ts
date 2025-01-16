@@ -10,6 +10,7 @@ import { Gender } from 'src/app/models/user/gender';
 import { finalize } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import SignaturePad from 'signature_pad';
+import { Ethnicity } from 'src/app/models/user/ethnicity';
 
 @Component({
   selector: 'app-voluntario-registro',
@@ -24,12 +25,15 @@ export class VoluntarioRegistroComponent implements OnInit, AfterViewInit {
   public selectedLanguage: string;
   public volunteerFormGroup: FormGroup;
   public loadingGender: boolean = false;
+  public loadingEthnicity: boolean = false;
   public loadingSubmit: boolean = false;
   public hasSignature: boolean = false;
   private firstExecuteComponent: boolean = true;
   private previousInput: string;
   locations: Location[] = [];
   genders: Gender[] = [];
+  ethnicities: Ethnicity[] = [];
+  otroEthnicity: Ethnicity;
 
   constructor(
     public translate: TranslateService,
@@ -47,6 +51,7 @@ export class VoluntarioRegistroComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getGender(this.translate.currentLang);
+    this.getEthnicity(this.translate.currentLang);
     this.getLocations();
 
     this.translate.onLangChange.subscribe((event) => {
@@ -55,7 +60,9 @@ export class VoluntarioRegistroComponent implements OnInit, AfterViewInit {
         this.firstExecuteComponent = false;
       } else {
         this.genders = [];
+        this.ethnicities = [];
         this.getGender(this.translate.currentLang);
+        this.getEthnicity(this.translate.currentLang);
       }
     });
 
@@ -219,6 +226,20 @@ export class VoluntarioRegistroComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private getEthnicity(language: string, id?: number) {
+    this.loadingEthnicity = true;
+    this.authService.getEthnicity(language, id).subscribe({
+      next: (res) => {
+        this.ethnicities = res;
+        this.otroEthnicity = this.ethnicities.find(e => e.name === 'Otros' || e.name === 'Others' || e.name === 'Otro' || e.name === 'Other');
+        this.loadingEthnicity = false;
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
   private buildForm(): void {
     this.volunteerFormGroup = this.formBuilder.group({
       firstName: [null, [Validators.required, this.noNumbersValidator()]],
@@ -229,9 +250,25 @@ export class VoluntarioRegistroComponent implements OnInit, AfterViewInit {
       zipcode: [null, Validators.required],
       destination: [null, Validators.required],
       gender: [null, Validators.required],
+      ethnicity: [null, Validators.required],
+      otherEthnicity: [null],
       // date: [null, Validators.required],
       language: [this.translate.currentLang],
       signature: [false, Validators.requiredTrue]
+    });
+
+
+    // Agregar un observador al campo 'ethnicity'
+    this.volunteerFormGroup.get('ethnicity').valueChanges.subscribe(value => {
+      if (this.otroEthnicity && value === this.otroEthnicity.id) {
+        // Si el valor es 'Others', agregar el validador 'Validators.required' al campo 'otherEthnicity'
+        this.volunteerFormGroup.get('otherEthnicity').setValidators(Validators.required);
+      } else {
+        // De lo contrario, eliminar el validador
+        this.volunteerFormGroup.get('otherEthnicity').clearValidators();
+      }
+      // Actualizar el estado del campo 'otherEthnicity'
+      this.volunteerFormGroup.get('otherEthnicity').updateValueAndValidity({ emitEvent: false }); // para que no lo detecte el valueChanges
     });
   }
 
