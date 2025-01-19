@@ -13,6 +13,7 @@ import { providerTable } from 'src/app/models/tables/provider-table';
 import { ticketTable } from 'src/app/models/tables/ticket-table';
 import { transportedByTable } from 'src/app/models/tables/transported-by-table';
 import { userTable } from 'src/app/models/tables/user-table';
+import { volunteerTable } from 'src/app/models/tables/volunteer-table';
 import { workerTable } from 'src/app/models/tables/worker-table';
 import { environment } from 'src/environments/environment';
 
@@ -69,6 +70,10 @@ export class TablesService {
     return this.http.post<clientTable>(`${environment.url_api}/table/client?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
   }
 
+  getDataVolunteerTable(page: number, columna: string, ordenarTipo: string, buscar: string, language: string, filters: any){
+    return this.http.post<volunteerTable>(`${environment.url_api}/table/volunteer?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}&language=${language}`, filters)
+  }
+
   getDataNotificationTable(page: number, columna: string, ordenarTipo: string, buscar: string){
     return this.http.get<notificationTable>(`${environment.url_api}/table/notification?page=${page}&orderBy=${columna}&search=${buscar}&orderType=${ordenarTipo}`)
   }
@@ -115,6 +120,10 @@ export class TablesService {
 
   getClientFileCSV(filters: any) {
     return this.http.post(`${environment.url_api}/table/client/download-csv`, filters, { responseType: 'text' });
+  }
+
+  getVolunteerFileCSV(filters: any) {
+    return this.http.post(`${environment.url_api}/table/volunteer/download-csv`, filters, { responseType: 'text' });
   }
 
   getEthnicityFileCSV(filters: any) {

@@ -139,6 +139,11 @@
             {{'menu_button_transported_by_table' | translate }}
           </a>
         </li>
+        <li routerLink="/table/volunteer" *ngIf="usuario.role === 'admin'">
+          <a>
+            {{'menu_button_volunteer_table' | translate }}
+          </a>
+        </li>
         <li routerLink="/table/worker" *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager' || usuario.role === 'director'">
           <a>
             {{'menu_button_worker_table' | translate }}

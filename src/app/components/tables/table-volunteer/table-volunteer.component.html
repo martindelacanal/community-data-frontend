@@ -1,0 +1,125 @@
+<div class="container">
+  <section class="header">
+    <div class="header__title">
+      <h1 class="title">{{'table_volunteers_title' | translate }}</h1>
+      <mat-spinner *ngIf="loading" class="loading-tables" mode="indeterminate" [diameter]="30"></mat-spinner>
+    </div>
+  </section>
+  <section class="main">
+
+    <div class="inputs">
+      <input matInput type="search" class="ui-input" [formControl]="buscar"
+        placeholder="{{'table_input_search' | translate }}">
+      <div class="buttons">
+        <mat-spinner *ngIf="loadingCSV" class="login-button" mode="indeterminate" [diameter]="30"></mat-spinner>
+        <button *ngIf="!loadingCSV" class="ui-button" type="button"
+        (click)="dialogDownloadCsv()">{{'metrics_button_download_csv' | translate }}</button>
+        <button id="filtersButton" class="ui-button" type="button" (click)="dialogFilters()">{{'metrics_filters_button' |
+          translate }}</button>
+      </div>
+    </div>
+    <mat-chip-set class="chip-grid">
+      <ng-container *ngFor="let filterChip of filtersChip; let i = index">
+        <mat-chip *ngIf="filterChip.code !== 'product_types' &&
+                          filterChip.code !== 'providers' &&
+                          filterChip.code !== 'delivered_by' &&
+                          filterChip.code !== 'transported_by' &&
+                          filterChip.code !== 'stocker_upload' &&
+                          filterChip.code !== 'workers'"
+          (removed)="removeFilterChip(filterChip)">
+          {{filterChip.name}}: {{filterChip.value}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+      </ng-container>
+    </mat-chip-set>
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('id')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'id', 'desc': ordenarTipo === 'desc' && columna === 'id'}">
+          <strong>ID</strong><span></span>
+        </th>
+        <tr>
+          <td mat-cell *matCellDef="let element">{{element.id | number}}</td>
+        </tr>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('email')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'email', 'desc': ordenarTipo === 'desc' && columna === 'email'}">
+          <strong>{{'table_volunteers_header_email' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.email}}</td>
+      </ng-container>
+      <ng-container matColumnDef="firstname">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('firstname')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'firstname', 'desc': ordenarTipo === 'desc' && columna === 'firstname'}">
+          <strong>{{'table_volunteers_header_firstname' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.firstname}}</td>
+      </ng-container>
+      <ng-container matColumnDef="lastname">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('lastname')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'lastname', 'desc': ordenarTipo === 'desc' && columna === 'lastname'}">
+          <strong>{{'table_volunteers_header_lastname' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.lastname}}</td>
+      </ng-container>
+      <ng-container matColumnDef="location">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('location')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'location', 'desc': ordenarTipo === 'desc' && columna === 'location'}">
+          <strong>{{'table_volunteers_header_location' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.location}}</td>
+      </ng-container>
+      <ng-container matColumnDef="gender">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('gender')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'gender', 'desc': ordenarTipo === 'desc' && columna === 'gender'}">
+          <strong>{{'table_volunteers_header_gender' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.gender}}</td>
+      </ng-container>
+      <ng-container matColumnDef="ethnicity">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('ethnicity')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'ethnicity', 'desc': ordenarTipo === 'desc' && columna === 'ethnicity'}">
+          <strong>{{'table_volunteers_header_ethnicity' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.ethnicity}}</td>
+      </ng-container>
+      <ng-container matColumnDef="creation_date">
+        <th mat-header-cell *matHeaderCellDef (click)="updateOrder('creation_date')"
+          [ngClass]="{'asc': ordenarTipo === 'asc' && columna === 'creation_date', 'desc': ordenarTipo === 'desc' && columna === 'creation_date'}">
+          <strong>{{'table_volunteers_header_creation_date' | translate }}</strong><span></span>
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.creation_date}}</td>
+      </ng-container>
+      <ng-container matColumnDef=" ">
+        <th mat-header-cell *matHeaderCellDef><strong></strong></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" class="menu-tabla">
+            <button mat-menu-item class="boton-usuario-desplegado" [routerLink]="['/view/volunteer',element.id]">
+              <mat-icon>visibility</mat-icon>
+              <span>{{'table_volunteers_row_button_view' | translate }}</span>
+            </button>
+            <button mat-menu-item class="boton-usuario-desplegado">
+              <mat-icon>delete</mat-icon>
+              <span>{{'table_volunteers_row_button_delete' | translate }}</span>
+            </button>
+
+          </mat-menu>
+        </td>
+      </ng-container>
+      <tr mat-header-row class="table-header-row" *matHeaderRowDef="columns">
+      </tr>
+      <tr mat-row class="hover-effect" *matRowDef="let row; columns: columns;"></tr>
+
+    </table>
+
+    <mat-paginator class="paginador" #paginator [length]="totalItems" [pageIndex]="pagina" [pageSize]="10"
+      [pageSizeOptions]="[10]" (page)="updatePage($event)" aria-label="Seleccione una página">
+    </mat-paginator>
+  </section>
+</div>

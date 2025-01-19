@@ -165,7 +165,7 @@ export class MetricsFiltersComponent implements OnInit {
       array_api.push(this.getProductTypes(this.translate.currentLang));
       keys_available.push('product_types');
     }
-    if (this.origin == 'table-user' || this.origin == 'table-participant') {
+    if (this.origin == 'table-user' || this.origin == 'table-participant' || this.origin == 'table-volunteer') {
       array_api.push(this.getGender(this.translate.currentLang));
       array_api.push(this.getEthnicity(this.translate.currentLang));
       keys_available.push('genders');

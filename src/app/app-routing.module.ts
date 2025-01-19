@@ -53,6 +53,8 @@ import { VoluntarioRegistroComponent } from './components/registro/voluntario-re
 import { ViewTransportedByComponent } from './components/view/view-transported-by/view-transported-by.component';
 import { NewTransportedByComponent } from './components/new/new-transported-by/new-transported-by.component';
 import { TableTransportedByComponent } from './components/tables/transported-by/table-transported-by.component';
+import { TableVolunteerComponent } from './components/tables/table-volunteer/table-volunteer.component';
+import { ViewVolunteerComponent } from './components/view/view-volunteer/view-volunteer.component';
 
 const routes: Routes = [
   { path: 'survey', component: SurveyComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
@@ -68,6 +70,7 @@ const routes: Routes = [
   { path: 'view/notification/:id', component: ViewNotificationComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/product/:id', component: ViewProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'opsmanager', 'director']} },
   { path: 'view/ticket/:id', component: ViewTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'opsmanager', 'director', 'stocker', 'auditor']} },
+  { path: 'view/volunteer/:id', component: ViewVolunteerComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'view/user/:id', component: ViewUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
   { path: 'view/worker/:id', component: ViewWorkerComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'opsmanager', 'director']} },
   { path: 'edit/ticket/:id', component: StockerHomeComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'stocker', 'auditor']} },
@@ -104,6 +107,7 @@ const routes: Routes = [
   { path: 'table/provider', component: TableProviderComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/ticket', component: TableTicketComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'opsmanager', 'director', 'stocker', 'auditor']} },
   { path: 'table/worker', component: TableWorkerComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'opsmanager', 'director']} },
+  { path: 'table/volunteer', component: TableVolunteerComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/user', component: TableUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'table/user/:search', component: TableUserComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client']} },
   { path: 'metrics/product', component: MetricsProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'director', 'auditor']} },
