@@ -16,6 +16,7 @@ import { ViewTicket } from 'src/app/models/view/view-ticket';
 import { ViewTicketImage } from 'src/app/models/view/view-ticket-image';
 import { ViewTransportedBy } from 'src/app/models/view/view-transported-by';
 import { ViewUser } from 'src/app/models/view/view-user';
+import { ViewVolunteer } from 'src/app/models/view/view-volunteer';
 import { ViewWorkerTable } from 'src/app/models/view/view-worker/view-worker-table';
 import { environment } from 'src/environments/environment';
 
@@ -104,5 +105,13 @@ export class ViewService {
 
   getImagesTicket(idTicket: string){
     return this.http.get<ViewTicketImage[]>(`${environment.url_api}/view/ticket/images/${idTicket}`);
+  }
+
+  getViewVolunteer(idVolunteer: string, language: string){
+    return this.http.get<ViewVolunteer>(`${environment.url_api}/view/volunteer/${idVolunteer}?language=${language}`)
+  }
+
+  getImagesVolunteer(idVolunteer: string){
+    return this.http.get<ViewTicketImage[]>(`${environment.url_api}/view/volunteer/images/${idVolunteer}`);
   }
 }

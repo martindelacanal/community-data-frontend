@@ -1,1 +1,87 @@
-<p>view-volunteer works!</p>
+<div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
+  <div class="container">
+    <section class="header">
+      <div class="header__title">
+        <h1 class="title">{{'view_volunteer_title' | translate }} {{idVolunteer}}</h1>
+        <mat-spinner *ngIf="loading || loadingImages" class="loading-tables" mode="indeterminate"
+          [diameter]="30"></mat-spinner>
+      </div>
+      <div>
+        <button id="tableButton" type="button" class="ui-button"
+          routerLink="/table/volunteer">{{'view_volunteer_button_volunteers' |
+          translate }}</button>
+      </div>
+    </section>
+    <section class="main">
+      <div class="ui-tarjeta ">
+
+        <div class="main_formulario">
+          <!-- email -->
+          <div class="card">
+            <mat-label><strong>{{'view_volunteer_email' | translate }}:</strong>
+              {{viewVolunteer.email}}</mat-label>
+          </div>
+          <!-- firstname -->
+          <div class="card">
+            <mat-label><strong>{{'view_volunteer_firstname' | translate }}:</strong>
+              {{viewVolunteer.firstname}}</mat-label>
+          </div>
+          <!-- lastname -->
+          <div class="card">
+            <mat-label><strong>{{'view_volunteer_lastname' | translate }}:</strong> {{viewVolunteer.lastname}}</mat-label>
+          </div>
+          <!-- date_of_birth -->
+          <div class="card">
+            <mat-label><strong>{{'view_volunteer_date_of_birth' | translate }}:</strong> {{viewVolunteer.date_of_birth}}</mat-label>
+          </div>
+          <!-- phone -->
+          <div class="card">
+            <mat-label><strong>{{'view_volunteer_phone' | translate }}:</strong> {{viewVolunteer.phone}}</mat-label>
+          </div>
+          <!-- zipcode -->
+          <div class="card">
+            <mat-label><strong>{{'view_volunteer_zipcode' | translate }}:</strong>
+              {{viewVolunteer.zipcode}}</mat-label>
+          </div>
+          <!-- location -->
+          <div class="card">
+            <mat-label><strong>{{'view_volunteer_location' | translate }}:</strong>
+              {{viewVolunteer.location}}</mat-label>
+          </div>
+          <!-- gender -->
+          <div class="card">
+            <mat-label><strong>{{'view_volunteer_gender' | translate }}:</strong>
+              {{viewVolunteer.gender}}</mat-label>
+          </div>
+          <!-- ethnicity -->
+          <div class="card">
+            <mat-label><strong>{{'view_volunteer_ethnicity' | translate }}:</strong>
+              {{viewVolunteer.ethnicity}}</mat-label>
+          </div>
+          <!-- other_ethnicity -->
+          <div class="card">
+            <mat-label><strong>{{'view_volunteer_other_ethnicity' | translate }}:</strong>
+              {{viewVolunteer.other_ethnicity}}</mat-label>
+          </div>
+          <!-- creation_date -->
+          <div class="card">
+            <mat-label><strong>{{'view_volunteer_creation_date' | translate }}:</strong>
+              {{viewVolunteer.creation_date}}</mat-label>
+          </div>
+          <!-- ticket_photo -->
+          <div class="card">
+            <!-- <div class="subir-archivo">
+                <span> -->
+            <mat-label><strong>{{'view_volunteer_images' | translate }}:</strong></mat-label>
+            <br><br>
+            <app-carousel [imagenes]="this.viewVolunteerImages"></app-carousel>
+            <!-- </span>
+              </div> -->
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>
