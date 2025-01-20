@@ -1,68 +1,170 @@
 <div [ngClass]="{'mobile': isMobile, 'tablet': isTablet}">
-<div class="container">
-  <div *ngIf="isMobile || isTablet" class="tarjetas-movil-tablet">
-    <article class="tarjeta-slider">
-      <div class="ui-tarjeta">
-        <div class="ui-tarjeta__header">
-          {{'dashboard_admin_pounds_delivered' | translate }}
+  <div class="container">
+    <div *ngIf="isMobile || isTablet" class="tarjetas-movil-tablet">
+      <article class="tarjeta-slider">
+        <div class="ui-tarjeta">
+          <div class="ui-tarjeta__header">
+            {{'dashboard_admin_pounds_delivered' | translate }}
+          </div>
+          <div class="ui-tarjeta__footer">
+            <img src="../../../../assets/icons/campanias-activas.svg" alt="Icono de campañas activas">
+            <span>{{poundsDelivered | number}}</span>
+          </div>
         </div>
-        <div class="ui-tarjeta__footer">
-          <img src="../../../../assets/icons/campanias-activas.svg" alt="Icono de campañas activas">
-          <span>{{poundsDelivered | number}}</span>
+      </article>
+      <article class="tarjeta-slider">
+        <div class="ui-tarjeta">
+          <div class="ui-tarjeta__header">
+            {{'dashboard_admin_total_locations' | translate }}
+          </div>
+          <div class="ui-tarjeta__footer">
+            <img src="../../../../assets/icons/misiones-disponibles.svg" alt="Icono de misiones disponibles">
+            <span>{{totalLocations | number}}</span>
+          </div>
         </div>
-      </div>
-    </article>
-    <article class="tarjeta-slider">
-      <div class="ui-tarjeta">
-        <div class="ui-tarjeta__header">
-          {{'dashboard_admin_total_locations' | translate }}
+      </article>
+      <article class="tarjeta-slider">
+        <div class="ui-tarjeta">
+          <div class="ui-tarjeta__header">
+            {{ (usuario.role === 'admin' || usuario.role === 'director' ? 'dashboard_admin_days_operation' :
+            'dashboard_admin_household_size_average') | translate }}
+          </div>
+          <div class="ui-tarjeta__footer">
+            <img
+              [src]="usuario.role === 'admin' || usuario.role === 'director' ? '../../../../assets/icons/revisar-misiones.svg' : '../../../../assets/icons/clientes.svg'"
+              alt="Icono de revisar misiones">
+            <span>{{(usuario.role === 'admin' || usuario.role === 'director' ? totalDaysOperation : houseHoldSizeAverage
+              ) | number}}</span>
+          </div>
         </div>
-        <div class="ui-tarjeta__footer">
-          <img src="../../../../assets/icons/misiones-disponibles.svg" alt="Icono de misiones disponibles">
-          <span>{{totalLocations | number}}</span>
-        </div>
-      </div>
-    </article>
-    <article class="tarjeta-slider">
-      <div class="ui-tarjeta">
-        <div class="ui-tarjeta__header">
-          {{ (usuario.role === 'admin' || usuario.role === 'director' ? 'dashboard_admin_days_operation' : 'dashboard_admin_household_size_average') | translate }}
-        </div>
-        <div class="ui-tarjeta__footer">
-          <img [src]="usuario.role === 'admin' || usuario.role === 'director' ? '../../../../assets/icons/revisar-misiones.svg' : '../../../../assets/icons/clientes.svg'" alt="Icono de revisar misiones">
-          <span>{{(usuario.role === 'admin' || usuario.role === 'director' ? totalDaysOperation : houseHoldSizeAverage ) | number}}</span>
-        </div>
-      </div>
-    </article>
-    <article class="tarjeta-slider">
-      <div class="ui-tarjeta">
-        <div class="ui-tarjeta__header">
-          <!-- {{'dashboard_admin_number_stockists' | translate }} -->
-          {{'dashboard_admin_beneficiaries' | translate }}
-        </div>
-        <div class="ui-tarjeta__footer">
-          <!-- <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
+      </article>
+      <article class="tarjeta-slider">
+        <div class="ui-tarjeta">
+          <div class="ui-tarjeta__header">
+            <!-- {{'dashboard_admin_number_stockists' | translate }} -->
+            {{'dashboard_admin_beneficiaries' | translate }}
+          </div>
+          <div class="ui-tarjeta__footer">
+            <!-- <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
           <span>{{totalStockers}}</span> -->
-          <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
-          <span>{{totalBeneficiaries | number}}</span>
+            <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
+            <span>{{totalBeneficiaries | number}}</span>
+          </div>
         </div>
+      </article>
+      <article class="tarjeta-slider">
+        <div class="ui-tarjeta">
+          <div class="ui-tarjeta__header">
+            <!-- {{'dashboard_admin_delivery_people' | translate }} -->
+            {{ (usuario.role === 'admin' || usuario.role === 'director' ? 'dashboard_admin_beneficiaries_served' :
+            'dashboard_admin_without_health_insurance') | translate }}
+          </div>
+          <div class="ui-tarjeta__footer">
+            <!-- <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
+          <span>{{totalDeliveries}}</span> -->
+            <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
+            <span>{{usuario.role === 'admin' || usuario.role === 'director' ? totalBeneficiariesServed :
+              totalBeneficiariesWithoutHealthInsurance}}%</span>
+          </div>
+        </div>
+      </article>
+      <article class="tarjeta-slider">
+        <div class="ui-tarjeta">
+          <div class="ui-tarjeta__header">
+            {{'dashboard_admin_registered_beneficiaries_today' | translate }}
+          </div>
+          <div class="ui-tarjeta__footer">
+            <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
+            <span>{{totalBeneficiariesRegisteredToday | number}}</span>
+          </div>
+        </div>
+      </article>
+      <article class="tarjeta-slider">
+        <div class="ui-tarjeta">
+          <div class="ui-tarjeta__header">
+            <p>{{'dashboard_admin_recurring_beneficiaries_today' | translate }}</p>
+            <p>{{'dashboard_admin_recurring_beneficiaries_today_scanned_not_scanned' | translate }}</p>
+          </div>
+          <div class="ui-tarjeta__footer">
+            <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
+            <span>{{totalBeneficiariesRecurringTodayScanned | number}} / {{totalBeneficiariesRecurringTodayNotScanned | number}}</span>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div *ngIf="!isMobile && !isTablet" class="tarjeta-principal">
+      <div class="ui-tarjeta">
+        <section>
+          <div class="ui-tarjeta__header">
+            {{'dashboard_admin_pounds_delivered' | translate }}
+          </div>
+          <div class="ui-tarjeta__footer">
+            <img src="../../../../assets/icons/campanias-activas.svg" alt="Icono de campañas activas">
+            <span>{{poundsDelivered | number}}</span>
+          </div>
+        </section>
+        <div class="ui-separator-vertical"></div>
+        <section>
+          <div class="ui-tarjeta__header">
+            {{'dashboard_admin_total_locations' | translate }}
+          </div>
+          <div class="ui-tarjeta__footer">
+            <img src="../../../../assets/icons/misiones-disponibles.svg" alt="Icono de misiones disponibles">
+            <span>{{totalLocations | number}}</span>
+          </div>
+        </section>
+        <div class="ui-separator-vertical"></div>
+        <section>
+          <div class="ui-tarjeta__header">
+            {{ (usuario.role === 'admin' || usuario.role === 'director' ? 'dashboard_admin_days_operation' :
+            'dashboard_admin_household_size_average') | translate }}
+          </div>
+          <div class="ui-tarjeta__footer">
+            <img
+              [src]="usuario.role === 'admin' || usuario.role === 'director' ? '../../../../assets/icons/revisar-misiones.svg' : '../../../../assets/icons/clientes.svg'"
+              alt="Icono de revisar misiones">
+            <span>{{(usuario.role === 'admin' || usuario.role === 'director' ? totalDaysOperation : houseHoldSizeAverage
+              ) | number}}</span>
+          </div>
+        </section>
+        <div class="ui-separator-vertical"></div>
+        <section>
+          <div class="ui-tarjeta__header">
+            <!-- {{'dashboard_admin_number_stockists' | translate }} -->
+            {{'dashboard_admin_beneficiaries' | translate }}
+          </div>
+          <div class="ui-tarjeta__footer">
+            <!-- <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
+          <span>{{totalStockers}}</span> -->
+            <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
+            <span>{{totalBeneficiaries | number}}</span>
+          </div>
+        </section>
       </div>
-    </article>
-    <article class="tarjeta-slider">
+    </div>
+    <div class="mapa">
+      <div class="ui-tarjeta">
+        <app-mapa-dashboard-home [locationsEnabled]="this.locationsEnabled"
+          [fullLocationsMap]="true"></app-mapa-dashboard-home>
+      </div>
+    </div>
+    <div *ngIf="!isMobile && !isTablet" class="ditors-activos">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
           <!-- {{'dashboard_admin_delivery_people' | translate }} -->
-          {{ (usuario.role === 'admin' || usuario.role === 'director' ? 'dashboard_admin_beneficiaries_served' : 'dashboard_admin_without_health_insurance') | translate }}
+          {{ (usuario.role === 'admin' || usuario.role === 'director' ? 'dashboard_admin_beneficiaries_served' :
+          'dashboard_admin_without_health_insurance') | translate }}
         </div>
         <div class="ui-tarjeta__footer">
           <!-- <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
-          <span>{{totalDeliveries}}</span> -->
+        <span>{{totalDeliveries}}</span> -->
           <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
-          <span>{{usuario.role === 'admin' || usuario.role === 'director' ? totalBeneficiariesServed : totalBeneficiariesWithoutHealthInsurance}}%</span>
+          <span>{{usuario.role === 'admin' || usuario.role === 'director' ? totalBeneficiariesServed :
+            totalBeneficiariesWithoutHealthInsurance}}%</span>
         </div>
       </div>
-    </article>
-    <article class="tarjeta-slider">
+    </div>
+    <div *ngIf="!isMobile && !isTablet" class="clientes-activos">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
           {{'dashboard_admin_registered_beneficiaries_today' | translate }}
@@ -72,249 +174,179 @@
           <span>{{totalBeneficiariesRegisteredToday | number}}</span>
         </div>
       </div>
-    </article>
-    <article class="tarjeta-slider">
+    </div>
+    <div *ngIf="!isMobile && !isTablet" class="clientes-activos-porcentaje">
       <div class="ui-tarjeta">
         <div class="ui-tarjeta__header">
-          {{'dashboard_admin_recurring_beneficiaries_today' | translate }}
+          <p>{{'dashboard_admin_recurring_beneficiaries_today' | translate }}</p>
+          <p>{{'dashboard_admin_recurring_beneficiaries_today_scanned_not_scanned' | translate }}</p>
         </div>
         <div class="ui-tarjeta__footer">
           <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
-          <span>{{totalBeneficiariesRecurringToday | number}}</span>
+          <span>{{totalBeneficiariesRecurringTodayScanned | number}} / {{totalBeneficiariesRecurringTodayNotScanned | number}}</span>
         </div>
-      </div>
-    </article>
-  </div>
-  <div *ngIf="!isMobile && !isTablet" class="tarjeta-principal">
-    <div class="ui-tarjeta">
-      <section>
-        <div class="ui-tarjeta__header">
-          {{'dashboard_admin_pounds_delivered' | translate }}
-        </div>
-        <div class="ui-tarjeta__footer">
-          <img src="../../../../assets/icons/campanias-activas.svg" alt="Icono de campañas activas">
-          <span>{{poundsDelivered | number}}</span>
-        </div>
-      </section>
-      <div class="ui-separator-vertical"></div>
-      <section>
-        <div class="ui-tarjeta__header">
-          {{'dashboard_admin_total_locations' | translate }}
-        </div>
-        <div class="ui-tarjeta__footer">
-          <img src="../../../../assets/icons/misiones-disponibles.svg" alt="Icono de misiones disponibles">
-          <span>{{totalLocations | number}}</span>
-        </div>
-      </section>
-      <div class="ui-separator-vertical"></div>
-      <section>
-        <div class="ui-tarjeta__header">
-          {{ (usuario.role === 'admin' || usuario.role === 'director' ? 'dashboard_admin_days_operation' : 'dashboard_admin_household_size_average') | translate }}
-        </div>
-        <div class="ui-tarjeta__footer">
-          <img [src]="usuario.role === 'admin' || usuario.role === 'director' ? '../../../../assets/icons/revisar-misiones.svg' : '../../../../assets/icons/clientes.svg'" alt="Icono de revisar misiones">
-          <span>{{(usuario.role === 'admin' || usuario.role === 'director' ? totalDaysOperation : houseHoldSizeAverage ) | number}}</span>
-        </div>
-      </section>
-      <div class="ui-separator-vertical"></div>
-      <section>
-        <div class="ui-tarjeta__header">
-          <!-- {{'dashboard_admin_number_stockists' | translate }} -->
-          {{'dashboard_admin_beneficiaries' | translate }}
-        </div>
-        <div class="ui-tarjeta__footer">
-          <!-- <img src="../../../../assets/icons/campanias-en-preparacion.svg" alt="Icono de campanias en preparacion">
-          <span>{{totalStockers}}</span> -->
-          <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
-        <span>{{totalBeneficiaries | number}}</span>
-        </div>
-      </section>
-    </div>
-  </div>
-  <div class="mapa">
-    <div class="ui-tarjeta">
-      <app-mapa-dashboard-home [locationsEnabled]="this.locationsEnabled" [fullLocationsMap]="true"></app-mapa-dashboard-home>
-    </div>
-  </div>
-  <div *ngIf="!isMobile && !isTablet" class="ditors-activos">
-    <div class="ui-tarjeta">
-      <div class="ui-tarjeta__header">
-        <!-- {{'dashboard_admin_delivery_people' | translate }} -->
-        {{ (usuario.role === 'admin' || usuario.role === 'director' ? 'dashboard_admin_beneficiaries_served' : 'dashboard_admin_without_health_insurance') | translate }}
-      </div>
-      <div class="ui-tarjeta__footer">
-        <!-- <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
-        <span>{{totalDeliveries}}</span> -->
-        <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
-        <span>{{usuario.role === 'admin' || usuario.role === 'director' ? totalBeneficiariesServed : totalBeneficiariesWithoutHealthInsurance}}%</span>
       </div>
     </div>
-  </div>
-  <div *ngIf="!isMobile && !isTablet" class="clientes-activos">
-    <div class="ui-tarjeta">
-      <div class="ui-tarjeta__header">
-        {{'dashboard_admin_registered_beneficiaries_today' | translate }}
-      </div>
-      <div class="ui-tarjeta__footer">
-        <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
-        <span>{{totalBeneficiariesRegisteredToday | number}}</span>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="!isMobile && !isTablet" class="clientes-activos-porcentaje">
-    <div class="ui-tarjeta">
-      <div class="ui-tarjeta__header">
-        {{'dashboard_admin_recurring_beneficiaries_today' | translate }}
-      </div>
-      <div class="ui-tarjeta__footer">
-        <img src="../../../../assets/icons/ditors.svg" alt="Icono de ditors">
-        <span>{{totalBeneficiariesRecurringToday | number}}</span>
-      </div>
-    </div>
-  </div>
-  <div class="graficos">
-    <div class="ui-tarjeta">
-      <div class="graficos__header">
-        <a class="graficos__boton-header" (click)="selectTab('pounds')">
-          <div class="ui-separator-horizontal"
-            [ngClass]="{'graficos__separator--activado': selectedTab === 'pounds'}"></div>
-          <div class="graficos__boton-header__contenedor">
-            <div class="graficos__tab-nombre">{{'dashboard_admin_tab_title_pounds' | translate }}</div>
-            <!-- <div class="graficos__tab-numero">{{formattedChartDataClientes[0].series[0].value}}</div> -->
-            <!-- <div class="graficos__tab-numero-chico" [ngClass]="clientesPositivo ? 'positivo' : 'negativo'">+1</div> -->
-          </div>
-        </a>
-        <a class="graficos__boton-header" (click)="selectTab('locationsWorking') " >
-          <div class="ui-separator-horizontal" [ngClass]="{'graficos__separator--activado': selectedTab === 'locationsWorking'}">
-          </div>
-          <div class="graficos__boton-header__contenedor">
-            <div class="graficos__tab-nombre">{{'dashboard_admin_tab_title_locations_working' | translate }}</div>
-            <!-- <div class="graficos__tab-numero">{{formattedChartDataDitors[0].series[0].value}}</div> -->
-            <!-- <div class="graficos__tab-numero-chico" [ngClass]="ditorsPositivo ? 'positivo' : 'negativo'"></div> -->
-          </div>
-        </a>
-        <a class="graficos__boton-header" (click)="selectTab('operations')">
-          <div class="ui-separator-horizontal"
-            [ngClass]="{'graficos__separator--activado': selectedTab === 'operations'}"></div>
-          <div class="graficos__boton-header__contenedor">
-            <div class="graficos__tab-nombre">{{'dashboard_admin_tab_title_operations' | translate }}</div>
-            <!-- <div class="graficos__tab-numero">{{formattedChartDataMisiones[0].series[0].value}}</div> -->
-            <!-- <div class="graficos__tab-numero-chico" [ngClass]="misionesPositivo ? 'positivo' : 'negativo'">+1</div> -->
-          </div>
-        </a>
-        <a class="graficos__boton-header" (click)="selectTab('beneficiaries')">
-          <div class="ui-separator-horizontal"
-            [ngClass]="{'graficos__separator--activado': selectedTab === 'beneficiaries'}"></div>
-          <div class="graficos__boton-header__contenedor">
-            <div class="graficos__tab-nombre" *ngIf="usuario.role === 'admin' || usuario.role === 'director'">{{'dashboard_admin_tab_title_beneficiaries_registered' | translate }}</div>
-            <div class="graficos__tab-nombre" *ngIf="usuario.role === 'client'">{{'dashboard_admin_tab_title_beneficiaries_registered_client' | translate }}</div>
-            <!-- <div class="graficos__tab-numero">{{formattedChartDataComercios[0].series[0].value}}</div> -->
-            <!-- <div class="graficos__tab-numero-chico" [ngClass]="comerciosPositivo ? 'positivo' : 'negativo'">-8</div> -->
-          </div>
-        </a>
-      </div>
-      <div class="graficos__tabs-container">
-        <div class="tab" *ngIf="selectedTab === 'pounds'" >
-          <div class="center-content">
-            <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"  [dataGraficos]="this.formattedChartDataClientes"></app-grafico-linea-dashboard-home> -->
-            <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
-          </div>
+    <div class="graficos">
+      <div class="ui-tarjeta">
+        <div class="graficos__header">
+          <a class="graficos__boton-header" (click)="selectTab('pounds')">
+            <div class="ui-separator-horizontal"
+              [ngClass]="{'graficos__separator--activado': selectedTab === 'pounds'}"></div>
+            <div class="graficos__boton-header__contenedor">
+              <div class="graficos__tab-nombre">{{'dashboard_admin_tab_title_pounds' | translate }}</div>
+              <!-- <div class="graficos__tab-numero">{{formattedChartDataClientes[0].series[0].value}}</div> -->
+              <!-- <div class="graficos__tab-numero-chico" [ngClass]="clientesPositivo ? 'positivo' : 'negativo'">+1</div> -->
+            </div>
+          </a>
+          <a class="graficos__boton-header" (click)="selectTab('locationsWorking') ">
+            <div class="ui-separator-horizontal"
+              [ngClass]="{'graficos__separator--activado': selectedTab === 'locationsWorking'}">
+            </div>
+            <div class="graficos__boton-header__contenedor">
+              <div class="graficos__tab-nombre">{{'dashboard_admin_tab_title_locations_working' | translate }}</div>
+              <!-- <div class="graficos__tab-numero">{{formattedChartDataDitors[0].series[0].value}}</div> -->
+              <!-- <div class="graficos__tab-numero-chico" [ngClass]="ditorsPositivo ? 'positivo' : 'negativo'"></div> -->
+            </div>
+          </a>
+          <a class="graficos__boton-header" (click)="selectTab('operations')">
+            <div class="ui-separator-horizontal"
+              [ngClass]="{'graficos__separator--activado': selectedTab === 'operations'}"></div>
+            <div class="graficos__boton-header__contenedor">
+              <div class="graficos__tab-nombre">{{'dashboard_admin_tab_title_operations' | translate }}</div>
+              <!-- <div class="graficos__tab-numero">{{formattedChartDataMisiones[0].series[0].value}}</div> -->
+              <!-- <div class="graficos__tab-numero-chico" [ngClass]="misionesPositivo ? 'positivo' : 'negativo'">+1</div> -->
+            </div>
+          </a>
+          <a class="graficos__boton-header" (click)="selectTab('beneficiaries')">
+            <div class="ui-separator-horizontal"
+              [ngClass]="{'graficos__separator--activado': selectedTab === 'beneficiaries'}"></div>
+            <div class="graficos__boton-header__contenedor">
+              <div class="graficos__tab-nombre" *ngIf="usuario.role === 'admin' || usuario.role === 'director'">
+                {{'dashboard_admin_tab_title_beneficiaries_registered' | translate }}</div>
+              <div class="graficos__tab-nombre" *ngIf="usuario.role === 'client'">
+                {{'dashboard_admin_tab_title_beneficiaries_registered_client' | translate }}</div>
+              <!-- <div class="graficos__tab-numero">{{formattedChartDataComercios[0].series[0].value}}</div> -->
+              <!-- <div class="graficos__tab-numero-chico" [ngClass]="comerciosPositivo ? 'positivo' : 'negativo'">-8</div> -->
+            </div>
+          </a>
         </div>
-        <div class="tab" *ngIf="selectedTab === 'locationsWorking'">
-          <div class="center-content">
-            <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataDitors"></app-grafico-linea-dashboard-home> -->
-            <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
+        <div class="graficos__tabs-container">
+          <div class="tab" *ngIf="selectedTab === 'pounds'">
+            <div class="center-content">
+              <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"  [dataGraficos]="this.formattedChartDataClientes"></app-grafico-linea-dashboard-home> -->
+              <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
+            </div>
           </div>
-        </div>
-        <div class="tab" *ngIf="selectedTab === 'operations'">
-          <div class="center-content">
-            <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataMisiones"></app-grafico-linea-dashboard-home> -->
-            <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
+          <div class="tab" *ngIf="selectedTab === 'locationsWorking'">
+            <div class="center-content">
+              <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataDitors"></app-grafico-linea-dashboard-home> -->
+              <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
+            </div>
           </div>
-        </div>
-        <div class="tab" *ngIf="selectedTab === 'beneficiaries'">
-          <div class="center-content">
-            <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataComercios"></app-grafico-linea-dashboard-home> -->
-            <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
+          <div class="tab" *ngIf="selectedTab === 'operations'">
+            <div class="center-content">
+              <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataMisiones"></app-grafico-linea-dashboard-home> -->
+              <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
+            </div>
+          </div>
+          <div class="tab" *ngIf="selectedTab === 'beneficiaries'">
+            <div class="center-content">
+              <!-- <app-grafico-linea-dashboard-home [selectedTab]="selectedTab" [dataGraficos]="this.formattedChartDataComercios"></app-grafico-linea-dashboard-home> -->
+              <app-grafico-linea-dashboard-home [selectedTab]="selectedTab"></app-grafico-linea-dashboard-home>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="misiones-activas">
-    <div class="ui-tarjeta">
-      <header>{{'dashboard_admin_tables_title' | translate }}</header>
-      <main>
-        <div class="misiones-activas__fila" *ngIf="usuario.role === 'admin' || usuario.role === 'client'">
-          <div class="misiones-activas__fila__header">{{totalEnabledUsers | number}}</div>
-          <div class="misiones-activas__fila__footer">
-            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_enabled_users' | translate }}</div>
-            <div class="misiones-activas__derecha">
-              <a class="ui-link" routerLink="/table/user/" *ngIf="usuario.role === 'admin'">{{'dashboard_admin_tables_enabled_users_view' | translate }}</a>
-              <a class="ui-link" [routerLink]="['/table/user', 'client']" *ngIf="usuario.role === 'client'">{{'dashboard_admin_tables_enabled_users_view' | translate }}</a>
+    <div class="misiones-activas">
+      <div class="ui-tarjeta">
+        <header>{{'dashboard_admin_tables_title' | translate }}</header>
+        <main>
+          <div class="misiones-activas__fila" *ngIf="usuario.role === 'admin' || usuario.role === 'client'">
+            <div class="misiones-activas__fila__header">{{totalEnabledUsers | number}}</div>
+            <div class="misiones-activas__fila__footer">
+              <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_enabled_users' | translate }}</div>
+              <div class="misiones-activas__derecha">
+                <a class="ui-link" routerLink="/table/user/"
+                  *ngIf="usuario.role === 'admin'">{{'dashboard_admin_tables_enabled_users_view' | translate }}</a>
+                <a class="ui-link" [routerLink]="['/table/user', 'client']"
+                  *ngIf="usuario.role === 'client'">{{'dashboard_admin_tables_enabled_users_view' | translate }}</a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="misiones-activas__fila" *ngIf="usuario.role === 'admin' || usuario.role === 'client'">
-          <div class="misiones-activas__fila__header">{{totalBeneficiariesQualified | number}}</div>
-          <div class="misiones-activas__fila__footer">
-            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_qualified_beneficiaries' | translate }}</div>
-            <div class="misiones-activas__derecha">
-              <a class="ui-link" [routerLink]="['/table/user', 'beneficiary']">{{'dashboard_admin_tables_qualified_beneficiaries_view' | translate }}</a>
+          <div class="misiones-activas__fila" *ngIf="usuario.role === 'admin' || usuario.role === 'client'">
+            <div class="misiones-activas__fila__header">{{totalBeneficiariesQualified | number}}</div>
+            <div class="misiones-activas__fila__footer">
+              <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_qualified_beneficiaries' | translate }}
+              </div>
+              <div class="misiones-activas__derecha">
+                <a class="ui-link"
+                  [routerLink]="['/table/user', 'beneficiary']">{{'dashboard_admin_tables_qualified_beneficiaries_view'
+                  | translate }}</a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="misiones-activas__fila" *ngIf="usuario.role === 'admin'">
-          <div class="misiones-activas__fila__header">{{totalClients | number}}</div>
-          <div class="misiones-activas__fila__footer">
-            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_clients' | translate }}</div>
-            <div class="misiones-activas__derecha">
-              <a class="ui-link" [routerLink]="['/table/user', 'client']">{{'dashboard_admin_tables_clients_view' | translate }}</a>
+          <div class="misiones-activas__fila" *ngIf="usuario.role === 'admin'">
+            <div class="misiones-activas__fila__header">{{totalClients | number}}</div>
+            <div class="misiones-activas__fila__footer">
+              <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_clients' | translate }}</div>
+              <div class="misiones-activas__derecha">
+                <a class="ui-link" [routerLink]="['/table/user', 'client']">{{'dashboard_admin_tables_clients_view' |
+                  translate }}</a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="misiones-activas__fila" *ngIf="(seeMore && usuario.role === 'admin') || usuario.role === 'director'">
-          <div class="misiones-activas__fila__header">{{totalTicketsUploaded | number}}</div>
-          <div class="misiones-activas__fila__footer">
-            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_tickets_uploaded' | translate }}</div>
-            <div class="misiones-activas__derecha">
-              <a class="ui-link" routerLink="/table/ticket">{{'dashboard_admin_tables_tickets_uploaded_view' | translate }}</a>
+          <div class="misiones-activas__fila"
+            *ngIf="(seeMore && usuario.role === 'admin') || usuario.role === 'director'">
+            <div class="misiones-activas__fila__header">{{totalTicketsUploaded | number}}</div>
+            <div class="misiones-activas__fila__footer">
+              <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_tickets_uploaded' | translate }}</div>
+              <div class="misiones-activas__derecha">
+                <a class="ui-link" routerLink="/table/ticket">{{'dashboard_admin_tables_tickets_uploaded_view' |
+                  translate }}</a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="misiones-activas__fila" *ngIf="seeMore || usuario.role === 'client' || usuario.role === 'director'">
-          <div class="misiones-activas__fila__header">{{totalLocationsEnabled | number}}</div>
-          <div class="misiones-activas__fila__footer">
-            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_locations' | translate }}</div>
-            <div class="misiones-activas__derecha">
-              <a class="ui-link" routerLink="/table/location">{{'dashboard_admin_tables_locations_view' | translate }}</a>
+          <div class="misiones-activas__fila"
+            *ngIf="seeMore || usuario.role === 'client' || usuario.role === 'director'">
+            <div class="misiones-activas__fila__header">{{totalLocationsEnabled | number}}</div>
+            <div class="misiones-activas__fila__footer">
+              <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_locations' | translate }}</div>
+              <div class="misiones-activas__derecha">
+                <a class="ui-link" routerLink="/table/location">{{'dashboard_admin_tables_locations_view' | translate
+                  }}</a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="misiones-activas__fila" *ngIf="seeMore || usuario.role === 'director'">
-          <div class="misiones-activas__fila__header">{{totalProductsUploaded | number}}</div>
-          <div class="misiones-activas__fila__footer">
-            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_products' | translate }}</div>
-            <div class="misiones-activas__derecha">
-              <a class="ui-link" routerLink="/table/product">{{'dashboard_admin_tables_products_view' | translate }}</a>
+          <div class="misiones-activas__fila" *ngIf="seeMore || usuario.role === 'director'">
+            <div class="misiones-activas__fila__header">{{totalProductsUploaded | number}}</div>
+            <div class="misiones-activas__fila__footer">
+              <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_products' | translate }}</div>
+              <div class="misiones-activas__derecha">
+                <a class="ui-link" routerLink="/table/product">{{'dashboard_admin_tables_products_view' | translate
+                  }}</a>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="misiones-activas__fila" *ngIf="seeMore && usuario.role === 'admin'">
-          <div class="misiones-activas__fila__header">{{totalDelivered | number}}</div>
-          <div class="misiones-activas__fila__footer">
-            <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_delivered' | translate }}</div>
-            <div class="misiones-activas__derecha">
-              <a class="ui-link" routerLink="/table/delivered">{{'dashboard_admin_tables_delivered_view' | translate }}</a>
+          <div class="misiones-activas__fila" *ngIf="seeMore && usuario.role === 'admin'">
+            <div class="misiones-activas__fila__header">{{totalDelivered | number}}</div>
+            <div class="misiones-activas__fila__footer">
+              <div class="misiones-activas__izquierda">{{'dashboard_admin_tables_delivered' | translate }}</div>
+              <div class="misiones-activas__derecha">
+                <a class="ui-link" routerLink="/table/delivered">{{'dashboard_admin_tables_delivered_view' | translate
+                  }}</a>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
-      <footer id="footer">
-        <button *ngIf="!seeMore && (usuario.role === 'admin' || usuario.role === 'client')" class="ui-button" (click)="toggleSeeMore()">{{'dashboard_admin_button_see_more' | translate }}</button>
-        <button *ngIf="seeMore && (usuario.role === 'admin' || usuario.role === 'client')" class="ui-button" (click)="toggleSeeMore()">{{'dashboard_admin_button_see_less' | translate }}</button>
-      </footer>
+        </main>
+        <footer id="footer">
+          <button *ngIf="!seeMore && (usuario.role === 'admin' || usuario.role === 'client')" class="ui-button"
+            (click)="toggleSeeMore()">{{'dashboard_admin_button_see_more' | translate }}</button>
+          <button *ngIf="seeMore && (usuario.role === 'admin' || usuario.role === 'client')" class="ui-button"
+            (click)="toggleSeeMore()">{{'dashboard_admin_button_see_less' | translate }}</button>
+        </footer>
+      </div>
     </div>
   </div>
-</div>
 </div>

@@ -35,7 +35,8 @@ export class DashboardHomeComponent implements OnInit {
   totalBeneficiariesServed: number = 0;
   totalBeneficiariesWithoutHealthInsurance: number = 0;
   totalBeneficiariesRegisteredToday: number = 0;
-  totalBeneficiariesRecurringToday: number = 0;
+  totalBeneficiariesRecurringTodayScanned: number = 0;
+  totalBeneficiariesRecurringTodayNotScanned: number = 0;
   totalBeneficiariesQualified: number = 0;
   totalClients: number = 0;
   totalEnabledUsers: number = 0;
@@ -77,7 +78,8 @@ export class DashboardHomeComponent implements OnInit {
     this.getTotalBeneficiaries();
 
     this.getTotalBeneficiariesRegisteredToday();
-    this.getTotalBeneficiariesRecurringToday();
+    this.getTotalBeneficiariesRecurringTodayScanned();
+    this.getTotalBeneficiariesRecurringTodayNotScanned();
     this.getTotalBeneficiariesQualified();
     this.getTotalTicketsUploaded();
     this.getTotalLocationsEnabled();
@@ -189,10 +191,18 @@ export class DashboardHomeComponent implements OnInit {
     );
   }
 
-  private getTotalBeneficiariesRecurringToday() {
-    this.dashboardGeneralService.getTotalBeneficiariesRecurringToday().subscribe(
+  private getTotalBeneficiariesRecurringTodayScanned() {
+    this.dashboardGeneralService.getTotalBeneficiariesRecurringTodayScanned().subscribe(
       (res) => {
-        this.totalBeneficiariesRecurringToday = res;
+        this.totalBeneficiariesRecurringTodayScanned = res;
+      }
+    );
+  }
+
+  private getTotalBeneficiariesRecurringTodayNotScanned() {
+    this.dashboardGeneralService.getTotalBeneficiariesRecurringTodayNotScanned().subscribe(
+      (res) => {
+        this.totalBeneficiariesRecurringTodayNotScanned = res;
       }
     );
   }

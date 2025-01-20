@@ -266,6 +266,7 @@
   "dashboard_admin_without_health_insurance": "Participantes sin seguro médico",
   "dashboard_admin_registered_beneficiaries_today": "Participantes registrados hoy",
   "dashboard_admin_recurring_beneficiaries_today": "Participantes recurrentes hoy",
+  "dashboard_admin_recurring_beneficiaries_today_scanned_not_scanned": "(escaneado / no escaneado)",
   "dashboard_admin_tab_title_pounds": "Libras entregadas",
   "dashboard_admin_tab_title_operations": "Días de operación",
   "dashboard_admin_tab_title_locations_working": "Locaciones trabajando",

@@ -82,6 +82,11 @@
     margin-bottom: 16px;
     text-align: center;
     color: var(--texto-primario);
+
+    & p {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
   }
 
   & .ui-tarjeta__footer {
@@ -210,10 +215,11 @@
         font-size: 1.0rem;
         min-height: 10px;
 
-        &.positivo{
+        &.positivo {
           color: var(--estado-confirmacion);
         }
-        &.negativo{
+
+        &.negativo {
           color: var(--estado-error);
         }
       }

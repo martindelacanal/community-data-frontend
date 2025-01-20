@@ -60,8 +60,12 @@ export class DashboardGeneralService {
     return this.http.get<number>(`${environment.url_api}/total-beneficiaries-registered-today`);
   }
 
-  getTotalBeneficiariesRecurringToday() {
-    return this.http.get<number>(`${environment.url_api}/total-beneficiaries-recurring-today`);
+  getTotalBeneficiariesRecurringTodayScanned() {
+    return this.http.get<number>(`${environment.url_api}/total-beneficiaries-recurring-today-scanned`);
+  }
+
+  getTotalBeneficiariesRecurringTodayNotScanned() {
+    return this.http.get<number>(`${environment.url_api}/total-beneficiaries-recurring-today-not-scanned`);
   }
 
   getTotalBeneficiariesQualified() {
