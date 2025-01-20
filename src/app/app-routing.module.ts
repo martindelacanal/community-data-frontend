@@ -55,6 +55,7 @@ import { NewTransportedByComponent } from './components/new/new-transported-by/n
 import { TableTransportedByComponent } from './components/tables/transported-by/table-transported-by.component';
 import { TableVolunteerComponent } from './components/tables/table-volunteer/table-volunteer.component';
 import { ViewVolunteerComponent } from './components/view/view-volunteer/view-volunteer.component';
+import { MetricsVolunteerComponent } from './components/metrics/metrics-volunteer/metrics-volunteer.component';
 
 const routes: Routes = [
   { path: 'survey', component: SurveyComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
@@ -113,6 +114,7 @@ const routes: Routes = [
   { path: 'metrics/product', component: MetricsProductComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'director', 'auditor']} },
   { path: 'metrics/participant', component: MetricsParticipantComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'director']} },
   { path: 'metrics/demographic', component: MetricsDemographicComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'director']} },
+  { path: 'metrics/volunteer', component: MetricsVolunteerComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin']} },
   { path: 'metrics/health', component: MetricsComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'director']} },
   { path: 'settings', component: SettingsComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'stocker', 'delivery', 'beneficiary', 'opsmanager', 'director', 'auditor']} },
   { path: 'help', component: HelpComponent, canActivate: [RoleGuard], data: {expectedRoles: ['admin', 'client', 'stocker', 'delivery', 'beneficiary', 'opsmanager', 'director', 'auditor']} },

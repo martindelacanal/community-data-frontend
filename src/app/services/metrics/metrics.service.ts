@@ -13,6 +13,7 @@ import { QuestionMetrics } from 'src/app/models/metrics/question-metrics';
 import { ReachMetrics } from 'src/app/models/metrics/reach-metrics';
 import { RegisterMetrics } from 'src/app/models/metrics/register-metrics';
 import { TotalPoundsMetrics } from 'src/app/models/metrics/totalPounds-metrics';
+import { VolunteerLocationMetrics } from 'src/app/models/metrics/volunteer-location-metrics';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -64,6 +65,34 @@ export class MetricsService {
       params: new HttpParams().set('language', language)
     };
     return this.http.post<AgeMetrics>(`${environment.url_api}/metrics/demographic/age`, filters, httpOptions);
+  }
+
+  getGenderVolunteerMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<GenderMetrics[]>(`${environment.url_api}/metrics/volunteer/gender`, filters, httpOptions);
+  }
+
+  getEthnicityVolunteerMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<EthnicityMetrics[]>(`${environment.url_api}/metrics/volunteer/ethnicity`, filters, httpOptions);
+  }
+
+  getLocationVolunteerMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<VolunteerLocationMetrics>(`${environment.url_api}/metrics/volunteer/location`, filters, httpOptions);
+  }
+
+  getAgeVolunteerMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<AgeMetrics>(`${environment.url_api}/metrics/volunteer/age`, filters, httpOptions);
   }
 
   getRegisterHistoryMetrics(language: string, filters: any) {

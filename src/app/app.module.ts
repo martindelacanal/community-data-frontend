@@ -111,6 +111,7 @@ import { TableTransportedByComponent } from './components/tables/transported-by/
 import { ViewTransportedByComponent } from './components/view/view-transported-by/view-transported-by.component';
 import { TableVolunteerComponent } from './components/tables/table-volunteer/table-volunteer.component';
 import { ViewVolunteerComponent } from './components/view/view-volunteer/view-volunteer.component';
+import { MetricsVolunteerComponent } from './components/metrics/metrics-volunteer/metrics-volunteer.component';
 
 @NgModule({
   declarations: [
@@ -181,7 +182,8 @@ import { ViewVolunteerComponent } from './components/view/view-volunteer/view-vo
    TableTransportedByComponent,
    ViewTransportedByComponent,
    TableVolunteerComponent,
-   ViewVolunteerComponent
+   ViewVolunteerComponent,
+   MetricsVolunteerComponent
 
   ],
   imports: [
