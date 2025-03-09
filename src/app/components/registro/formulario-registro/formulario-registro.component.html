@@ -128,7 +128,7 @@
                     <mat-error *ngIf="firstFormGroup.controls['householdSize'].hasError('required')">
                       {{'register_first_tab_input_household_size_error_please' | translate }}
                     </mat-error>
-                    <mat-error *ngIf="firstFormGroup.controls['householdSize'].value > 999">
+                    <mat-error *ngIf="firstFormGroup.controls['householdSize'].value > 99">
                       {{'register_first_tab_input_household_size_error_max' | translate }}
                     </mat-error>
                   </mat-form-field>
