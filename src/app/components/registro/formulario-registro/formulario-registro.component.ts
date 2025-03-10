@@ -299,7 +299,7 @@ export class FormularioRegistroComponent implements OnInit {
   }
 
   limitInputHouseholdSizeLength(event: any) {
-    const maxLength = 2;
+    const maxLength = 3;
     if (event.target.value.length > maxLength) {
       event.target.value = event.target.value.slice(0, maxLength);
     }
