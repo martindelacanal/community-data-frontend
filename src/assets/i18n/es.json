@@ -236,6 +236,7 @@
   "stocker_button_submit_stock_form_error": "Por favor llene el formulario correctamente.",
   "stocker_button_submit_files_error": "Por favor suba los archivos correctamente.",
   "stocker_button_submit_sum_quantity_error": "La suma de las cantidades debe ser igual al peso total.",
+  "stocker_button_submit_zero_quantity_error": "Products cannot have zero quantity.",
   "stocker_button_submit_product_null_error": "Por favor ingrese el alimento y la cantidad, o elimine el campo.",
   "stocker_button_submit_product_repeated_error": "El alimento ya existe, por favor elimine o modifique el campo.",
   "stocker_table_notes_title": "Notas",

@@ -208,7 +208,12 @@ export class StockerHomeComponent implements OnInit {
       }
     }
 
-    if (isQuantityZero || (sumQuantity !== this.stockForm.get('total_weight').value)) {
+    // if (isQuantityZero || (sumQuantity !== this.stockForm.get('total_weight').value)) {
+    //   this.isQuantityValid = false;
+    // } else {
+    //   this.isQuantityValid = true;
+    // }
+    if (isQuantityZero) {
       this.isQuantityValid = false;
     } else {
       this.isQuantityValid = true;
