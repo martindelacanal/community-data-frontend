@@ -102,5 +102,29 @@
         </div>
       </div>
     </div>
+    <div class="ui-tarjeta">
+      <div class="chart-container" id="chartLocationNewRecurring" #chartLocationNewRecurring>
+        <div class="chart-header">
+          <h2>{{'metrics_participant_location_new_recurring_title' | translate }}</h2>
+          <button class="ui-button fullscreen" type="button" (click)="toggleFullScreen(chartLocationNewRecurring)">
+            <mat-icon style="font-size: 27px;">{{isFullscreen ? 'fullscreen_exit' : 'fullscreen'}}</mat-icon>
+          </button>
+        </div>
+        <div *ngIf="isFullscreen">
+          <br>
+          <br>
+          <br>
+          <br>
+        </div>
+        <div id="chartStacked" #chartLocationNewRecurring *ngIf="chartOptionsLocationNewRecurring">
+          <apx-chart [series]="chartOptionsLocationNewRecurring.series" [chart]="chartOptionsLocationNewRecurring.chart"
+            [labels]="chartOptionsLocationNewRecurring.labels" [legend]="chartOptionsLocationNewRecurring.legend"
+            [colors]="chartOptionsLocationNewRecurring.colors" [responsive]="chartOptionsLocationNewRecurring.responsive"
+            [theme]="chartOptionsLocationNewRecurring.theme" [dataLabels]="chartOptionsLocationNewRecurring.dataLabels"
+            [tooltip]="chartOptionsLocationNewRecurring.tooltip" [plotOptions]="chartOptionsLocationNewRecurring.plotOptions"
+            [xaxis]="chartOptionsLocationNewRecurring.xaxis" [fill]="chartOptionsLocationNewRecurring.fill"></apx-chart>
+        </div>
+      </div>
+    </div>
   </section>
 </div>

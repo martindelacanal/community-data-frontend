@@ -102,6 +102,13 @@ export class MetricsService {
     return this.http.post<TotalPoundsMetrics>(`${environment.url_api}/metrics/participant/register_history`, filters, httpOptions);
   }
 
+  getLocationNewRecurringMetrics(language: string, filters: any) {
+    const httpOptions = {
+      params: new HttpParams().set('language', language)
+    };
+    return this.http.post<TotalPoundsMetrics>(`${environment.url_api}/metrics/participant/location_new_recurring`, filters, httpOptions);
+  }
+
   getRegisterMetrics(language: string, filters: any) {
     const httpOptions = {
       params: new HttpParams().set('language', language)

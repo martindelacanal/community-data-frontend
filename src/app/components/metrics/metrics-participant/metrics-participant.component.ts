@@ -50,17 +50,21 @@ export class MetricsParticipantComponent implements OnInit, OnDestroy {
   @ViewChild('chartYESNOEmail', { static: false }) chartYESNOEmail: ElementRef;
   @ViewChild('chartYESNOPhone', { static: false }) chartYESNOPhone: ElementRef;
   @ViewChild('chartRegisterHistory', { static: false }) chartRegisterHistory: ElementRef;
+  @ViewChild('chartLocationNewRecurring', { static: false }) chartLocationNewRecurring: ElementRef;
   public chartOptionsRegisterHistory: Partial<ChartOptionsStacked>;
+  public chartOptionsLocationNewRecurring: Partial<ChartOptionsStacked>;
   public chartOptionsEmail: Partial<ChartOptionsYESNO>;
   public chartOptionsPhone: Partial<ChartOptionsYESNO>;
 
   public loadingMetrics: boolean = true;
   public loadingRegisterHistoryMetrics: boolean = false;
+  public loadingLocationNewRecurringMetrics: boolean = false;
   public loadingRegisterMetrics: boolean = false;
   public loadingEmailMetrics: boolean = false;
   public loadingPhoneMetrics: boolean = false;
 
   public registerHistoryMetrics: TotalPoundsMetrics;
+  public locationNewRecurringMetrics: TotalPoundsMetrics;
   public emailMetrics: EmailMetrics[] = [];
   public phoneMetrics: PhoneMetrics[] = [];
   public registerMetrics: RegisterMetrics;
@@ -152,6 +156,7 @@ export class MetricsParticipantComponent implements OnInit, OnDestroy {
     });
 
     this.getRegisterHistoryMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getLocationNewRecurringMetrics(this.translate.currentLang, this.filterForm.value);
     this.getRegisterMetrics(this.translate.currentLang, this.filterForm.value);
     this.getEmailMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPhoneMetrics(this.translate.currentLang, this.filterForm.value);
@@ -196,11 +201,11 @@ export class MetricsParticipantComponent implements OnInit, OnDestroy {
     // eliminar el filtro del formulario
     this.filterForm.get(filterChip.code).setValue(null);
     this.getRegisterHistoryMetrics(this.translate.currentLang, this.filterForm.value);
+    this.getLocationNewRecurringMetrics(this.translate.currentLang, this.filterForm.value);
     this.getRegisterMetrics(this.translate.currentLang, this.filterForm.value);
     this.getEmailMetrics(this.translate.currentLang, this.filterForm.value);
     this.getPhoneMetrics(this.translate.currentLang, this.filterForm.value);
   }
-
 
   private getRegisterHistoryMetrics(language: string, filters?: any) {
     this.loadingRegisterHistoryMetrics = true;
@@ -290,6 +295,92 @@ export class MetricsParticipantComponent implements OnInit, OnDestroy {
     });
   }
 
+  private getLocationNewRecurringMetrics(language: string, filters?: any) {
+    this.loadingLocationNewRecurringMetrics = true;
+
+    this.metricsService.getLocationNewRecurringMetrics(language, filters).subscribe({
+      next: (res) => {
+        this.locationNewRecurringMetrics = res;
+
+        this.chartOptionsLocationNewRecurring = {
+          series: this.locationNewRecurringMetrics.series,
+          chart: {
+            type: 'bar',
+            height: 700,
+            stacked: true,
+            toolbar: {
+              show: true
+            },
+            zoom: {
+              enabled: true
+            }
+          },
+          theme: {
+            monochrome: {
+              enabled: false,
+              color: "#97c481",
+            }
+          },
+          colors: ['#83b06d', '#abd895', '#bfeca9'],
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: 'bottom',
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }],
+          tooltip: {
+            theme: 'dark',
+            y: {
+              formatter: function (val) {
+                return Number(val).toLocaleString('en-US');
+              }
+            }
+          },
+          plotOptions: {
+            bar: {
+              horizontal: true, // Cambiar a true para barras horizontales
+              borderRadius: 10,
+              borderRadiusApplication: 'end',
+              borderRadiusWhenStacked: 'last',
+              dataLabels: {
+                total: {
+                  enabled: false,
+                  style: {
+                    fontSize: '13px',
+                    fontWeight: 900
+                  }
+                }
+              }
+            },
+          },
+          dataLabels: {
+            enabled: false
+          },
+          xaxis: {
+            type: 'category',
+            categories: this.locationNewRecurringMetrics.categories,
+          },
+          legend: {
+            position: 'right',
+            offsetY: 40
+          },
+          fill: {
+            opacity: 1
+          }
+        };
+
+        this.loadingLocationNewRecurringMetrics = false;
+        this.checkLoadingMetrics(); // si ya cargaron todos los datos, se oculta el spinner
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
 
   private getRegisterMetrics(language: string, filters?: any) {
     this.loadingRegisterMetrics = true;
@@ -587,6 +678,7 @@ export class MetricsParticipantComponent implements OnInit, OnDestroy {
         this.filtersChip = JSON.parse(localStorage.getItem('filters_chip'));
 
         this.getRegisterHistoryMetrics(this.translate.currentLang, result.data);
+        this.getLocationNewRecurringMetrics(this.translate.currentLang, result.data);
         this.getRegisterMetrics(this.translate.currentLang, result.data);
         this.getEmailMetrics(this.translate.currentLang, result.data);
         this.getPhoneMetrics(this.translate.currentLang, result.data);
@@ -600,7 +692,7 @@ export class MetricsParticipantComponent implements OnInit, OnDestroy {
   }
 
   private checkLoadingMetrics() {
-    if (!this.loadingRegisterMetrics && !this.loadingEmailMetrics && !this.loadingPhoneMetrics && !this.loadingRegisterHistoryMetrics) {
+    if (!this.loadingRegisterMetrics && !this.loadingEmailMetrics && !this.loadingPhoneMetrics && !this.loadingRegisterHistoryMetrics && !this.loadingLocationNewRecurringMetrics) {
       this.loadingMetrics = false;
     }
   }

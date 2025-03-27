@@ -334,6 +334,7 @@
   "metrics_participant_registers_total_selected": "Total in the selected period",
   "metrics_participant_with_email_title": "Quantity with email",
   "metrics_participant_with_phone_title": "Quantity with phone",
+  "metrics_participant_location_new_recurring_title": "New and recurring participants per location",
   "metrics_product_title": "Food metrics",
   "metrics_product_reachs_title": "Total pounds",
   "metrics_product_reachs_reach": "Reach",
