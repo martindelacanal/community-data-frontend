@@ -247,6 +247,7 @@
   "stocker_table_notes_note": "Note",
   "stocker_table_notes_creation_date": "Creation date",
   "stocker_table_notes_empty": "There are no notes",
+  "stocker_table_products_empty": "There are no foods",
 
   "stocker_title_edit": "Edit ticket",
   "stocker_button_edit": "Save",

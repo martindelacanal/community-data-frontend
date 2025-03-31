@@ -121,7 +121,7 @@
           </div>
 
           <div class="card">
-            <table>
+            <table *ngIf="viewTicket.products.length > 0">
               <thead>
                 <tr>
                   <th>{{'stocker_input_product' | translate}}</th>
@@ -138,6 +138,7 @@
                 </tr>
               </tbody>
             </table>
+            <p *ngIf="viewTicket.products.length === 0">{{'stocker_table_products_empty' | translate}}</p>
           </div>
 
           <!-- separator -->
