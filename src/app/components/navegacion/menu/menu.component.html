@@ -63,7 +63,7 @@
             {{'menu_button_volunteer_metrics' | translate }}
           </a>
         </li>
-        <li routerLink="/view/worker/0">
+        <li routerLink="/view/worker/0" *ngIf="usuario.role !== 'director'">
           <a>
             {{'menu_button_worker_table' | translate }}
           </a>
@@ -149,7 +149,7 @@
             {{'menu_button_volunteer_table' | translate }}
           </a>
         </li>
-        <li routerLink="/table/worker" *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager' || usuario.role === 'director'">
+        <li routerLink="/table/worker" *ngIf="usuario.role === 'admin' || usuario.role === 'opsmanager'">
           <a>
             {{'menu_button_worker_table' | translate }}
           </a>
