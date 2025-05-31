@@ -507,3 +507,16 @@ mat-error {
 .mdc-form-field>label {
   padding-left: 0px;
 }
+
+/* Oculta los spinners en Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Oculta los spinners en Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
