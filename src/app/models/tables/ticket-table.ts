@@ -4,6 +4,7 @@ export interface ticketTable {
         id: string,
         donation_id: string,
         total_weight: string,
+        weight_difference: string,
         provider: string,
         location: string,
         date: string,

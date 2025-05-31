@@ -81,6 +81,14 @@ tr.mat-mdc-row:hover {
   background-color: var(--ui-secundario-claro);
 }
 
+.weight-difference-warning {
+  background-color: #fdf07a !important; /* Color amarillo */
+}
+
+.weight-difference-warning:hover {
+  background-color: #fde05b !important; /* Color amarillo más oscuro para hover */
+}
+
 .asc span::after {
   content: ' ▲';
 }

@@ -141,7 +141,7 @@
       </ng-container>
       <tr mat-header-row class="table-header-row" *matHeaderRowDef="columns">
       </tr>
-      <tr mat-row class="hover-effect" *matRowDef="let row; columns: columns;"></tr>
+      <tr mat-row class="hover-effect" [ngClass]="{'weight-difference-warning': row.weight_difference === 'Y'}" *matRowDef="let row; columns: columns;"></tr>
 
     </table>
 
