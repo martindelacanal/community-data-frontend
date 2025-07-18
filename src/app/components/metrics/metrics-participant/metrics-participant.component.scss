@@ -39,7 +39,7 @@
   border-top: 4px solid var(--ui-primario);
   align-self: start;
   height: 100%;
-  max-height: 620px; /* Altura máxima para las tarjetas */
+  max-height: 632px; /* Altura máxima para las tarjetas */
   overflow-y: auto; /* Añade scroll vertical cuando el contenido excede la altura máxima */
 }
 
@@ -91,7 +91,6 @@
   display: flex;
   justify-content: space-between;
   align-items: end;
-  margin-bottom: 16px;
 }
 
 #chart:fullscreen {

@@ -332,6 +332,7 @@
   "metrics_participant_registers_total": "Total in the system",
   "metrics_participant_registers_new": "New",
   "metrics_participant_registers_recurring": "Recurring",
+  "metrics_participant_registers_participations": "Participations",
   "metrics_participant_registers_total_selected": "Total in the selected period",
   "metrics_participant_with_email_title": "Quantity with email",
   "metrics_participant_with_phone_title": "Quantity with phone",

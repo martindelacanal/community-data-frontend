@@ -41,6 +41,9 @@
             <br>
             <p>{{'metrics_participant_registers_total' | translate }}: {{ this.registerMetrics.total | number}}</p>
             <br>
+            <p>{{'metrics_participant_registers_participations' | translate }}: {{this.registerMetrics.participations | number}}
+            </p>
+            <br>
           </div>
           <form [formGroup]="filterForm" class="filtros">
             <mat-form-field appearance="outline">

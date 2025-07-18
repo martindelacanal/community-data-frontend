@@ -102,6 +102,7 @@ export class MetricsParticipantComponent implements OnInit, OnDestroy {
       total: 0,
       new: 0,
       recurring: 0,
+      participations: 0,
     }
 
     if (this.translate.currentLang == 'es') {
