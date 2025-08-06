@@ -10,6 +10,7 @@ import { catchError, finalize, forkJoin, of, tap } from 'rxjs';
 import { RegisterAnswer } from 'src/app/models/login/register-answer';
 import { RegisterQuestion } from 'src/app/models/login/register-question';
 import { Location } from 'src/app/models/map/location';
+import { ClientLocations } from 'src/app/models/map/client-locations';
 import { FilterChip } from 'src/app/models/metrics/filter-chip';
 import { Delivered } from 'src/app/models/stocker/delivered-by';
 import { ProductType } from 'src/app/models/stocker/product-type';
@@ -34,6 +35,7 @@ export class MetricsFiltersComponent implements OnInit {
 
   workers: WorkerFilter[] = [];
   locations: Location[] = [];
+  clientLocations: ClientLocations[] = [];
   providers: Provider[] = [];
   delivereds: Delivered[] = [];
   transporteds: Transported[] = [];
@@ -145,7 +147,9 @@ export class MetricsFiltersComponent implements OnInit {
     }
     if (this.origin !== 'table-product-type' && this.origin !== 'table-ethnicity' && this.origin !== 'table-gender' && this.origin !== 'table-delivered-by' && this.origin !== 'table-transported-by' && this.origin !== 'table-location' && this.origin !== 'table-delivered-beneficiary-summary') {
       array_api.push(this.getLocations());
+      array_api.push(this.getClientLocations());
       keys_available.push('locations');
+      keys_available.push('client_locations');
     }
     if (this.origin == 'table-product' || this.origin == 'metrics-product' || this.origin == 'table-ticket') {
       array_api.push(this.getProviders());
@@ -460,6 +464,22 @@ export class MetricsFiltersComponent implements OnInit {
     }
   }
 
+  toggleClientSelection(matSelect: MatSelect, clientLocations: ClientLocations) {
+    // First, deselect all options
+    matSelect.options.forEach((item: MatOption) => item.deselect());
+
+    // Then select the locations that belong to this client
+    matSelect.options.forEach((item: MatOption) => {
+      if (item.value === 0) return; // Skip "Select All" option
+
+      // Check if this location belongs to the selected client
+      const locationBelongsToClient = clientLocations.locations.some(location => location.id === item.value);
+      if (locationBelongsToClient) {
+        item.select();
+      }
+    });
+  }
+
   private getWorkers() {
     return this.deliveryService.getWorkers().pipe(
       tap((res) => {
@@ -476,6 +496,18 @@ export class MetricsFiltersComponent implements OnInit {
     return this.deliveryService.getLocations().pipe(
       tap((res) => {
         this.locations = res;
+      }),
+      catchError((error) => {
+        console.error(error);
+        return of(null);
+      })
+    );
+  }
+
+  private getClientLocations() {
+    return this.deliveryService.getClientLocations().pipe(
+      tap((res) => {
+        this.clientLocations = res;
       }),
       catchError((error) => {
         console.error(error);

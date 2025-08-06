@@ -361,6 +361,7 @@
 
   "metrics_filters_button": "Filtros",
   "metrics_filters_button_select_all": "Seleccionar todo",
+  "metrics_filters_button_select_client": "Seleccionar {{client_name}}",
   "metrics_filters_button_clear_all": "Limpiar todo",
   "metrics_filters_title_registration_dates": "Seleccione fechas de registro",
   "metrics_filters_input_from_date": "Desde",

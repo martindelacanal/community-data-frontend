@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { beneficiaryQR } from 'src/app/models/beneficiary/beneficiary-qr.model';
 import { Location } from 'src/app/models/map/location';
+import { ClientLocations } from 'src/app/models/map/client-locations';
 import { UserStatus } from 'src/app/models/user/user-status';
 import { RegisterQuestion } from 'src/app/models/login/register-question';
 import { WorkerFilter } from 'src/app/models/view/view-worker/worker-filter';
@@ -30,6 +31,10 @@ export class DeliveryService {
 
   getLocations(){
     return this.http.get<Location[]>(`${environment.url_api}/locations`);
+  }
+
+  getClientLocations(){
+    return this.http.get<ClientLocations[]>(`${environment.url_api}/client/locations`);
   }
 
   getUserStatus(){

@@ -121,6 +121,10 @@
           <mat-select #filterLocations formControlName="locations" multiple>
             <mat-option [value]="0"
               (click)="toggleAllSelection(filterLocations, 'locations')"><b>{{this.selectAllTextLocations}}</b></mat-option>
+            <mat-option *ngFor="let clientLocation of clientLocations" [value]="'client_' + clientLocation.client_name"
+              (click)="toggleClientSelection(filterLocations, clientLocation)">
+              <b>{{ 'metrics_filters_button_select_client' | translate: {client_name: clientLocation.client_name} }}</b>
+            </mat-option>
             <mat-option *ngFor="let location of locations" [value]="location.id">
               {{location.community_city}}
             </mat-option>
