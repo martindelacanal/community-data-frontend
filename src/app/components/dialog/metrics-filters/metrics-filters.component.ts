@@ -185,8 +185,19 @@ export class MetricsFiltersComponent implements OnInit {
     observable$.subscribe(() => {
       // Suscríbete a los cambios del formulario y actualiza el valor en el localStorage cada vez que haya un cambio
       this.filterForm.valueChanges.subscribe(val => {
+        // Crear una copia del valor para modificar antes de guardar en localStorage
+        const valToStore = { ...val };
+
+        // Filtrar locations para remover valores de cliente antes de guardar en localStorage
+        if (valToStore.locations && Array.isArray(valToStore.locations)) {
+          valToStore.locations = this.getValidLocationIds(valToStore.locations);
+          if (valToStore.locations.length === 0) {
+            valToStore.locations = null;
+          }
+        }
+
         const currentFilters = JSON.parse(localStorage.getItem('filters')) || {};
-        const updatedFilters = { ...currentFilters, ...val };
+        const updatedFilters = { ...currentFilters, ...valToStore };
         localStorage.setItem('filters', JSON.stringify(updatedFilters));
 
         // actualizar filters_chip, es un array con code, name y value
@@ -208,9 +219,15 @@ export class MetricsFiltersComponent implements OnInit {
                       }
                       break;
                     case 'locations':
-                      let location = this.locations.find(l => l.id === id);
-                      if (location) {
-                        names.push(location.community_city);
+                      // Para locations, manejar tanto IDs de locations como valores de cliente
+                      if (typeof id === 'string' && id.startsWith('client_')) {
+                        const clientName = id.replace('client_', '');
+                        names.push(`Cliente: ${clientName}`);
+                      } else if (typeof id === 'number' && id !== 0) {
+                        let location = this.locations.find(l => l.id === id);
+                        if (location) {
+                          names.push(location.community_city);
+                        }
                       }
                       break;
                     case 'providers':
@@ -257,7 +274,9 @@ export class MetricsFiltersComponent implements OnInit {
                       break;
                   }
                 });
-                filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: names.join(', ') });
+                if (names.length > 0) {
+                  filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: names.join(', ') });
+                }
               }
             } else if (key === 'from_date' || key === 'to_date') {
               let date = new Date(val[key] + 'T00:00');
@@ -285,28 +304,61 @@ export class MetricsFiltersComponent implements OnInit {
     if (this.origin == 'metrics-health' || this.origin == 'table-participant') {
       this.buildCombinedForm();
     }
+
+    // Crear una copia del valor del formulario para modificar
+    const formValue = { ...this.filterForm.value };
+
+    // Filtrar los valores de locations para remover los valores de cliente
+    if (formValue.locations) {
+      formValue.locations = this.getValidLocationIds(formValue.locations);
+
+      // Si no hay locations válidas después del filtrado, establecer como null
+      if (formValue.locations.length === 0) {
+        formValue.locations = null;
+      }
+    }
+
     // Si hay elemento en from_date
-    if (this.filterForm.value.from_date) {
-      console.log(this.filterForm.value.from_date);
+    if (formValue.from_date) {
+      console.log(formValue.from_date);
       // Obtener la fecha del formulario
-      const date = new Date(this.filterForm.value.from_date);
+      const date = new Date(formValue.from_date);
       // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
       const dateString = date.toISOString().slice(0, 10);
       // Asignar la fecha al campo de fecha en el formulario
-      this.filterForm.get('from_date').setValue(dateString);
-      console.log(this.filterForm.value.from_date);
+      formValue.from_date = dateString;
+      console.log(formValue.from_date);
     }
 
     // Si hay elemento en to_date
-    if (this.filterForm.value.to_date) {
+    if (formValue.to_date) {
       // Obtener la fecha del formulario
-      const date2 = new Date(this.filterForm.value.to_date);
+      const date2 = new Date(formValue.to_date);
       // Convertir la fecha a un string en formato ISO 8601 y obtener solo la parte de la fecha
       const dateString2 = date2.toISOString().slice(0, 10);
       // Asignar la fecha al campo de fecha en el formulario
-      this.filterForm.get('to_date').setValue(dateString2);
+      formValue.to_date = dateString2;
     }
-    this.dialogRef.close({ status: true, data: this.filterForm.value });
+    this.dialogRef.close({ status: true, data: formValue });
+  }
+
+  private getValidLocationIds(locationValues: any[]): number[] {
+    if (!locationValues || !Array.isArray(locationValues)) {
+      return [];
+    }
+
+    // Filtrar solo los IDs numéricos válidos (excluir 0 para "Select All" y valores de cliente)
+    return locationValues.filter(value => {
+      // Excluir el valor 0 (Select All)
+      if (value === 0) return false;
+
+      // Excluir valores que empiecen con "client_"
+      if (typeof value === 'string' && value.startsWith('client_')) return false;
+
+      // Solo incluir números válidos
+      const numValue = Number(value);
+      return !isNaN(numValue) && numValue > 0;
+    }).map(value => Number(value));
   }
 
   onClickCancelar() {
@@ -465,19 +517,35 @@ export class MetricsFiltersComponent implements OnInit {
   }
 
   toggleClientSelection(matSelect: MatSelect, clientLocations: ClientLocations) {
-    // First, deselect all options
-    matSelect.options.forEach((item: MatOption) => item.deselect());
+    const clientValue = 'client_' + clientLocations.client_name;
+    const isClientSelected = matSelect.value && matSelect.value.includes(clientValue);
 
-    // Then select the locations that belong to this client
-    matSelect.options.forEach((item: MatOption) => {
-      if (item.value === 0) return; // Skip "Select All" option
+    if (isClientSelected) {
+      // Si el cliente ya está seleccionado, deseleccionarlo y deseleccionar sus locations
+      const currentValues = matSelect.value.filter(value =>
+        value !== clientValue &&
+        !clientLocations.locations.some(location => location.id === value)
+      );
+      matSelect.writeValue(currentValues);
+      this.filterForm.get('locations').setValue(currentValues);
+    } else {
+      // Si el cliente no está seleccionado, seleccionarlo y seleccionar sus locations
+      const currentValues = matSelect.value || [];
+      const newValues = [...currentValues];
 
-      // Check if this location belongs to the selected client
-      const locationBelongsToClient = clientLocations.locations.some(location => location.id === item.value);
-      if (locationBelongsToClient) {
-        item.select();
-      }
-    });
+      // Agregar el valor del cliente para tracking visual
+      newValues.push(clientValue);
+
+      // Agregar todas las locations del cliente
+      clientLocations.locations.forEach(location => {
+        if (!newValues.includes(location.id)) {
+          newValues.push(location.id);
+        }
+      });
+
+      matSelect.writeValue(newValues);
+      this.filterForm.get('locations').setValue(newValues);
+    }
   }
 
   private getWorkers() {
