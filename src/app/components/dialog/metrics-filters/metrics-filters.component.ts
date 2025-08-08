@@ -188,6 +188,14 @@ export class MetricsFiltersComponent implements OnInit {
         // Crear una copia del valor para modificar antes de guardar en localStorage
         const valToStore = { ...val };
 
+        // Convert Date objects to ISO string format for localStorage storage
+        if (valToStore.from_date && valToStore.from_date instanceof Date) {
+          valToStore.from_date = valToStore.from_date.toISOString().slice(0, 10);
+        }
+        if (valToStore.to_date && valToStore.to_date instanceof Date) {
+          valToStore.to_date = valToStore.to_date.toISOString().slice(0, 10);
+        }
+
         // Filtrar locations para remover valores de cliente antes de guardar en localStorage
         if (valToStore.locations && Array.isArray(valToStore.locations)) {
           valToStore.locations = this.getValidLocationIds(valToStore.locations);
@@ -279,13 +287,24 @@ export class MetricsFiltersComponent implements OnInit {
                 }
               }
             } else if (key === 'from_date' || key === 'to_date') {
-              let date = new Date(val[key] + 'T00:00');
-              let formattedDate = date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-              });
-              filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: formattedDate });
+              let date;
+              // Check if val[key] is already a Date object
+              if (val[key] instanceof Date) {
+                date = val[key];
+              } else {
+                // If it's a string, convert it properly
+                date = new Date(val[key] + 'T00:00');
+              }
+              
+              // Validate that the date is valid before formatting
+              if (!isNaN(date.getTime())) {
+                let formattedDate = date.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit'
+                });
+                filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: formattedDate });
+              }
             } else {
               if (key !== 'register_form') {
                 filters_chip.push({ code: key, name: this.translate.instant('metrics_filters_input_' + key), value: val[key] });
