@@ -179,6 +179,14 @@ export class FormularioRegistroComponent implements OnInit {
   }
 
   onSubmit(): void {
+    // Sanitiza householdSize antes de validar el form completo
+    const householdControl = this.firstFormGroup.get('householdSize');
+    const hs = Number(householdControl.value);
+    if (!Number.isFinite(hs) || hs < 1) {
+      householdControl.setErrors({ ...(householdControl.errors || {}), min: true });
+      this.openSnackBar(this.translate.instant('register_first_tab_input_household_size_error_min_snack'));
+      return;
+    }
     if (this.combinedFormGroup.valid) {
       this.loading = true;
       // Obtener la fecha del formulario
@@ -455,7 +463,7 @@ export class FormularioRegistroComponent implements OnInit {
       phone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10), () => this.validatePhone()]],
       zipcode: [null],
       destination: [null, Validators.required],
-      householdSize: [null, Validators.required],
+      householdSize: [null, [Validators.required, Validators.min(1)]],
       gender: [null, Validators.required],
       ethnicity: [null, Validators.required],
       otherEthnicity: [null],
